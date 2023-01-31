@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/public_html/4mykioti.com
+    - export DEPLOYPATH=/home/n8a20c5/public_html/4mykioti.com
     - /bin/cp -R * $DEPLOYPATH
