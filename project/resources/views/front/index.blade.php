@@ -293,7 +293,7 @@
                                     <span class="title-underline"></span>
                                 </h2>
                             </div>
-                            <div class="col-lg-12 remove-padding">
+                            <div class="col-lg-12 remove-padding mb-4">
                                 @include('includes.front-filter')
                             </div>
                             <div class="right-area" id="app">
