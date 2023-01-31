@@ -1,3 +1,4 @@
+@if(json_decode($gs->product_view)->home == 0)
     @if (count($solo_products) > 0)
         @foreach ($solo_products as $key => $solo_prod)
             <div class="col-lg-3 col-md-6 col-12">
@@ -87,8 +88,10 @@
             </div>
         </div>
     @endif
+@endif
 
-    <!-- @if (count($solo_products) > 0)
+@if(json_decode($gs->product_view)->home == 1)
+    @if (count($solo_products) > 0)
         @foreach ($solo_products as $key => $solo_prod)
             <div class="col-lg-3 col-md-6 col-12  margin-custome-0">
             <a href="{{ route('front.product', $solo_prod->slug) }}" class="prod-item item">            
@@ -250,7 +253,8 @@
                 <h4 class="text-center">{{ $langg->lang60 }}</h4>
             </div>
         </div>
-    @endif -->
+    @endif
+@endif
 
 @if(isset($ajax_check))
     <script type="text/javascript">

@@ -53,7 +53,6 @@
 
                                         @foreach($productt->galleries as $gal)
 
-
                                             <a href="{{asset('assets/images/galleries/'.$gal->photo)}}">
                                                 <img class="xzoom-gallery5" width="80"
                                                      src="{{asset('assets/images/galleries/'.$gal->photo)}}"
