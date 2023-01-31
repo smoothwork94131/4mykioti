@@ -24,9 +24,6 @@
                             <div>
                                 Find Parts by Model
                             </div>
-                            <a href="#">
-                                Click Here
-                            </a>
                         </div>
                     </div>
                     <div class="col-6 remove-padding">
@@ -34,9 +31,6 @@
                         <div>
                                 Schedule Your PM Products
                             </div>
-                            <a href="#">
-                                Click Here
-                            </a>
                         </div>
                     </div>
                     <div class="col-6 remove-padding  pr-1">
