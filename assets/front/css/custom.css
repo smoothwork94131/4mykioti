@@ -1156,3 +1156,8 @@ a.sell-btn {
 .groups .category-groups {
     padding-left: 40px
 }
+
+.item .item-img img {
+    object-fit: cover!important;
+    height: 300px!important;
+}

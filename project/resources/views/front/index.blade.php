@@ -136,13 +136,13 @@
     {{-- @if($ps->featured_category == 1) --}}
 
         {{-- Slider buttom Category Start --}}
-        <section class="view-type">
+        <!-- <section class="view-type">
             <div class="container text-right">
                     <br>
                     <button onclick="listView()" class="list"><i class="fa fa-bars"></i> List</button>
                     <button onclick="gridView()" class="btn-success grid"><i class="fa fa-th-large"></i> Grid</button>
             </div>
-        </section>
+        </section> -->
 
         @if($gs->solo_mode != 1)
             <section class="trending slider-buttom-category grid-display">
