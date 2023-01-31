@@ -111,6 +111,8 @@
                                         </ul>
                                     </div>
 
+                                    <div><small>Model #: <?php echo $productt->category_id;  ?></small></div>
+                                    <div><small>Part #: <?php echo $productt->sku;  ?></small></div>
 
                                     <div class="product-price">
                                         <p class="title">{{ $langg->lang87 }} :</p>
@@ -642,8 +644,8 @@
                             </div>
                         </div>
                         @if( $productt->user_id  != 0)
-                            <a href="{{ route('front.vendor',str_replace(' ', '-', $productt->user->shop_name)) }}"
-                               class="view-stor">{{ $langg->lang249 }}</a>
+                            <!-- <a href="{{ route('front.vendor',str_replace(' ', '-', $productt->user->shop_name)) }}"
+                               class="view-stor">{{ $langg->lang249 }}</a> -->
                         @endif
 
                         {{-- CONTACT SELLER --}}

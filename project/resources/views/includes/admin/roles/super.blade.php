@@ -65,7 +65,7 @@
 </li>
  
 
-<li>
+<!-- <li>
     <a href="#strain" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="icofont-cart"></i>{{ __('Strains') }}
     </a>
@@ -80,7 +80,7 @@
             <a href="{{ route('admin-pendingstrain-index') }}"><span>{{ __('Pending Strains') }}</span></a>
         </li>
     </ul>
-</li>
+</li> -->
 
 <li>
     <a href="#menu3" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
@@ -103,7 +103,7 @@
 </li>
 <hr>
 
-<li>
+<!-- <li>
     <a href="#vendor" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="icofont-ui-user-group"></i>{{ __('Vendors') }}
     </a>
@@ -125,9 +125,9 @@
         </li>
 
     </ul>
-</li>
+</li> -->
 
-<li>
+<!-- <li>
     <a href="#advertising-menu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fa fa-ad"></i>{{ __('Vendor Advertising') }}
     </a>
@@ -154,12 +154,12 @@
             <a href="{{ route('admin-campaign-history') }}"><span>{{ __('Text Campaign History') }}</span></a>
         </li>
     </ul>
-</li>
+</li> -->
 
-<li>
+<!-- <li>
     <a href="{{ route('admin-subscription-index') }}" class=" wave-effect"><i
                 class="fas fa-dollar-sign"></i>{{ __('Vendor Subscription Plans') }}</a>
-</li>
+</li> -->
 
 <li>
     <a href="#verification" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
