@@ -1161,3 +1161,39 @@ a.sell-btn {
     object-fit: cover!important;
     height: 300px!important;
 }
+
+.s-top-block {
+    height: 300px;
+    width: 100%;
+    color: white;
+    background-color: #EBA63F;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.s-top-block img {
+    max-height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.s-block {
+    height: 100px;
+    width: 100%;
+    margin-top: 0.25rem;
+    color: white;
+    background-color: #6E6E6E;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.s-block p,
+a {
+    color: white;
+}

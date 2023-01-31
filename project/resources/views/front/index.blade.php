@@ -12,122 +12,49 @@
     @if($ps->slider == 1)
         <!-- Hero Area Start -->
         <section class="hero-area">
-            @if($ps->slider == 1)
-                @if(count($sliders))
-                    <div class="hero-area-slider">
-                        <div class="container custom-container">
-                            <!-- <div class="slide-progress"></div> -->
-                            
-                            @if($gs->banner_product_location == 1)
-                                <div class="categori" style="margin-right: 10px; background-color: {{ $gs->banner_product_background? $gs->banner_product_background: '#ffffff'}}">
-                                    <div class="section-top">
-                                        <h2 class="section-title">
-                                            {{ $langg->lang30 }}
-                                        </h2>
-                                    </div>
-                                    <div class="main_product-slider">
-                                        @foreach($main_slider_products->chunk(3) as $chunk)
-                                            <div class="item-slide">
-                                                <ul class="item-list">
-                                                    @foreach($chunk as $prodh)
-                                                        @if($loop->index != 0)
-                                                        <hr />
-                                                        @endif
-                                                        
-                                                        @php
-                                                            $prod = $prodh->product;
-                                                        @endphp
-                                                        @include('includes.product.main-hot-product')
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-
-                                            @if(count($main_slider_products) <= 3)
-                                                <div class="item-slide">
-                                                    <ul class="item-list">
-                                                        @foreach($chunk as $prodh)
-                                                            @if($loop->index != 0)
-                                                            <hr />
-                                                            @endif
-                                                            
-                                                            @php
-                                                                $prod = $prodh->product;
-                                                            @endphp
-                                                            @include('includes.product.main-hot-product')
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                            <div class="intro-carousel">
-                                @foreach($sliders as $data)
-                                <a href="{{$data->link}}">
-                                    <div class="intro-content {{$data->position}}" style="background-image: url({{asset('assets/images/sliders/'.$data->photo)}})">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                
-                                                    <div class="slider-content">
-                                                        <!-- layer 1 -->
-                                                        <div class="layer-1">
-                                                            <h4 style="font-size: {{$data->subtitle_size}}px; color: {{$data->subtitle_color}}"
-                                                                class="subtitle subtitle{{$data->id}}"
-                                                                data-animation="animated {{$data->subtitle_anime}}">{{$data->subtitle_text}}</h4>
-                                                            <h2 style="font-size: {{$data->title_size}}px; color: {{$data->title_color}}"
-                                                                class="title title{{$data->id}}"
-                                                                data-animation="animated {{$data->title_anime}}">{{$data->title_text}}</h2>
-                                                        </div>
-                                                        <!-- layer 2 -->
-                                                        <div class="layer-2">
-                                                            <p style="font-size: {{$data->details_size}}px; color: {{$data->details_color}}"
-                                                            class="text text{{$data->id}}"
-                                                            data-animation="animated {{$data->details_anime}}">{{$data->details_text}}</p>
-                                                        </div>
-                                                        <!-- layer 3 -->
-                                                        <!-- <div class="layer-3">
-                                                            <a href="{{$data->link}}" target="_blank" class="mybtn1"><span>{{ $langg->lang25 }} 
-                                                                <i class="fas fa-chevron-right"></i></span></a>
-                                                        </div> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                @endforeach
-                            </div>
-                            
-                            @if($gs->banner_product_location == 0)
-                                <div class="categori" style="margin-left: 10px; background-color: {{ $gs->banner_product_background? $gs->banner_product_background: '#ffffff'}}">
-                                    <div class="section-top">
-                                        <h2 class="section-title">
-                                            {{ $langg->lang30 }}
-                                        </h2>
-                                    </div>
-                                    <div class="main_product-slider">
-                                        @foreach($main_slider_products->chunk(3) as $chunk)
-                                            <div class="item-slide">
-                                                <ul class="item-list">
-                                                    @foreach($chunk as $prod)
-                                                        @if($loop->index != 0)
-                                                        <hr />
-                                                        @endif
-                                                        @include('includes.product.main-hot-product')
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
+            <div class="container custom-container">
+                <div class="row">
+                    <div class="col-12 remove-padding s-top-block">
+                        <div>
+                        Over 500,000 Kioti Parts <br>and growing...
                         </div>
                     </div>
-                @endif
-            @endif
-
+                    <div class="col-6 remove-padding pr-1">
+                        <div class="s-0-block s-block d-flex">
+                            <div>
+                                Find Parts by Model
+                            </div>
+                            <a href="#">
+                                Click Here
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 remove-padding">
+                        <div class="s-0-block s-block d-flex">
+                        <div>
+                                Schedule Your PM Products
+                            </div>
+                            <a href="#">
+                                Click Here
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6 remove-padding  pr-1">
+                        <div class="s-0-block s-block d-flex">
+                            <div>
+                            Owners Manuals
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 remove-padding">
+                        <div class="s-0-block s-block d-flex">
+                            <div>
+                            Schematics by Model
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- Hero Area End -->
     @endif
