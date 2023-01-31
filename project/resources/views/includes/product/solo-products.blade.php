@@ -131,6 +131,9 @@
                         <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
                             <small>Model #: <?php echo $solo_prod->category_id;  ?></small>
                         </p>
+                        <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
+                            <small>Part #: <?php echo $solo_prod->sku;  ?></small>
+                        </p>
                     @endif
 
                     <p class="prod-price" style="color: {{ $colorsetting_style2 && $colorsetting_style2->price_color? $colorsetting_style2->price_color: '#333333' }}">
@@ -211,6 +214,9 @@
                         @if ($solo_prod->showParent() && $solo_prod->showParent() != '<br>')
                             <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
                                 <small>Model #: <?php echo $solo_prod->category_id;  ?></small>
+                            </p>
+                            <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
+                                <small>Part #: <?php echo $solo_prod->sku;  ?></small>
                             </p>
                         @endif
                         </h5>
