@@ -360,21 +360,21 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        $product_click = new ProductClick;
+        // $product_click = new ProductClick;
 
-        if(Auth::user()) {
-            $product_click->user_id = Auth::user()->id;
-        }
-        else {
-            $product_click->user_id = 0;
-        }
+        // if(Auth::user()) {
+        //     $product_click->user_id = Auth::user()->id;
+        // }
+        // else {
+        //     $product_click->user_id = 0;
+        // }
         
-        $product_click->category_id = $product->showCategoryID();
-        $product_click->product_id = $product->id;
-        $product_click->search_term = '';
-        $product_click->action = 'quick_view';
-        $product_click->date = Carbon::now()->format('Y-m-d');
-        $product_click->save();
+        // $product_click->category_id = $product->showCategoryID();
+        // $product_click->product_id = $product->id;
+        // $product_click->search_term = '';
+        // $product_click->action = 'quick_view';
+        // $product_click->date = Carbon::now()->format('Y-m-d');
+        // $product_click->save();
 
         return view('load.quick', compact('product', 'curr'));
 
