@@ -350,9 +350,9 @@
         <li>
             <a href="{{ route('admin-productview-filtered') }}"><span>{{ __('Category/Search View') }}</span></a>
         </li>
-        <li>
+        <!-- <li>
             <a href="{{ route('admin-productview-vendor') }}"><span>{{ __('Vendor Product View') }}</span></a>
-        </li>
+        </li> -->
     </ul>
 </li>
 

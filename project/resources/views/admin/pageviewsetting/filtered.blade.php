@@ -51,7 +51,7 @@
                                         <div class="item">
                                             <div class="item-img">
                                                 <div class="sell-area">
-                                                    <span class="sale" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->tag_bg_color? $colorsetting_style1->tag_bg_color: '#000000' }}; color: {{ $colorsetting_style1 && $colorsetting_style1->tag_color? $colorsetting_style1->tag_color: '#ffffff' }}">Electric dab rig</span>
+                                                    <span class="sale" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->tag_bg_color? $colorsetting_style1->tag_bg_color: '#000000' }}; color: {{ $colorsetting_style1 && $colorsetting_style1->tag_color? $colorsetting_style1->tag_color: '#ffffff' }}">CK20</span>
                                                 </div>
                                                 <div class="extra-list">
                                                     <ul>
@@ -71,7 +71,7 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <img class="img-fluid" src="{{ asset('assets/images/product-view-style1.png') }}" alt="">
+                                                <img class="img-fluid" src="{{ asset('assets/images/thumbnails/T2185-00101.JPG') }}" alt="">
                                             </div>
                                             <div class="info">
                                                 <div class="stars">
@@ -120,23 +120,24 @@
                                         <a href="#" class="prod-item item">            
                                             <div class="prod-init">
                                                 <div class="prod-top">
-                                                    <h2 class="prod-name" style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color? $colorsetting_style2->title_color: '#333333' }}">GG4 6" Rooted Clones</h2>
+                                                    <h2 class="prod-name" style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color? $colorsetting_style2->title_color: '#333333' }}">BULB v</h2>
                                                 </div> 
                                                 
                                                 <p class="prod-tag">
-                                                    <span class="sale" style="background-color: {{ $colorsetting_style2 && $colorsetting_style2->tag_bg_color? $colorsetting_style2->tag_bg_color : '#84a45a' }}; color: {{ $colorsetting_style2 && $colorsetting_style2->tag_color? $colorsetting_style2->tag_color: '#000000' }}">GG4 Clones</span>
+                                                    <span class="sale" style="background-color: {{ $colorsetting_style2 && $colorsetting_style2->tag_bg_color? $colorsetting_style2->tag_bg_color : '#84a45a' }}; color: {{ $colorsetting_style2 && $colorsetting_style2->tag_color? $colorsetting_style2->tag_color: '#000000' }}">CK20</span>
                                                 </p>
 
-                                                <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->detail_color? $colorsetting_style2->detail_color: '#333333' }}">
+                                                <!-- <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->detail_color? $colorsetting_style2->detail_color: '#333333' }}">
                                                     GG4 is a powerful hybrid with a strong, distinct nose.
-                                                </p>
+                                                </p> -->
                                                 
                                                 <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">
-                                                    <small>Parents: Sour Diesel, Sour Dubb, Chem's Sister, Chocolate Diesel</small>
+                                                    <small>Models #: CK22M-T870-1A</small><br>
+                                                    <small>Parts #: T2185-00101</small>
                                                 </p>
 
                                                 <p class="prod-price" style="color: {{ $colorsetting_style2 && $colorsetting_style2->price_color? $colorsetting_style2->price_color: '#333333' }}">
-                                                    $11.03 
+                                                    $4.16
                                                     <del><small></small></del>
                                                 </p>
                                             </div>
@@ -174,8 +175,8 @@
                                                         <div class="full-stars" style="width:0%"></div>
                                                     </div>
                                                 </div>
-                                                <h4 class="price">$79 <del><small></small></del></h4>
-                                                <h5 class="name">Electric Nail</h5>
+                                                <h4 class="price">$4.16 <del><small></small></del></h4>
+                                                <h5 class="name">BULB v</h5>
                                                 <div class="cart-area">
                                                     <span class="add-to-cart add-to-cart-btn" style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                                         <i class="icofont-cart"></i> Add To Cart
@@ -187,7 +188,7 @@
                                             </div>
 
 
-                                            <img class="prod-image" src="{{ asset('assets/images/product-view-style2.png') }}" alt="">
+                                            <img class="prod-image" src="{{ asset('assets/images/thumbnails/T2185-00101.JPG') }}" alt="">
                                         </a>
                                     </div>
                                 </div>
