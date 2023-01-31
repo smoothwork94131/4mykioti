@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/fqj2phnu1wyo/public_html/colthansen.com
+    - export DEPLOYPATH=/home/n8a20c5/public_html/colthansen.com
     - /bin/cp -R * $DEPLOYPATH
