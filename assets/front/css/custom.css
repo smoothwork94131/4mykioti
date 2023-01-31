@@ -1188,6 +1188,7 @@ a.sell-btn {
     color: white;
     background-color: #6E6E6E;
     display: flex;
+    text-align: center;
     align-items: center;
     flex-flow: column;
     justify-content: center;
