@@ -128,7 +128,6 @@
                     @if ($solo_prod->showParent() && $solo_prod->showParent() != '<br>')
                         <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
                             <small>Model #: <?php echo $solo_prod->category_id;  ?></small>
-                            <br>
                             <small>Part #: <?php echo $solo_prod->sku;  ?></small>
                         </p>
                     @endif
@@ -211,7 +210,6 @@
                         @if ($solo_prod->showParent() && $solo_prod->showParent() != '<br>')
                             <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
                                 <small>Model #: <?php echo $solo_prod->category_id;  ?></small>
-                                <br>
                                 <small>Part #: <?php echo $solo_prod->sku;  ?></small>
                             </p>
                         @endif
