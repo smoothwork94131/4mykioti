@@ -191,13 +191,13 @@
                                         </a>
                                         <div class="my-dropdown-menu profile-dropdown">
                                             <ul class="profile-links">
-                                                @if(Auth::user()->IsVendor())
+                                                <!-- @if(Auth::user()->IsVendor())
                                                     <li>
                                                         <a href="{{ route('vendor-dashboard') }}"><i
                                                                     class="fas fa-angle-double-right"></i> {{ $langg->lang222 }}
                                                         </a>
                                                     </li>
-                                                @endif
+                                                @endif -->
                                             
                                                 <li>
                                                     <a href="{{ route('user-dashboard') }}">
