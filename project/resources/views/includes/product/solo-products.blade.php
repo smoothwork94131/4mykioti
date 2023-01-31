@@ -126,10 +126,10 @@
                     </p>
                     
                     @if ($solo_prod->showParent() && $solo_prod->showParent() != '<br>')
-                        <span class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
+                        <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
                             <small>Model #: <?php echo $solo_prod->category_id;  ?></small></br>
                             <small>Part #: <?php echo $solo_prod->sku;  ?></small>
-                        </span>
+                        </p>
                     @endif
 
                     <p class="prod-price" style="color: {{ $colorsetting_style2 && $colorsetting_style2->price_color? $colorsetting_style2->price_color: '#333333' }}">
@@ -208,11 +208,11 @@
                         {{ $solo_prod->showName() }}
 
                         @if ($solo_prod->showParent() && $solo_prod->showParent() != '<br>')
-                            <span class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
+                            <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
                                 <small>Model #: <?php echo $solo_prod->category_id;  ?></small>
                                 <br>
                                 <small>Part #: <?php echo $solo_prod->sku;  ?></small>
-                            </span>
+                            </p>
                         @endif
                         </h5>
                         <div class="cart-area">
