@@ -61,28 +61,28 @@ class CatalogController extends Controller
             $cat = Category::where('slug', $slug)->firstOrFail();
             $data['cat'] = $cat;
 
-            $product_click = new ProductClick;
+            // $product_click = new ProductClick;
 
-            if(Auth::user()) {
-                $product_click->user_id = Auth::user()->id;
-            }
-            else {
-                $product_click->user_id = 0;
-            }
+            // if(Auth::user()) {
+            //     $product_click->user_id = Auth::user()->id;
+            // }
+            // else {
+            //     $product_click->user_id = 0;
+            // }
 
-            $product_click->category_id = $cat->id;
-            $product_click->product_id = 0;
-            $product_click->search_term = $search;
+            // $product_click->category_id = $cat->id;
+            // $product_click->product_id = 0;
+            // $product_click->search_term = $search;
 
-            if($request->search) {
-                $product_click->action = 'search';
-            }
-            else {
-                $product_click->action = 'menu_category';
-            }
+            // if($request->search) {
+            //     $product_click->action = 'search';
+            // }
+            // else {
+            //     $product_click->action = 'menu_category';
+            // }
         
-            $product_click->date = Carbon::now()->format('Y-m-d');
-            $product_click->save();
+            // $product_click->date = Carbon::now()->format('Y-m-d');
+            // $product_click->save();
         }
         if (!empty($slug1)) {
             $subcat = Subcategory::where('slug', $slug1)->firstOrFail();
@@ -288,21 +288,21 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        $product_click = new ProductClick;
+        // $product_click = new ProductClick;
 
-        if(Auth::user()) {
-            $product_click->user_id = Auth::user()->id;
-        }
-        else {
-            $product_click->user_id = 0;
-        }
+        // if(Auth::user()) {
+        //     $product_click->user_id = Auth::user()->id;
+        // }
+        // else {
+        //     $product_click->user_id = 0;
+        // }
         
-        $product_click->category_id = $productt->showCategoryID();
-        $product_click->product_id = $productt->id;
-        $product_click->search_term = '';
-        $product_click->action = 'view';
-        $product_click->date = Carbon::now()->format('Y-m-d');
-        $product_click->save();
+        // $product_click->category_id = $productt->showCategoryID();
+        // $product_click->product_id = $productt->id;
+        // $product_click->search_term = '';
+        // $product_click->action = 'view';
+        // $product_click->date = Carbon::now()->format('Y-m-d');
+        // $product_click->save();
 
         if ($productt->user_id != 0) {
             $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
