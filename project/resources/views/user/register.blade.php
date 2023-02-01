@@ -115,12 +115,12 @@
 
                                         @endif
 
-                                        <div class="form-input d-flex align-items-center justify-content-center">
+                                        {{-- <div class="form-input d-flex align-items-center justify-content-center">
                                             <div class="custom-control custom-switch">
                                                 <input type="checkbox" class="custom-control-input" id="vendor_switch" name="vendor">
                                                 <label class="custom-control-label" for="vendor_switch">Buyer/Vendor</label>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         
                                         <div id="vendor_input_section">
                                             <div class="form-input">
@@ -194,7 +194,7 @@
 
                                         <div class="form-forgot-pass" style="margin-top: 20px;">
                                             <div class="left">
-                                                <p>Already have a OGLife account?</p>
+                                                <p>Already have an  account?</p>
                                             </div>
                                             <div class="right authlink">
                                                 <a href="{{ route('user.login') }}">
