@@ -91,9 +91,6 @@ class CatalogController extends Controller
         $prods = $prods->where('status', 1);
 
         $prods = $prods->where('category_id', $slug1)->get();
-
-        $prods = (new Collection($prods))->paginate(12);
-
         $group = DB::table($db.'_categories')->where('group_id', $slug1)->first();
 
 

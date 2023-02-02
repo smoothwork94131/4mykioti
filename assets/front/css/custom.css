@@ -1198,3 +1198,9 @@ a.sell-btn {
 a {
     color: white;
 }
+
+.table-new {
+    min-width: 500px;
+    max-height: 700px;
+    overflow: auto;
+}

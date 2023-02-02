@@ -92,27 +92,80 @@
     <section class="sub-categori">
         <div class="container">
             <div class="row">
-                @include('includes.catalog')
-                <div class="col-lg-9 order-first order-lg-last ajax-loader-parent">
-                    <div class="section-top">
+                <div class="col-12">
+                    <div class="section-top" style="display: block">
+                        <p><span>{{$group->group_Id}}</span></p>
                         <h2 class="section-title">
                             {{$group->group_name }}
                             <span class="title-underline"></span>
                         </h2>
-                        @include('includes.filter')
                     </div>
-                    
-                    <div class="right-area" id="app">
-                        <div class="categori-item-area">
-                            <div id="default_view">
-                                <div class="row" id="ajaxContent">
-                                    @include('includes.product.filtered-products')
-                                </div>
-                                <div id="ajaxLoader" class="ajax-loader" style="background: url({{asset('assets/images/'.$gs->loader)}}) no-repeat scroll center center rgba(0,0,0,.6);"></div>
+                </div>
+                <div class="col-lg-8">
+                    <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
+                </div>
+                <div class="col-lg-4">
+                <div class="mr-table allproduct mt-4">
+    <div class="table-new">
+        <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th></th>
+                <th>RefNo</th>
+                <th>Name</th>
+                <th>Photo</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th style="text-align:center;">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($prods as $key=>$prod)
+                <tr>
+                    <th><input type="number" value="0" min="0" style="width: 50px"></th>
+                    <td>
+                        {{ $key }}
+                    </td>
+                    <td>
+                        {{ $prod->name }}
+                    </td>
+                    <td>
+                        <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                    </td>
+                    <td>
+                        {{ $prod->product_type }}
+                    </td>
+                    <td>
+                        ${{ $prod->price }}
+                    </td>
+                    <td style="text-align:center;">
+                        <div class="dropdown">
+                            <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-primary">
+                                @if(Auth::guard('web')->check())
+                                    <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                @else
+                                    <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                @endif
+                                <span class="dropdown-item quick-view" data-href="{{ route('product.quick',$prod->id) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
+                                <span class="dropdown-item add-to-compare" data-href="{{ route('product.compare.add',$prod->id) }}"><i class="icofont-exchange"></i>&nbsp;&nbsp;Compare</span>
+                                @if($prod->product_type == "affiliate")
+                                    <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                @else
+                                <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
+                                        <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',$prod->id) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                @endif
                             </div>
-                            
                         </div>
-                    </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
                 </div>
             </div>
         </div>
@@ -137,7 +190,7 @@
 
             $('#product_table').DataTable({
                 "paging": true,
-                "ordering": false,
+                "ordering": true,
                 "info": true,
                 "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
             });
