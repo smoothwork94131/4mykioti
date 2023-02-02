@@ -101,12 +101,11 @@
                         </h2>
                     </div>
                 </div>
-                <div class="col-lg-8">
-                    <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
+                <div class="col-lg-8 remove-padding">
+                    <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}" style="width: 100%">
                 </div>
-                <div class="col-lg-4">
-                <div class="mr-table allproduct mt-4">
-    <div class="table-new">
+                <div class="col-lg-4 remove-padding">
+                <div class="table-new">
         <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -162,7 +161,6 @@
             </tbody>
         </table>
     </div>
-</div>
                 </div>
             </div>
         </div>
