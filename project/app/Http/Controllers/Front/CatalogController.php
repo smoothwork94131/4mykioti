@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
 use Session;
 use Illuminate\Support\Facades\Input;
 use Validator;
-
+use Illuminate\Support\Facades\DB;
 
 class CatalogController extends Controller
 {
@@ -48,61 +48,14 @@ class CatalogController extends Controller
 
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null)
     {
-        
-        $cat = null;
-        $subcat = null;
-        $childcat = null;
+
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
         $search = $request->search;
+        $db = strtolower($slug);
 
-        if (!empty($slug)) {
-            $cat = Category::where('slug', $slug)->firstOrFail();
-            $data['cat'] = $cat;
-
-            // $product_click = new ProductClick;
-
-            // if(Auth::user()) {
-            //     $product_click->user_id = Auth::user()->id;
-            // }
-            // else {
-            //     $product_click->user_id = 0;
-            // }
-
-            // $product_click->category_id = $cat->id;
-            // $product_click->product_id = 0;
-            // $product_click->search_term = $search;
-
-            // if($request->search) {
-            //     $product_click->action = 'search';
-            // }
-            // else {
-            //     $product_click->action = 'menu_category';
-            // }
-        
-            // $product_click->date = Carbon::now()->format('Y-m-d');
-            // $product_click->save();
-        }
-        if (!empty($slug1)) {
-            $subcat = Subcategory::where('slug', $slug1)->firstOrFail();
-            $data['subcat'] = $subcat;
-        }
-        if (!empty($slug2)) {
-            $childcat = Childcategory::where('slug', $slug2)->firstOrFail();
-            $data['childcat'] = $childcat;
-        }
-
-        $prods = Product::when($cat, function ($query, $cat) {
-            return $query->where('category_id', $cat->id);
-        })
-        ->when($subcat, function ($query, $subcat) {
-            return $query->where('subcategory_id', $subcat->id);
-        })
-        ->when($childcat, function ($query, $childcat) {
-            return $query->where('childcategory_id', $childcat->id);
-        })
-        ->when($search, function ($query, $search) {
+        $prods = DB::table($db)->when($search, function ($query, $search) {
             return $query->whereRaw('MATCH (name) AGAINST (? IN BOOLEAN MODE)', array($search));
         })
         ->when($minprice, function ($query, $minprice) {
@@ -126,89 +79,26 @@ class CatalogController extends Controller
             return $query->orderBy('id', 'DESC');
         });
 
-        $prods = $prods->where(function ($query) use ($cat, $subcat, $childcat, $request) {
-            $flag = 0;
 
-            if (!empty($cat)) {
-                foreach ($cat->attributes as $key => $attribute) {
-                    $inname = $attribute->input_name;
-                    $chFilters = $request["$inname"];
-                    if (!empty($chFilters)) {
-                        $flag = 1;
-                        foreach ($chFilters as $key => $chFilter) {
-                            if ($key == 0) {
-                                $query->where('attributes', 'like', '%' . '"' . $chFilter . '"' . '%');
-                            } else {
-                                $query->orWhere('attributes', 'like', '%' . '"' . $chFilter . '"' . '%');
-                            }
+        // if(!Auth::guard('web')->check()) {
+        //     $prods = $prods->where('is_verified', 0);
+        // } else {
+        //     if(!Auth::user()->is_verified) {
+        //         $prods = $prods->where('is_verified', 0);
+        //     }
+        // }
 
-                        }
-                    }
-                }
-            }
+        $prods = $prods->where('status', 1);
 
-
-            if (!empty($subcat)) {
-                foreach ($subcat->attributes as $attribute) {
-                    $inname = $attribute->input_name;
-                    $chFilters = $request["$inname"];
-                    if (!empty($chFilters)) {
-                        $flag = 1;
-                        foreach ($chFilters as $key => $chFilter) {
-                            if ($key == 0 && $flag == 0) {
-                                $query->where('attributes', 'like', '%' . '"' . $chFilter . '"' . '%');
-                            } else {
-                                $query->orWhere('attributes', 'like', '%' . '"' . $chFilter . '"' . '%');
-                            }
-
-                        }
-                    }
-
-                }
-            }
-
-
-            if (!empty($childcat)) {
-                foreach ($childcat->attributes as $attribute) {
-                    $inname = $attribute->input_name;
-                    $chFilters = $request["$inname"];
-                    if (!empty($chFilters)) {
-                        $flag = 1;
-                        foreach ($chFilters as $key => $chFilter) {
-                            if ($key == 0 && $flag == 0) {
-                                $query->where('attributes', 'like', '%' . '"' . $chFilter . '"' . '%');
-                            } else {
-                                $query->orWhere('attributes', 'like', '%' . '"' . $chFilter . '"' . '%');
-                            }
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-        if(Session::has('age')) {
-            $age = Session::get('age');
-            if(!Auth::guard('web')->check() && $age < 21) {
-                $prods = $prods->where('category_id', 15);
-            }
-
-        }
-
-        if(!Auth::guard('web')->check()) {
-            $prods = $prods->where('is_verified', 0);
-        } else {
-            if(!Auth::user()->is_verified) {
-                $prods = $prods->where('is_verified', 0);
-            }
-        }
-
-        $prods = $prods->where('status', 1)->get();
+        $prods = $prods->where('category_id', $slug1)->get();
 
         $prods = (new Collection($prods))->paginate(12);
 
+        $group = DB::table($db.'_categories')->where('group_id', $slug1)->first();
+
+
         $data['prods'] = $prods;
+        $data['group'] = $group;
 
         $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();

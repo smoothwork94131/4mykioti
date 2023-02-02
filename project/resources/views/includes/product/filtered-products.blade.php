@@ -103,7 +103,7 @@
                     <div class="prod-top">
                         
                         <h2 class="prod-name"  style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color? $colorsetting_style2->title_color: '#333333' }}">
-                        {{ $prod->showName() }}
+                        {{ $prod->name }}
                     </h2>
                     </div> 
                     
@@ -116,32 +116,18 @@
                     </p>
 
                     <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->detail_color? $colorsetting_style2->detail_color: '#333333' }}">
-                        @php
-                            $str=$prod->showDetails();					
-                            if (strlen($str) > 60)
-                            {
-                                $str2 = substr($str, 0, 57);
-                                $str2 = $str2.'...';
-                            }
-                            else
-                            {
-                                $str2 = $str;
-                            }						
-                        @endphp
-                        <?php 
-                            echo $str2;
-                        ?>
+                        
                     </p>
                     
-                    @if ($prod->showParent() && $prod->showParent() != '<br>')
-                        <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
-                            <small>Parents: <?php echo $prod->showParent();  ?></small>
-                        </p>
-                    @endif
+                    <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
+                        <small>Model #: <?php echo $prod->category_id;  ?></small>
+                        <br>
+                        <small>Part #: <?php echo $prod->sku;  ?></small>
+                    </p>
 
                     <p class="prod-price" style="color: {{ $colorsetting_style2 && $colorsetting_style2->price_color? $colorsetting_style2->price_color: '#333333' }}">
-                        {{ $prod->showPrice() }} 
-                        <del><small>{{ $prod->showPreviousPrice() }}</small></del>
+                        {{ $prod->price }} 
+                        <del><small>{{ $prod->previous_price }}</small></del>
                     </p>
 
                    
@@ -187,13 +173,11 @@
                             </div>
                         </div>
                         <h5 class="name">
-                        {{ $prod->setCurrency() }} <del><small>{{ $prod->showPreviousPrice() }}</small></del>
-                        {{ $prod->showName() }}
-                        @if ($prod->showParent() && $prod->showParent() != '<br>')
-                            <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
-                                <small>Parents: <?php echo $prod->showParent();  ?></small>
-                            </p>
-                        @endif
+                        $ <del><small>{{ $prod->previous_price }}</small></del>
+                        {{ $prod->name }}
+                        <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color? $colorsetting_style2->sub_detail_color : '#333333' }}">	
+                            <small>Models #: <?php echo $prod->category_id;  ?></small>
+                        </p>
                         </h5>
                         <div class="cart-area">
                         @if($prod->product_type == "affiliate")
@@ -202,11 +186,7 @@
                                 {{ $langg->lang251 }}
                             </span>
                         @else
-                            @if($prod->emptyStock())
-                            <span class="add-to-cart-btn cart-out-of-stock">
-                                <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
-                            </span>
-                            @else
+                            
                             <span class="add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}"  style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                 <i class="icofont-cart"></i> {{ $langg->lang56 }}
                             </span>
@@ -214,7 +194,6 @@
                                 data-href="{{ route('product.cart.quickadd',$prod->id) }}" style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                 <i class="icofont-cart"></i> {{ $langg->lang251 }}
                             </span>
-                            @endif
                         @endif
                         </div>
                 </div>

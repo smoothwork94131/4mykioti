@@ -96,21 +96,12 @@
                 <div class="col-lg-9 order-first order-lg-last ajax-loader-parent">
                     <div class="section-top">
                         <h2 class="section-title">
-                            <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                            <span class="sub">Category</span> 
-                            <span class="main">{{empty($cat) ? "All Categories" : $cat->name }}</span> 
+                            {{$group->group_name }}
                             <span class="title-underline"></span>
                         </h2>
                         @include('includes.filter')
                     </div>
-                    <div class="switch-section">
-                        <div class="form-input d-flex align-items-center"   >
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="view_switch">
-                                <label class="custom-control-label" for="view_switch">List View</label>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="right-area" id="app">
                         <div class="categori-item-area">
                             <div id="default_view">
@@ -119,9 +110,7 @@
                                 </div>
                                 <div id="ajaxLoader" class="ajax-loader" style="background: url({{asset('assets/images/'.$gs->loader)}}) no-repeat scroll center center rgba(0,0,0,.6);"></div>
                             </div>
-                            <div id="list_view" style="display:none;">
-                                @include('includes.product.table-products')
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -178,15 +167,15 @@
                 }
             }
 
-            $(".attribute-input").each(function () {
-                if ($(this).is(':checked')) {
-                    if (filterlink == '') {
-                        filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?' + $(this).attr('name') + '=' + $(this).val();
-                    } else {
-                        filterlink += '&' + $(this).attr('name') + '=' + $(this).val();
-                    }
-                }
-            });
+            // $(".attribute-input").each(function () {
+            //     if ($(this).is(':checked')) {
+            //         if (filterlink == '') {
+            //             filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?' + $(this).attr('name') + '=' + $(this).val();
+            //         } else {
+            //             filterlink += '&' + $(this).attr('name') + '=' + $(this).val();
+            //         }
+            //     }
+            // });
 
             if ($("#sortby").val() != '') {
                 if (filterlink == '') {
@@ -196,21 +185,21 @@
                 }
             }
 
-            if ($("#min_price").val() != '') {
-                if (filterlink == '') {
-                    filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?' + $("#min_price").attr('name') + '=' + $("#min_price").val();
-                } else {
-                    filterlink += '&' + $("#min_price").attr('name') + '=' + $("#min_price").val();
-                }
-            }
+            // if ($("#min_price").val() != '') {
+            //     if (filterlink == '') {
+            //         filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?' + $("#min_price").attr('name') + '=' + $("#min_price").val();
+            //     } else {
+            //         filterlink += '&' + $("#min_price").attr('name') + '=' + $("#min_price").val();
+            //     }
+            // }
 
-            if ($("#max_price").val() != '') {
-                if (filterlink == '') {
-                    filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?' + $("#max_price").attr('name') + '=' + $("#max_price").val();
-                } else {
-                    filterlink += '&' + $("#max_price").attr('name') + '=' + $("#max_price").val();
-                }
-            }
+            // if ($("#max_price").val() != '') {
+            //     if (filterlink == '') {
+            //         filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?' + $("#max_price").attr('name') + '=' + $("#max_price").val();
+            //     } else {
+            //         filterlink += '&' + $("#max_price").attr('name') + '=' + $("#max_price").val();
+            //     }
+            // }
 
             // console.log(filterlink);
             console.log(encodeURI(filterlink));
@@ -243,13 +232,13 @@
                     fullUrl += '&sort=' + encodeURI($("#sortby").val());
                 }
 
-                if ($("#min_price").val() != '') {
-                    fullUrl += '&min=' + encodeURI($("#min_price").val());
-                }
+                // if ($("#min_price").val() != '') {
+                //     fullUrl += '&min=' + encodeURI($("#min_price").val());
+                // }
 
-                if ($("#max_price").val() != '') {
-                    fullUrl += '&max=' + encodeURI($("#max_price").val());
-                }
+                // if ($("#max_price").val() != '') {
+                //     fullUrl += '&max=' + encodeURI($("#max_price").val());
+                // }
 
                 $(this).attr('href', fullUrl);
             });
