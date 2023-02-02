@@ -90,12 +90,12 @@
 
     <!-- SubCategori Area Start -->
     <section class="sub-categori">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="section-top" style="display: block">
-                        <p><span>{{$group->group_Id}}</span></p>
-                        <h2 class="section-title">
+                        <h6>{{$group->group_Id}}</h6>
+                        <h2 class="section-title remove-padding">
                             {{$group->group_name }}
                             <span class="title-underline"></span>
                         </h2>
@@ -113,7 +113,6 @@
                 <th></th>
                 <th>RefNo</th>
                 <th>Name</th>
-                <th>Photo</th>
                 <th>Type</th>
                 <th>Price</th>
                 <th style="text-align:center;">Action</th>
@@ -124,13 +123,11 @@
                 <tr>
                     <th><input type="number" value="0" min="0" style="width: 50px"></th>
                     <td>
-                        {{ $key }}
+                        {{ $key + 1 }}
+                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
                     </td>
                     <td>
                         {{ $prod->name }}
-                    </td>
-                    <td>
-                        <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
                     </td>
                     <td>
                         {{ $prod->product_type }}
@@ -189,9 +186,10 @@
             });
 
             $('#product_table').DataTable({
-                "paging": true,
-                "ordering": true,
-                "info": true,
+                "paging": false,
+                "ordering": false,
+                "info": false,
+                "searching": false,
                 "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
             });
 

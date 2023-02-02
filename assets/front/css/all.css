@@ -39271,14 +39271,6 @@ Logo Header Area Start
     transition: all 0.3s linear;
 }
 
-.categories_menu_inner>ul>li:hover {
-    padding-left: 20px;
-}
-
-.categories_menu_inner>ul>li>ul.categories_mega_menu ul li a:hover {
-    padding-left: 10px;
-}
-
 .categories_menu_inner>ul>li a {
     color: #333;
 }

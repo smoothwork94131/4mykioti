@@ -1201,6 +1201,7 @@ a {
 
 .table-new {
     min-width: 500px;
-    max-height: 700px;
+    max-height: 500px;
     overflow: auto;
+    border: 1px black solid;
 }
