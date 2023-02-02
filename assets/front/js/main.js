@@ -99,7 +99,7 @@ $(function($) {
                                     }
                                 } else if (type == 'group') {
                                     for (var x in data.categories) {
-                                        element += `<li><a href="/4mykioti.com/category/${series}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                        element += `<li><a href="/category/${series}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
                                     }
                                     cat_elem = cat_elem.children('.category-groups');
                                 }
