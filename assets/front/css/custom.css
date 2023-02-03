@@ -1199,9 +1199,30 @@ a {
     color: white;
 }
 
-.table-new {
-    min-width: 500px;
-    max-height: 500px;
-    overflow: auto;
+.group-table {
+    display: flex;
+    width: 100%;
+}
+
+.group-schematics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px black solid;
+    width: 200%;
+    background-color: white;
+    overflow: auto;
+}
+
+.group-schematics img {
+    min-width: 800px;
+}
+
+.parts-table {
+    width: 100%;
+    border-right: 1px black solid;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+    max-height: 800px;
+    overflow: auto;
 }
