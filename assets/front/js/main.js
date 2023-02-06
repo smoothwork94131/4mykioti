@@ -153,6 +153,17 @@ $(function($) {
             var link = $(this).data('url');
             var token = $(this).data('token');
             var cat_elem = $('.m-block-content');
+            var isSchematics = $('#isSchematics').val();
+
+            var group_id = $(this).data('group');
+            var group_name = $(this).data('groupname');
+
+            if (group_id) {
+                cat_elem.html(`<h2>${group_name}</h2><div class="group-schematics">
+                <img src="/assets/images/group/${group_id}.png"/>
+            </div>`);
+            }
+
             if (type) {
                 if (hasData == '0') {
                     $.ajax({
@@ -199,9 +210,21 @@ $(function($) {
                                     $('.parts-by-model-title').append(`<li><a href="#">${section}</a></li>`);
 
                                     for (var x in data.categories) {
-                                        element += `<div class="col col-md-3 col-sm-4"><div class="m-block">
-                                        <a href="/category/${series}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
-                                        </div></div>`;
+
+                                        if (isSchematics) {
+                                            element += `<div class="col col-md-3 col-sm-4"><div class="m-block" 
+                                            data-group="${data.categories[x].group_Id}"
+                                            data-groupname="${data.categories[x].group_name}"
+                                            data-type="schematics">
+                                                ${data.categories[x].group_name}
+                                            </div></div>`;
+                                        } else {
+                                            element += `<div class="col col-md-3 col-sm-4"><div class="m-block">
+                                            <a href="/category/${series}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
+                                            </div></div>`;
+                                        }
+
+
                                     }
                                 }
                                 cat_elem.html(element);

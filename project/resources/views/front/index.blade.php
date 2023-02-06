@@ -22,28 +22,29 @@
                     <div class="col-6 remove-padding pr-1">
                         <a href="{{route('front.partsByModel')}}"><div class="s-0-block s-block d-flex">
                             <div>
-                                Find Parts by Model
+                                FIND PARTS
                             </div>
                         </div></a>
                     </div>
                     <div class="col-6 remove-padding">
                         <div class="s-0-block s-block d-flex">
-                        <div>
-                                Schedule Your PM Products
+                            <div>
+                                3RD FUNCTION VALVES
                             </div>
                         </div>
                     </div>
                     <div class="col-6 remove-padding  pr-1">
-                        <div class="s-0-block s-block d-flex">
+
+                        <a href="{{route('front.schematics')}}"><div class="s-0-block s-block d-flex">
                             <div>
-                            Owners Manuals
+                                 FIND SCHEMATICS
                             </div>
-                        </div>
+                        </div></a>
                     </div>
                     <div class="col-6 remove-padding">
                         <div class="s-0-block s-block d-flex">
                             <div>
-                            Schematics by Model
+                                 COMMON PARTS
                             </div>
                         </div>
                     </div>
