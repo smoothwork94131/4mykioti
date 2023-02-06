@@ -1233,9 +1233,11 @@ a.sell-btn {
     margin-bottom: 20px;
     padding: 20px;
     border-radius: 5px;
-    border: 1px black solid
+    border: 1px black solid;
+    cursor: pointer;
 }
 
 .m-block:hover {
-    border: 1px grey solid
+    border: 1px grey solid;
+    color: #0f78f2;
 }
