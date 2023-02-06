@@ -1195,7 +1195,7 @@ a.sell-btn {
 }
 
 .s-block p,
-a {
+.s-block a {
     color: white;
 }
 
@@ -1225,4 +1225,17 @@ a {
     border-bottom: 1px black solid;
     max-height: 800px;
     overflow: auto;
+}
+
+.m-block {
+    text-align: center;
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px black solid
+}
+
+.m-block:hover {
+    border: 1px grey solid
 }

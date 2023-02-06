@@ -1429,6 +1429,7 @@ Route::group(['middleware' => 'maintenance'], function () {
 // ************************************ FRONT SECTION **********************************************
 
     Route::get('/', 'Front\FrontendController@index')->name('front.index');
+    Route::get('/partsbymodel', 'Front\FrontendController@partsByModel')->name('front.partsByModel');
     Route::get('/extras', 'Front\FrontendController@extraIndex')->name('front.extraIndex');
     Route::get('/currency/{id}', 'Front\FrontendController@currency')->name('front.currency');
     Route::get('/language/{id}', 'Front\FrontendController@language')->name('front.language');

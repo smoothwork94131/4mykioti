@@ -365,6 +365,10 @@ public function solo_datatables()
 
 // CURRENCY SECTION ENDS
 
+    public function partsByModel(Request $request) {
+        return view('front.partsbymodel');
+    }
+
     public function autosearch(Request $request, $slug)
     {
 

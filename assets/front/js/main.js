@@ -144,7 +144,77 @@ $(function($) {
 
 
 
+        $(document).on("click", ".m-block", function() {
+            var type = $(this).data('type');
+            var series = $(this).data('series')
+            var model = $(this).data('model');
+            var section = $(this).data('section');
+            var hasData = $(this).data('status');
+            var link = $(this).data('url');
+            var token = $(this).data('token');
+            var cat_elem = $('.m-block-content');
+            if (type) {
+                if (hasData == '0') {
+                    $.ajax({
+                        method: "POST",
+                        url: link,
+                        data: {
+                            '_token': token,
+                            'type': type,
+                            'series': series,
+                            'model': model,
+                            'section': section,
+                        },
+                        dataType: 'JSON',
+                        success: function(data) {
+                            console.log(data);
+                            if (data.categories.length > 0) {
+                                var element = ``;
+                                if (type == 'model') {
+                                    $('.parts-by-model-title').append(`<li><a href="#">${series}</a></li>`);
+                                    for (var x in data.categories) {
+                                        element += `<div class="col col-md-3 col-sm-4">
+                                        <div class="m-block"
+                                        data-type="section"
+                                        data-model="${data.categories[x].model}"
+                                        data-series="${series}"
+                                        data-url="${link}" 
+                                        data-status="0" data-token="${token}">${data.categories[x].model}</div>
+                                    </div>`;
+                                    }
+                                } else if (type == 'section') {
+                                    $('.parts-by-model-title').append(`<li><a href="#">${model}</a></li>`);
+                                    for (var x in data.categories) {
+                                        element += `<div class="col col-md-3 col-sm-4">
+                                        <div class="m-block"
+                                        data-type="group"
+                                        data-section="${data.categories[x].section_name}"
+                                        data-model="${model}"
+                                        data-series="${series}"
+                                        data-url="${link}" 
+                                        data-status="0" data-token="${token}">${data.categories[x].section_name}</div>
+                                    </div>`;
+                                    }
+                                } else if (type == 'group') {
+                                    $('.parts-by-model-title').append(`<li><a href="#">${section}</a></li>`);
 
+                                    for (var x in data.categories) {
+                                        element += `<div class="col col-md-3 col-sm-4"><div class="m-block">
+                                        <a href="/category/${series}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
+                                        </div></div>`;
+                                    }
+                                }
+                                cat_elem.html(element);
+                            } else {
+                                cat_elem.html('<li>No Data</li>');
+                            }
+                        }
+
+                    });
+                }
+            }
+
+        });
 
 
 
