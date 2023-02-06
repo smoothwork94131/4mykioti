@@ -365,11 +365,15 @@ public function solo_datatables()
 
 // CURRENCY SECTION ENDS
 
-    public function autosearch($slug)
+    public function autosearch(Request $request, $slug)
     {
+
+        
+        $db = strtolower($request->series);
+
         if (mb_strlen($slug, 'utf-8') > 1) {
             $search = ' ' . $slug;
-            $prods = Product::where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $slug . '%')->where('status', '=', 1)->take(10);
+            $prods = DB::table($db)->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $slug . '%')->where('status', '=', 1)->take(10);
             if(Session::has('age')) {
                 $age = Session::get('age');
                 if(!Auth::guard('web')->check() && $age < 21) {

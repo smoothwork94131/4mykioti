@@ -646,8 +646,8 @@ $(function($) {
                 $(".autocomplete").hide();
             } else {
                 $(".autocomplete").show();
-                $("#myInputautocomplete-list").load(mainurl + '/autosearch/product/' + search);
-
+                var series = $('#category_select').val();
+                $("#myInputautocomplete-list").load(mainurl + '/autosearch/product/' + search + '?series=' + series);
             }
         });
         // Auto Complete Section Ends

@@ -55,9 +55,7 @@ class CatalogController extends Controller
         $search = $request->search;
         $db = strtolower($slug);
 
-        $prods = DB::table($db)->when($search, function ($query, $search) {
-            return $query->whereRaw('MATCH (name) AGAINST (? IN BOOLEAN MODE)', array($search));
-        })
+        $prods = DB::table($db)
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
         })
@@ -88,9 +86,21 @@ class CatalogController extends Controller
         //     }
         // }
 
+        if ($search) {
+            $search1 = ' ' . $search;
+            $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
+        }
+
+
         $prods = $prods->where('status', 1);
 
-        $prods = $prods->where('category_id', $slug1)->get();
+        if ($slug1) {
+            $prods = $prods->where('category_id', $slug1)->get();
+        } else {
+            $prods = $prods->get();
+
+        }
+
         $group = DB::table($db.'_categories')->where('group_id', $slug1)->first();
 
 

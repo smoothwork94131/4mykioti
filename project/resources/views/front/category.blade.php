@@ -89,6 +89,7 @@
 
 
     <!-- SubCategori Area Start -->
+    @if ($group)
     <section class="sub-categori">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
             <div class="row">
@@ -165,6 +166,76 @@
             </div>
         </div>
     </section>
+    @else
+    <section class="sub-categori">
+        <div class="container">
+            <div class="row">
+                <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>RefNo</th>
+                        <th>Name</th>
+                        <th>Model</th>
+                        <th>Group</th>
+                        <th>Part</th>
+                        <th>Price</th>
+                        <th style="text-align:center;">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($prods as $key=>$prod)
+                        <tr>
+                            <th><input type="number" value="0" min="0" style="width: 50px"></th>
+                            <td>
+                                {{ $key + 1 }}
+                                <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                            </td>
+                            <td>
+                                {{ $prod->name }}
+                            </td>
+                            <td>
+                                {{ $prod->subcategory_id }}
+                            </td>
+                            <td>
+                                {{ $prod->parent }}
+                            </td>
+                            <td>
+                                {{ $prod->sku }}
+                            </td>
+                            <td>
+                                ${{ $prod->price }}
+                            </td>
+                            <td style="text-align:center;">
+                                <div class="dropdown">
+                                    <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-primary">
+                                        @if(Auth::guard('web')->check())
+                                            <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                        @else
+                                            <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                        @endif
+                                        <span class="dropdown-item quick-view" data-href="{{ route('product.quick',$prod->id) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
+                                        <span class="dropdown-item add-to-compare" data-href="{{ route('product.compare.add',$prod->id) }}"><i class="icofont-exchange"></i>&nbsp;&nbsp;Compare</span>
+                                        @if($prod->product_type == "affiliate")
+                                            <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                        @else
+                                        <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
+                                                <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',$prod->id) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    @endif
     <!-- SubCategori Area End -->
 @endsection
 

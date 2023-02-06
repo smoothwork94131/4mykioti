@@ -269,21 +269,18 @@
                     <div class="search-box">
                         <div class="categori-container" id="catSelectForm">
                             <select name="category" id="category_select" class="categoris">
-                                <option value="">{{ $langg->lang1 }}</option>
-                                @if($gs->solo_mode == 1 && !empty($gs->solo_category))
-
-                                    <option value="{{ $solo_category_info->slug }}" {{ Request::route('category') == $solo_category_info->slug ? 'selected' : '' }}>{{ $solo_category_info->name }}</option>
-
-                                @else
-                                    @foreach($categories as $data)
-                                        <option value="{{ $data->slug }}" {{ Request::route('category') == $data->slug ? 'selected' : '' }}>{{ $data->name }}</option>
-                                    @endforeach
-                                @endif
+                                <!-- <option value="">{{ $langg->lang1 }}</option> -->
+                                <option value="" disabled>Tractors</option>
+                                @foreach($categories as $data)
+                                    @if($data->id > 21)
+                                    <option value="{{ $data->slug }}" {{ Request::route('category') == $data->slug ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;{{ $data->name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
 
                         <form id="searchForm" class="search-form"
-                              action="{{ route('front.category', [Request::route('category'),Request::route('subcategory'),Request::route('childcategory')]) }}"
+                              action="{{ route('front.category', [Request::route('category')??'CK',Request::route('subcategory'),Request::route('childcategory')]) }}"
                               method="GET">
                             @if (!empty(request()->input('sort')))
                                 <input type="hidden" name="sort" value="{{ request()->input('sort') }}">
