@@ -44,83 +44,93 @@ $(function($) {
             var token = $(this).data('token');
             var elem = $(this);
             var cat_elem = $(this).parent().children('.categories_menu_inner');
-            var parts_elem = $(this).parent().children('.common-parts');
             if (type) {
-                if (hasData == '0') {
 
-                    if (type == 'section') {
-                        parts_elem.load(`${mainurl}/common/parts/${series}/${model}`)
+                if (type != 'group') {
+                    cat_elem.html('');
+                }
+
+                $.ajax({
+                    method: "POST",
+                    url: link,
+                    data: {
+                        '_token': token,
+                        'type': type,
+                        'series': series,
+                        'model': model,
+                        'section': section,
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        console.log(data);
+                        elem.data('status', 1);
+                        if (data.categories.length > 0) {
+                            var element = ``;
+                            if (type == 'model') {
+                                for (var x in data.categories) {
+                                    element += `<div class="categories_menu">
+                                    <div class="categories_title" style="background-color: #e1e1e1" data-type="section"
+                                    data-model="${data.categories[x].model}"
+                                    data-series="${series}"
+                                    data-url="${link}" 
+                                    data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].model} <i
+                                                    class="fa fa-angle-down arrow-down"></i></h2>
+                                    </div>
+                                    <div class="common-parts" style="background-color: white">
+                                    </div>
+                                    <div class="categories_menu_inner sections">
+                                        loading...
+                                    </div>
+                                </div>`;
+                                }
+                            } else if (type == 'section') {
+                                for (var x in data.categories) {
+                                    element += `<div class="categories_menu">
+                                    <div class="categories_title"
+                                    data-type="group"
+                                    data-section="${data.categories[x].section_name}"
+                                    data-model="${model}"
+                                    data-series="${series}"
+                                    data-url="${link}" 
+                                    data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].section_name} <i
+                                                    class="fa fa-angle-down arrow-down"></i></h2>
+                                    </div>
+                                    <div class="categories_menu_inner groups">
+                                        <ul class="category-groups">
+                                            loading...
+                                        </ul>
+                                    </div>
+                                </div>`;
+                                }
+                            } else if (type == 'group') {
+                                for (var x in data.categories) {
+                                    element += `<li><a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                }
+                                cat_elem = cat_elem.children('.category-groups');
+                                cat_elem.html(element);
+                            }
+
+                            if (type != 'group') {
+                                cat_elem.append(element);
+                            }
+
+                            if (type == 'section') {
+                                $.ajax({
+                                    method: 'GET',
+                                    url: `${mainurl}/common/parts/${series}/${model}`,
+                                    success: (data) => {
+                                        cat_elem.prepend(data);
+                                    }
+                                });
+                            }
+
+
+                        } else {
+                            cat_elem.append('<li>No Data</li>');
+                        }
                     }
 
-                    $.ajax({
-                        method: "POST",
-                        url: link,
-                        data: {
-                            '_token': token,
-                            'type': type,
-                            'series': series,
-                            'model': model,
-                            'section': section,
-                        },
-                        dataType: 'JSON',
-                        success: function(data) {
-                            console.log(data);
-                            elem.data('status', 1);
-                            if (data.categories.length > 0) {
-                                var element = ``;
-
-                                if (type == 'model') {
-                                    for (var x in data.categories) {
-                                        element += `<div class="categories_menu">
-                                        <div class="categories_title" style="background-color: #e1e1e1" data-type="section"
-                                        data-model="${data.categories[x].model}"
-                                        data-series="${series}"
-                                        data-url="${link}" 
-                                        data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].model} <i
-                                                        class="fa fa-angle-down arrow-down"></i></h2>
-                                        </div>
-                                        <div class="common-parts" style="background-color: white">
-                                        </div>
-                                        <div class="categories_menu_inner sections">
-                                            loading...
-                                        </div>
-                                    </div>`;
-                                    }
-                                } else if (type == 'section') {
-                                    for (var x in data.categories) {
-                                        element += `<div class="categories_menu">
-                                        <div class="categories_title"
-                                        data-type="group"
-                                        data-section="${data.categories[x].section_name}"
-                                        data-model="${model}"
-                                        data-series="${series}"
-                                        data-url="${link}" 
-                                        data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].section_name} <i
-                                                        class="fa fa-angle-down arrow-down"></i></h2>
-                                        </div>
-                                        <div class="categories_menu_inner groups">
-                                            <ul class="category-groups">
-                                                loading...
-                                            </ul>
-                                        </div>
-                                    </div>`;
-                                    }
-                                } else if (type == 'group') {
-                                    for (var x in data.categories) {
-                                        element += `<li><a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
-                                    }
-                                    cat_elem = cat_elem.children('.category-groups');
-                                }
-
-
-                                cat_elem.html(element);
-                            } else {
-                                cat_elem.html('<li>No Data</li>');
-                            }
-                        }
-
-                    });
-                }
+                });
             }
 
         });

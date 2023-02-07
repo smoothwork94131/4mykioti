@@ -372,6 +372,10 @@ public function solo_datatables()
         return view('front.schematics');
     }
 
+    public function commonpart(Request $request) {
+        return view('front.commonparts');
+    }
+
     public function autosearch(Request $request, $slug)
     {
 

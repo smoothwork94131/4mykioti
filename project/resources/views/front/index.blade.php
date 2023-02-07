@@ -42,11 +42,13 @@
                         </div></a>
                     </div>
                     <div class="col-6 remove-padding">
+                    <a href="{{route('front.common')}}">
                         <div class="s-0-block s-block d-flex">
                             <div>
                                  COMMON PARTS
                             </div>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
