@@ -94,14 +94,14 @@ class CatalogController extends Controller
 
         $prods = $prods->where('status', 1);
 
-        if ($slug1) {
-            $prods = $prods->where('category_id', $slug1)->get();
+        if ($slug2) {
+            $prods = $prods->where('category_id', $slug2)->where('subcategory_id', $slug1)->get();
         } else {
             $prods = $prods->get();
 
         }
 
-        $group = DB::table($db.'_categories')->where('group_id', $slug1)->first();
+        $group = DB::table($db.'_categories')->where('group_id', $slug2)->first();
 
         $data['prods'] = $prods;
         $data['group'] = $group;
@@ -111,6 +111,7 @@ class CatalogController extends Controller
 
         $data['colorsetting_style1'] = $colorsetting_style1;
         $data['colorsetting_style2'] = $colorsetting_style2;
+        $data['db'] = $db;
 
         if ($request->ajax()) {
 
@@ -212,7 +213,57 @@ class CatalogController extends Controller
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
+    public function iproduct(Request $request, $slug, $slug1)
+    {
+        $this->code_image();
 
+        $db = strtolower($slug);
+
+        $productt = DB::table($db)->where('slug', '=', $slug1)->first();
+
+        $adproducts = AdvertisingProduct::where('product_id', $productt->id)->get();
+
+        foreach($adproducts as $adprod) {
+            if($adprod->viewed_count < $adprod->adplan->view_count) {
+                $adprod->viewed_count += 1;
+                $adprod->update();
+            }
+        }
+
+
+        if (Session::has('currency')) {
+            $curr = Currency::find(Session::get('currency'));
+        } else {
+            $curr = Currency::where('is_default', '=', 1)->first();
+        }
+
+        // $product_click = new ProductClick;
+
+        // if(Auth::user()) {
+        //     $product_click->user_id = Auth::user()->id;
+        // }
+        // else {
+        //     $product_click->user_id = 0;
+        // }
+        
+        // $product_click->category_id = $productt->showCategoryID();
+        // $product_click->product_id = $productt->id;
+        // $product_click->search_term = '';
+        // $product_click->action = 'view';
+        // $product_click->date = Carbon::now()->format('Y-m-d');
+        // $product_click->save();
+
+        if ($productt->user_id != 0) {
+            $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
+        } else {
+            $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
+        }
+
+        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
+        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
+
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
+    }
     // Capcha Code Image
     private function code_image()
     {
@@ -250,6 +301,37 @@ class CatalogController extends Controller
     public function quick($id)
     {
         $product = Product::findOrFail($id);
+        if (Session::has('currency')) {
+            $curr = Currency::find(Session::get('currency'));
+        } else {
+            $curr = Currency::where('is_default', '=', 1)->first();
+        }
+
+        // $product_click = new ProductClick;
+
+        // if(Auth::user()) {
+        //     $product_click->user_id = Auth::user()->id;
+        // }
+        // else {
+        //     $product_click->user_id = 0;
+        // }
+        
+        // $product_click->category_id = $product->showCategoryID();
+        // $product_click->product_id = $product->id;
+        // $product_click->search_term = '';
+        // $product_click->action = 'quick_view';
+        // $product_click->date = Carbon::now()->format('Y-m-d');
+        // $product_click->save();
+
+        return view('load.quick', compact('product', 'curr'));
+
+    }
+
+    public function iquick($db, $id)
+    {
+
+
+        $product = DB::table($db)->find($id);
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {

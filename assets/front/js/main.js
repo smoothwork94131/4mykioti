@@ -44,8 +44,14 @@ $(function($) {
             var token = $(this).data('token');
             var elem = $(this);
             var cat_elem = $(this).parent().children('.categories_menu_inner');
+            var parts_elem = $(this).parent().children('.common-parts');
             if (type) {
                 if (hasData == '0') {
+
+                    if (type == 'section') {
+                        parts_elem.load(`${mainurl}/common/parts/${series}/${model}`)
+                    }
+
                     $.ajax({
                         method: "POST",
                         url: link,
@@ -73,6 +79,8 @@ $(function($) {
                                         data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].model} <i
                                                         class="fa fa-angle-down arrow-down"></i></h2>
                                         </div>
+                                        <div class="common-parts" style="background-color: white">
+                                        </div>
                                         <div class="categories_menu_inner sections">
                                             loading...
                                         </div>
@@ -99,7 +107,7 @@ $(function($) {
                                     }
                                 } else if (type == 'group') {
                                     for (var x in data.categories) {
-                                        element += `<li><a href="/category/${series}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                        element += `<li><a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
                                     }
                                     cat_elem = cat_elem.children('.category-groups');
                                 }
@@ -220,7 +228,7 @@ $(function($) {
                                             </div></div>`;
                                         } else {
                                             element += `<div class="col col-md-3 col-sm-4"><div class="m-block">
-                                            <a href="/category/${series}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
+                                            <a href="/category/${series}/${model}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
                                             </div></div>`;
                                         }
 

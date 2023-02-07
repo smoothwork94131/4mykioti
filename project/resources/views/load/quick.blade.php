@@ -2,6 +2,8 @@
     <div class="col-lg-5">
 
         <div class="xzoom-container">
+
+            @if ($product->photo)
             <img class="quick-zoom" id="xzoom-magnific1"
                  src="{{filter_var($product->photo, FILTER_VALIDATE_URL) ?$product->photo:asset('assets/images/products/'.$product->photo)}}"
                  xoriginal="{{filter_var($product->photo, FILTER_VALIDATE_URL) ?$product->photo:asset('assets/images/products/'.$product->photo)}}"/>
@@ -15,20 +17,27 @@
                              title="The description goes here">
                     </a>
 
-                    @foreach($product->galleries as $gal)
+                </div>
 
+            </div>
+            @else
+            <img class="quick-zoom" id="xzoom-magnific1"
+                 src="{{asset('assets/images/products/'.$gs->prod_image)}}"
+                 xoriginal="{{asset('assets/images/products/'.$gs->prod_image)}}"/>
+            <div class="xzoom-thumbs">
 
-                        <a href="{{asset('assets/images/galleries/'.$gal->photo)}}">
-                            <img class="quick-zoom-gallery" width="80"
-                                 src="{{asset('assets/images/galleries/'.$gal->photo)}}"
-                                 title="The description goes here">
-                        </a>
+                <div class="quick-all-slider">
 
-                    @endforeach
+                    <a href="{{asset('assets/images/products/'.$gs->prod_image)}}">
+                        <img class="quick-zoom-gallery" width="80"
+                             src="{{asset('assets/images/products/'.$gs->prod_image)}}"
+                             title="The description goes here">
+                    </a>
 
                 </div>
 
             </div>
+            @endif
         </div>
 
             <div class="table-area wholesale-details-page">
@@ -64,32 +73,14 @@
                     <ul>
 
                         @if($product->type == 'Physical')
-                            @if($product->emptyStock())
-                                <li class="product-outstook">
-                                    <p>
-                                        <i class="icofont-close-circled"></i>
-                                        {{ $langg->lang78 }}
-                                    </p>
-                                </li>
-                            @else
-                                <li class="product-isstook">
-                                    <p>
-                                        <i class="icofont-check-circled"></i>
-                                        {{ $gs->show_stock == 0 ? '' : $product->stock }} {{ $langg->lang79 }}
-                                    </p>
-                                </li>
-                            @endif
+                            <li class="product-isstook">
+                                <p>
+                                    <i class="icofont-check-circled"></i>
+                                    {{ $gs->show_stock == 0 ? '' : $product->stock }} {{ $langg->lang79 }}
+                                </p>
+                            </li>
                         @endif
-                        <li>
-                            <div class="ratings">
-                                <div class="empty-stars"></div>
-                                <div class="full-stars"
-                                     style="width:{{App\Models\Rating::ratings($product->id)}}%"></div>
-                            </div>
-                        </li>
-                        <li class="review-count">
-                            <p>{{count($product->ratings)}} {{ $langg->lang80 }}</p>
-                        </li>
+                        
                         @if($product->product_condition != 0)
                             <li>
                                 <div class="{{ $product->product_condition == 2 ? 'mybadge' : 'mybadge1' }}">
@@ -135,10 +126,7 @@
 
                 <div class="product-price">
                     <p class="title">{{ $langg->lang87 }} :</p>
-                    <p class="price"><span id="msizeprice">{{ $product->showPrice() }}</span>
-                        <small>
-                            <del>{{ $product->showPreviousPrice() }}</del>
-                        </small>
+                    <p class="price"><span id="msizeprice">{{ $product->price }}</span>
                     </p>
                     @if($product->youtube != null)
                         <a href="{{ $product->youtube }}" class="video-play-btn mfp-iframe">
@@ -214,7 +202,6 @@
                     <hr />
                 @endif
 
-                <input type="hidden" id="mproduct_price" value="{{ round($product->vendorPrice() * $curr->value,2) }}">
                 <input type="hidden" id="mproduct_id" value="{{ $product->id }}">
                 <input type="hidden" id="mcurr_pos" value="{{ $gs->currency_format }}">
                 <input type="hidden" id="mcurr_sign" value="{{ $curr->sign }}">
@@ -327,11 +314,7 @@
                                             class="icofont-heart-alt"></i></a>
                             </li>
                         @endif
-                        <li class="compare">
-                            <a href="javascript:;" class="add-to-compare"
-                               data-href="{{ route('product.compare.add',$product->id) }}"><i
-                                        class="icofont-exchange"></i></a>
-                        </li>
+                        
                     </ul>
                     @if($product->ship != null)
                         <p class="estimate-time">{{ $langg->lang86 }}: <b> {{ $product->ship }}</b></p>

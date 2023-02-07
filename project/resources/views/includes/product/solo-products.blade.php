@@ -31,11 +31,7 @@
                                     <span class="quick-view" rel-toggle="tooltip" title="{{ $langg->lang55 }}" href="javascript:;" data-href="{{ route('product.quick',$solo_prod->id) }}" data-toggle="modal" data-target="#quickview" data-placement="right"  style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};"> <i class="icofont-eye"></i>
                                     </span>
                                 </li>
-                                <li>
-                                    <span class="add-to-compare" data-href="{{ route('product.compare.add',$solo_prod->id) }}"  data-toggle="tooltip" data-placement="right" title="{{ $langg->lang57 }}" data-placement="right"  style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};">
-                                        <i class="icofont-exchange"></i>
-                                    </span>
-                                </li>
+                                
                             </ul>
                         </div>
                         <img class="img-fluid" src="{{ $solo_prod->thumbnail ? asset('assets/images/thumbnails/'.$solo_prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
@@ -185,11 +181,7 @@
                             <span class="quick-view" rel-toggle="tooltip" title="{{ $langg->lang55 }}" href="javascript:;" data-href="{{ route('product.quick',$solo_prod->id) }}" data-toggle="modal" data-target="#quickview" data-placement="right" style="color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};"> <i class="icofont-eye"></i>
                             </span>
                             </li>
-                            <li>
-                                <span class="add-to-compare" data-href="{{ route('product.compare.add',$solo_prod->id) }}"  data-toggle="tooltip" data-placement="right" title="{{ $langg->lang57 }}" data-placement="right" style="color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
-                                    <i class="icofont-exchange"></i>
-                                </span>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>

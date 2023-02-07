@@ -15,9 +15,7 @@
         <meta name="description" content="{{ $blog->meta_description }}">
         <title>{{$gs->title}}</title>
     @elseif(isset($productt))
-        <meta name="keywords" content="{{ !empty($productt->meta_tag) ? implode(',', $productt->meta_tag ): '' }}">
-        <meta name="description"
-              content="{{ $productt->meta_description != null ? $productt->meta_description : strip_tags($productt->description) }}">
+
         <meta property="og:title" content="{{$productt->name}}"/>
         <meta property="og:description"
               content="{{ $productt->meta_description != null ? $productt->meta_description : strip_tags($productt->description) }}"/>
@@ -332,16 +330,6 @@
                                 </a>
                             @endif
                         </li>
-                        <li class="compare" data-toggle="tooltip" data-placement="top" title="{{ $langg->lang10 }}">
-                            <a href="{{ route('product.compare') }}" class="wish compare-product">
-                                <div class="icon">
-                                    <i class="fas fa-exchange-alt"></i>
-                                    <span id="compare-count">{{ Session::has('compare') ? count(Session::get('compare')->items) : '0' }}</span>
-                                </div>
-                            </a>
-                        </li>
-
-
                     </ul>
                 </div>
             </div>

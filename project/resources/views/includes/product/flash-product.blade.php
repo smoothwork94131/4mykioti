@@ -44,16 +44,7 @@
                                                                                 class="icofont-eye"></i>
 																	</span>
                             </li>
-                            <li>
-																		<span class="add-to-compare"
-                                                                              data-href="{{ route('product.compare.add',$prod->id) }}"
-                                                                              data-toggle="tooltip"
-                                                                              data-placement="right"
-                                                                              title="{{ $langg->lang57 }}"
-                                                                              data-placement="right">
-																			<i class="icofont-exchange"></i>
-																		</span>
-                            </li>
+                            
                         </ul>
                     </div>
                     <img class="img-fluid"
@@ -144,14 +135,7 @@
                                                 class="icofont-eye"></i>
 									</span>
                         </li>
-                        <li>
-										<span class="add-to-compare"
-                                              data-href="{{ route('product.compare.add',$prod->id) }}"
-                                              data-toggle="tooltip" data-placement="right" title="{{ $langg->lang57 }}"
-                                              data-placement="right">
-											<i class="icofont-exchange"></i>
-										</span>
-                        </li>
+                        
                     </ul>
                 </div>
                 <img class="img-fluid"

@@ -306,7 +306,6 @@ public function solo_datatables()
                 
                 $action.='<span class="dropdown-item quick-view" data-href="'.route('product.quick',$data->id).'" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>';
 
-                $action.='<span class="dropdown-item add-to-compare" data-href="'.route('product.compare.add',$data->id).'"><i class="icofont-exchange"></i>&nbsp;&nbsp;Compare</span>';
 
                 if($data->product_type == "affiliate") {
                     $action.='<span class="dropdown-item add-to-cart-btn affilate-btn" data-href="'.route('affiliate.product', $data->slug).'"><i class="icofont-cart"></i>&nbsp;&nbsp;'.'Add to cart'.'</span>';
@@ -398,10 +397,23 @@ public function solo_datatables()
             }
 
             $prods = $prods->get();
-            return view('load.suggest', compact('prods', 'slug'));
+            return view('load.suggest', compact('prods', 'slug', 'db'));
         }
         return "";
     }
+
+    public function commonparts(Request $request, $series, $model)
+    {
+
+        $db = strtolower($series);
+        $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1);
+
+        $prods = $prods->get();
+        $slug = $model;
+
+        return view('load.suggest', compact('prods','slug', 'db'));
+    }
+
 
     function finalize()
     {

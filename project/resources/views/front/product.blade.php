@@ -7,23 +7,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ul class="pages">
-
                         <li><a href="{{route('front.index')}}">{{ $langg->lang17 }}</a></li>
-                        <li>
-                            <a href="{{route('front.category',$productt->category->slug)}}">{{$productt->category->name}}</a>
-                        </li>
-                        @if(!empty($productt->subcategory) && $productt->subcategory->name != "Deleted")
-                            <li>
-                                <a href="{{ route('front.subcat',['slug1' => $productt->category->slug, 'slug2' => $productt->subcategory->slug]) }}">{{$productt->subcategory->name}}</a>
-                            </li>
-                        @endif
-                        @if(!empty($productt->childcategory) && $productt->childcategory->name != "Deleted")
-                            <li>
-                                <a href="{{ route('front.childcat',['slug1' => $productt->category->slug, 'slug2' => $productt->subcategory->slug, 'slug3' => $productt->childcategory->slug]) }}">{{$productt->childcategory->name}}</a>
-                            </li>
-                        @endif
                         <li><a href="{{ route('front.product', $productt->slug) }}">{{ $productt->name }}</a>
-
                     </ul>
                 </div>
             </div>
@@ -51,15 +36,7 @@
                                                  title="The description goes here">
                                         </a>
 
-                                        @foreach($productt->galleries as $gal)
-
-                                            <a href="{{asset('assets/images/galleries/'.$gal->photo)}}">
-                                                <img class="xzoom-gallery5" width="80"
-                                                     src="{{asset('assets/images/galleries/'.$gal->photo)}}"
-                                                     title="The description goes here">
-                                            </a>
-
-                                        @endforeach
+                                       
 
                                     </div>
 
@@ -74,32 +51,20 @@
                                     <div class="info-meta-1">
                                         <ul>
 
-                                            @if($productt->type == 'Physical')
-                                                @if($productt->emptyStock())
-                                                    <li class="product-outstook">
-                                                        <p>
-                                                            <i class="icofont-close-circled"></i>
-                                                            {{ $langg->lang78 }}
-                                                        </p>
-                                                    </li>
-                                                @else
-                                                    <li class="product-isstook">
-                                                        <p>
-                                                            <i class="icofont-check-circled"></i>
-                                                            {{ $gs->show_stock == 0 ? '' : $productt->stock }} {{ $langg->lang79 }}
-                                                        </p>
-                                                    </li>
-                                                @endif
-                                            @endif
+                                            <li class="product-isstook">
+                                                <p>
+                                                    <i class="icofont-check-circled"></i>
+                                                    {{ $gs->show_stock == 0 ? '' : $productt->stock }} {{ $langg->lang79 }}
+                                                </p>
+                                            </li>
                                             <li>
                                                 <div class="ratings">
                                                     <div class="empty-stars"></div>
-                                                    <div class="full-stars"
-                                                         style="width:{{App\Models\Rating::ratings($productt->id)}}%"></div>
+                                                    <div class="full-stars"></div>
                                                 </div>
                                             </li>
                                             <li class="review-count">
-                                                <p>{{count($productt->ratings)}} {{ $langg->lang80 }}</p>
+                                                <p>{{ $langg->lang80 }}</p>
                                             </li>
                                             @if($productt->product_condition != 0)
                                                 <li>
@@ -116,10 +81,8 @@
 
                                     <div class="product-price">
                                         <p class="title">{{ $langg->lang87 }} :</p>
-                                        <p class="price"><span id="sizeprice">{{ $productt->showPrice() }}</span>
-                                            <small>
-                                                <del>{{ $productt->showPreviousPrice() }}</del>
-                                            </small></p>
+                                        <p class="price"><span id="sizeprice">{{ $productt->price }}</span>
+                                            </p>
                                         @if($productt->youtube != null)
                                             <a href="{{ $productt->youtube }}" class="video-play-btn mfp-iframe">
                                                 <i class="fas fa-play"></i>
@@ -221,7 +184,6 @@
 
                                     @endif
 
-                                    <input type="hidden" id="product_price" value="{{ round($productt->vendorPrice() * $curr->value,2) }}">
 
                                     <input type="hidden" id="product_id" value="{{ $productt->id }}">
                                     <input type="hidden" id="curr_pos" value="{{ $gs->currency_format }}">
@@ -304,14 +266,7 @@
                                                                 class="icofont-cart"></i> {{ $langg->lang251 }}</a>
                                                 </li>
                                             @else
-                                                @if($productt->emptyStock())
-                                                    <li class="addtocart">
-                                                        <a href="javascript:;" class="cart-out-of-stock">
-                                                            <i class="icofont-close-circled"></i>
-                                                            {{ $langg->lang78 }}</a>
-                                                    </li>
-                                                @else
-                                                    <li class="addtocart">
+                                            <li class="addtocart">
                                                         <a href="javascript:;" id="addcrt"><i
                                                                     class="icofont-cart"></i>{{ $langg->lang90 }}</a>
                                                     </li>
@@ -321,7 +276,6 @@
                                                             <i class="icofont-cart"></i>{{ $langg->lang251 }}
                                                         </a>
                                                     </li>
-                                                @endif
 
                                             @endif
 
@@ -338,11 +292,7 @@
                                                                 class="icofont-heart-alt"></i></a>
                                                 </li>
                                             @endif
-                                            <li class="compare">
-                                                <a href="javascript:;" class="add-to-compare"
-                                                   data-href="{{ route('product.compare.add',$productt->id) }}"><i
-                                                            class="icofont-exchange"></i></a>
-                                            </li>
+                                            
                                         </ul>
                                     </div>
                                     <!--
@@ -418,13 +368,9 @@
                                     <ul class="tab-menu">
                                         <li><a href="#tabs-1">{{ $langg->lang92 }}</a></li>
                                         <li><a href="#tabs-2">{{ $langg->lang93 }}</a></li>
-                                        <li><a href="#tabs-3">{{ $langg->lang94 }}({{ count($productt->ratings) }})</a>
+                                        <li><a href="#tabs-3">{{ $langg->lang94 }}({{ '0' }})</a>
                                         </li>
-                                        @if($gs->is_comment == 1)
-                                            <li><a href="#tabs-4">{{ $langg->lang95 }}(<span
-                                                            id="comment_count">{{ count($productt->comments) }}</span>)</a>
-                                            </li>
-                                        @endif
+                                        
                                     </ul>
                                 </div>
                                 <div class="tab-content-wrapper">
@@ -448,45 +394,8 @@
                                         </div>
                                         <div id="replay-area">
                                             <div id="reviews-section">
-                                                @if(count($productt->ratings) > 0)
-                                                    <ul class="all-replay">
-                                                        @foreach($productt->ratings as $review)
-                                                            <li>
-                                                                <div class="single-review">
-                                                                    <div class="left-area">
-                                                                        <img
-                                                                                src="{{ $review->user->photo ? asset('assets/images/users/'.$review->user->photo):asset('assets/images/noimage.png') }}"
-                                                                                alt="">
-                                                                        <h5 class="name">{{ $review->user->name }}</h5>
-                                                                        <p class="date">
-                                                                            {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$review->review_date)->diffForHumans() }}
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="right-area">
-                                                                        <div class="header-area">
-                                                                            <div class="stars-area">
-                                                                                <ul class="stars">
-                                                                                    <div class="ratings">
-                                                                                        <div class="empty-stars"></div>
-                                                                                        <div class="full-stars"
-                                                                                             style="width:{{$review->rating*20}}%"></div>
-                                                                                    </div>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="review-body">
-                                                                            <p>
-                                                                                {{$review->review}}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @endforeach
-                                                            </li>
-                                                    </ul>
-                                                @else
+                                               
                                                     <p>{{ $langg->lang97 }}</p>
-                                                @endif
                                             </div>
                                             @if(Auth::guard('web')->check())
                                                 <div class="review-area">
@@ -565,15 +474,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    @if($gs->is_comment == 1)
-                                        <div id="tabs-4" class="tab-content-area">
-                                            <div id="comment-area">
-
-                                                @include('includes.comment-replies')
-
-                                            </div>
-                                        </div>
-                                    @endif
+                                    
                                 </div>
                             </div>
                         </div>
@@ -603,50 +504,27 @@
                         </div>
 
 
-                    <div class="seller-info mt-3">
+                    <!-- <div class="seller-info mt-3">
                         <div class="content">
                             <h4 class="title">
                                 {{ $langg->lang246 }}
                             </h4>
 
                             <p class="stor-name">
-                                @if( $productt->user_id  != 0)
-                                    @if(isset($productt->user))
-                                        {{ $productt->user->shop_name }} <br>
-                                        ({{ $productt->location->location_name }})
-
-                                        @if($productt->user->checkStatus())
-                                            <br>
-                                            <a class="verify-link" href="javascript:;" data-toggle="tooltip"
-                                               data-placement="top" title="{{ $langg->lang783 }}">
-                                                {{--  {{ $langg->lang783 }}  --}}
-                                                <i class="fas fa-check-circle"></i>
-
-                                            </a>
-                                        @endif
-
-                                    @else
-                                        {{ $langg->lang247 }}
-                                    @endif
-                                @else
-                                    {{ App\Models\Admin::find(1)->shop_name }}
-                                @endif
+                                 {{ App\Models\Admin::find(1)->shop_name }}
                             </p>
 
                             <div class="total-product">
 
                                 @if( $productt->user_id  != 0)
-                                    <p>{{ $productt->location->products->count() }}</p>
+                                    
                                 @else
                                     <p>{{ App\Models\Product::where('user_id','=',0)->get()->count() }}</p>
                                 @endif
                                 <span>{{ $langg->lang248 }}</span>
                             </div>
                         </div>
-                        @if( $productt->user_id  != 0)
-                            <!-- <a href="{{ route('front.vendor',str_replace(' ', '-', $productt->user->shop_name)) }}"
-                               class="view-stor">{{ $langg->lang249 }}</a> -->
-                        @endif
+                    
 
                         {{-- CONTACT SELLER --}}
 
@@ -666,7 +544,7 @@
                                         <li>
 
                                             @if(
-                                            Auth::guard('web')->user()->favorites()->where('vendor_id','=',$productt->user->id)->get()->count() >
+                                            Auth::guard('web')->user()->favorites()->where('vendor_id','=',$productt->user_id)->get()->count() >
                                             0)
 
                                                 <a class="view-stor" href="javascript:;">
@@ -677,7 +555,7 @@
                                             @else
 
                                                 <a class="favorite-prod view-stor"
-                                                   data-href="{{ route('user-favorite',['data1' => Auth::guard('web')->user()->id, 'data2' => $productt->user->id]) }}"
+                                                   data-href="{{ route('user-favorite',['data1' => Auth::guard('web')->user()->id, 'data2' => $productt->user_id]) }}"
                                                    href="javascript:;">
                                                     <i class="icofont-plus"></i>
                                                     {{ $langg->lang224 }}
@@ -756,7 +634,7 @@
 
                         {{-- CONTACT SELLER ENDS --}}
 
-                    </div>
+                    </div> -->
 
 
                     <div class="categori  mt-30">
@@ -806,10 +684,7 @@
                 <div class="row">
                     <div class="col-lg-12 remove-padding">
                         <div class="trending-item-slider">
-                            @foreach($productt->category->products()->where('status','=',1)->where('id','!=',$productt->id)->take(8)->get()
-                            as $prod)
-                                @include('includes.product.slider-product')
-                            @endforeach
+                            
                         </div>
                     </div>
 
@@ -895,7 +770,7 @@
 
                                                         <li>
                                                             <input type="text" class="input-field" readonly=""
-                                                                   placeholder="Send To {{ $productt->user->shop_name }}"
+                                                                   placeholder="Send To"
                                                                    readonly="">
                                                         </li>
 
@@ -917,7 +792,7 @@
                                                         <input type="hidden" name="user_id"
                                                                value="{{ Auth::guard('web')->user()->id }}">
                                                         <input type="hidden" name="vendor_id"
-                                                               value="{{ $productt->user->id }}">
+                                                               value="{{ $productt->user_id }}">
 
                                                     </ul>
                                                     <button class="submit-btn" id="emlsub1"

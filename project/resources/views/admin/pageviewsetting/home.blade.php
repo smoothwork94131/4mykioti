@@ -64,11 +64,7 @@
                                                             <span class="quick-view" rel-toggle="tooltip" title="" data-original-title="Quick View" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};"> <i class="icofont-eye"></i>
                                                             </span>
                                                         </li>
-                                                        <li>
-                                                            <span class="add-to-compare" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};">
-                                                                <i class="icofont-exchange"></i>
-                                                            </span>
-                                                        </li>
+                                                        
                                                     </ul>
                                                 </div>
                                                 <img class="img-fluid" src="{{ asset('assets/images/thumbnails/T2185-00101.JPG') }}" alt="">
@@ -153,11 +149,7 @@
                                                         <span class="quick-view" rel-toggle="tooltip" title="" href="javascript:;" data-toggle="modal" data-target="#quickview" data-placement="right" data-original-title="Quick View" style="color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};"> <i class="icofont-eye"></i>
                                                         </span>
                                                         </li>
-                                                        <li>
-                                                            <span class="add-to-compare" data-toggle="tooltip" data-placement="right" title="" data-original-title="Compare" style="color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
-                                                                <i class="icofont-exchange"></i>
-                                                            </span>
-                                                        </li>
+                                                        
                                                     </ul>
                                                 </div>
                                             </div>

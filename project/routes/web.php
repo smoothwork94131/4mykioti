@@ -1467,6 +1467,7 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     // PRODCT AUTO SEARCH SECTION
     Route::get('/autosearch/product/{slug}', 'Front\FrontendController@autosearch');
+    Route::get('/common/parts/{series}/{model}', 'Front\FrontendController@commonparts');
     Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables')->name('front.soloproduct.datatables');
     // PRODCT AUTO SEARCH SECTION ENDS
 
@@ -1489,8 +1490,10 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     // PRODCT SECTION
     Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
+    Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
     Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
     Route::get('/item/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
+    Route::get('/item/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
     Route::post('/item/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
     Route::get('/item/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
     // PRODCT SECTION ENDS
