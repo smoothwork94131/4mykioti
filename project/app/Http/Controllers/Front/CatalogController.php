@@ -95,7 +95,11 @@ class CatalogController extends Controller
         $prods = $prods->where('status', 1);
 
         if ($slug2) {
-            $prods = $prods->where('category_id', $slug2)->where('subcategory_id', $slug1)->get();
+            if ($slug2 == 'common') {
+                $prods = $prods->where('best', 1)->where('subcategory_id', $slug1)->get();
+            } else {
+                $prods = $prods->where('category_id', $slug2)->where('subcategory_id', $slug1)->get();
+            }
         } else {
             $prods = $prods->get();
 

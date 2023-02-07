@@ -25,7 +25,7 @@
     <!-- Breadcrumb Area End -->
     <!-- faq Area Start -->
 
-    <input type="hidden" id="isSchematics" value="1">
+    <input type="hidden" id="isSchematics" value="0">
 
     <section class="faq-section">
         <div class="container">

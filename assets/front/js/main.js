@@ -202,14 +202,23 @@ $(function($) {
                                 if (type == 'model') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${series}</a></li>`);
                                     for (var x in data.categories) {
-                                        element += `<div class="col col-md-3 col-sm-4">
-                                        <div class="m-block"
-                                        data-type="section"
-                                        data-model="${data.categories[x].model}"
-                                        data-series="${series}"
-                                        data-url="${link}" 
-                                        data-status="0" data-token="${token}">${data.categories[x].model}</div>
-                                    </div>`;
+
+                                        if (isSchematics == '0') {
+                                            element += `<div class="col col-md-3 col-sm-4">
+                                            <a href="${mainurl}/category/${series}/${data.categories[x].model}/common">
+                                            <div class="m-block">${data.categories[x].model}</div>
+                                            </a>
+                                            </div>`;
+                                        } else {
+                                            element += `<div class="col col-md-3 col-sm-4">
+                                            <div class="m-block"
+                                            data-type="section"
+                                            data-model="${data.categories[x].model}"
+                                            data-series="${series}"
+                                            data-url="${link}" 
+                                            data-status="0" data-token="${token}">${data.categories[x].model}</div>
+                                        </div>`;
+                                        }
                                     }
                                 } else if (type == 'section') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${model}</a></li>`);
@@ -229,7 +238,7 @@ $(function($) {
 
                                     for (var x in data.categories) {
 
-                                        if (isSchematics) {
+                                        if (isSchematics == '1') {
                                             element += `<div class="col col-md-3 col-sm-4"><div class="m-block" 
                                             data-group="${data.categories[x].group_Id}"
                                             data-groupname="${data.categories[x].group_name}"
