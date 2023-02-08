@@ -481,7 +481,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-
+<!-- 
                         <div class="table-area wholesale-details-page">
                             <h3>{{ $langg->lang770 }}</h3>
                             <table class="table">
@@ -501,7 +501,7 @@
                                     </tr>
 
                             </table>
-                        </div>
+                        </div> -->
 
 
                     <!-- <div class="seller-info mt-3">

@@ -40,7 +40,7 @@
             @endif
         </div>
 
-            <div class="table-area wholesale-details-page">
+            <!-- <div class="table-area wholesale-details-page">
                 <h3>{{ $langg->lang770 }}</h3>
                 <table class="table">
                     <tr>
@@ -59,7 +59,7 @@
                     </tr>
 
                 </table>
-            </div>
+            </div> -->
 
 
     </div>
