@@ -307,19 +307,19 @@
                                                     <div class="order-item">
                                                         <div class="product-img">
                                                             <div class="d-flex">
-                                                                <img src=" {{ asset('assets/images/products/'.$product['item']['photo']) }}"
+                                                                <img src=" {{ asset('assets/images/products/'.$product['item']->photo) }}"
                                                                      height="80" width="80" class="p-1">
 
                                                             </div>
                                                         </div>
                                                         <div class="product-content">
                                                             <p class="name"><a
-                                                                        href="{{ route('front.product', $product['item']['slug']) }}"
-                                                                        target="_blank">{{ $product['item']['name'] }}</a>
+                                                                        href="{{ route('front.product', $product['item']->slug) }}"
+                                                                        target="_blank">{{ $product['item']->name }}</a>
                                                             </p>
                                                             <div class="unit-price">
                                                                 <h5 class="label">{{ $langg->lang754 }} : </h5>
-                                                                <p>{{ App\Models\Product::convertPrice($product['item']['price']) }}</p>
+                                                                <p>{{ App\Models\Product::convertPrice($product['item']->price) }}</p>
                                                             </div>
                                                             @if(!empty($product['size']))
                                                                 <div class="unit-price">
@@ -464,9 +464,9 @@
                                                                     foreach($products as $product) {
                                                                         
                                                                         if(
-                                                                            (!App\Models\Product::find($product['item']['id'])->category->cod || !App\Models\Product::find($product['item']['id'])->category_id) &&
-                                                                            (!App\Models\Product::find($product['item']['id'])->subcategory->cod || !App\Models\Product::find($product['item']['id'])->subcategory_id) &&
-                                                                            (!App\Models\Product::find($product['item']['id'])->childcategory->cod || !App\Models\Product::find($product['item']['id'])->childcategory_id)
+                                                                            (!App\Models\Product::find($product['item']->id)->category->cod || !App\Models\Product::find($product['item']->id)->category_id) &&
+                                                                            (!App\Models\Product::find($product['item']->id)->subcategory->cod || !App\Models\Product::find($product['item']->id)->subcategory_id) &&
+                                                                            (!App\Models\Product::find($product['item']->id)->childcategory->cod || !App\Models\Product::find($product['item']->id)->childcategory_id)
                                                                         ) {
                                                                             $cod = false;
                                                                         }

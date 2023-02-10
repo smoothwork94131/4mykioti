@@ -72,7 +72,7 @@ class CheckoutController extends Controller
             if ($gs->multiple_shipping == 1) {
                 $user = null;
                 foreach ($cart->items as $prod) {
-                    $user[] = $prod['item']['user_id'];
+                    $user[] = $prod['item']->user_id;
                 }
                 $users = array_unique($user);
                 if (count($users) == 1) {
@@ -96,7 +96,7 @@ class CheckoutController extends Controller
             if ($gs->multiple_packaging == 1) {
                 $user = null;
                 foreach ($cart->items as $prod) {
-                    $user[] = $prod['item']['user_id'];
+                    $user[] = $prod['item']->user_id;
                 }
                 $users = array_unique($user);
                 if (count($users) == 1) {
@@ -116,7 +116,7 @@ class CheckoutController extends Controller
 
 
             foreach ($products as $prod) {
-                if ($prod['item']['type'] == 'Physical') {
+                if ($prod['item']->type == 'Physical') {
                     $dp = 0;
                     break;
                 }
@@ -152,7 +152,7 @@ class CheckoutController extends Controller
                 if ($gs->multiple_shipping == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']['user_id'];
+                        $user[] = $prod['item']->user_id;
                     }
                     $users = array_unique($user);
                     if (count($users) == 1) {
@@ -176,7 +176,7 @@ class CheckoutController extends Controller
                 if ($gs->multiple_packaging == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']['user_id'];
+                        $user[] = $prod['item']->user_id;
                     }
                     $users = array_unique($user);
                     if (count($users) == 1) {
@@ -197,7 +197,7 @@ class CheckoutController extends Controller
 
 
                 foreach ($products as $prod) {
-                    if ($prod['item']['type'] == 'Physical') {
+                    if ($prod['item']->type == 'Physical') {
                         $dp = 0;
                         break;
                     }
@@ -219,7 +219,7 @@ class CheckoutController extends Controller
                     $total = str_replace($curr->sign, '', $total) + round(0 * $curr->value, 2);
                 }
                 foreach ($products as $prod) {
-                    if ($prod['item']['type'] != 'Physical') {
+                    if ($prod['item']->type != 'Physical') {
                         if (!Auth::guard('web')->check()) {
                             $ck = 1;
                             return view('front.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
@@ -241,7 +241,7 @@ class CheckoutController extends Controller
                 if ($gs->multiple_shipping == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']['user_id'];
+                        $user[] = $prod['item']->user_id;
                     }
                     $users = array_unique($user);
                     if (count($users) == 1) {
@@ -265,7 +265,7 @@ class CheckoutController extends Controller
                 if ($gs->multiple_packaging == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']['user_id'];
+                        $user[] = $prod['item']->user_id;
                     }
                     $users = array_unique($user);
                     if (count($users) == 1) {
@@ -469,11 +469,11 @@ class CheckoutController extends Controller
         $notf = null;
 
         foreach ($cart->items as $prod) {
-            if ($prod['item']['user_id'] != 0) {
+            if ($prod['item']->user_id != 0) {
                 $vorder = new VendorOrder;
                 $vorder->order_id = $order->id;
-                $vorder->user_id = $prod['item']['user_id'];
-                $notf[] = $prod['item']['user_id'];
+                $vorder->user_id = $prod['item']->user_id;
+                $notf[] = $prod['item']->user_id;
                 $vorder->qty = $prod['qty'];
                 $vorder->price = $prod['price'];
                 $vorder->order_number = $order->order_number;
@@ -729,11 +729,11 @@ class CheckoutController extends Controller
         $notf = null;
 
         foreach ($cart->items as $prod) {
-            if ($prod['item']['user_id'] != 0) {
+            if ($prod['item']->user_id != 0) {
                 $vorder = new VendorOrder;
                 $vorder->order_id = $order->id;
-                $vorder->user_id = $prod['item']['user_id'];
-                $notf[] = $prod['item']['user_id'];
+                $vorder->user_id = $prod['item']->user_id;
+                $notf[] = $prod['item']->user_id;
                 $vorder->qty = $prod['qty'];
                 $vorder->price = $prod['price'];
                 $vorder->order_number = $order->order_number;

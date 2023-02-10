@@ -45,21 +45,21 @@
                                 <tbody>
                                 @if(Session::has('cart'))
 
-                                    @foreach($products as $product)
-                                        <tr class="cremove{{ $product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}">
+                                    @foreach($products as $key=>$product)
+                                        <tr class="cremove{{ ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}">
                                             <td class="product-img">
                                                 <div class="item">
-                                                    <img src="{{ $product['item']['photo'] ? asset('assets/images/products/'.$product['item']['photo']):asset('assets/images/noimage.png') }}"
+                                                    <img src="{{ $product['item']->photo ? asset('assets/images/products/'.$product['item']->photo):asset('assets/images/noimage.png') }}"
                                                          alt="">
                                                     <p class="name"><a
-                                                                href="{{ route('front.product', $product['item']['slug']) }}">{{mb_strlen($product['item']['name'],'utf-8') > 35 ? mb_substr($product['item']['name'],0,35,'utf-8').'...' : $product['item']['name']}}</a>
+                                                                href="{{ route('front.product', $product['item']->slug) }}">{{mb_strlen($product['item']->name,'utf-8') > 35 ? mb_substr($product['item']->name,0,35,'utf-8').'...' : $product['item']->name}}</a>
                                                     </p>
                                                 </div>
                                             </td>
                                             <td>
                                                 @if(!empty($product['size']))
                                                     <b>{{ $langg->lang312 }}</b>
-                                                    : {{ $product['item']['measure'] }}{{str_replace('-',' ',$product['size'])}}
+                                                    : {{ $product['item']->measure }}{{str_replace('-',' ',$product['size'])}}
                                                     <br>
                                                 @endif
                                                 @if(!empty($product['color']))
@@ -84,20 +84,22 @@
 
                                             <td class="unit-price quantity">
                                                 <p class="product-unit-price">
-                                                    {{ App\Models\Product::convertPrice($product['item']['price']) }}
+                                                    {{ App\Models\Product::convertPrice($product['item']->price) }}
                                                 </p>
-                                                @if($product['item']['type'] == 'Physical')
+                                                @if($product['item']->type == 'Physical')
 
                                                     <div class="qty">
                                                         <ul>
+                                                            <input type="hidden" class="db"
+                                                                   value="{{$product['db']??'products'}}">    
                                                             <input type="hidden" class="prodid"
-                                                                   value="{{$product['item']['id']}}">
+                                                                   value="{{$product['item']->id}}">
                                                             <input type="hidden" class="itemid"
-                                                                   value="{{$product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">
+                                                                   value="{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">
                                                             <input type="hidden" class="size_qty"
                                                                    value="{{$product['size_qty']}}">
                                                             <input type="hidden" class="size_price"
-                                                                   value="{{$product['item']['price']}}">
+                                                                   value="{{$product['item']->price}}">
                                                             <li>
                                   <span class="qtminus1 reducing">
                                     <i class="icofont-minus"></i>
@@ -105,7 +107,7 @@
                                                             </li>
                                                             <li>
                                                                 <span class="qttotal1"
-                                                                      id="qty{{$product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">{{ $product['qty'] }}</span>
+                                                                      id="qty{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">{{ $product['qty'] }}</span>
                                                             </li>
                                                             <li>
                                   <span class="qtplus1 adding">
@@ -121,27 +123,27 @@
 
                                             @if($product['size_qty'])
                                                 <input type="hidden"
-                                                       id="stock{{$product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}"
+                                                       id="stock{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}"
                                                        value="{{$product['size_qty']}}">
-                                            @elseif($product['item']['type'] != 'Physical')
+                                            @elseif($product['item']->type != 'Physical')
                                                 <input type="hidden"
-                                                       id="stock{{$product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}"
+                                                       id="stock{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}"
                                                        value="1">
                                             @else
                                                 <input type="hidden"
-                                                       id="stock{{$product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}"
+                                                       id="stock{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}"
                                                        value="{{$product['stock']}}">
                                             @endif
 
                                             <td class="total-price">
-                                                <p id="prc{{$product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">
+                                                <p id="prc{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">
                                                     {{ App\Models\Product::convertPrice($product['price']) }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <span class="removecart cart-remove"
-                                                      data-class="cremove{{ $product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}"
-                                                      data-href="{{ route('product.cart.remove',$product['item']['id'].$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])) }}"><i
+                                                      data-class="cremove{{ ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}"
+                                                      data-href="{{ route('product.cart.remove', ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])) }}"><i
                                                             class="icofont-ui-delete"></i> </span>
                                             </td>
                                         </tr>

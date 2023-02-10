@@ -1208,6 +1208,7 @@ $(function($) {
         // Add By ONE
 
         $(document).on("click", ".adding", function() {
+            var db = $(this).parent().parent().find('.db').val();
             var pid = $(this).parent().parent().find('.prodid').val();
             var itemid = $(this).parent().parent().find('.itemid').val();
             var size_qty = $(this).parent().parent().find('.size_qty').val();
@@ -1227,7 +1228,7 @@ $(function($) {
             $.ajax({
                 type: "GET",
                 url: mainurl + "/addbyone",
-                data: { id: pid, itemid: itemid, size_qty: size_qty, size_price: size_price },
+                data: { db: db, id: pid, itemid: itemid, size_qty: size_qty, size_price: size_price },
                 success: function(data) {
                     if (data == 0) {} else {
                         $(".discount").html($("#d-val").val());
@@ -1246,6 +1247,7 @@ $(function($) {
         // Reduce By ONE
 
         $(document).on("click", ".reducing", function() {
+            var db = $(this).parent().parent().find('.db').val();
             var pid = $(this).parent().parent().find('.prodid').val();
             var itemid = $(this).parent().parent().find('.itemid').val();
             var size_qty = $(this).parent().parent().find('.size_qty').val();
@@ -1260,7 +1262,7 @@ $(function($) {
                 $.ajax({
                     type: "GET",
                     url: mainurl + "/reducebyone",
-                    data: { id: pid, itemid: itemid, size_qty: size_qty, size_price: size_price },
+                    data: { db: db, id: pid, itemid: itemid, size_qty: size_qty, size_price: size_price },
                     success: function(data) {
                         $(".discount").html($("#d-val").val());
                         $(".cart-total").html(data[0]);

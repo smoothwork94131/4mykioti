@@ -1525,8 +1525,8 @@ Route::group(['middleware' => 'maintenance'], function () {
     // CART SECTION
     Route::get('/carts/view', 'Front\CartController@cartview');
     Route::get('/carts/', 'Front\CartController@cart')->name('front.cart');
-    Route::get('/addcart/{id}', 'Front\CartController@addcart')->name('product.cart.add');
-    Route::get('/addtocart/{id}', 'Front\CartController@addtocart')->name('product.cart.quickadd');
+    Route::get('/addcart/{db}/{id}', 'Front\CartController@addcart')->name('product.cart.add');
+    Route::get('/addtocart/{db}/{id}', 'Front\CartController@addtocart')->name('product.cart.quickadd');
     Route::get('/addnumcart', 'Front\CartController@addnumcart');
     Route::get('/addtonumcart', 'Front\CartController@addtonumcart');
     Route::get('/addbyone', 'Front\CartController@addbyone');

@@ -640,7 +640,7 @@
                     <div class="categori  mt-30">
                         <div class="section-top">
                             <h2 class="section-title">
-                                {{ $langg->lang245 }}
+                                Popular Products
                             </h2>
                         </div>
                         <div class="hot-and-new-item-slider">

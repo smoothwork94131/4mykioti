@@ -11238,21 +11238,23 @@ function() {
                     i = t(this).parent().parent().parent().parent().find("#product_id").val();
                 t(".product-attr").length > 0 && (d = t(".product-attr:checked").map(function() { return t(this).val() }).get(), h = t(".product-attr:checked").map(function() { return t(this).data("key") }).get(), p = t(".product-attr:checked").map(function() { return t(this).data("price") }).get()), window.location = mainurl + "/addtonumcart?id=" + i + "&qty=" + e + "&size=" + s + "&color=" + l.substring(1, l.length) + "&size_qty=" + o + "&size_price=" + r + "&size_key=" + a + "&keys=" + h + "&values=" + d + "&prices=" + p
             }), t(document).on("click", ".adding", function() {
-                var e = t(this).parent().parent().find(".prodid").val(),
+                var d = t(this).parent().parent().find(".db").val(),
+                    e = t(this).parent().parent().find(".prodid").val(),
                     i = t(this).parent().parent().find(".itemid").val(),
                     n = t(this).parent().parent().find(".size_qty").val(),
                     s = t(this).parent().parent().find(".size_price").val(),
                     o = t("#stock" + i).val(),
                     r = t("#qty" + i).html();
                 if ("" != o) { r < parseInt(o) && (r++, t("#qty" + i).html(r)) } else r++, t("#qty" + i).html(r);
-                t.ajax({ type: "GET", url: mainurl + "/addbyone", data: { id: e, itemid: i, size_qty: n, size_price: s }, success: function(e) { 0 == e || (t(".discount").html(t("#d-val").val()), t(".cart-total").html(e[0]), t(".main-total").html(e[3]), t(".coupon-total").val(e[3]), t("#prc" + i).html(e[2]), t("#prct" + i).html(e[2]), t("#cqt" + i).html(e[1]), t("#qty" + i).html(e[1])) } })
+                t.ajax({ type: "GET", url: mainurl + "/addbyone", data: { db: d, id: e, itemid: i, size_qty: n, size_price: s }, success: function(e) { 0 == e || (t(".discount").html(t("#d-val").val()), t(".cart-total").html(e[0]), t(".main-total").html(e[3]), t(".coupon-total").val(e[3]), t("#prc" + i).html(e[2]), t("#prct" + i).html(e[2]), t("#cqt" + i).html(e[1]), t("#qty" + i).html(e[1])) } })
             }), t(document).on("click", ".reducing", function() {
-                var e = t(this).parent().parent().find(".prodid").val(),
+                var d = t(this).parent().parent().find(".db").val(),
+                    e = t(this).parent().parent().find(".prodid").val(),
                     i = t(this).parent().parent().find(".itemid").val(),
                     n = t(this).parent().parent().find(".size_qty").val(),
                     s = t(this).parent().parent().find(".size_price").val(),
                     o = (t("#stock" + i).val(), t("#qty" + i).html());
-                o--, o < 1 ? t("#qty" + i).html("1") : (t("#qty" + i).html(o), t.ajax({ type: "GET", url: mainurl + "/reducebyone", data: { id: e, itemid: i, size_qty: n, size_price: s }, success: function(e) { t(".discount").html(t("#d-val").val()), t(".cart-total").html(e[0]), t(".main-total").html(e[3]), t(".coupon-total").val(e[3]), t("#prc" + i).html(e[2]), t("#prct" + i).html(e[2]), t("#cqt" + i).html(e[1]), t("#qty" + i).html(e[1]) } }))
+                o--, o < 1 ? t("#qty" + i).html("1") : (t("#qty" + i).html(o), t.ajax({ type: "GET", url: mainurl + "/reducebyone", data: { db: d, id: e, itemid: i, size_qty: n, size_price: s }, success: function(e) { t(".discount").html(t("#d-val").val()), t(".cart-total").html(e[0]), t(".main-total").html(e[3]), t(".coupon-total").val(e[3]), t("#prc" + i).html(e[2]), t("#prct" + i).html(e[2]), t("#cqt" + i).html(e[1]), t("#qty" + i).html(e[1]) } }))
             }), t("#coupon-form").on("submit", function() {
                 var e = t("#code").val(),
                     i = t("#grandtotal").val();
