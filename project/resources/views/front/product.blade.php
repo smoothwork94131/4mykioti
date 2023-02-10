@@ -186,6 +186,7 @@
 
 
                                     <input type="hidden" id="product_id" value="{{ $productt->id }}">
+                                    <input type="hidden" id="db" value="{{ $db ?? 'products' }}">
                                     <input type="hidden" id="curr_pos" value="{{ $gs->currency_format }}">
                                     <input type="hidden" id="curr_sign" value="{{ $curr->sign }}">
 

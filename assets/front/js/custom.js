@@ -1129,6 +1129,7 @@ $(function($) {
 
         $(document).on("click", "#addcrt", function() {
             var qty = $("#qttotal").val();
+            var db = $(this).parent().parent().parent().parent().find("#db").val();
             var pid = $(this).parent().parent().parent().parent().find("#product_id").val();
 
             if ($('.product-attr').length > 0) {
@@ -1153,6 +1154,7 @@ $(function($) {
                 url: mainurl + "/addnumcart",
                 data: {
                     id: pid,
+                    db: db,
                     qty: qty,
                     size: sizes,
                     color: colors,
@@ -1183,6 +1185,7 @@ $(function($) {
         $(document).on("click", "#qaddcrt", function() {
             var qty = $("#qttotal").val();
             var pid = $(this).parent().parent().parent().parent().find("#product_id").val();
+            var db = $(this).parent().parent().parent().parent().find("#db").val();
 
             if ($('.product-attr').length > 0) {
                 values = $(".product-attr:checked").map(function() {
@@ -1199,7 +1202,7 @@ $(function($) {
 
             }
 
-            window.location = mainurl + "/addtonumcart?id=" + pid + "&qty=" + qty + "&size=" + sizes + "&color=" + colors.substring(1, colors.length) + "&size_qty=" + size_qty + "&size_price=" + size_price + "&size_key=" + size_key + "&keys=" + keys + "&values=" + values + "&prices=" + prices;
+            window.location = mainurl + "/addtonumcart?id=" + pid + "&qty=" + qty + "&db=" + db + "&size=" + sizes + "&color=" + colors.substring(1, colors.length) + "&size_qty=" + size_qty + "&size_price=" + size_price + "&size_key=" + size_key + "&keys=" + keys + "&values=" + values + "&prices=" + prices;
 
         });
 

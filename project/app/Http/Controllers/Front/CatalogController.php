@@ -266,7 +266,7 @@ class CatalogController extends Controller
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
+        return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
     // Capcha Code Image
     private function code_image()
