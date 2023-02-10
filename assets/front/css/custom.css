@@ -1191,6 +1191,7 @@ a.sell-btn {
     text-align: center;
     align-items: center;
     flex-flow: column;
+    font-weight: bold;
     justify-content: center;
 }
 

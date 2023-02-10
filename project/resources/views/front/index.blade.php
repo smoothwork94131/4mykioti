@@ -29,7 +29,7 @@
                     <div class="col-6 remove-padding">
                         <div class="s-0-block s-block d-flex">
                             <div>
-                                 COMING SOON
+                                 COMING SOON!!
                             </div>
                             <div>
                                 3RD FUNCTION VALVES
