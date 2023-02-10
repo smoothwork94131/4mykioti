@@ -29,12 +29,14 @@
                     <div class="col-6 remove-padding">
                         <div class="s-0-block s-block d-flex">
                             <div>
+                                 COMING SOON
+                            </div>
+                            <div>
                                 3RD FUNCTION VALVES
                             </div>
                         </div>
                     </div>
                     <div class="col-6 remove-padding  pr-1">
-
                         <a href="{{route('front.schematics')}}"><div class="s-0-block s-block d-flex">
                             <div>
                                  FIND SCHEMATICS
