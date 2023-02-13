@@ -203,6 +203,7 @@
                 @endif
 
                 <input type="hidden" id="mproduct_id" value="{{ $product->id }}">
+                <input type="hidden" id="mdb" value="{{ $db??'products' }}">
                 <input type="hidden" id="mcurr_pos" value="{{ $gs->currency_format }}">
                 <input type="hidden" id="mcurr_sign" value="{{ $curr->sign }}">
                 <div class="info-meta-3">
@@ -473,6 +474,7 @@
     $("#maddcrt").on("click", function () {
         var qty = $("#modal-total").val();
         var pid = $(this).parent().parent().parent().parent().find("#mproduct_id").val();
+        var mdb = $(this).parent().parent().parent().parent().find("#mdb").val();
 
         if ($('.mproduct-attr').length > 0) {
             values = $(".mproduct-attr:checked").map(function () {
@@ -497,6 +499,7 @@
             data: {
                 id: pid,
                 qty: qty,
+                db: mdb,
                 size: sizes,
                 color: colors,
                 size_qty: size_qty,
@@ -524,6 +527,7 @@
     $(document).on("click", "#mqaddcrt", function () {
         var qty = $("#modal-total").val();
         var pid = $(this).parent().parent().parent().parent().find("#mproduct_id").val();
+        var db = $(this).parent().parent().parent().parent().find("#mdb").val();
 
         if ($('.mproduct-attr').length > 0) {
             values = $(".mproduct-attr:checked").map(function () {
@@ -541,9 +545,7 @@
 
         }
 
-
-        window.location = mainurl + "/addtonumcart?id=" + pid + "&qty=" + qty + "&size=" + sizes + "&color=" + colors.substring(1, colors.length) + "&size_qty=" + size_qty + "&size_price=" + size_price + "&size_key=" + size_key + "&keys=" + keys + "&values=" + values + "&prices=" + prices;
-
+        window.location = mainurl + "/addtonumcart?id=" + pid + "&qty=" + qty + "&db=" + db + "&size=" + sizes + "&color=" + colors.substring(1, colors.length) + "&size_qty=" + size_qty + "&size_price=" + size_price + "&size_key=" + size_key + "&keys=" + keys + "&values=" + values + "&prices=" + prices;
 
     });
 

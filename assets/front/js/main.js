@@ -247,7 +247,7 @@ $(function($) {
                                             </div></div>`;
                                         } else {
                                             element += `<div class="col col-md-3 col-sm-4"><div class="m-block">
-                                            <a href="/category/${series}/${model}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
+                                            <a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
                                             </div></div>`;
                                         }
 

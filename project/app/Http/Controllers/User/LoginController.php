@@ -8,6 +8,7 @@ use Auth;
 use Session;
 use Illuminate\Support\Facades\Input;
 use Validator;
+use App\Models\UserCart;
 
 class LoginController extends Controller
 {
@@ -73,7 +74,30 @@ class LoginController extends Controller
 
             //     return response()->json(1);
             // }
+
+            $cart = Session::get('cart');
+
+            $content = NULL;
+
+            if ($cart) {
+                $content = [
+                    'totalQty' => $cart->totalQty,
+                    'totalPrice' => $cart->totalPrice,
+                    'items' => $cart->items
+                ];
+            }
             
+            $usercart = new UserCart;
+            $data = $usercart->where('user_id', Auth::guard('web')->user()->id)->get()->first();
+            if (!$data) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = Auth::guard('web')->user()->id;
+                $usercart->save();
+            } else {
+                $data->content = json_encode($content);
+                $data->user_id = Auth::guard('web')->user()->id;
+                $data->update();
+            }
             // Login as User
             if(session()->has('url.intended'))
             {

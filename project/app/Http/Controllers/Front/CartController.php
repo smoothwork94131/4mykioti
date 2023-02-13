@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\UserCart;
 use App\Models\Product;
 use App\Models\Currency;
 use App\Models\Coupon;
 use App\Models\Generalsetting;
 use Session;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 
 class CartController extends Controller
@@ -49,21 +51,21 @@ class CartController extends Controller
             $mainTotal = $totalPrice + $tax;
         }
 
-        // 
+
 
         return view('front.cart', compact('products', 'totalPrice', 'mainTotal', 'tx'));
     }
 
     public function cartview()
     {
+
+        
         return view('load.cart');
     }
 
     public function addtocart($db,$id)
     {
         $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
-
-        // Set Attrubutes
 
         $keys = '';
         $values = '';
@@ -131,6 +133,27 @@ class CartController extends Controller
         foreach ($cart->items as $data)
             $cart->totalPrice += $data['price'];
         Session::put('cart', $cart);
+
+        $user = Auth::user();
+        if ($user) {
+            $content = [
+                'totalQty' => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items' => $cart->items
+            ];
+            $usercart = new UserCart;
+            $data = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$data) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = $user->id;
+                $usercart->save();
+            } else {
+                $data->content = json_encode($content);
+                $data->user_id = $user->id;
+                $data->update();
+            }
+        }
+
         return redirect()->route('front.cart');
     }
 
@@ -242,6 +265,27 @@ class CartController extends Controller
             $cart->totalPrice += $data['price'];
         Session::put('cart', $cart);
         $data[0] = count($cart->items);
+
+        $user = Auth::user();
+        if ($user) {
+            $content = [
+                'totalQty' => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items' => $cart->items
+            ];
+            $usercart = new UserCart;
+            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$data) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = $user->id;
+                $usercart->save();
+            } else {
+                $usercartdata->content = json_encode($content);
+                $usercartdata->user_id = $user->id;
+                $usercartdata->update();
+            }
+        }
+
         return response()->json($data);
     }
 
@@ -331,6 +375,27 @@ class CartController extends Controller
             $cart->totalPrice += $data['price'];
         Session::put('cart', $cart);
         $data[0] = count($cart->items);
+
+        $user = Auth::user();
+        if ($user) {
+            $content = [
+                'totalQty' => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items' => $cart->items
+            ];
+            $usercart = new UserCart;
+            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$usercartdata) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = $user->id;
+                $usercart->save();
+            } else {
+                $usercartdata->content = json_encode($content);
+                $usercartdata->user_id = $user->id;
+                $usercartdata->update();
+            }
+        }
+
         return response()->json($data);
     }
 
@@ -425,7 +490,28 @@ class CartController extends Controller
         $cart->totalPrice = 0;
         foreach ($cart->items as $data)
             $cart->totalPrice += $data['price'];
+
         Session::put('cart', $cart);
+
+        $user = Auth::user();
+        if ($user) {
+            $content = [
+                'totalQty' => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items' => $cart->items
+            ];
+            $usercart = new UserCart;
+            $data = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$data) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = $user->id;
+                $usercart->save();
+            } else {
+                $data->content = json_encode($content);
+                $data->user_id = $user->id;
+                $data->update();
+            }
+        }
         return redirect()->route('front.cart');
     }
 
@@ -482,6 +568,28 @@ class CartController extends Controller
         foreach ($cart->items as $data)
             $cart->totalPrice += $data['price'];
         Session::put('cart', $cart);
+
+        $user = Auth::user();
+        if ($user) {
+            $content = [
+                'totalQty' => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items' => $cart->items
+            ];
+            $usercart = new UserCart;
+            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$usercartdata) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = $user->id;
+                $usercart->save();
+            } else {
+                $usercartdata->content = json_encode($content);
+                $usercartdata->user_id = $user->id;
+                $usercartdata->update();
+            }
+        }
+
+
         $data[0] = $cart->totalPrice;
 
         $data[3] = $data[0];
@@ -562,6 +670,27 @@ class CartController extends Controller
             $data[2] = $data[2] . $curr->sign;
             $data[3] = $data[3] . $curr->sign;
         }
+
+        $user = Auth::user();
+        if ($user) {
+            $content = [
+                'totalQty' => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items' => $cart->items
+            ];
+            $usercart = new UserCart;
+            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$usercartdata) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = $user->id;
+                $usercart->save();
+            } else {
+                $usercartdata->content = json_encode($content);
+                $usercartdata->user_id = $user->id;
+                $usercartdata->update();
+            }
+        }
+
         return response()->json($data);
     }
 
@@ -589,6 +718,28 @@ class CartController extends Controller
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->removeItem($id);
+
+
+        $user = Auth::user();
+        if ($user) {
+            $content = [
+                'totalQty' => $cart->totalQty,
+                'totalPrice' => $cart->totalPrice,
+                'items' => $cart->items
+            ];
+            $usercart = new UserCart;
+            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$usercartdata) {
+                $usercart->content = json_encode($content);
+                $usercart->user_id = $user->id;
+                $usercart->save();
+            } else {
+                $usercartdata->content = json_encode($content);
+                $usercartdata->user_id = $user->id;
+                $usercartdata->update();
+            }
+        }
+
         if (count($cart->items) > 0) {
             Session::put('cart', $cart);
             $data[0] = $cart->totalPrice;

@@ -358,7 +358,7 @@ class CatalogController extends Controller
         // $product_click->date = Carbon::now()->format('Y-m-d');
         // $product_click->save();
 
-        return view('load.quick', compact('product', 'curr'));
+        return view('load.quick', compact('product', 'curr', 'db'));
 
     }
 

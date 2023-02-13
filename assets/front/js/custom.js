@@ -1308,7 +1308,6 @@ $(function($) {
             return false;
         });
 
-
         // Cart Section Ends
 
         // Cart Page Section
