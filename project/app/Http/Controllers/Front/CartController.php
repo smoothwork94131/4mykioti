@@ -51,8 +51,6 @@ class CartController extends Controller
             $mainTotal = $totalPrice + $tax;
         }
 
-
-
         return view('front.cart', compact('products', 'totalPrice', 'mainTotal', 'tx'));
     }
 
@@ -63,7 +61,7 @@ class CartController extends Controller
 
     public function addtocart($db,$id)
     {
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
         $keys = '';
         $values = '';
@@ -157,7 +155,7 @@ class CartController extends Controller
 
     public function addcart($db,$id)
     {
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
         // Set Attrubutes
 
@@ -309,7 +307,7 @@ class CartController extends Controller
         }
 
         $size_price = ($size_price / $curr->value);
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
 
         if ($prod->user_id != 0) {
@@ -425,7 +423,7 @@ class CartController extends Controller
 
 
         $size_price = ($size_price / $curr->value);
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
 
         if ($prod->user_id != 0) {
@@ -529,7 +527,7 @@ class CartController extends Controller
         $itemid = $_GET['itemid'];
         $size_qty = $_GET['size_qty'];
         $size_price = $_GET['size_price'];
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
         if ($prod->user_id != 0) {
             $gs = Generalsetting::findOrFail(1);
@@ -630,7 +628,7 @@ class CartController extends Controller
         $itemid = $_GET['itemid'];
         $size_qty = $_GET['size_qty'];
         $size_price = $_GET['size_price'];
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
         if ($prod->user_id != 0) {
             $gs = Generalsetting::findOrFail(1);
             $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
@@ -697,7 +695,7 @@ class CartController extends Controller
         $id = $_GET['id'];
         $color = $_GET['color'];
         $db = $_GET['db'];
-        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
+        $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->updateColor($prod, $id, $color);

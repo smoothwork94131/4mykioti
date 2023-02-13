@@ -908,9 +908,31 @@
                                 @if($digital == 0)
 
                                     {{-- Shipping Method Area Start --}}
+
+                                    @php
+                                    $shipping_price = 9.99;
+                                    $count = 0;
+                                    foreach($products as $product) {
+                                        if (($product['item']->best ?? 0) == 1) {
+                                            $count+=$product['qty'];
+                                        }
+                                    }
+                                    $shipping_price = $shipping_price * (intdiv($count, 3)+ 1);
+
+                                    @endphp
+
                                     <div class="packeging-area">
                                         <h4 class="title">{{ $langg->lang765 }}</h4>
-
+                                            <div class="radio-design">
+                                                <input type="radio" class="shipping" id="free-shepping"
+                                                       name="shipping"
+                                                       value="{{$shipping_price}}" checked>
+                                                <span class="checkmark"></span>
+                                                <label for="free-shepping">
+                                                    Shipping ${{$shipping_price}} 
+                                                    <small>up to 3 items for 9.99</small>
+                                                </label>
+                                            </div>
                                         @foreach($shipping_data as $data)
 
                                             <div class="radio-design">
