@@ -59,7 +59,18 @@ class CartController extends Controller
     public function cartview()
     {
 
-        
+        $user = Auth::user();
+        if ($user) {
+            $usercart = new UserCart;
+            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$usercartdata) {
+                
+            } else {
+                $oldCart = json_decode($usercartdata->content);
+                $cart = new Cart($oldCart);
+                Session::put('cart', $cart);
+            }
+        }
         return view('load.cart');
     }
 
@@ -142,15 +153,15 @@ class CartController extends Controller
                 'items' => $cart->items
             ];
             $usercart = new UserCart;
-            $data = $usercart->where('user_id', $user->id)->get()->first();
-            if (!$data) {
+            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
+            if (!$usercartdata) {
                 $usercart->content = json_encode($content);
                 $usercart->user_id = $user->id;
                 $usercart->save();
             } else {
-                $data->content = json_encode($content);
-                $data->user_id = $user->id;
-                $data->update();
+                $usercartdata->content = json_encode($content);
+                $usercartdata->user_id = $user->id;
+                $usercartdata->update();
             }
         }
 
