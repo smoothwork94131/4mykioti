@@ -36,10 +36,10 @@
                                 <thead>
                                 <tr>
                                     <th>{{ $langg->lang122 }}</th>
-                                    <th width="30%">{{ $langg->lang539 }}</th>
-                                    <th>{{ $langg->lang125 }}</th>
-                                    <th>{{ $langg->lang126 }}</th>
-                                    <th><i class="icofont-close-squared-alt"></i></th>
+                                    <th class="d-desktop">{{ $langg->lang125 }}</th>
+                                    <th class="d-mobile">Price</th>
+                                    <th class="d-desktop">{{ $langg->lang126 }}</th>
+                                    <th class="d-desktop"><i class="icofont-close-squared-alt"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -56,7 +56,7 @@
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <!-- <td>
                                                 @if(!empty($product['size']))
                                                     <b>{{ $langg->lang312 }}</b>
                                                     : {{ $product['item']->measure }}{{str_replace('-',' ',$product['size'])}}
@@ -79,7 +79,7 @@
 
                                                 @endif
 
-                                            </td>
+                                            </td> -->
 
 
                                             <td class="unit-price quantity">
@@ -117,7 +117,18 @@
                                                         </ul>
                                                     </div>
                                                 @endif
+                                                <br>
+                                                <br>
+                                                <div class="d-mobile">
+                                                    <p id="prc{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">
+                                                        {{ App\Models\Product::convertPrice($product['price']) }}
+                                                    </p>
 
+                                                    <span class="removecart cart-remove"
+                                                        data-class="cremove{{ ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}"
+                                                        data-href="{{ route('product.cart.remove', ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])) }}"><i
+                                                                class="icofont-ui-delete"></i> </span>
+                                                    </div>
 
                                             </td>
 
@@ -135,12 +146,14 @@
                                                        value="{{$product['stock']}}">
                                             @endif
 
-                                            <td class="total-price">
+                                            
+
+                                            <td class="total-price d-desktop">
                                                 <p id="prc{{($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])}}">
                                                     {{ App\Models\Product::convertPrice($product['price']) }}
                                                 </p>
                                             </td>
-                                            <td>
+                                            <td class="d-desktop">
                                                 <span class="removecart cart-remove"
                                                       data-class="cremove{{ ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}"
                                                       data-href="{{ route('product.cart.remove', ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values'])) }}"><i

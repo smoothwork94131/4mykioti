@@ -282,7 +282,15 @@ td.pro-remove i {
 }
 
 figure.product-image-container a img {
-    max-width: 100px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.cartpage .left-area .table tbody tr td.product-img .item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
 }
 
 .item-size h6 {
