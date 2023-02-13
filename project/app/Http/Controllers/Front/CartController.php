@@ -58,17 +58,6 @@ class CartController extends Controller
 
     public function cartview()
     {
-
-        $user = Auth::user();
-        if ($user) {
-            $usercart = new UserCart;
-            $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
-            if ($usercartdata) {
-                $oldCart = json_decode($usercartdata->content);
-                $cart = new Cart($oldCart);
-                Session::put('cart', $cart);
-            }
-        }
         return view('load.cart');
     }
 

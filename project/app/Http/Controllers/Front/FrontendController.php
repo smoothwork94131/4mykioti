@@ -38,6 +38,7 @@ class FrontendController extends Controller
 {
     public function __construct()
     {
+
         //$this->auth_guests();
         if (isset($_SERVER['HTTP_REFERER'])) {
             $referral = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
@@ -140,6 +141,8 @@ class FrontendController extends Controller
 
     public function index(Request $request)
     {
+
+
         $this->code_image();
         if (!empty($request->reff)) {
             $affilate_user = User::where('affilate_code', '=', $request->reff)->first();
