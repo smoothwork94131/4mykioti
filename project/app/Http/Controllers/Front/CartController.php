@@ -63,9 +63,7 @@ class CartController extends Controller
         if ($user) {
             $usercart = new UserCart;
             $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
-            if (!$usercartdata) {
-                
-            } else {
+            if ($usercartdata) {
                 $oldCart = json_decode($usercartdata->content);
                 $cart = new Cart($oldCart);
                 Session::put('cart', $cart);
