@@ -917,7 +917,7 @@
                                             $count+=$product['qty'];
                                         }
                                     }
-                                    $shipping_price = $shipping_price * (intdiv($count, 3)+ 1);
+                                    $shipping_price = $shipping_price * (intdiv($count - 1, 3) + 1);
 
                                     @endphp
 
