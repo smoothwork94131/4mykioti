@@ -67,7 +67,9 @@
         <div class="right-area">
             <div class="product-info">
                 <h4 class="product-name"><a target="_blank"
-                                            href="{{ route('front.product',$product->slug) }}">{{ $product->name }}</a>
+                                            href="{{ route('front.iproduct', [
+                                                'slug' => $db??'products', 'slug1' => $product->slug
+                                                ]) }}">{{ $product->name }}</a>
                 </h4>
                 <div class="info-meta-1">
                     <ul>
