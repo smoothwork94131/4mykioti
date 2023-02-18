@@ -110,7 +110,7 @@
                         <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>RefNo</th>
+                                <th></th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th style="text-align:center;">Action</th>
@@ -120,7 +120,6 @@
                             @foreach($prods as $key=>$prod)
                                 <tr>
                                     <td>
-                                        {{ $key + 1 }}
                                         <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
                                     </td>
                                     <td>
@@ -161,7 +160,7 @@
                     <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>RefNo</th>
+                                <th></th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th style="text-align:center;">Action</th>
@@ -171,7 +170,6 @@
                             @foreach($prods as $key=>$prod)
                                 <tr>
                                     <td>
-                                        {{ $key + 1 }}
                                         <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
                                     </td>
                                     <td>
@@ -216,7 +214,7 @@
                 <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>RefNo</th>
+                        <th></th>
                         <th>Name</th>
                         <th>Model</th>
                         <th>Group</th>
@@ -229,7 +227,6 @@
                     @foreach($prods as $key=>$prod)
                         <tr>
                             <td>
-                                {{ $key + 1 }}
                                 <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
                             </td>
                             <td>
