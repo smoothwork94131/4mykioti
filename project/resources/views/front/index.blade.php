@@ -20,14 +20,14 @@
                         </div>
                     </div>
                     <div class="col-6 remove-padding pr-1">
-                        <a href="{{route('front.partsByModel')}}"><div class="s-0-block s-block d-flex">
+                        <a href="{{route('front.partsByModel')}}"><div class="s-0-block s-block d-flex m-blue">
                             <div>
                                 FIND PARTS
                             </div>
                         </div></a>
                     </div>
                     <div class="col-6 remove-padding">
-                        <div class="s-0-block s-block d-flex">
+                        <div class="s-0-block s-block d-flex m-red">
                             <div>
                                  COMING SOON!!
                             </div>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="col-6 remove-padding  pr-1">
-                        <a href="{{route('front.schematics')}}"><div class="s-0-block s-block d-flex">
+                        <a href="{{route('front.schematics')}}"><div class="s-0-block s-block d-flex m-green">
                             <div>
                                  FIND SCHEMATICS
                             </div>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-6 remove-padding">
                     <a href="{{route('front.common')}}">
-                        <div class="s-0-block s-block d-flex">
+                        <div class="s-0-block s-block d-flex m-brown">
                             <div>
                                  COMMON PARTS
                             </div>
@@ -211,14 +211,14 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 order-first order-lg-last ajax-loader-parent">
-                            <div class="section-top">
+                            <!-- <div class="section-top">
                                 <h2 class="section-title">
                                     <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
                                     <span class="sub">Category</span> 
                                     <span class="main">{{ $solo_category_info->name }}</span> 
                                     <span class="title-underline"></span>
                                 </h2>
-                            </div>
+                            </div> -->
                             <div class="col-lg-12 remove-padding mb-4">
                                 @include('includes.front-filter')
                             </div>

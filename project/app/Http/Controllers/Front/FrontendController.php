@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Auth;
 use Datatables;
-
+use PHPShopify\ShopifySDK;
 
 class FrontendController extends Controller
 {
@@ -797,5 +797,40 @@ public function solo_datatables()
 
     public function terms_condition() {
         return view('front.terms_condition');
+    }
+
+    public function shopify() {
+       // Load the access token as per instructions above
+// $storefrontAccessToken = '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';
+$storefrontAccessToken = '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';
+// Shop from which we're fetching data
+$shop = '4mykioti.myshopify.com';
+
+// The Storefront client takes in the shop url and the Storefront Access Token for that shop.
+
+// Create options for the API
+$config = array(
+    'ShopUrl' => $shop,
+    'AccessToken' => $storefrontAccessToken,
+);
+
+$shopify = ShopifySDK::config($config);
+
+// Now run your requests...
+$products = $shopify->GraphQL->post(<<<QUERY
+{
+    products (first: 3, query:"sku:04811-50650") {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+  }
+QUERY,);
+
+
+echo json_encode($products);
     }
 }

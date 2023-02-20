@@ -1,8 +1,14 @@
 @if(json_decode($gs->product_view)->home == 0)
     @if (count($solo_products) > 0)
         @foreach ($solo_products as $key => $solo_prod)
+            @php
+            $colors = ["s-red", "s-blue", "s-yellow", "s-green"];
+            $color = $colors[$key % 4]
+            @endphp
+
+
             <div class="col-lg-3 col-md-6 col-12">
-                <a href="{{ route('front.product', $solo_prod->slug) }}" class="item">
+                <a href="{{ route('front.product', $solo_prod->slug) }}" class="item {{$color}}">
                     <div class="item-img">
                         @if(!empty($solo_prod->features))
                         <div class="sell-area">
@@ -89,8 +95,15 @@
 @if(json_decode($gs->product_view)->home == 1)
     @if (count($solo_products) > 0)
         @foreach ($solo_products as $key => $solo_prod)
+
+        @php
+            $colors = ["s-red", "s-blue", "s-yellow", "s-green"];
+            $color = $colors[$key % 4]
+            @endphp
+
             <div class="col-lg-3 col-md-6 col-12  margin-custome-0">
-            <a href="{{ route('front.product', $solo_prod->slug) }}" class="prod-item item">            
+
+            <a href="{{ route('front.product', $solo_prod->slug) }}" class="prod-item item {{$color}}">            
                 <div class="prod-init">
                     <div class="prod-top">
                         <h2 class="prod-name"  style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color? $colorsetting_style2->title_color: '#333333' }}">

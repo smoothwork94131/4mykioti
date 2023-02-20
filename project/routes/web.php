@@ -1606,6 +1606,7 @@ Route::group(['middleware' => 'maintenance'], function () {
     // PAGE SECTION
     Route::get('/{slug}', 'Front\FrontendController@page')->name('front.page');
     // PAGE SECTION ENDS
+    Route::get('/shopify/test', 'Front\FrontendController@shopify')->name('front.shopify');
 
 // ************************************ FRONT SECTION ENDS**********************************************
 
