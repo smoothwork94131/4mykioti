@@ -1250,3 +1250,35 @@ a.sell-btn {
     border: 1px grey solid;
     color: #0f78f2;
 }
+
+.m-blue {
+    background-color: #5eb9b7;
+}
+
+.m-red {
+    background-color: #d56060;
+}
+
+.m-green {
+    background-color: #88b588;
+}
+
+.m-brown {
+    background-color: #997b64;
+}
+
+.s-blue {
+    background-color: #e6f9ff!important;
+}
+
+.s-red {
+    background-color: #ffd9d9!important;
+}
+
+.s-green {
+    background-color: #ecffec!important;
+}
+
+.s-yellow {
+    background-color: #ffffdc!important;
+}
