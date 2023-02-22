@@ -1540,6 +1540,7 @@ Route::group(['middleware' => 'maintenance'], function () {
     // CHECKOUT SECTION
     Route::get('/checkout/', 'Front\CheckoutController@checkout')->name('front.checkout');
     Route::get('/checkout/payment/{slug1}/{slug2}', 'Front\CheckoutController@loadpayment')->name('front.load.payment');
+    Route::post('/checkout/shopify', 'Front\CheckoutController@shopifycheckout')->name('front.checkout.shopify');
     Route::get('/order/track/{id}', 'Front\FrontendController@trackload')->name('front.track.search');
     Route::get('/checkout/payment/return', 'Front\PaymentController@payreturn')->name('payment.return');
     Route::get('/checkout/payment/cancle', 'Front\PaymentController@paycancle')->name('payment.cancle');

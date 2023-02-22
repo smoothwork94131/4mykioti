@@ -806,9 +806,6 @@ $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
 // Shop from which we're fetching data
 $shop = '4mykioti.myshopify.com';
 
-// The Storefront client takes in the shop url and the Storefront Access Token for that shop.
-
-// Create options for the API
 $config = array(
     'ShopUrl' => $shop,
     'FrontAccessToken' => $storefrontAccessToken,

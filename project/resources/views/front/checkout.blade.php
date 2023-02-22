@@ -63,7 +63,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link disabled" id="pills-step3-tab" data-toggle="pill"
                                        href="#pills-step3" role="tab" aria-controls="pills-step3" aria-selected="false">
-                                        <span>3</span> {{ $langg->lang745 }}
+                                        <span>3</span> Checkout
                                         <i class="far fa-credit-card"></i>
                                     </a>
                                 </li>
@@ -134,7 +134,6 @@
                                                 </h5>
                                                 <div class="row">
                                                     
-
                                                     <input type="hidden" name="shipping" value="shipto">
 
                                                     <div class="col-lg-6 d-none" id="shipshow">
@@ -182,19 +181,6 @@
                                                                value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->zip : '' }}" readonly>
                                                     </div>
                                                     
-                                                    @if(Auth::guard('web')->check())
-                                                        @if(Auth::guard('web')->user()->position)
-                                                            @php
-                                                                $lat = explode(',', Auth::guard('web')->user()->position)[0];
-                                                                $lng = explode(',', Auth::guard('web')->user()->position)[1];
-
-                                                                $lat = str_replace('lat:', '', $lat);
-                                                                $lng = str_replace('lng:', '', $lng);
-                                                            @endphp
-                                                        <input type="hidden" name="lat" id="latitude" value="{{ $lat }}">
-                                                        <input type="hidden" name="lng" id="latitude" value="{{ $lng }}">
-                                                        @endif
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="row {{ $digital == 1 || !Auth::guard('web')->user()->is_verified? 'd-none' : '' }}">
@@ -224,57 +210,35 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    
-                                                    <div class="col-lg-12">
-                                                        
-                                                        <input type="text" class="form-control ship_input" name="autocomplete" id="autocomplete" placeholder="{{ $langg->lang185 }}" required="">
-
-                                                    </div>
-                                                </div>
-                                                <div class="row">
 
                                                     <div class="col-lg-6">
-                                                        <input class="form-control ship_input" type="hidden"
+                                                        <input class="form-control ship_input" 
                                                                name="shipping_address"
                                                                id="shipping_address"
+                                                               placeholder="Shipping Address"
                                                                >
                                                     </div>
 
                                                     <div class="col-lg-6">
-                                                        <input class="form-control ship_input" name="shipping_country" type="hidden">
-                                                            
+                                                        <input class="form-control ship_input" name="shipping_country" placeholder="Shipping Country">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">
-                                                        <input class="form-control ship_input" type="hidden"
+                                                        <input class="form-control ship_input" 
                                                                name="shipping_city"
-                                                               id="shipping_city" >
+                                                               id="shipping_city" 
+                                                               placeholder="Shipping City"
+                                                               >
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <input class="form-control ship_input" type="hidden"
+                                                        <input class="form-control ship_input" 
                                                                name="shipping_zip"
                                                                id="shippingPostal_code"
+                                                               placeholder="Shipping Zip Code"
                                                                >
                                                     </div>
-
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <input class="form-control ship_input" type="hidden"
-                                                               name="shipping_lat"
-                                                               id="shipping_lat" >
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <input class="form-control ship_input" type="hidden"
-                                                               name="shipping_lng"
-                                                               id="shipping_lng"
-                                                               >
-                                                    </div>
-
-                                                </div>
-
                                             </div>
                                             <div class="order-note mt-3">
                                                 <div class="row">
@@ -402,14 +366,24 @@
                                                 </ul>
                                             </div>
                                             <div class="payment-information">
-                                                <h4 class="title">
+                                                <!-- <h4 class="title">
                                                     {{ $langg->lang759 }}
-                                                </h4>
+                                                </h4> -->
+
+                                                <a class="nav-link payment" data-val=""
+                                                                       data-show="no"
+                                                                       data-form="{{route('front.checkout.shopify')}}"
+                                                                       data-href="{{ route('front.checkout.shopify') }}"
+                                                                       id="v-pills-tab3-tab" data-toggle="pill"
+                                                                       href="#v-pills-tab3" role="tab"
+                                                                       aria-controls="v-pills-tab3"
+                                                                       aria-selected="false"></a>
+
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="nav flex-column" role="tablist"
                                                              aria-orientation="vertical">
-                                                            @if($gs->paypal_check == 1)
+                                                            @if($gs->paypal_check == 2)
                                                                 <a class="nav-link payment" data-val="" data-show="no"
                                                                    data-form="{{route('paypal.submit')}}"
                                                                    data-href="{{ route('front.load.payment',['slug1' => 'paypal','slug2' => 0]) }}"
@@ -433,7 +407,7 @@
                                                                     </p>
                                                                 </a>
                                                             @endif
-                                                            @if($gs->stripe_check == 1)
+                                                            @if($gs->stripe_check == 2)
                                                                 <a class="nav-link payment" data-val="" data-show="yes"
                                                                    data-form="{{route('stripe.submit')}}"
                                                                    data-href="{{ route('front.load.payment',['slug1' => 'stripe','slug2' => 0]) }}"
@@ -457,21 +431,9 @@
                                                                     </p>
                                                                 </a>
                                                             @endif
-                                                            @if($gs->cod_check == 1 && Auth::check())
-                                                                @if($digital == 0 && Auth::guard('web')->user()->cod == 1)
+                                                            @if($gs->cod_check == 2 && Auth::check())
                                                                 @php
                                                                     $cod = true;
-                                                                    foreach($products as $product) {
-                                                                        
-                                                                        if(
-                                                                            (!App\Models\Product::find($product['item']->id)->category->cod || !App\Models\Product::find($product['item']->id)->category_id) &&
-                                                                            (!App\Models\Product::find($product['item']->id)->subcategory->cod || !App\Models\Product::find($product['item']->id)->subcategory_id) &&
-                                                                            (!App\Models\Product::find($product['item']->id)->childcategory->cod || !App\Models\Product::find($product['item']->id)->childcategory_id)
-                                                                        ) {
-                                                                            $cod = false;
-                                                                        }
-                                                                    
-                                                                    }
                                                                 @endphp
                                                                 @if($cod)
                                                                     <a class="nav-link payment" data-val=""
@@ -499,9 +461,8 @@
                                                                         </p>
                                                                     </a>
                                                                 @endif
-                                                                @endif
                                                             @endif
-                                                            @if($gs->is_instamojo == 1)
+                                                            @if($gs->is_instamojo == 2)
                                                                 <a class="nav-link payment" data-val="" data-show="no"
                                                                    data-form="{{route('instamojo.submit')}}"
                                                                    data-href="{{ route('front.load.payment',['slug1' => 'instamojo','slug2' => 0]) }}"
@@ -525,7 +486,7 @@
                                                                     </p>
                                                                 </a>
                                                             @endif
-                                                            @if($gs->is_paytm == 1)
+                                                            @if($gs->is_paytm == 2)
                                                                 <a class="nav-link payment" data-val="" data-show="no"
                                                                    data-form="{{route('paytm.submit')}}"
                                                                    data-href="{{ route('front.load.payment',['slug1' => 'paytm','slug2' => 0]) }}"
@@ -549,7 +510,7 @@
                                                                     </p>
                                                                 </a>
                                                             @endif
-                                                            @if($gs->is_razorpay == 1)
+                                                            @if($gs->is_razorpay == 2)
                                                                 <a class="nav-link payment" data-val="" data-show="no"
                                                                    data-form="{{route('razorpay.submit')}}"
                                                                    data-href="{{ route('front.load.payment',['slug1' => 'razorpay','slug2' => 0]) }}"
@@ -574,7 +535,7 @@
                                                                     </p>
                                                                 </a>
                                                             @endif
-                                                            @if($gs->is_paystack == 1)
+                                                            @if($gs->is_paystack == 2)
 
                                                                 <a class="nav-link payment" data-val="paystack"
                                                                    data-show="no"
@@ -602,7 +563,7 @@
                                                             @endif
 
 
-                                                            @if($gs->is_molly == 1)
+                                                            @if($gs->is_molly == 2)
                                                                 <a class="nav-link payment" data-val="" data-show="no"
                                                                    data-form="{{route('molly.submit')}}"
                                                                    data-href="{{ route('front.load.payment',['slug1' => 'molly','slug2' => 0]) }}"
@@ -628,7 +589,7 @@
                                                             @endif
 
 
-                                                            @if($digital == 0)
+                                                            @if($digital == 2)
 
                                                                 @foreach($gateways as $gt)
 
@@ -666,23 +627,23 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12">
+                                                    <!-- <div class="col-lg-12">
                                                         <div class="pay-area d-none">
                                                             <div class="tab-content" id="v-pills-tabContent">
-                                                                @if($gs->paypal_check == 1)
+                                                                @if($gs->paypal_check == 2)
                                                                     <div class="tab-pane fade" id="v-pills-tab1"
                                                                          role="tabpanel"
                                                                          aria-labelledby="v-pills-tab1-tab">
 
                                                                     </div>
                                                                 @endif
-                                                                @if($gs->stripe_check == 1)
+                                                                @if($gs->stripe_check == 2)
                                                                     <div class="tab-pane fade" id="v-pills-tab2"
                                                                          role="tabpanel"
                                                                          aria-labelledby="v-pills-tab2-tab">
                                                                     </div>
                                                                 @endif
-                                                                @if($gs->cod_check == 1)
+                                                                @if($gs->cod_check == 2)
                                                                     @if($digital == 0)
                                                                         <div class="tab-pane fade" id="v-pills-tab3"
                                                                              role="tabpanel"
@@ -690,38 +651,38 @@
                                                                         </div>
                                                                     @endif
                                                                 @endif
-                                                                @if($gs->is_instamojo == 1)
+                                                                @if($gs->is_instamojo == 2)
                                                                     <div class="tab-pane fade" id="v-pills-tab4"
                                                                          role="tabpanel"
                                                                          aria-labelledby="v-pills-tab4-tab">
                                                                     </div>
                                                                 @endif
-                                                                @if($gs->is_paytm == 1)
+                                                                @if($gs->is_paytm == 2)
                                                                     <div class="tab-pane fade" id="v-pills-tab5"
                                                                          role="tabpanel"
                                                                          aria-labelledby="v-pills-tab5-tab">
                                                                     </div>
                                                                 @endif
-                                                                @if($gs->is_razorpay == 1)
+                                                                @if($gs->is_razorpay == 2)
                                                                     <div class="tab-pane fade" id="v-pills-tab6"
                                                                          role="tabpanel"
                                                                          aria-labelledby="v-pills-tab6-tab">
                                                                     </div>
                                                                 @endif
-                                                                @if($gs->is_paystack == 1)
+                                                                @if($gs->is_paystack == 2)
                                                                     <div class="tab-pane fade" id="v-pills-tab7"
                                                                          role="tabpanel"
                                                                          aria-labelledby="v-pills-tab7-tab">
                                                                     </div>
                                                                 @endif
-                                                                @if($gs->is_molly == 1)
+                                                                @if($gs->is_molly == 2)
                                                                     <div class="tab-pane fade" id="v-pills-tab8"
                                                                          role="tabpanel"
                                                                          aria-labelledby="v-pills-tab8-tab">
                                                                     </div>
                                                                 @endif
 
-                                                                @if($digital == 0)
+                                                                @if($digital == 2)
                                                                     @foreach($gateways as $gt)
 
                                                                         <div class="tab-pane fade"
@@ -735,7 +696,7 @@
                                                                 @endif
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
 
@@ -746,7 +707,7 @@
                                                         <a href="javascript:;" id="step2-btn"
                                                            class="mybtn1 mr-3">{{ $langg->lang757 }}</a>
                                                         <button type="submit" id="final-btn"
-                                                                class="mybtn1">{{ $langg->lang753 }}</button>
+                                                                class="mybtn1">Checkout</button>
                                                     </div>
 
                                                 </div>

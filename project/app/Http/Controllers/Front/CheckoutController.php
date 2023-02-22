@@ -23,6 +23,7 @@ use DB;
 use Illuminate\Http\Request;
 use Session;
 use Validator;
+use PHPShopify\ShopifySDK;
 
 class CheckoutController extends Controller
 {
@@ -58,7 +59,7 @@ class CheckoutController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-// If a user is Authenticated then there is no problm user can go for checkout
+            // If a user is Authenticated then there is no problm user can go for checkout
 
         if (Auth::guard('web')->check()) {
             $gateways = PaymentGateway::where('status', '=', 1)->get();
@@ -139,7 +140,7 @@ class CheckoutController extends Controller
             }
             return view('front.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
         } else {
-// If guest checkout is activated then user can go for checkout
+            // If guest checkout is activated then user can go for checkout
             if ($gs->guest_checkout == 1) {
                 $gateways = PaymentGateway::where('status', '=', 1)->get();
                 $pickups = Pickup::all();
@@ -308,6 +309,7 @@ class CheckoutController extends Controller
 
     public function cashondelivery(Request $request)
     {
+
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
             if (count($users) == 0) {
@@ -342,28 +344,98 @@ class CheckoutController extends Controller
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
+
+        // $storefrontAccessToken = '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';
+        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        // Shop from which we're fetching data
+        $shop = '4mykioti.myshopify.com';
+
+        $config = array(
+            'ShopUrl' => $shop,
+            'FrontAccessToken' => $storefrontAccessToken,
+        );
+
+        $shopify = ShopifySDK::config($config);
+
+        $input = '{
+            allowPartialAddresses: true,
+            buyerIdentity: {
+              countryCode: US
+            },
+            lineItems: [';
+        
         foreach ($cart->items as $key => $prod) {
-            if (!empty($prod['item']['license']) && !empty($prod['item']['license_qty'])) {
-                foreach ($prod['item']['license_qty'] as $ttl => $dtl) {
-                    if ($dtl != 0) {
-                        $dtl--;
-                        $produc = Product::findOrFail($prod['item']['id']);
-                        $temp = $produc->license_qty;
-                        $temp[$ttl] = $dtl;
-                        $final = implode(',', $temp);
-                        $produc->license_qty = $final;
-                        $produc->update();
-                        $temp = $produc->license;
-                        $license = $temp[$ttl];
-                        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-                        $cart = new Cart($oldCart);
-                        $cart->updateLicense($prod['item']['id'], $license);
-                        Session::put('cart', $cart);
-                        break;
+            $query = '{
+                products(first: 1, query:"sku:' . $prod['item']->sku . '",) {
+                    edges {
+                        node {
+                            variants(first: 5) {
+                                edges {
+                                  node {
+                                    id
+                                  }
+                                }
+                              }
+                        }
                     }
                 }
-            }
+            }';
+            $productFromShopify = $shopify->GraphQL->post($query);
+
+            $input .= "{
+                quantity: {$prod['qty']},
+                variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+            }";
+
+            // if (!empty($prod['item']['license']) && !empty($prod['item']['license_qty'])) {
+            //     foreach ($prod['item']['license_qty'] as $ttl => $dtl) {
+            //         if ($dtl != 0) {
+            //             $dtl--;
+            //             $produc = Product::findOrFail($prod['item']['id']);
+            //             $temp = $produc->license_qty;
+            //             $temp[$ttl] = $dtl;
+            //             $final = implode(',', $temp);
+            //             $produc->license_qty = $final;
+            //             $produc->update();
+            //             $temp = $produc->license;
+            //             $license = $temp[$ttl];
+            //             $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            //             $cart = new Cart($oldCart);
+            //             $cart->updateLicense($prod['item']['id'], $license);
+            //             Session::put('cart', $cart);
+            //             break;
+            //         }
+            //     }
+            // }
         }
+
+
+        $input.='],
+      }';
+
+    //   dd($input);
+
+        //   dd($checkoutQuery);
+
+
+          $checkoutsh = $shopify->GraphQL->post(<<<QUERY
+          mutation {
+            checkoutCreate(input: {$input}) {
+                checkout {
+                  id
+                  webUrl
+                }
+                checkoutUserErrors {
+                  field
+                  message
+                }
+            }
+          }
+        QUERY,);
+
+          dd($checkoutsh);
+
+
         $order = new Order;
         $success_url = action('Front\PaymentController@payreturn');
         $item_name = $gs->title . " Order";
@@ -413,84 +485,88 @@ class CheckoutController extends Controller
             $order['affilate_user'] = $user->name;
             $order['affilate_charge'] = $sub;
         }
+
+
+        dd($order);
+
         $order->save();
 
-        $track = new OrderTrack;
-        $track->title = 'Pending';
-        $track->text = 'You have successfully placed your order.';
-        $track->order_id = $order->id;
-        $track->save();
+        // $track = new OrderTrack;
+        // $track->title = 'Pending';
+        // $track->text = 'You have successfully placed your order.';
+        // $track->order_id = $order->id;
+        // $track->save();
 
-        $notification = new Notification;
-        $notification->order_id = $order->id;
-        $notification->save();
-        if ($request->coupon_id != "") {
-            $coupon = Coupon::findOrFail($request->coupon_id);
-            $coupon->used++;
-            if ($coupon->times != null) {
-                $i = (int)$coupon->times;
-                $i--;
-                $coupon->times = (string)$i;
-            }
-            $coupon->update();
+        // $notification = new Notification;
+        // $notification->order_id = $order->id;
+        // $notification->save();
+        // if ($request->coupon_id != "") {
+        //     $coupon = Coupon::findOrFail($request->coupon_id);
+        //     $coupon->used++;
+        //     if ($coupon->times != null) {
+        //         $i = (int)$coupon->times;
+        //         $i--;
+        //         $coupon->times = (string)$i;
+        //     }
+        //     $coupon->update();
 
-        }
+        // }
 
-        foreach ($cart->items as $prod) {
-            $x = (string)$prod['size_qty'];
-            if (!empty($x)) {
-                $product = Product::findOrFail($prod['item']['id']);
-                $x = (int)$x;
-                $x = $x - $prod['qty'];
-                $temp = $product->size_qty;
-                $temp[$prod['size_key']] = $x;
-                $temp1 = implode(',', $temp);
-                $product->size_qty = $temp1;
-                $product->update();
-            }
-        }
+        // foreach ($cart->items as $prod) {
+        //     $x = (string)$prod['size_qty'];
+        //     if (!empty($x)) {
+        //         $product = Product::findOrFail($prod['item']['id']);
+        //         $x = (int)$x;
+        //         $x = $x - $prod['qty'];
+        //         $temp = $product->size_qty;
+        //         $temp[$prod['size_key']] = $x;
+        //         $temp1 = implode(',', $temp);
+        //         $product->size_qty = $temp1;
+        //         $product->update();
+        //     }
+        // }
 
 
-        foreach ($cart->items as $prod) {
-            $x = (string)$prod['stock'];
-            if ($x != null) {
+        // foreach ($cart->items as $prod) {
+        //     $x = (string)$prod['stock'];
+        //     if ($x != null) {
 
-                $product = Product::findOrFail($prod['item']['id']);
-                $product->stock = $prod['stock'];
-                $product->update();
-                if ($product->stock <= 5) {
-                    $notification = new Notification;
-                    $notification->product_id = $product->id;
-                    $notification->save();
-                }
-            }
-        }
+        //         $product = Product::findOrFail($prod['item']['id']);
+        //         $product->stock = $prod['stock'];
+        //         $product->update();
+        //         if ($product->stock <= 5) {
+        //             $notification = new Notification;
+        //             $notification->product_id = $product->id;
+        //             $notification->save();
+        //         }
+        //     }
+        // }
 
-        $notf = null;
+        // $notf = null;
 
-        foreach ($cart->items as $prod) {
-            if ($prod['item']->user_id != 0) {
-                $vorder = new VendorOrder;
-                $vorder->order_id = $order->id;
-                $vorder->user_id = $prod['item']->user_id;
-                $notf[] = $prod['item']->user_id;
-                $vorder->qty = $prod['qty'];
-                $vorder->price = $prod['price'];
-                $vorder->order_number = $order->order_number;
-                $vorder->save();
-            }
+        // foreach ($cart->items as $prod) {
+        //     if ($prod['item']->user_id != 0) {
+        //         $vorder = new VendorOrder;
+        //         $vorder->order_id = $order->id;
+        //         $vorder->user_id = $prod['item']->user_id;
+        //         $notf[] = $prod['item']->user_id;
+        //         $vorder->qty = $prod['qty'];
+        //         $vorder->price = $prod['price'];
+        //         $vorder->order_number = $order->order_number;
+        //         $vorder->save();
+        //     }
 
-        }
+        // }
 
-        if (!empty($notf)) {
-            $users = array_unique($notf);
-            foreach ($users as $user) {
-                $notification = new UserNotification;
-                $notification->user_id = $user;
-                $notification->order_number = $order->order_number;
-                $notification->save();
-            }
-        }
+        // if (!empty($notf)) {
+        //     $users = array_unique($notf);
+        //     foreach ($users as $user) {
+        //         $notification = new UserNotification;
+        //         $notification->user_id = $user;
+        //         $notification->order_number = $order->order_number;
+        //         $notification->save();
+        //     }
+        // }
 
         Session::put('temporder', $order);
         Session::put('tempcart', $cart);
@@ -505,46 +581,200 @@ class CheckoutController extends Controller
 
         //Sending Email To Buyer
 
-        if ($gs->is_smtp == 1) {
-            $data = [
-                'to' => $request->email,
-                'type' => "new_order",
-                'cname' => $request->name,
-                'oamount' => "",
-                'aname' => "",
-                'aemail' => "",
-                'wtitle' => "",
-                'onumber' => $order->order_number,
-            ];
+        // if ($gs->is_smtp == 1) {
+        //     $data = [
+        //         'to' => $request->email,
+        //         'type' => "new_order",
+        //         'cname' => $request->name,
+        //         'oamount' => "",
+        //         'aname' => "",
+        //         'aemail' => "",
+        //         'wtitle' => "",
+        //         'onumber' => $order->order_number,
+        //     ];
 
-            $mailer = new GeniusMailer();
-            $mailer->sendAutoOrderMail($data, $order->id);
-        } else {
-            $to = $request->email;
-            $subject = "Your Order Placed!!";
-            $msg = "Hello " . $request->name . "!\nYou have placed a new order.\nYour order number is " . $order->order_number . ".Please wait for your delivery. \nThank you.";
-            $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-            mail($to, $subject, $msg, $headers);
-        }
-        //Sending Email To Admin
-        if ($gs->is_smtp == 1) {
-            $data = [
-                'to' => Pagesetting::find(1)->contact_email,
-                'subject' => "New Order Recieved!!",
-                'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
-            ];
+        //     $mailer = new GeniusMailer();
+        //     $mailer->sendAutoOrderMail($data, $order->id);
+        // } else {
+        //     $to = $request->email;
+        //     $subject = "Your Order Placed!!";
+        //     $msg = "Hello " . $request->name . "!\nYou have placed a new order.\nYour order number is " . $order->order_number . ".Please wait for your delivery. \nThank you.";
+        //     $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+        //     mail($to, $subject, $msg, $headers);
+        // }
+        // //Sending Email To Admin
+        // if ($gs->is_smtp == 1) {
+        //     $data = [
+        //         'to' => Pagesetting::find(1)->contact_email,
+        //         'subject' => "New Order Recieved!!",
+        //         'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
+        //     ];
 
-            $mailer = new GeniusMailer();
-            $mailer->sendCustomMail($data);
-        } else {
-            $to = Pagesetting::find(1)->contact_email;
-            $subject = "New Order Recieved!!";
-            $msg = "Hello Admin!\nYour store has recieved a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
-            $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-            mail($to, $subject, $msg, $headers);
-        }
+        //     $mailer = new GeniusMailer();
+        //     $mailer->sendCustomMail($data);
+        // } else {
+        //     $to = Pagesetting::find(1)->contact_email;
+        //     $subject = "New Order Recieved!!";
+        //     $msg = "Hello Admin!\nYour store has recieved a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
+        //     $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+        //     mail($to, $subject, $msg, $headers);
+        // }
 
         return redirect($success_url);
+    }
+
+    public function shopifycheckout(Request $request) {
+
+        if ($request->pass_check) {
+            $users = User::where('email', '=', $request->personal_email)->get();
+            if (count($users) == 0) {
+                if ($request->personal_pass == $request->personal_confirm) {
+                    $user = new User;
+                    $user->name = $request->personal_name;
+                    $user->email = $request->personal_email;
+                    $user->password = bcrypt($request->personal_pass);
+                    $token = md5(time() . $request->personal_name . $request->personal_email);
+                    $user->verification_link = $token;
+                    $user->affilate_code = md5($request->name . $request->email);
+                    $user->emai_verified = 'Yes';
+                    $user->save();
+                    Auth::guard('web')->login($user);
+                } else {
+                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
+                }
+            } else {
+                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
+            }
+        }
+
+
+        if (!Session::has('cart')) {
+            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+        }
+        if (Session::has('currency')) {
+            $curr = Currency::find(Session::get('currency'));
+        } else {
+            $curr = Currency::where('is_default', '=', 1)->first();
+        }
+        $gs = Generalsetting::findOrFail(1);
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+
+        // $storefrontAccessToken = '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';
+        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        // Shop from which we're fetching data
+        $shop = '4mykioti.myshopify.com';
+
+        $config = array(
+            'ShopUrl' => $shop,
+            'FrontAccessToken' => $storefrontAccessToken,
+        );
+
+        $shopify = ShopifySDK::config($config);
+
+        $input = '{
+            allowPartialAddresses: true,
+            buyerIdentity: {
+              countryCode: US
+            },
+            email: "'.$request->personal_email.'",
+            note: "'.$request->order_notes.'",
+            shippingAddress: {
+                address1: "'.($request->shipping_address ?? $request->address).'",
+                address2: "",
+                city: "'.($request->shipping_city ?? $request->city).'",
+                company: "",
+                country: "'.($request->shipping_country ?? $request->customer_country).'",
+                firstName: "'.($request->shipping_name ?? $request->name).'",
+                lastName: "",
+                phone: "'.($request->shipping_phone ?? $request->phone).'",
+                province: "",
+                zip: "'.($request->shipping_zip ?? $request->zip).'"
+              }
+            lineItems: [';
+        
+    try {
+        foreach ($cart->items as $key => $prod) {
+
+            $query = '{
+                products(first: 1, query:"(title:'.$prod['item']->name.') AND (sku:'.$prod['item']->sku.')",) {
+                    edges {
+                        node {
+                            variants(first: 5) {
+                                edges {
+                                  node {
+                                    id
+                                  }
+                                }
+                              }
+                        }
+                    }
+                }
+            }';
+
+            $productFromShopify = $shopify->GraphQL->post($query);
+
+            $input .= "{
+                quantity: {$prod['qty']},
+                variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+            },";
+
+            // if (!empty($prod['item']['license']) && !empty($prod['item']['license_qty'])) {
+            //     foreach ($prod['item']['license_qty'] as $ttl => $dtl) {
+            //         if ($dtl != 0) {
+            //             $dtl--;
+            //             $produc = Product::findOrFail($prod['item']['id']);
+            //             $temp = $produc->license_qty;
+            //             $temp[$ttl] = $dtl;
+            //             $final = implode(',', $temp);
+            //             $produc->license_qty = $final;
+            //             $produc->update();
+            //             $temp = $produc->license;
+            //             $license = $temp[$ttl];
+            //             $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            //             $cart = new Cart($oldCart);
+            //             $cart->updateLicense($prod['item']['id'], $license);
+            //             Session::put('cart', $cart);
+            //             break;
+            //         }
+            //     }
+            // }
+        }
+
+
+        $input.='],
+      }';
+
+
+        //   dd($checkoutQuery);
+
+
+          $checkoutsh = $shopify->GraphQL->post(<<<QUERY
+          mutation {
+            checkoutCreate(input: {$input}) {
+                checkout {
+                  id
+                  webUrl
+                }
+                checkoutUserErrors {
+                  field
+                  message
+                }
+            }
+          }
+        QUERY,);
+
+
+
+        if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
+            return redirect($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']);
+        } else {
+            return redirect()->route('front.cart')->with('error', "Something went wrong. Try again later!");
+        }
+    } catch (\Exception $e) {
+        return redirect()->route('front.cart')->with('error', "Something went wrong. Try again later!");
+    }
+
     }
 
     public function gateway(Request $request)
