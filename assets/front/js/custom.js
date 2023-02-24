@@ -184,11 +184,7 @@ $(function($) {
                         $this.find('.alert-danger').hide();
                         $this.find('.alert-success').show();
                         $this.find('.alert-success p').html('Success !');
-                        if (data == 1) {
-                            location.reload();
-                        } else {
-                            window.location = data;
-                        }
+                        location.reload();
 
                     }
                     $this.find('button.submit-btn').prop('disabled', false);
