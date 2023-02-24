@@ -345,97 +345,31 @@ class CheckoutController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        // $storefrontAccessToken = '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';
-        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        // Shop from which we're fetching data
-        $shop = '4mykioti.myshopify.com';
-
-        $config = array(
-            'ShopUrl' => $shop,
-            'FrontAccessToken' => $storefrontAccessToken,
-        );
-
-        $shopify = ShopifySDK::config($config);
-
-        $input = '{
-            allowPartialAddresses: true,
-            buyerIdentity: {
-              countryCode: US
-            },
-            lineItems: [';
+       
         
         foreach ($cart->items as $key => $prod) {
-            $query = '{
-                products(first: 1, query:"sku:' . $prod['item']->sku . '",) {
-                    edges {
-                        node {
-                            variants(first: 5) {
-                                edges {
-                                  node {
-                                    id
-                                  }
-                                }
-                              }
-                        }
+           
+            if (!empty($prod['item']['license']) && !empty($prod['item']['license_qty'])) {
+                foreach ($prod['item']['license_qty'] as $ttl => $dtl) {
+                    if ($dtl != 0) {
+                        $dtl--;
+                        $produc = Product::findOrFail($prod['item']['id']);
+                        $temp = $produc->license_qty;
+                        $temp[$ttl] = $dtl;
+                        $final = implode(',', $temp);
+                        $produc->license_qty = $final;
+                        $produc->update();
+                        $temp = $produc->license;
+                        $license = $temp[$ttl];
+                        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+                        $cart = new Cart($oldCart);
+                        $cart->updateLicense($prod['item']['id'], $license);
+                        Session::put('cart', $cart);
+                        break;
                     }
                 }
-            }';
-            $productFromShopify = $shopify->GraphQL->post($query);
-
-            $input .= "{
-                quantity: {$prod['qty']},
-                variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-            }";
-
-            // if (!empty($prod['item']['license']) && !empty($prod['item']['license_qty'])) {
-            //     foreach ($prod['item']['license_qty'] as $ttl => $dtl) {
-            //         if ($dtl != 0) {
-            //             $dtl--;
-            //             $produc = Product::findOrFail($prod['item']['id']);
-            //             $temp = $produc->license_qty;
-            //             $temp[$ttl] = $dtl;
-            //             $final = implode(',', $temp);
-            //             $produc->license_qty = $final;
-            //             $produc->update();
-            //             $temp = $produc->license;
-            //             $license = $temp[$ttl];
-            //             $oldCart = Session::has('cart') ? Session::get('cart') : null;
-            //             $cart = new Cart($oldCart);
-            //             $cart->updateLicense($prod['item']['id'], $license);
-            //             Session::put('cart', $cart);
-            //             break;
-            //         }
-            //     }
-            // }
-        }
-
-
-        $input.='],
-      }';
-
-     //   dd($input);
-
-        //   dd($checkoutQuery);
-
-
-          $checkoutsh = $shopify->GraphQL->post(<<<QUERY
-          mutation {
-            checkoutCreate(input: {$input}) {
-                checkout {
-                  id
-                  webUrl
-                }
-                checkoutUserErrors {
-                  field
-                  message
-                }
             }
-          }
-        QUERY,);
-
-          dd($checkoutsh);
-
-
+        }
         $order = new Order;
         $success_url = action('Front\PaymentController@payreturn');
         $item_name = $gs->title . " Order";
@@ -486,87 +420,84 @@ class CheckoutController extends Controller
             $order['affilate_charge'] = $sub;
         }
 
-
-        dd($order);
-
         $order->save();
 
-        // $track = new OrderTrack;
-        // $track->title = 'Pending';
-        // $track->text = 'You have successfully placed your order.';
-        // $track->order_id = $order->id;
-        // $track->save();
+        $track = new OrderTrack;
+        $track->title = 'Pending';
+        $track->text = 'You have successfully placed your order.';
+        $track->order_id = $order->id;
+        $track->save();
 
-        // $notification = new Notification;
-        // $notification->order_id = $order->id;
-        // $notification->save();
-        // if ($request->coupon_id != "") {
-        //     $coupon = Coupon::findOrFail($request->coupon_id);
-        //     $coupon->used++;
-        //     if ($coupon->times != null) {
-        //         $i = (int)$coupon->times;
-        //         $i--;
-        //         $coupon->times = (string)$i;
-        //     }
-        //     $coupon->update();
+        $notification = new Notification;
+        $notification->order_id = $order->id;
+        $notification->save();
+        if ($request->coupon_id != "") {
+            $coupon = Coupon::findOrFail($request->coupon_id);
+            $coupon->used++;
+            if ($coupon->times != null) {
+                $i = (int)$coupon->times;
+                $i--;
+                $coupon->times = (string)$i;
+            }
+            $coupon->update();
 
-        // }
+        }
 
-        // foreach ($cart->items as $prod) {
-        //     $x = (string)$prod['size_qty'];
-        //     if (!empty($x)) {
-        //         $product = Product::findOrFail($prod['item']['id']);
-        //         $x = (int)$x;
-        //         $x = $x - $prod['qty'];
-        //         $temp = $product->size_qty;
-        //         $temp[$prod['size_key']] = $x;
-        //         $temp1 = implode(',', $temp);
-        //         $product->size_qty = $temp1;
-        //         $product->update();
-        //     }
-        // }
+        foreach ($cart->items as $prod) {
+            $x = (string)$prod['size_qty'];
+            if (!empty($x)) {
+                $product = Product::findOrFail($prod['item']['id']);
+                $x = (int)$x;
+                $x = $x - $prod['qty'];
+                $temp = $product->size_qty;
+                $temp[$prod['size_key']] = $x;
+                $temp1 = implode(',', $temp);
+                $product->size_qty = $temp1;
+                $product->update();
+            }
+        }
 
 
-        // foreach ($cart->items as $prod) {
-        //     $x = (string)$prod['stock'];
-        //     if ($x != null) {
+        foreach ($cart->items as $prod) {
+            $x = (string)$prod['stock'];
+            if ($x != null) {
 
-        //         $product = Product::findOrFail($prod['item']['id']);
-        //         $product->stock = $prod['stock'];
-        //         $product->update();
-        //         if ($product->stock <= 5) {
-        //             $notification = new Notification;
-        //             $notification->product_id = $product->id;
-        //             $notification->save();
-        //         }
-        //     }
-        // }
+                $product = Product::findOrFail($prod['item']['id']);
+                $product->stock = $prod['stock'];
+                $product->update();
+                if ($product->stock <= 5) {
+                    $notification = new Notification;
+                    $notification->product_id = $product->id;
+                    $notification->save();
+                }
+            }
+        }
 
-        // $notf = null;
+        $notf = null;
 
-        // foreach ($cart->items as $prod) {
-        //     if ($prod['item']->user_id != 0) {
-        //         $vorder = new VendorOrder;
-        //         $vorder->order_id = $order->id;
-        //         $vorder->user_id = $prod['item']->user_id;
-        //         $notf[] = $prod['item']->user_id;
-        //         $vorder->qty = $prod['qty'];
-        //         $vorder->price = $prod['price'];
-        //         $vorder->order_number = $order->order_number;
-        //         $vorder->save();
-        //     }
+        foreach ($cart->items as $prod) {
+            if ($prod['item']->user_id != 0) {
+                $vorder = new VendorOrder;
+                $vorder->order_id = $order->id;
+                $vorder->user_id = $prod['item']->user_id;
+                $notf[] = $prod['item']->user_id;
+                $vorder->qty = $prod['qty'];
+                $vorder->price = $prod['price'];
+                $vorder->order_number = $order->order_number;
+                $vorder->save();
+            }
 
-        // }
+        }
 
-        // if (!empty($notf)) {
-        //     $users = array_unique($notf);
-        //     foreach ($users as $user) {
-        //         $notification = new UserNotification;
-        //         $notification->user_id = $user;
-        //         $notification->order_number = $order->order_number;
-        //         $notification->save();
-        //     }
-        // }
+        if (!empty($notf)) {
+            $users = array_unique($notf);
+            foreach ($users as $user) {
+                $notification = new UserNotification;
+                $notification->user_id = $user;
+                $notification->order_number = $order->order_number;
+                $notification->save();
+            }
+        }
 
         Session::put('temporder', $order);
         Session::put('tempcart', $cart);
@@ -581,44 +512,44 @@ class CheckoutController extends Controller
 
         //Sending Email To Buyer
 
-        // if ($gs->is_smtp == 1) {
-        //     $data = [
-        //         'to' => $request->email,
-        //         'type' => "new_order",
-        //         'cname' => $request->name,
-        //         'oamount' => "",
-        //         'aname' => "",
-        //         'aemail' => "",
-        //         'wtitle' => "",
-        //         'onumber' => $order->order_number,
-        //     ];
+        if ($gs->is_smtp == 1) {
+            $data = [
+                'to' => $request->email,
+                'type' => "new_order",
+                'cname' => $request->name,
+                'oamount' => "",
+                'aname' => "",
+                'aemail' => "",
+                'wtitle' => "",
+                'onumber' => $order->order_number,
+            ];
 
-        //     $mailer = new GeniusMailer();
-        //     $mailer->sendAutoOrderMail($data, $order->id);
-        // } else {
-        //     $to = $request->email;
-        //     $subject = "Your Order Placed!!";
-        //     $msg = "Hello " . $request->name . "!\nYou have placed a new order.\nYour order number is " . $order->order_number . ".Please wait for your delivery. \nThank you.";
-        //     $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-        //     mail($to, $subject, $msg, $headers);
-        // }
-        // //Sending Email To Admin
-        // if ($gs->is_smtp == 1) {
-        //     $data = [
-        //         'to' => Pagesetting::find(1)->contact_email,
-        //         'subject' => "New Order Recieved!!",
-        //         'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
-        //     ];
+            $mailer = new GeniusMailer();
+            $mailer->sendAutoOrderMail($data, $order->id);
+        } else {
+            $to = $request->email;
+            $subject = "Your Order Placed!!";
+            $msg = "Hello " . $request->name . "!\nYou have placed a new order.\nYour order number is " . $order->order_number . ".Please wait for your delivery. \nThank you.";
+            $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+            mail($to, $subject, $msg, $headers);
+        }
+        //Sending Email To Admin
+        if ($gs->is_smtp == 1) {
+            $data = [
+                'to' => Pagesetting::find(1)->contact_email,
+                'subject' => "New Order Recieved!!",
+                'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
+            ];
 
-        //     $mailer = new GeniusMailer();
-        //     $mailer->sendCustomMail($data);
-        // } else {
-        //     $to = Pagesetting::find(1)->contact_email;
-        //     $subject = "New Order Recieved!!";
-        //     $msg = "Hello Admin!\nYour store has recieved a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
-        //     $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-        //     mail($to, $subject, $msg, $headers);
-        // }
+            $mailer = new GeniusMailer();
+            $mailer->sendCustomMail($data);
+        } else {
+            $to = Pagesetting::find(1)->contact_email;
+            $subject = "New Order Recieved!!";
+            $msg = "Hello Admin!\nYour store has recieved a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
+            $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+            mail($to, $subject, $msg, $headers);
+        }
 
         return redirect($success_url);
     }
