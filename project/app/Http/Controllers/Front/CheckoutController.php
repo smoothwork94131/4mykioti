@@ -413,7 +413,7 @@ class CheckoutController extends Controller
         $input.='],
       }';
 
-    //   dd($input);
+     //   dd($input);
 
         //   dd($checkoutQuery);
 
@@ -694,10 +694,12 @@ class CheckoutController extends Controller
             lineItems: [';
         
     try {
+        $i = 0;
         foreach ($cart->items as $key => $prod) {
-
+            if (!$prod['item']->file) continue;
+            $i++;
             $query = '{
-                products(first: 1, query:"(title:'.$prod['item']->name.') AND (sku:'.$prod['item']->sku.')",) {
+                products(first: 1, query:"(title:'.$prod['item']->name.') AND (price:'.$prod['item']->price.')",) {
                     edges {
                         node {
                             variants(first: 5) {
@@ -746,6 +748,11 @@ class CheckoutController extends Controller
       }';
 
 
+      if ($i == 0) {
+        return redirect()->route('front.cart')->with('success', "No weight parts");
+      }
+
+
         //   dd($checkoutQuery);
 
 
@@ -769,10 +776,10 @@ class CheckoutController extends Controller
         if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
             return redirect($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']);
         } else {
-            return redirect()->route('front.cart')->with('error', "Something went wrong. Try again later!");
+            return redirect()->route('front.cart')->with('success', "Something went wrong. Try again later!");
         }
     } catch (\Exception $e) {
-        return redirect()->route('front.cart')->with('error', "Something went wrong. Try again later!");
+        return redirect()->route('front.cart')->with('success', "Something went wrong. Try again later!");
     }
 
     }

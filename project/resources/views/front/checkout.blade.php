@@ -319,6 +319,12 @@
                                                                 <p>{{ App\Models\Product::convertPrice($product['price']) }}
                                                                 </p>
                                                             </div>
+                                                            @if(!$product['item']->file)
+                                                            <div class="text text-danger">
+                                                            The products you selected need to be pulled before we can provide shipping costs. We apologize for any inconvenience and will notify you via email when you can continue with checkout. For additional information, 
+                                                            <a href="#">call 724-111-1111</a>
+                                                            </div>
+                                                            @endif
                                                         </div>
                                                     </div>
 
