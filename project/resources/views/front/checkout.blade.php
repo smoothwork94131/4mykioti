@@ -319,18 +319,72 @@
                                                                 <p>{{ App\Models\Product::convertPrice($product['price']) }}
                                                                 </p>
                                                             </div>
-                                                            @if(!$product['item']->file)
-                                                            <div class="text text-danger">
-                                                            The products you selected need to be pulled before we can provide shipping costs. We apologize for any inconvenience and will notify you via email when you can continue with checkout. For additional information, 
-                                                            <a href="#">call 724-111-1111</a>
-                                                            </div>
-                                                            @endif
                                                         </div>
                                                     </div>
-
-
                                                 @endforeach
 
+                                                @if($productsNw)
+                                                <div class="alert alert-danger">
+                                                The products you selected listed below will need to be pulled before we can provide shipping costs. We apologize for any inconvenience and will notify you via email when you can continue with checkout. If you need immediate service or for additional information,
+                                                            <a href="#">call 724-691-0200</a>
+                                                            </div>
+                                                @endif
+
+                                                @foreach($productsNw as $product)
+                                                    <div class="order-item">
+                                                        <div class="product-img">
+                                                            <div class="d-flex">
+                                                                <img src=" {{ asset('assets/images/products/'.$product['item']->photo) }}"
+                                                                     height="80" width="80" class="p-1">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-content">
+                                                            <p class="name"><a
+                                                                        href="{{ route('front.product', $product['item']->slug) }}"
+                                                                        target="_blank">{{ $product['item']->name }}</a>
+                                                            </p>
+                                                            <div class="unit-price">
+                                                                <h5 class="label">{{ $langg->lang754 }} : </h5>
+                                                                <p>{{ App\Models\Product::convertPrice($product['item']->price) }}</p>
+                                                            </div>
+                                                            @if(!empty($product['size']))
+                                                                <div class="unit-price">
+                                                                    <h5 class="label">{{ $langg->lang312 }} : </h5>
+                                                                    <p>{{ str_replace('-',' ',$product['size']) }}</p>
+                                                                </div>
+                                                            @endif
+                                                            @if(!empty($product['color']))
+                                                                <div class="unit-price">
+                                                                    <h5 class="label">{{ $langg->lang313 }} : </h5>
+                                                                    <span id="color-bar"
+                                                                          style="border: 10px solid {{$product['color'] == "" ? "white" : '#'.$product['color']}};"></span>
+                                                                </div>
+                                                            @endif
+                                                            @if(!empty($product['keys']))
+
+                                                                @foreach( array_combine(explode(',', $product['keys']), explode(',', $product['values']))  as $key => $value)
+
+                                                                    <div class="quantity">
+                                                                        <h5 class="label">{{ ucwords(str_replace('_', ' ', $key))  }}
+                                                                            : </h5>
+                                                                        <span class="qttotal">{{ $value }} </span>
+                                                                    </div>
+                                                                @endforeach
+
+                                                            @endif
+                                                            <div class="quantity">
+                                                                <h5 class="label">{{ $langg->lang755 }} : </h5>
+                                                                <span class="qttotal">{{ $product['qty'] }} </span>
+                                                            </div>
+                                                            <div class="total-price">
+                                                                <h5 class="label">{{ $langg->lang756 }} : </h5>
+                                                                <p>{{ App\Models\Product::convertPrice($product['price']) }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
 
 
@@ -339,8 +393,11 @@
                                                     <div class="bottom-area">
                                                         <a href="javascript:;" id="step1-btn"
                                                            class="mybtn1 mr-3">{{ $langg->lang757 }}</a>
+
+                                                        @if($products)   
                                                         <a href="javascript:;" id="step3-btn"
                                                            class="mybtn1">{{ $langg->lang753 }}</a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -888,7 +945,7 @@
 
                                     @endphp
 
-                                    <div class="packeging-area">
+                                    <!-- <div class="packeging-area">
                                         <h4 class="title">{{ $langg->lang765 }}</h4>
                                             <div class="radio-design">
                                                 <input type="radio" class="shipping" id="free-shepping"
@@ -943,7 +1000,7 @@
 
                                         @endforeach
 
-                                    </div>
+                                    </div> -->
                                     {{-- Packeging Area End Start--}}
 
                                     {{-- Final Price Area Start--}}

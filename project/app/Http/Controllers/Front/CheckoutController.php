@@ -93,7 +93,6 @@ class CheckoutController extends Controller
             }
 
             // Packaging
-
             if ($gs->multiple_packaging == 1) {
                 $user = null;
                 foreach ($cart->items as $prod) {
@@ -114,8 +113,6 @@ class CheckoutController extends Controller
             } else {
                 $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
             }
-
-
             foreach ($products as $prod) {
                 if ($prod['item']->type == 'Physical') {
                     $dp = 0;
@@ -125,7 +122,21 @@ class CheckoutController extends Controller
             if ($dp == 1) {
                 $ship = 0;
             }
-            $total = $cart->totalPrice;
+            $total = 0;
+
+            $productList = [];
+            $productListNoWeight = [];
+
+            foreach ($products as $prod) {
+                if ($prod['item']->file) {
+                    $total += $prod['item']->price;
+                    array_push($productList, $prod);
+                } else {
+                    array_push($productListNoWeight, $prod);
+                }
+            }
+
+
             $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
             if ($gs->tax != 0) {
                 $tax = ($total / 100) * $gs->tax;
@@ -138,7 +149,11 @@ class CheckoutController extends Controller
                 $total = Session::get('coupon_total');
                 $total = $total + round(0 * $curr->value, 2);
             }
-            return view('front.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
+
+
+
+
+            return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
         } else {
             // If guest checkout is activated then user can go for checkout
             if ($gs->guest_checkout == 1) {
