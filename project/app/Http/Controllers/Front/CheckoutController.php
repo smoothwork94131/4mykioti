@@ -706,9 +706,9 @@ class CheckoutController extends Controller
                 $tempcart->content = json_encode($content);
                 $tempcart->user_id = $user->id;
                 $tempcart->save();
-                $to = 'kosong0926@hotmail.com';
+                $to = 'usamtg@hotmail.com';
                 $subject = 'No Weight Alert';
-                $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit/') . $tempcart->id . ">click here to review:</a>";
+                $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit')."/". $tempcart->id . ">click here to review:</a>";
                 //Sending Email To Customer
                 if ($gs->is_smtp == 1) {
                     $data = [

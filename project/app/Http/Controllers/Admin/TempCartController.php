@@ -7,7 +7,7 @@ use App\Models\TempCart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class FaqController extends Controller
+class TempCartController extends Controller
 {
     public function __construct()
     {
