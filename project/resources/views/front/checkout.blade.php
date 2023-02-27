@@ -394,10 +394,8 @@
                                                         <a href="javascript:;" id="step1-btn"
                                                            class="mybtn1 mr-3">{{ $langg->lang757 }}</a>
 
-                                                        @if($products)   
                                                         <a href="javascript:;" id="step3-btn"
                                                            class="mybtn1">{{ $langg->lang753 }}</a>
-                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -770,7 +768,13 @@
                                                         <a href="javascript:;" id="step2-btn"
                                                            class="mybtn1 mr-3">{{ $langg->lang757 }}</a>
                                                         <button type="submit" id="final-btn"
-                                                                class="mybtn1">Checkout</button>
+                                                                class="mybtn1">
+                                                            @if($products)
+                                                            Checkout
+                                                            @else
+                                                            Report
+                                                            @endif
+                                                            </button>
                                                     </div>
 
                                                 </div>

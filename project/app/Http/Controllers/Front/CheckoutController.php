@@ -16,6 +16,7 @@ use App\Models\PaymentGateway;
 use App\Models\Pickup;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\TempCart;
 use App\Models\UserNotification;
 use App\Models\VendorOrder;
 use Auth;
@@ -149,9 +150,6 @@ class CheckoutController extends Controller
                 $total = Session::get('coupon_total');
                 $total = $total + round(0 * $curr->value, 2);
             }
-
-
-
 
             return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
         } else {
@@ -641,8 +639,12 @@ class CheckoutController extends Controller
         
     try {
         $i = 0;
+        $needToTemp = false;
         foreach ($cart->items as $key => $prod) {
-            if (!$prod['item']->file) continue;
+            if (!$prod['item']->file) {
+                $needToTemp = true;
+                continue;
+            }
             $i++;
             $query = '{
                 products(first: 1, query:"(title:'.$prod['item']->name.') AND (price:'.$prod['item']->price.')",) {
@@ -693,16 +695,49 @@ class CheckoutController extends Controller
         $input.='],
       }';
 
+            if ($needToTemp) {
+                $user = Auth::user();
+                $content = [
+                    'totalQty' => $cart->totalQty,
+                    'totalPrice' => $cart->totalPrice,
+                    'items' => $cart->items
+                ];
+                $tempcart = new TempCart;
+                $tempcart->content = json_encode($content);
+                $tempcart->user_id = $user->id;
+                $tempcart->save();
+                $to = 'kosong0926@hotmail.com';
+                $subject = 'No Weight Alert';
+                $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit/') . $tempcart->id . ">click here to review:</a>";
+                //Sending Email To Customer
+                if ($gs->is_smtp == 1) {
+                    $data = [
+                        'to' => $to,
+                        'subject' => $subject,
+                        'body' => $msg,
+                    ];
 
-      if ($i == 0) {
-        return redirect()->route('front.cart')->with('success', "No weight parts");
+                    $mailer = new GeniusMailer();
+                    $mailer->sendCustomMail($data);
+                } else {
+                    $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+                    mail($to, $subject, $msg, $headers);
+                }
+            }
       }
 
+      if ($i == 0) {
+        Session::put('tempcart', $cart);
+        Session::forget('cart');
+        Session::forget('already');
+        Session::forget('coupon');
+        Session::forget('coupon_total');
+        Session::forget('coupon_total1');
+        Session::forget('coupon_percentage');
+        return redirect()->route('front.index');
+      }
 
-        //   dd($checkoutQuery);
-
-
-          $checkoutsh = $shopify->GraphQL->post(<<<QUERY
+      $checkoutsh = $shopify->GraphQL->post(<<<QUERY
           mutation {
             checkoutCreate(input: {$input}) {
                 checkout {
@@ -720,11 +755,35 @@ class CheckoutController extends Controller
 
 
         if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
+            Session::put('tempcart', $cart);
+            Session::forget('cart');
+            Session::forget('already');
+            Session::forget('coupon');
+            Session::forget('coupon_total');
+            Session::forget('coupon_total1');
+            Session::forget('coupon_percentage');
             return redirect($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']);
         } else {
+            Session::put('tempcart', $cart);
+            Session::forget('cart');
+            Session::forget('already');
+            Session::forget('coupon');
+            Session::forget('coupon_total');
+            Session::forget('coupon_total1');
+            Session::forget('coupon_percentage');
             return redirect()->route('front.cart')->with('success', "Something went wrong. Try again later!");
         }
     } catch (\Exception $e) {
+
+        Session::put('tempcart', $cart);
+        Session::forget('cart');
+        Session::forget('already');
+        Session::forget('coupon');
+        Session::forget('coupon_total');
+        Session::forget('coupon_total1');
+        Session::forget('coupon_percentage');
+
+
         return redirect()->route('front.cart')->with('success', "Something went wrong. Try again later!");
     }
 

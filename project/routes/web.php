@@ -731,6 +731,12 @@ Route::prefix('admin')->group(function () {
 
     //------------ ADMIN HOME PAGE SETTINGS SECTION ENDS ------------
 
+
+
+    Route::get('/tempcart/edit/{id}', 'Admin\TempCartController@edit')->name('admin-tempcart-edit');
+    Route::post('/tempcart/update/{id}', 'Admin\TempCartController@update')->name('admin-tempcart-update');
+
+
     Route::group(['middleware' => 'permissions:menu_page_settings'], function () {
 
         //------------ ADMIN MENU PAGE SETTINGS SECTION ------------
