@@ -724,7 +724,6 @@ class CheckoutController extends Controller
                     mail($to, $subject, $msg, $headers);
                 }
             }
-      }
 
       if ($i == 0) {
         Session::put('tempcart', $cart);
