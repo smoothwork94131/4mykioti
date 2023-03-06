@@ -80,7 +80,6 @@ class TempCartController extends Controller
         $data = $request->all();
         $cart = TempCart::findOrFail($id);
         $cartContent = json_decode($cart->content);
-        $user = User::find($cart->user_id);
         $admin = Auth::guard('admin')->user();
 
         foreach ($data as $key => $value) {
@@ -97,7 +96,7 @@ class TempCartController extends Controller
         $cart->content = json_encode($cartContent);
         $cart->update();
 
-        $to = $user->email;
+        $to = $cart->user_email;
         $subject = 'Your temp cart is updated. Please try to checkout';
         $from = $admin->email;
         $msg = "Email: " . $from . "<br>Message: <a href=" . url('checkouttemp')."/". $$cart->id .">click here to review:</a>";
