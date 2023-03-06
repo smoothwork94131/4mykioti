@@ -147,43 +147,43 @@
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="text" name="name"
                                                                placeholder="{{ $langg->lang152 }}" required=""
-                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->name : '' }}" readonly>
+                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->name : '' }}" {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="text" name="phone"
                                                                placeholder="{{ $langg->lang153 }}" required=""
-                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->phone : '' }}" readonly>
+                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->phone : '' }}" {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="text" name="email"
                                                                placeholder="{{ $langg->lang154 }}" required=""
-                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->email : '' }}" readonly>
+                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->email : '' }}" {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="text" name="address"
                                                                placeholder="{{ $langg->lang155 }}" required=""
-                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->address : '' }}" readonly>
+                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->address : '' }}" {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <select class="form-control" name="customer_country"
-                                                                required="" readonly>
+                                                                required="" {!! Auth::check() ? 'readonly' : '' !!}>
                                                             @include('includes.countries')
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="text" name="city"
                                                                placeholder="{{ $langg->lang158 }}" required=""
-                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->city : '' }}" readonly>
+                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->city : '' }}" {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="text" name="zip"
                                                                placeholder="{{ $langg->lang159 }}" required=""
-                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->zip : '' }}" readonly>
+                                                               value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->zip : '' }}" {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
                                                     
                                                 </div>
                                             </div>
-                                            <div class="row {{ $digital == 1 || !Auth::guard('web')->user()->is_verified? 'd-none' : '' }}">
+                                            <div class="row {{ $digital == 1 || !Auth::guard('web')->user() || (!Auth::guard('web')->user()->is_verified)? 'd-none' : '' }}">
                                                 <div class="col-lg-12 mt-3">
                                                     <input class="styled-checkbox" id="ship-diff-address"
                                                            type="checkbox" value="value1">

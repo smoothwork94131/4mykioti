@@ -216,6 +216,20 @@ class CheckoutController extends Controller
                         break;
                     }
                 }
+
+                $productList = [];
+                $productListNoWeight = [];
+
+                $total = 0;
+                foreach ($products as $prod) {
+                    if ($prod['item']->file) {
+                        $total += $prod['item']->price;
+                        array_push($productList, $prod);
+                    } else {
+                        array_push($productListNoWeight, $prod);
+                    }
+                }
+
                 if ($dp == 1) {
                     $ship = 0;
                 }
@@ -240,7 +254,7 @@ class CheckoutController extends Controller
                         }
                     }
                 }
-                return view('front.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
+                return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
             } // If guest checkout is Deactivated then display pop up form with proper error message
 
             else {
@@ -332,13 +346,10 @@ class CheckoutController extends Controller
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
-
-            // If a user is Authenticated then there is no problm user can go for checkout
-
+        // If a user is Authenticated then there is no problm user can go for checkout
         if (Auth::guard('web')->check()) {
             $gateways = PaymentGateway::where('status', '=', 1)->get();
             $pickups = Pickup::all();
-
 
             $cart = json_decode($tempcart->content);
 
@@ -432,6 +443,7 @@ class CheckoutController extends Controller
 
             return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
         } else {
+
             // If guest checkout is activated then user can go for checkout
             if ($gs->guest_checkout == 1) {
                 $gateways = PaymentGateway::where('status', '=', 1)->get();
@@ -511,15 +523,16 @@ class CheckoutController extends Controller
                     $total = Session::get('coupon_total');
                     $total = str_replace($curr->sign, '', $total) + round(0 * $curr->value, 2);
                 }
+
                 foreach ($products as $prod) {
                     if ($prod['item']->type != 'Physical') {
                         if (!Auth::guard('web')->check()) {
                             $ck = 1;
-                            return view('front.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
+                            return view('front.checkout', ['products' => $cart->items,'productsNw' => [], 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
                         }
                     }
                 }
-                return view('front.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
+                return view('front.checkout', ['products' => $cart->items, 'productsNw' => [], 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
             } // If guest checkout is Deactivated then display pop up form with proper error message
 
             else {
@@ -598,8 +611,7 @@ class CheckoutController extends Controller
 
     }
 
-    public function cashondelivery(Request $request)
-    {
+    public function cashondelivery(Request $request) {
 
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
@@ -612,7 +624,7 @@ class CheckoutController extends Controller
                     $token = md5(time() . $request->personal_name . $request->personal_email);
                     $user->verification_link = $token;
                     $user->affilate_code = md5($request->name . $request->email);
-                    $user->emai_verified = 'Yes';
+                    $user->email_verified = 'Yes';
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
@@ -846,7 +858,6 @@ class CheckoutController extends Controller
     }
 
     public function shopifycheckout(Request $request) {
-
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
             if (count($users) == 0) {
@@ -855,10 +866,17 @@ class CheckoutController extends Controller
                     $user->name = $request->personal_name;
                     $user->email = $request->personal_email;
                     $user->password = bcrypt($request->personal_pass);
+
+                    $user->phone = $request->phone;
+                    $user->address = $request->address;
+                    $user->city = $request->city;
+                    $user->country = $request->customer_country;
+                    $user->zip = $request->zip;
+                    
                     $token = md5(time() . $request->personal_name . $request->personal_email);
                     $user->verification_link = $token;
                     $user->affilate_code = md5($request->name . $request->email);
-                    $user->emai_verified = 'Yes';
+                    $user->email_verified = 'Yes';
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
@@ -956,7 +974,6 @@ class CheckoutController extends Controller
         }';
 
                 if ($needToTemp) {
-                    $user = Auth::user();
                     $content = [
                         'totalQty' => $cart->totalQty,
                         'totalPrice' => $cart->totalPrice,
@@ -964,7 +981,7 @@ class CheckoutController extends Controller
                     ];
                     $tempcart = new TempCart;
                     $tempcart->content = json_encode($content);
-                    $tempcart->user_id = $user->id;
+                    $tempcart->user_email = $request->email;
                     $tempcart->save();
                     $to = 'usamtg@hotmail.com';
                     $subject = 'No Weight Alert';
@@ -1031,7 +1048,6 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
             }
         } catch (\Exception $e) {
-
             Session::put('tempcart', $cart);
             Session::forget('cart');
             Session::forget('already');
@@ -1039,21 +1055,21 @@ class CheckoutController extends Controller
             Session::forget('coupon_total');
             Session::forget('coupon_total1');
             Session::forget('coupon_percentage');
-
-
             return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
         }
 
     }
 
     public function addToTemp(Request $request) {
+
+        if (!Session::has('cart')) {
+            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+        }
+
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-
         // $storefrontAccessToken = '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';
-        
-        $user = Auth::user();
         $content = [
             'totalQty' => $cart->totalQty,
             'totalPrice' => $cart->totalPrice,
@@ -1061,7 +1077,7 @@ class CheckoutController extends Controller
         ];
         $tempcart = new TempCart;
         $tempcart->content = json_encode($content);
-        $tempcart->user_id = $user->id;
+        $tempcart->user_email = $request->email;
         $tempcart->save();
         $to = 'usamtg@hotmail.com';
         $subject = 'No Weight Alert';
@@ -1073,14 +1089,12 @@ class CheckoutController extends Controller
                 'subject' => $subject,
                 'body' => $msg,
             ];
-
             $mailer = new GeniusMailer();
             $mailer->sendCustomMail($data);
         } else {
             $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
             mail($to, $subject, $msg, $headers);
         }
-
         Session::put('tempcart', $cart);
         Session::forget('cart');
         Session::forget('already');
@@ -1088,9 +1102,9 @@ class CheckoutController extends Controller
         Session::forget('coupon_total');
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
-        return redirect()->route('front.index');
-
-    
+        $email = $request->email;
+        $message = 'Thanks for your business. We will notify you via an email to '.$email.' when your order is ready and you can finish your checkout.';
+        return view('front.success', compact('message', 'email'));
     }
 
     public function gateway(Request $request)
@@ -1101,7 +1115,6 @@ class CheckoutController extends Controller
         $rules = [
             'txn_id4' => 'required',
         ];
-
 
         $messages = [
             'required' => 'The Transaction ID field is required.',

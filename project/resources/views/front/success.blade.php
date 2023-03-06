@@ -16,11 +16,13 @@
                                 {{ $langg->lang17 }}
                             </a>
                         </li>
+                        @if(!$message)
                         <li>
                             <a href="{{ route('payment.return') }}">
                                 {{ $langg->lang169 }}
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -280,6 +282,26 @@
                         </div>
                         <!-- Ending of Dashboard data-table area -->
                     </div>
+
+        @endif
+
+        @if($message)
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                <div class="alert alert-primary fade show"
+                                                     role="alert">
+                                                    {{ $message }}
+                                                    <br>
+                                                    <br>
+
+                                                    <a href="{{route('front.index')}}" type="button" class="btn btn-primary">
+                                                        <span aria-hidden="true">Back to Home</span>
+                                                    </a>
+                                                </div>
+                </div>
+            </div>
+        </div>
 
         @endif
 
