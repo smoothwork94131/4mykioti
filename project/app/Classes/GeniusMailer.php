@@ -145,8 +145,8 @@ class GeniusMailer
                 $message->subject($objDemo->subject);
             });
         } catch (\Exception $e) {
-            die($e->getMessage());
-            // return $e->getMessage();
+            
+            return $e->getMessage();
         }
         return true;
     }

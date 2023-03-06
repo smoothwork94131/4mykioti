@@ -6,6 +6,10 @@ use Datatables;
 use App\Models\TempCart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Generalsetting;
+use App\Classes\GeniusMailer;
 
 class TempCartController extends Controller
 {
@@ -66,25 +70,53 @@ class TempCartController extends Controller
     public function edit($id)
     {
         $data = TempCart::findOrFail($id);
-        return view('admin.tempcart.edit', compact('data'));
+        $cart = json_decode($data->content);
+        return view('admin.tempcart.edit', compact('data', 'cart'));
     }
 
     //*** POST Request
     public function update(Request $request, $id)
     {
-        //--- Validation Section
+        $data = $request->all();
+        $cart = TempCart::findOrFail($id);
+        $cartContent = json_decode($cart->content);
+        $user = User::find($cart->user_id);
+        $admin = Auth::guard('admin')->user();
 
-        //--- Validation Section Ends
+        foreach ($data as $key => $value) {
+            if ($key !== '_token') {
+                $cartContent->items->$key->item->file = $value;
+                DB::table($cartContent->items->$key->db)
+                ->where('id',$cartContent->items->$key->item->id)
+                ->update([
+                    'file' => $value,
+                ]);
+            }
+        }
 
-        //--- Logic Section
-        $data = TempCart::findOrFail($id);
-        $input = $request->all();
-        $data->update($input);
-        //--- Logic Section Ends
+        $cart->content = json_encode($cartContent);
+        $cart->update();
 
-        //--- Redirect Section     
-        $msg = 'Data Updated Successfully.';
-        return response()->json($msg);
+        $to = $user->email;
+        $subject = 'Your temp cart is updated. Please try to checkout';
+        $from = $admin->email;
+        $msg = "Email: " . $from . "<br>Message: <a href=" . url('checkouttemp')."/". $$cart->id .">click here to review:</a>";
+        $gs = Generalsetting::findOrFail(1);
+        if ($gs->is_smtp == 1) {
+
+            $datas = [
+                'to' => $to,
+                'subject' => $subject,
+                'body' => $msg,
+            ];
+            $mailer = new GeniusMailer();
+            $mailer->sendCustomMail($datas);
+        } else {
+            $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+            mail($to, $subject, $msg, $headers);
+        }
+
+        return redirect()->route('admin.dashboard');
         //--- Redirect Section Ends              
     }
 

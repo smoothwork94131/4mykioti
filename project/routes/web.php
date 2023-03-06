@@ -1531,6 +1531,7 @@ Route::group(['middleware' => 'maintenance'], function () {
     // CART SECTION
     Route::get('/carts/view', 'Front\CartController@cartview');
     Route::get('/carts/', 'Front\CartController@cart')->name('front.cart');
+    Route::get('/carts/clear', 'Front\CartController@clearcart')->name('front.cart.clear');
     Route::get('/addcart/{db}/{id}', 'Front\CartController@addcart')->name('product.cart.add');
     Route::get('/addtocart/{db}/{id}', 'Front\CartController@addtocart')->name('product.cart.quickadd');
     Route::get('/addnumcart', 'Front\CartController@addnumcart');
@@ -1545,8 +1546,10 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     // CHECKOUT SECTION
     Route::get('/checkout/', 'Front\CheckoutController@checkout')->name('front.checkout');
+    Route::get('/checkouttemp/{id}', 'Front\CheckoutController@checkouttemp')->name('front.checkout.temp');
     Route::get('/checkout/payment/{slug1}/{slug2}', 'Front\CheckoutController@loadpayment')->name('front.load.payment');
     Route::post('/checkout/shopify', 'Front\CheckoutController@shopifycheckout')->name('front.checkout.shopify');
+    Route::post('/checkout/addtemp', 'Front\CheckoutController@addToTemp')->name('front.checkout.addtemp');
     Route::get('/order/track/{id}', 'Front\FrontendController@trackload')->name('front.track.search');
     Route::get('/checkout/payment/return', 'Front\PaymentController@payreturn')->name('payment.return');
     Route::get('/checkout/payment/cancle', 'Front\PaymentController@paycancle')->name('payment.cancle');

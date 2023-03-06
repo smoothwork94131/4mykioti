@@ -440,6 +440,11 @@
                                                                        aria-controls="v-pills-tab3"
                                                                        aria-selected="false"></a>
 
+                                                <a class="nav-link payment"
+                                                                       id="addtotemp"
+                                                                       data-form="{{route('front.checkout.addtemp')}}"
+                                                                       ></a>
+
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="nav flex-column" role="tablist"
@@ -766,13 +771,24 @@
                                                     <div class="bottom-area">
 
                                                         <a href="javascript:;" id="step2-btn"
-                                                           class="mybtn1 mr-3">{{ $langg->lang757 }}</a>
+                                                           class="mybtn1 mr-3 mt-1">{{ $langg->lang757 }}</a>
+                                                           
+                                                        @if($productsNw)
+                                                        <a href="{{route('front.cart.clear')}}"
+                                                           class="mybtn1 mr-3 mt-1">Clear Cart</a>
+                                                        @endif
+
+                                                        @if($productsNw && $products)
+                                                        <a href="javascript:;" id="addtemp-btn"
+                                                           class="mybtn1 mr-3 mt-1">Add to Temp</a>
+                                                        @endif
+                                                        
                                                         <button type="submit" id="final-btn"
-                                                                class="mybtn1">
+                                                                class="mybtn1 mt-1">
                                                             @if($products)
                                                             Checkout
                                                             @else
-                                                            Report
+                                                            Notify Later
                                                             @endif
                                                             </button>
                                                     </div>
@@ -855,12 +871,7 @@
 
                                     @endif
 
-
-
-
                                     @if(Session::has('coupon'))
-
-
                                         <li class="discount-bar">
                                             <p>
                                                 {{ $langg->lang145 }} <span
@@ -874,11 +885,7 @@
                                                 @endif
                                             </P>
                                         </li>
-
-
                                     @else
-
-
                                         <li class="discount-bar d-none">
                                             <p>
                                                 {{ $langg->lang145 }} <span class="dpercent"></span>
@@ -887,11 +894,7 @@
                                                 <b id="discount">{{ $curr->sign }}{{ Session::get('coupon') }}</b>
                                             </P>
                                         </li>
-
-
                                     @endif
-
-
                                 </ul>
 
                                 <div class="total-price">
@@ -918,19 +921,15 @@
 
 
                                 <div class="cupon-box">
-
                                     <div id="coupon-link">
                                         <img src="{{ asset('assets/front/images/tag.png') }}">
                                         {{ $langg->lang132 }}
                                     </div>
-
                                     <form id="check-coupon-form" class="coupon">
                                         <input type="text" placeholder="{{ $langg->lang133 }}" id="code" required=""
                                                autocomplete="off">
                                         <button type="submit">{{ $langg->lang134 }}</button>
                                     </form>
-
-
                                 </div>
 
                                 @if($digital == 0)
@@ -1220,7 +1219,12 @@
         $('a.payment:first').addClass('active');
         $('.checkoutform').prop('action', $('a.payment:first').data('form'));
         $($('a.payment:first').attr('href')).load($('a.payment:first').data('href'));
+        $('#addtemp-btn').click(() => {
+            $('.checkoutform').prop('action', $('#addtotemp').data('form'));
+            var frm = document.getElementById("checkoutform");
+            frm.submit();
 
+        });
 
         var show = $('a.payment:first').data('show');
         if (show != 'no') {
@@ -1461,7 +1465,7 @@
             if ($('a.payment:first').data('val') == 'paystack') {
                 $('.checkoutform').prop('id', 'step1-form');
             } else {
-                $('.checkoutform').prop('id', '');
+                $('.checkoutform').prop('id', 'checkoutform');
             }
             $('#pills-step3-tab').removeClass('disabled');
             $('#pills-step3-tab').click();

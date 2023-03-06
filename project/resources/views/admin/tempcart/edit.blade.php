@@ -1,4 +1,4 @@
-@extends('layouts.load')
+@extends('layouts.admin')
 @section('content')
 
     <div class="content-area">
@@ -8,51 +8,50 @@
                 <div class="col-lg-12">
                     <div class="product-description">
                         <div class="body-area">
-                            @include('includes.admin.form-error')
-                            <form id="geniusformdata" action="{{route('admin-faq-update',$data->id)}}" method="POST">
-                                {{csrf_field()}}
-
-
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="left-area">
-                                            <h4 class="heading">{{ __('Title') }} *</h4>
-                                            <p class="sub-heading">{{ __('(In Any Language)') }}</p>
+                        <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mr-table allproduct">
+                                        <div class="table-responsiv">
+                                            <form action="{{route('admin-tempcart-update',$data->id)}}" method="POST">
+                                            {{csrf_field()}}
+                                                <table class="table table-hover dt-responsive" cellspacing="0"
+                                                width="100%">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ __('Name') }}</th>
+                                                    <th>{{ __('Image') }}</th>
+                                                    <th>{{ __('Price') }}</th>
+                                                    <th>{{ __('Weight') }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($cart->items as $key=>$prod)    
+                                                <tr>
+                                                    <td>{{$prod->item->name}}</td>
+                                                    <td>
+                                                        <img src="{{ $prod->item->photo ? asset('assets/images/products/'.$prod->item->photo):asset('assets/images/noimage.png') }}"
+                                                         alt="">
+                                                    </td>
+                                                    <td>
+                                                        {{$prod->item->price}} * {{$prod->qty}}
+                                                    </td>
+                                                    <td>
+                                                        @if($prod->item->file)
+                                                        {{$prod->item->file}}
+                                                        @else
+                                                        <input type="number" name="{{$key}}" required>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                                </tbody>
+                                                </table>
+                                                <button type="submit">Add Weights and Notify User</button>
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7">
-                                        <input type="text" class="input-field" name="title"
-                                               placeholder="{{ __('Title') }}" value="{{$data->title}}" required="">
-                                    </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="left-area">
-                                            <h4 class="heading">
-                                                {{ __('Description') }} *
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <textarea class="nic-edit" name="details"
-                                                  placeholder="{{ __('Description') }}">{{ $data->contents }}</textarea>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="left-area">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <button class="addProductSubmit-btn" type="submit">{{ __('Save') }}</button>
-                                    </div>
-                                </div>
-                            </form>
-
+                            </div>
 
                         </div>
                     </div>
