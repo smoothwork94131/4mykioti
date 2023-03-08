@@ -900,7 +900,6 @@ class CheckoutController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        // $storefrontAccessToken = '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';
         $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
         // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
@@ -944,7 +943,7 @@ class CheckoutController extends Controller
 
                 $i++;
                 $query = '{
-                    products(first: 1, query:"(title:'.$prod['item']->name.') AND (price:'.$prod['item']->price.')",) {
+                    products(first: 1, query:"(title:'.$prod['item']->name.') AND (variants.sku:'.$prod['item']->sku.')",) {
                         edges {
                             node {
                                 variants(first: 5) {
@@ -961,11 +960,16 @@ class CheckoutController extends Controller
 
                 $productFromShopify = $shopify->GraphQL->post($query);
 
-                $input .= "{
-                    quantity: {$prod['qty']},
-                    variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                },";
-
+                if ($productFromShopify['data']['products']['edges']) {
+                    $input .= "{
+                        quantity: {$prod['qty']},
+                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                    },";
+                } else {
+                    $this->createProductOnShopify($prod);
+                }
+                
+                
                 $cart->removeItem($key);
             }
 
@@ -1364,7 +1368,6 @@ class CheckoutController extends Controller
         return redirect($success_url);
     }
 
-
     // Capcha Code Image
     private function code_image()
     {
@@ -1397,6 +1400,41 @@ class CheckoutController extends Controller
         }
         session(['captcha_string' => $word]);
         imagepng($image, $actual_path . "assets/images/capcha_code.png");
+    }
+
+    private function createProductOnShopify($prod) {
+
+        $adminAccessToken = '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';
+        $shop = '4mykioti.myshopify.com';
+        $adminConfig = array(
+            'ShopUrl' => $shop,
+            'AccessToken' => $adminAccessToken,
+        );
+        $adminshopify = ShopifySDK::config($adminConfig);
+
+        $input = '{
+            title: "'.$prod['item']->name.'", 
+            descriptionHtml: "'.$prod['item']->name.'", 
+            vendor: "Tractor Brothers",
+            variants: [
+                {
+                    sku: "'.$prod['item']->sku.'",
+                    weight: '.$prod['item']->file.'
+                    price: '.$prod['item']->price.'
+                }
+            ]
+        }';
+
+        $checkoutsh = $adminshopify->GraphQL->post(<<<QUERY
+            mutation {
+                productCreate(input: {$input}) {
+                    product {
+                        id
+                      }
+                }
+            }
+            QUERY,);
+
     }
 
 }

@@ -801,7 +801,7 @@ public function solo_datatables()
 
     public function shopify() {
        // Load the access token as per instructions above
-// $storefrontAccessToken = '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';
+// $storefrontAccessToken = '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';
 $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
 // Shop from which we're fetching data
 $shop = '4mykioti.myshopify.com';

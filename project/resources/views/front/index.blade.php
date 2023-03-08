@@ -11,7 +11,7 @@
     
     @if($ps->slider == 1)
         <!-- Hero Area Start -->
-        <section class="hero-area">
+        <section class="hero-area" style="background-color: white">
             <div class="container custom-container">
                 <div class="row">
                     <div class="col-12 remove-padding s-top-block">

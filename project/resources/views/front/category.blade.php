@@ -95,7 +95,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="section-top" style="display: block">
-                        <h6>{{$group->group_Id}}</h6>
+                        <h6>{{$group->model}}</h6>
                         <h2 class="section-title remove-padding">
                             {{$group->group_name }}
                             <span class="title-underline"></span>

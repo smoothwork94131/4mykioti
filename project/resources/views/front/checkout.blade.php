@@ -326,7 +326,7 @@
                                                 @if($productsNw)
                                                 <div class="alert alert-danger">
                                                 The products you selected listed below will need to be pulled before we can provide shipping costs. We apologize for any inconvenience and will notify you via email when you can continue with checkout. If you need immediate service or for additional information,
-                                                            <a href="#">call 724-691-0200</a>
+                                                            <a href="tel:724-691-0200">call 724-691-0200</a>
                                                             </div>
                                                 @endif
 
@@ -778,19 +778,17 @@
                                                            class="mybtn1 mr-3 mt-1">Clear Cart</a>
                                                         @endif
 
-                                                        @if($productsNw && $products)
-                                                        <a href="javascript:;" id="addtemp-btn"
-                                                           class="mybtn1 mr-3 mt-1">Add to Temp</a>
-                                                        @endif
-                                                        
+                                                        @if($products)
                                                         <button type="submit" id="final-btn"
-                                                                class="mybtn1 mt-1">
-                                                            @if($products)
+                                                            class="mybtn1 mt-1">
                                                             Checkout
-                                                            @else
-                                                            Notify Later
-                                                            @endif
-                                                            </button>
+                                                        </button>
+                                                        @endif
+
+                                                        @if($productsNw)
+                                                        <a href="javascript:;" id="addtemp-btn" style = "width: 200px"
+                                                           class="mybtn1 mr-3 mt-1">NOTIFY ME WHEN READY</a>
+                                                        @endif
                                                     </div>
 
                                                 </div>
