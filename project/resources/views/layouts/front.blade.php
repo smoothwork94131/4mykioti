@@ -56,6 +56,8 @@
     @endif
 
     <link rel="stylesheet" href="{{asset('assets/front/css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/front/css/customheader.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @yield('styles')
 
@@ -130,287 +132,185 @@
 
 
 <section class="top-header">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 remove-padding">
                 <div class="content">
                     <div class="left-content">
                         <div class="list">
                             <ul>
-                                @if($gs->is_language == 1)
-                                    <li>
-                                        <div class="language-selector">
-                                            <i class="fas fa-globe-americas"></i>
-                                            <select name="language" class="language selectors nice">
-                                                @foreach(DB::table('languages')->get() as $language)
-                                                    <option value="{{route('front.language',$language->id)}}" {{ Session::has('language') ? ( Session::get('language') == $language->id ? 'selected' : '' ) : (DB::table('languages')->where('is_default','=',1)->first()->id == $language->id ? 'selected' : '') }} >{{$language->language}}</option>
-                                                @endforeach
-                                            </select>
+                                <li>
+                                    <a class="root-link" href="/" target="">
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="root-link" href="/" target="">
+                                        New Models
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="root-link" href="/" target="">
+                                        Inventory
+                                    </a>
+                                </li>
+                                <li class="mainmenu-area">
+                                    <div class="categories_menu">
+                                        <div class="categories_title">
+                                            <h2 class="categori_toggle"> Parts Finder </h2>
                                         </div>
-                                    </li>
-                                @endif
-
-                                @if($gs->is_currency == 1)
-                                    <li>
-                                        <div class="currency-selector">
-                                            <span>{{ Session::has('currency') ?   DB::table('currencies')->where('id','=',Session::get('currency'))->first()->sign   : DB::table('currencies')->where('is_default','=',1)->first()->sign }}</span>
-                                            <select name="currency" class="currency selectors nice">
-                                                @foreach(DB::table('currencies')->get() as $currency)
-                                                    <option value="{{route('front.currency',$currency->id)}}" {{ Session::has('currency') ? ( Session::get('currency') == $currency->id ? 'selected' : '' ) : (DB::table('currencies')->where('is_default','=',1)->first()->id == $currency->id ? 'selected' : '') }} >{{$currency->name}}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="categories_menu_inner products">
+                                            @foreach($eccategories as $product)
+                                            <div class="categories_menu ">
+                                                <div class="categories_title">
+                                                    <h2 class="categori_toggle"> {{$product->product}} <i
+                                                                class="fa fa-angle-down arrow-down"></i></h2>
+                                                </div>
+                                                <div class="categories_menu_inner series">
+                                                    @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
+                                                    <div class="categories_menu">
+                                                        <div class="categories_title" data-type="model"
+                                                                        data-series="{{$series->series}}"
+                                                                        data-url="{{route('front.groups')}}" 
+                                                                        data-status="0" data-token="{{ csrf_token() }}">
+                                                            <h2 class="categori_toggle"> {{$series->series}} <i
+                                                                        class="fa fa-angle-down arrow-down"></i></h2>
+                                                        </div>
+                                                        <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
+                                                            loading...
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            @endforeach
                                         </div>
-                                    </li>
-                                @endif
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="root-link" href="/" target="">
+                                        Services
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="root-link" href="/" target="">
+                                        Company Info
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="right-content">
-                        <div class="list">
-                            <ul>
-                                @if(!Auth::guard('web')->check())
-                                    <li class="login">
-                                        <div class="links">
-                                            <a href="{{ route('user.login') }}" class="whitelink">
-                                                <span class="sign-in">{{ $langg->lang12 }}</span><span>|</span>
-                                            </a>
-                                            <a href="{{ route('user.register') }}" class="whitelink">
-                                                <span class="join">{{ $langg->lang13 }}</span>
-                                            </a>
-                                        </div>
-                                    </li>
-                                @else
-                                    <li class="profilearea my-dropdown">
-                                        <a href="javascript: ;" id="profile-icon" class="profile carticon">
-												<span class="text">
-                                                    <i class="far fa-user"></i>	{{ $langg->lang11 }} 
-                                                    <i class="fas fa-chevron-down"></i>
-												</span>
-                                        </a>
-                                        <div class="my-dropdown-menu profile-dropdown">
-                                            <ul class="profile-links">
-                                                <!-- @if(Auth::user()->IsVendor())
-                                                    <li>
-                                                        <a href="{{ route('vendor-dashboard') }}"><i
-                                                                    class="fas fa-angle-double-right"></i> {{ $langg->lang222 }}
-                                                        </a>
-                                                    </li>
-                                                @endif -->
-                                            
-                                                <li>
-                                                    <a href="{{ route('user-dashboard') }}">
-                                                        <i class="fas fa-angle-double-right"></i> {{ $langg->lang221 }}
-                                                    </a>
-                                                </li>
-                                                
-
-                                                <li>
-                                                    <a href="{{ route('user-profile') }}"><i
-                                                                class="fas fa-angle-double-right"></i> {{ $langg->lang205 }}
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="{{ route('user-logout') }}"><i
-                                                                class="fas fa-angle-double-right"></i> {{ $langg->lang223 }}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                @endif
-
-
-                                @if($gs->reg_vendor == 1)
-                                    <li>
-                                        @if(Auth::check())
-                                            @if(Auth::guard('web')->user()->is_vendor == 2)
-                                                <a href="{{ route('vendor-dashboard') }}"
-                                                   class="sell-btn">{{ $langg->lang220 }}</a>
-                                            @else
-                                                <a href="{{ route('user-package') }}"
-                                                   class="sell-btn">{{ $langg->lang220 }}</a>
-                                            @endif
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="javascript:;" data-toggle="modal" data-target="#vendor-login"
-                                           class="sell-btn">{{ $langg->lang220 }}</a>
-                                    </li>
-                                @endif
-                                @endif
-
-
-                            </ul>
-                        </div>
+                    <div class="right-content helpful-links">
+                        <ul class="header-info helpful-links-inner">
+                            <li href="/locations" class="btn btn-primary hidden-xs">Maps &amp; Hours</li>
+                            <li href="/ecommerce#/cart" title="Cart" class="my-dropdown cart"><span><i class="fa fa-shopping-cart">
+                                </i></span>
+                                <span class="cart-quantity"
+                                            id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
+                                <div class="my-dropdown-menu" id="cart-items">
+                                    @include('load.cart')
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<div class="top-gap"></div>
 <!-- Top Header Area End -->
 
 <!-- Logo Header Area Start -->
 <section class="logo-header">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row ">
-            <div class="col-lg-2 col-sm-6 col-5 remove-padding">
+            <div class="col-lg-3 col-sm-6 col-5 remove-padding">
                 <div class="logo">
                     <a href="{{ route('front.index') }}">
-                        <img src="{{asset('assets/images/'.$gs->logo)}}" alt="">
+                        <img src="{{asset('assets/front/images/logo.png')}}" alt="" class="img-responsive center-block logo-img">
                     </a>
                 </div>
             </div>
-            <div class="col-lg-8 col-sm-12 order-last order-sm-2 order-md-2 d-flex align-items-center justify-content-center">
-                <div class="search-box-wrapper">
-                    <div class="search-box">
-                        <div class="categori-container" id="catSelectForm">
-                            <select name="category" id="category_select" class="categoris">
-                                <!-- <option value="">{{ $langg->lang1 }}</option> -->
-                                <option value="" disabled>Tractors</option>
-                                @foreach($categories as $data)
-                                    @if($data->id > 21)
-                                    <option value="{{ $data->slug }}" {{ Request::route('category') == $data->slug ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;{{ $data->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <form id="searchForm" class="search-form"
-                              action="{{ route('front.category', [Request::route('category')??'CK',Request::route('subcategory'),Request::route('childcategory')]) }}"
-                              method="GET">
-                            @if (!empty(request()->input('sort')))
-                                <input type="hidden" name="sort" value="{{ request()->input('sort') }}">
-                            @endif
-                            @if (!empty(request()->input('minprice')))
-                                <input type="hidden" name="minprice" value="{{ request()->input('minprice') }}">
-                            @endif
-                            @if (!empty(request()->input('maxprice')))
-                                <input type="hidden" name="maxprice" value="{{ request()->input('maxprice') }}">
-                            @endif
-                            <input type="text" id="prod_name" name="search" placeholder="{{ $langg->lang2 }}"
-                                   value="{{ request()->input('search') }}" autocomplete="off">
-                            <div class="autocomplete">
-                                <div id="myInputautocomplete-list" class="autocomplete-items">
-                                </div>
-                            </div>
-                            <button type="submit"><i class="icofont-search-1"></i></button>
-                        </form>
+            <div class="col-lg-7 col-sm-12 order-last order-sm-2 order-md-2 d-flex align-items-center justify-content-center">
+                <div class="header-locations">
+                    <div>
+                        <i class="fa fa-map-marker" aria-hidden="true"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span></i>
+                        <ul class="header-links">
+                            <li>
+                                <a href="/locations/36478" title="View Map &amp; Hours for Greensburg">
+                                    <span class="city">Greensburg</span>, <span class="region">PA</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:+1(724) 691-0200" title="Call Us">
+                                    <span>(724) 691-0200</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <i class="fa fa-map-marker" aria-hidden="true"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span></i>
+                        <ul class="header-links">
+                            <li>
+                                <a href="/locations/37100" title="View Map &amp; Hours for Butler">
+                                    <span class="city">Butler</span>, <span class="region">PA</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:+1(724) 482-6288" title="Call Us">
+                                    <span>(724) 482-6288</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <i class="fa fa-map-marker" aria-hidden="true"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span></i>
+                        <ul class="header-links">
+                            <li>
+                                <a href="/locations/37101" title="View Map &amp; Hours for Stoneboro">
+                                    <span class="city">Stoneboro</span>, <span class="region">PA</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:+1(724) 253-2035" title="Call Us">
+                                    <span>(724) 253-2035</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 col-sm-6 col-7 remove-padding order-lg-last d-flex align-items-center justify-content-end">
-                <div class="helpful-links">
-                    <ul class="helpful-links-inner">
-                        <li class="my-dropdown" data-toggle="tooltip" data-placement="top" title="{{ $langg->lang3 }}">
-                            <a href="javascript:;" class="cart carticon">
-                                <div class="icon">
-                                    <i class="icofont-cart"></i>
-                                    <span class="cart-quantity"
-                                          id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
-                                </div>
+                <ul class="business-info-socialmedia">
 
-                            </a>
-                            <div class="my-dropdown-menu" id="cart-items">
-                                @include('load.cart')
-                            </div>
-                        </li>
-                        <li class="wishlist" data-toggle="tooltip" data-placement="top" title="{{ $langg->lang9 }}">
-                            @if(Auth::guard('web')->check())
-                                <a href="{{ route('user-wishlists') }}" class="wish">
-                                    <i class="far fa-heart"></i>
-                                    <span id="wishlist-count">{{ count(Auth::user()->wishlists) }}</span>
-                                </a>
-                            @else
-                                <a href="javascript:;" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"
-                                   class="wish">
-                                    <i class="far fa-heart"></i>
-                                    <span id="wishlist-count">0</span>
-                                </a>
-                            @endif
-                        </li>
-                    </ul>
-                </div>
+                    <li class="social-media search">
+						<a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-search fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span></i>
+							</span>
+						</a>
+					</li>
+					<li class="social-media facebook">
+						<a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-facebook fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span></i>
+							</span>
+						</a>
+					</li>
+					<li class="social-media youtube">
+						<a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos" title="YouTube" target="_blank" aria-describedby="audioeye_new_window_message">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-youtube-play fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span></i>
+							</span>
+						</a>
+					</li>
+			    </ul>
             </div>
         </div>
     </div>
 </section>
 <!-- Logo Header Area End -->
-
-<!--Main-Menu Area Start-->
-<div class="mainmenu-area mainmenu-bb">
-    <div class="container">
-        <div class="row align-items-center mainmenu-area-innner">
-            <div class="col-lg-3 col-md-6 categorimenu-wrapper remove-padding">
-            <!-- <img src="assets/images/oglife-logo-slim.png" style="height:42"> -->
-                <!--categorie menu start-->
-                <div class="categories_menu">
-                    <div class="categories_title">
-                        <h2 class="categori_toggle"><i class="fa fa-bars"></i> {{ $langg->lang14 }} <i
-                                    class="fa fa-angle-down arrow-down"></i></h2>
-                    </div>
-                    <div class="categories_menu_inner products">
-                        @foreach($eccategories as $product)
-                        <div class="categories_menu ">
-                            <div class="categories_title">
-                                <h2 class="categori_toggle"> {{$product->product}} <i
-                                            class="fa fa-angle-down arrow-down"></i></h2>
-                            </div>
-                            <div class="categories_menu_inner series">
-                                @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
-                                <div class="categories_menu">
-                                    <div class="categories_title" data-type="model"
-                                                    data-series="{{$series->series}}"
-                                                    data-url="{{route('front.groups')}}" 
-                                                    data-status="0" data-token="{{ csrf_token() }}">
-                                        <h2 class="categori_toggle"> {{$series->series}} <i
-                                                    class="fa fa-angle-down arrow-down"></i></h2>
-                                    </div>
-                                    <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
-                                        loading...
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <!--categorie menu end-->
-            </div>
-            <div class="col-lg-9 col-md-6 mainmenu-wrapper remove-padding">
-                <nav hidden>
-                    <div class="nav-header">
-                        <button class="toggle-bar"><span class="fa fa-bars"></span></button>
-                    </div>
-                    <ul class="menu">
-                        @if($gs->is_home == 1)
-                            <li><a href="{{ route('front.index') }}">{{ $langg->lang17 }}</a></li>
-                        @endif
-                       
-                        <li><a href="{{ route('front.blog') }}">{{ $langg->lang18 }}</a></li>
-                        @if($gs->is_faq == 1)
-                            <li><a href="{{ route('front.faq') }}">{{ $langg->lang19 }}</a></li>
-                        @endif
-                        @foreach(DB::table('pages')->where('header','=',1)->get() as $data)
-                            <li><a href="{{ route('front.page',$data->slug) }}">{{ $data->title }}</a></li>
-                        @endforeach
-                        @if($gs->is_contact == 1)
-                            <li><a href="{{ route('front.contact') }}">{{ $langg->lang20 }}</a></li>
-                        @endif
-                        <li>
-                            <a href="javascript:;" data-toggle="modal" data-target="#track-order-modal"
-                               class="track-btn">{{ $langg->lang16 }}</a>
-                        </li>
-                    </ul>
-
-                </nav>
-            </div>
-        </div>
-    </div>
-</div>
-<!--Main-Menu Area End-->
 
 @yield('content')
 

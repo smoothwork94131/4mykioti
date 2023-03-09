@@ -10952,7 +10952,7 @@ function() {
         }), t(document).on("click", ".bottomtotop", function() { t("html,body").animate({ scrollTop: 0 }, 2e3) });
         var e = "";
         t(window).on("scroll", function() {
-            t(window).scrollTop() > 300 ? t(".mainmenu-area").addClass("nav-fixed") : t(".mainmenu-area").removeClass("nav-fixed");
+            // t(window).scrollTop() > 300 ? t(".mainmenu-area").addClass("nav-fixed") : t(".mainmenu-area").removeClass("nav-fixed");
             var i = t(this).scrollTop(),
                 n = t(".bottomtotop");
             t(window).scrollTop() > 1e3 ? n.fadeIn(1e3) : n.fadeOut(1e3), e = i

@@ -661,11 +661,11 @@ $(function($) {
     var lastScrollTop = '';
     $(window).on('scroll', function() {
         var $window = $(window);
-        if ($window.scrollTop() > 300) {
-            $(".mainmenu-area").addClass('nav-fixed');
-        } else {
-            $(".mainmenu-area").removeClass('nav-fixed');
-        }
+        // if ($window.scrollTop() > 300) {
+        //     $(".mainmenu-area").addClass('nav-fixed');
+        // } else {
+        //     $(".mainmenu-area").removeClass('nav-fixed');
+        // }
 
         /*---------------------------
             back to top show / hide
