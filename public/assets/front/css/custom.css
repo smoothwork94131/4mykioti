@@ -1303,11 +1303,11 @@ Begin Header Custom Style
 .top-header .navbar-nav .root-link {
     color: #fff;
     text-transform: uppercase;
-    font-size: calc(12px + (16 - 12) * ((100vw - 768px) / (1920 - 768)));
-    width: calc(200px + 30 * ((100vw - 1680px) / (1920 - 1680)));
+    font-size: 16px;
+    width: 200px;
     height: 46px;
-    display: flex;
-    align-items: center;
+    text-align: center;
+    padding: 12px 15px;
 }
 
 .top-header .navbar-nav .root-link:hover {
@@ -1533,6 +1533,10 @@ Begin Header Custom Style
 }
 
 @media (max-width: 1680px) {
+    .top-header .navbar-nav .root-link {
+        font-size: calc(12px + (16 - 12) * ((100vw - 1680) / (1920 - 1680)));
+        width: calc(200px - 30 * ((100vw - 1680) / (1920 - 1680)));
+    }
 
     .logo-header .header-locations>div>.header-links {
         font-size: calc(16px + (16 - 12) * ((100vw - 1680px) / (1920 - 1680)));
@@ -1540,7 +1544,10 @@ Begin Header Custom Style
 }
 
 @media (max-width: 1366px) {
-
+    .top-header .navbar-nav .root-link {
+        font-size: calc(12px + (16 - 12) * ((100vw - 1366px) / (1920 - 1366)));
+        width: calc(200px - 30 * ((100vw - 1366) / (1920 - 1366)));
+    }
 
     .logo-header .header-locations>div>.header-links {
         font-size: calc(16px + (16 - 12) * ((100vw - 1366px) / (1920 - 1366)));
@@ -1548,11 +1555,16 @@ Begin Header Custom Style
 }
 
 @media (max-width: 995px) {
-    .header-tool .map_hour, .header-tool .cart {
+    .top-header .navbar-nav .root-link {
+        font-size: calc(12px + (16 - 12) * ((100vw - 995px) / (1920 - 995)));
+        width: calc(200px - 30 * ((100vw - 995) / (1920 - 995)));
+    }
+    
+    .top-header .header-tool .map_hour, .header-tool .cart {
         font-size: 14px;
     }
     
-    .header-tool .map_hour {
+    .top-header .header-tool .map_hour {
         width: 120px;
     }
 
