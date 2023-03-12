@@ -126,9 +126,9 @@
                         Home
                     </a>
                 </li>
-                <li class="dropdown nav-item">
+                <li class="dropdown nav-item ">
                     <a class="nav-link root-link" target="" data-toggle="dropdown">
-                        New Models
+                        New Models<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/new-models">New Models</a></li>
@@ -176,7 +176,7 @@
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link root-link" target="" data-toggle="dropdown">
-                        Services
+                        Services<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/services">Services</a></li>
@@ -185,7 +185,7 @@
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link root-link" target="" data-toggle="dropdown">
-                        Company Info
+                        Company Info<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/aboutus">Company Info</a></li>
@@ -358,9 +358,9 @@
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link root-link" target="" data-toggle="dropdown">
-                        New Modals
+                        New Modals<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu"  style='position: unset !important'>
                         <li class='nav-item'><a href="/">New Modals</a></li>
                         <li class='nav-item'><a href="/">Factory Promotions</a></li>
                     </ul>
@@ -374,8 +374,8 @@
                     <a class="nav-link root-link"  data-toggle="dropdown" style='cursor:pointer'>
                         Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
                     </a>
-                    <ul class='dropdown-content' >
-                        <div class="categories_menu_inner products dropdown-content" >
+                    <ul class='dropdown-menu' style='position: unset !important'>
+                        <div class="categories_menu_inner products dropdown-content" style='position: unset !important'>
                             @foreach($eccategories as $product)
                             <div class="categories_menu ">
                                 <div class="categories_title">
@@ -395,7 +395,7 @@
                                         <!-- <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
                                             loading...
                                         </div>
-                                         -->
+                                            -->
                                     </div>
                                     @endforeach
                                 </div>
@@ -406,18 +406,18 @@
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link root-link" target="" data-toggle="dropdown">
-                        Services
+                        Services<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style='position: unset !important'>
                         <li class='nav-item'>Services</li>
                         <li class='nav-item'>Service Quote Request</li>
                     </ul>
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link root-link" target="" data-toggle="dropdown">
-                        Company Info
+                        Company Info<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style='position: unset !important'>
                         <li class='nav-item'><a href="/">Company Info</a></li>
                         <li class='nav-item'><a href="/">Contact Us</a></li>
                         <li class='nav-item'><a href="/">Maps&Hours</a></li>

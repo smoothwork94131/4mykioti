@@ -90,7 +90,9 @@ ul.pagination li.disabled {
     height: 15px;
     margin-right: 5px;
 }
-
+.categories_menu {
+    margin-bottom: 0px;
+}
 .rx-parent {
     cursor: pointer;
 }
@@ -1705,8 +1707,32 @@ Begin Footer Custom Style
 .dropdown-content a:hover {color: #E92D46}
 
 .dropdown:hover .dropdown-content {
-  display: block;
+    display: block;
+    /* transition-property: all;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out; */   
 }
+
+/* .dropdown-menu a {
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+} */
+
+
+/* @keyframes scale-display {
+	0% {
+		opacity: 0;
+		transform: scale(0);
+        -webkit-transform: scale(0);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1);
+        -webkit-transform: scale(1);
+	}
+} */
 
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
