@@ -1339,7 +1339,7 @@ Begin Header Custom Style
     width: 100%;
     padding: 12px 13px;
 }
-.top-header .navbar-nav li:hover {
+.top-header .navbar-nav .root-link:hover {
     background-color: #E92D46;
     color: white;
 }
@@ -1548,8 +1548,6 @@ Begin Header Custom Style
     transition: 0.2s linear;
 }
 
-
-
 .business-info-socialmedia {
     display: flex;
 }
@@ -1704,7 +1702,7 @@ Begin Footer Custom Style
     display: block;
     text-align: left;
 }
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {color: #E92D46}
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -1714,8 +1712,8 @@ Begin Footer Custom Style
   background-color: #3e8e41;
 }
 
-.dropdown-content:hover  .root-link {
-    background-color: #E92D46;
+.navbar-nav li:hover >.root-link{
+    background-color: #E92D46 !important;
 }
 
 .dropdown-menu .nav-item {
@@ -1724,11 +1722,12 @@ Begin Footer Custom Style
     font-size:calc(11px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
     width: 100% !important;
 }
-.dropdown-menu .nav-item a:hover {
-    color: white ;
+.dropdown-menu .nav-item a:hover{
+    color: #E92D46 ;
 }
+
 .dropdown-menu .nav-item:hover >a {
-    color: white ;  
+    color: #E92D46 ;  
 }
 
 .dropdown>.dropdown-menu>li>a {

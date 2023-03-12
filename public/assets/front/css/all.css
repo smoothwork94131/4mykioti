@@ -39219,8 +39219,8 @@ Logo Header Area Start
 
 .categories_menu_inner {
     padding: 7px 0 7px;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    /* border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd; */
     background: #fff;
     width: 100%;
     top: 100%;

@@ -392,20 +392,17 @@
                                             <h2 class="categori_toggle"> {{$series->series}} <i
                                                         class="fa fa-angle-down arrow-down"></i></h2>
                                         </div>
-                                        <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
+                                        <!-- <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
                                             loading...
                                         </div>
+                                         -->
                                     </div>
                                     @endforeach
                                 </div>
                             </div>
                             @endforeach
                         </div>
-                        <div style='position: absolute; top: 10px; right: 10px; color: black; z-index: 1000000;'>
-                            CLOSE
-                        </div>
                     </ul>
-                    
                 </li>
                 <li class="dropdown nav-item">
                     <a class="nav-link root-link" target="" data-toggle="dropdown">
@@ -429,6 +426,31 @@
             </ul>
         </div>
     </nav>
+    <!-- <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link" href="#">Link 1</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Link 2</a>
+                </li>
+
+      
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Dropdown link
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Link 1</a>
+                    <a class="dropdown-item" href="#">Link 2</a>
+                    <a class="dropdown-item" href="#">Link 3</a>
+                </div>
+                </li>
+            </ul>
+        </div>    
+    </nav>  -->
+
 </section>
 <!-- Logo Header Area End -->
 
