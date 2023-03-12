@@ -163,7 +163,7 @@
                                         <h2 class="categori_toggle"> {{$series->series}} <i
                                                     class="fa fa-angle-down arrow-down"></i></h2>
                                     </div>
-                                    <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
+                                    <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto;">
                                         loading...
                                     </div>
                                 </div>
