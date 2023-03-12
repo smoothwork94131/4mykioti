@@ -684,9 +684,7 @@ $(function($) {
                         });
                     });
             });
-
             return false;
-
         });
         // Quick View Section Ends
 
@@ -1475,7 +1473,7 @@ $(function($) {
                 }
             });
         });
-        
+
         // TRACK ORDER ENDS
 
     });

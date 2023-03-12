@@ -126,10 +126,14 @@
                         Home
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
+                <li class="dropdown nav-item">
+                    <a class="nav-link root-link" target="" data-toggle="dropdown">
                         New Models
                     </a>
+                    <ul class="dropdown-menu">
+                        <li class='nav-item'><a href="/">New Models</a></li>
+                        <li class='nav-item'><a href="/">Factory Promotions</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link root-link" href="/" target="">
@@ -170,15 +174,24 @@
                     </div>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
+                <li class="dropdown nav-item">
+                    <a class="nav-link root-link" target="" data-toggle="dropdown">
                         Services
                     </a>
+                    <ul class="dropdown-menu">
+                        <li class='nav-item'><a href="/">Services</a></li>
+                        <li class='nav-item'><a href="/">Service Quote Request</a></li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
+                <li class="dropdown nav-item">
+                    <a class="nav-link root-link" target="" data-toggle="dropdown">
                         Company Info
                     </a>
+                    <ul class="dropdown-menu">
+                        <li class='nav-item'><a href="/">Company Info</a></li>
+                        <li class='nav-item'><a href="/">Contact Us</a></li>
+                        <li class='nav-item'><a href="/">Maps&Hours</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -315,7 +328,6 @@
         </div>
     </div>
 </section>
-
 <section class="top-header row bottom-menu"  style="margin: 0px; border: none;position: relative;">
     <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px; '>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -325,10 +337,14 @@
                         Home
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
-                        New Models
+                <li class="dropdown nav-item">
+                    <a class="nav-link root-link" target="" data-toggle="dropdown">
+                        New Modals
                     </a>
+                    <ul class="dropdown-menu">
+                        <li class='nav-item'><a href="/">New Modals</a></li>
+                        <li class='nav-item'><a href="/">Factory Promotions</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link root-link" href="/" target="">
@@ -372,15 +388,24 @@
                     </ul>
                     
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
+                <li class="dropdown nav-item">
+                    <a class="nav-link root-link" target="" data-toggle="dropdown">
                         Services
                     </a>
+                    <ul class="dropdown-menu">
+                        <li class='nav-item'>Services</li>
+                        <li class='nav-item'>Service Quote Request</li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
+                <li class="dropdown nav-item">
+                    <a class="nav-link root-link" target="" data-toggle="dropdown">
                         Company Info
                     </a>
+                    <ul class="dropdown-menu">
+                        <li class='nav-item'><a href="/">Company Info</a></li>
+                        <li class='nav-item'><a href="/">Contact Us</a></li>
+                        <li class='nav-item'><a href="/">Maps&Hours</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

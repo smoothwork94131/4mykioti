@@ -29,15 +29,17 @@
                             </div>
                         </div></a>
                     </div>
-                    <div class="col-6 remove-padding">
-                        <div class="s-0-block s-block d-flex m-red">
-                            <div>
-                                 COMING SOON!!
+                    <div class="col-6 remove-padding" >
+                        <a href="https://3rdfunction.com/collections">
+                            <div class="s-0-block s-block d-flex m-red">
+                                <div>
+                                    COMING SOON!!
+                                </div>
+                                <div>
+                                    3RD FUNCTION VALVES
+                                </div>
                             </div>
-                            <div>
-                                3RD FUNCTION VALVES
-                            </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col-6 remove-padding  pr-1">
                         <a href="{{route('front.schematics')}}"><div class="s-0-block s-block d-flex m-green">

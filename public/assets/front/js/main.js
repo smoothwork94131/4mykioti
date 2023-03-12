@@ -30,8 +30,10 @@ $(function($) {
             var bar_item_width = ($(".navbar").width()+10) / bar_cnt ;
             
             $(".navbar-nav li").css("width", bar_item_width+"px") ;
+            
             $(".navbar-nav li a").css({
-                "width": bar_item_width+"px"
+                "width": bar_item_width+"px",
+                "textAlign": "center",
             }) ;
 
             if(scr_width < 768) {
@@ -49,9 +51,12 @@ $(function($) {
                     "width": $(".bottom-menu").width()+"px",
                     "textAlign":"left"
                 }) ;
-
+                $(".dropdown-menu").css({
+                    "width": bar_item_width+"px !important",
+                }) ;
+                
+                $(".dropdown-menu .nav-item").css("width", bar_item_width+"px") ;
                 $(".navbar-nav li").css("width", $(".bottom-menu").width()+"px") ;
-
                 $(".bottom-menu .navbar").css("display", "block") ;
                 
                 $(".header-base-tool").css("display", "none") ;
@@ -65,7 +70,7 @@ $(function($) {
                 
                 $(".logo-div").removeClass("col-sm-6") ;
                 $(".logo-div").addClass("col-sm-3") ;
-                
+
                 $(".top-menu .navbar").css("display", "block") ;
                 $(".bottom-menu .navbar").css("display", "none") ;
 
@@ -73,6 +78,7 @@ $(function($) {
                 $(".header-min-tool").css("display", "none") ;
 
                 $(".logo-div").css("fix-height-85-50") ;    
+                $(".dropdown-menu .nav-item").css("width","100% !important") ;
 
             }
         }

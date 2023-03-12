@@ -1308,9 +1308,10 @@ Begin Header Custom Style
     font-size: 16px;
     width: 200px;
     height: 46px;
-    text-align: center !important;
+    text-align: center;
     padding: 12px 15px;
     font-size:calc(11px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
+    cursor: pointer;
 }
 
 
@@ -1320,8 +1321,9 @@ Begin Header Custom Style
     width: 100%;
     padding: 12px 13px;
 }
-.top-header .navbar-nav .root-link:hover {
+.top-header .navbar-nav li:hover {
     background-color: #E92D46;
+    color: white;
 }
 
 .top-header .header-tool {
@@ -1691,6 +1693,34 @@ Begin Footer Custom Style
 
 .dropdown-content:hover  .root-link {
     background-color: #E92D46;
+}
+
+.dropdown-menu .nav-item {
+    padding: 7px 5px;
+    cursor: pointer;
+    font-size:calc(11px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
+    width: 100% !important;
+}
+.dropdown-menu .nav-item a:hover {
+    color: white ;
+}
+.dropdown-menu .nav-item:hover >a {
+    color: white ;  
+}
+
+.dropdown>.dropdown-menu>li>a {
+    border:none !important;
+}
+
+
+.dropdown-menu {
+    /* min-width: 0px !important; */
+    position: absolute !important ;
+    padding: 0px !important ;
+}
+
+.core-nav .dropdown>.dropdown-menu>li>a {
+    padding: 0px;
 }
 
 /* 
