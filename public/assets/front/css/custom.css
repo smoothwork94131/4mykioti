@@ -1226,7 +1226,9 @@ a.sell-btn {
 .group-schematics img {
     min-width: 800px;
 }
-
+.fix-height-85-50 {
+    width: 50%;
+}
 .parts-table {
     width: 100%;
     border-right: 1px black solid;
@@ -1288,7 +1290,7 @@ Begin Header Custom Style
 */
 
 .top-header {
-    padding: 0px 4% !important;
+    padding: 0px 2% !important;
     position: fixed;
     width: 100%;
     z-index: 99999;
@@ -1306,8 +1308,9 @@ Begin Header Custom Style
     font-size: 16px;
     width: 200px;
     height: 46px;
-    text-align: center;
+    text-align: center !important;
     padding: 12px 15px;
+    font-size:calc(11px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
 }
 
 .top-header .navbar-nav .root-link:hover {
@@ -1319,7 +1322,9 @@ Begin Header Custom Style
     align-items: center;
     justify-content: flex-end;
 }
-
+.top-header .header-min-tool {
+    justify-content: space-between ;    
+}
 .header-tool .map_hour {
     margin: 0 4px;
     padding: 0px 12px;
@@ -1381,10 +1386,10 @@ Begin Header Custom Style
 }
 
 .top-gap {
-    height: 60px;
+    height: 55px;
     display: block;
+    background: #333 ;
 }
-
 
 .top-header .mainmenu-area {
     background-color: transparent!important;
@@ -1447,16 +1452,16 @@ Begin Header Custom Style
 
 .logo-header .header-locations {
     display: flex;
-    align-items: center;
-    justify-content: center;
     margin: 0 -15px;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
 }
 
 .logo-header .header-locations>div {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 0 7px;
     padding: 0 calc(7px + (60 - 7) * ((100vw - 1200px) / (1920 - 1200)));
 }
 
@@ -1472,7 +1477,10 @@ Begin Header Custom Style
     height: 55px;
     width: 1px;
 }
-
+.socials-div{
+    display: flex;
+    align-items: center;
+}
 .logo-header .header-locations>div>.fa {
     justify-content: center;
     margin-right: 10px;
@@ -1504,19 +1512,19 @@ Begin Header Custom Style
     display: flex;
 }
 
-.business-info-socialmedia li .fa-inverse.fa-search {
+.business-info-socialmedia  .fa-inverse.fa-search {
     background: #E92D46;
 }
 
-.business-info-socialmedia li .fa-inverse.fa-facebook {
+.business-info-socialmedia .fa-inverse.fa-facebook {
     background: #3C63A4;
 }
 
-.business-info-socialmedia li .fa-inverse.fa-youtube-play {
+.business-info-socialmedia  .fa-inverse.fa-youtube-play {
     background: #E20606;
 }
 
-.business-info-socialmedia li .fa-inverse {
+.business-info-socialmedia  .fa-inverse {
     color: #fff;
     width: 41px;
     height: 41px;
@@ -1533,32 +1541,31 @@ Begin Header Custom Style
 }
 
 @media (max-width: 1680px) {
-    .top-header .navbar-nav .root-link {
+    /* .top-header .navbar-nav .root-link {
         font-size: calc(12px + (16 - 12) * ((100vw - 1680) / (1920 - 1680)));
-        width: calc(200px - 30 * ((100vw - 1680) / (1920 - 1680)));
+        width: calc(200px - 30 * ((100vw - 1680) / (1920 - 1680))) ;
     }
+     */
 
     .logo-header .header-locations>div>.header-links {
         font-size: calc(16px + (16 - 12) * ((100vw - 1680px) / (1920 - 1680)));
     }
+    .logo-header .header-locations>div {
+        padding: 0, 7px
+    }
 }
 
 @media (max-width: 1366px) {
-    .top-header .navbar-nav .root-link {
-        font-size: calc(12px + (16 - 12) * ((100vw - 1366px) / (1920 - 1366)));
-        width: calc(200px - 30 * ((100vw - 1366) / (1920 - 1366)));
-    }
+    
 
     .logo-header .header-locations>div>.header-links {
         font-size: calc(16px + (16 - 12) * ((100vw - 1366px) / (1920 - 1366)));
     }
-}
-
-@media (max-width: 995px) {
-    .top-header .navbar-nav .root-link {
-        font-size: calc(12px + (16 - 12) * ((100vw - 995px) / (1920 - 995)));
-        width: calc(200px - 30 * ((100vw - 995) / (1920 - 995)));
+    .logo-header .header-locations>div {
+        padding: 0, 7px ;
     }
+}
+@media (max-width: 995px) {
     
     .top-header .header-tool .map_hour, .header-tool .cart {
         font-size: 14px;
@@ -1566,20 +1573,40 @@ Begin Header Custom Style
     
     .top-header .header-tool .map_hour {
         width: 120px;
+        padding: 0px 3px !important;
     }
 
     .logo-header .header-locations>div>.fa {
         display: none;
     }
+    
 
     .logo-header .header-locations>div>.header-links {
         font-size: calc(16px + (16 - 12) * ((100vw - 995px) / (1920 - 995)));
     }
+    .logo-header .header-locations>div {
+        padding: 0, 2px !important; 
+       
+    }
+    .logo-header .header-locations span {
+        font-size: 13px;
+    }
 }
 
 @media(max-width:768px){
-    .header-tool .map_hour, .header-tool .cart {
-        display: none;
+    
+}
+@media(max-width:1220px){
+    .logo-header .header-locations>div+div::before {
+     
+        width: 0px;
+    }
+}
+
+@media(max-width: 550px){
+    .logo-header {
+        height: 70px;
+        line-height: 70px;
     }
 }
 
@@ -1610,6 +1637,9 @@ Begin Footer Custom Style
 .copy-bg {
     border-top: 1px solid #aaa;
 }
+
+
+
 /* 
 End Footer Custom Style
 */

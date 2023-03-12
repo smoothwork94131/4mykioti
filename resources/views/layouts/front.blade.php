@@ -117,12 +117,9 @@
     @endif
 
 
-<section class="top-header">
-    <nav class="navbar navbar-expand-md navbar-dark">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<section class="top-header row top-menu"  style="margin: 0px;">
+    <nav class="navbar navbar-expand-md navbar-dark col-md-9 col-sm-9 col-lm-9" style='padding: 0px;'>
+        <div class="collapse navbar-collapse" >
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link root-link" href="/" target="">
@@ -140,9 +137,38 @@
                     </a>
                 </li>
                 <li class="mainmenu-area">
-                    <a class="nav-link root-link" href="/" target="">
+                    <!-- <a class="nav-link root-link" href="/" target="">
                         Parts Finder
-                    </a>
+                    </a> -->
+                    <div class="categories_title">
+                        <h2 class="categori_toggle"> Parts Finder </h2>
+                    </div>
+                    <!-- <div class="categories_menu_inner products">
+                        @foreach($eccategories as $product)
+                        <div class="categories_menu ">
+                            <div class="categories_title">
+                                <h2 class="categori_toggle"> {{$product->product}} <i
+                                            class="fa fa-angle-down arrow-down"></i></h2>
+                            </div>
+                            <div class="categories_menu_inner series">
+                                @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
+                                <div class="categories_menu">
+                                    <div class="categories_title" data-type="model"
+                                                    data-series="{{$series->series}}"
+                                                    data-url="{{route('front.groups')}}" 
+                                                    data-status="0" data-token="{{ csrf_token() }}">
+                                        <h2 class="categori_toggle"> {{$series->series}} <i
+                                                    class="fa fa-angle-down arrow-down"></i></h2>
+                                    </div>
+                                    <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
+                                        loading...
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endforeach
+                    </div> -->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link root-link" href="/" target="">
@@ -155,22 +181,40 @@
                     </a>
                 </li>
             </ul>
-            <div class="header-tool ml-auto">
-                <div class="map_hour hidden-xs">
-                    <a href="/locations">Maps &amp; Hours</a>
-                </div>
-                <div class="cart">
-                    <a href="/ecommerce/cart" title="Cart">
-                        <span><i class="fa fa-shopping-cart"></i></span>
-                    </a>
-                    <!-- <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
-                    <div class="my-dropdown-menu" id="cart-items">
-                        @include('load.cart')
-                    </div> -->
-                </div>
+        </div>
+    </nav>
+    <div class="header-tool header-base-tool ml-auto col-md-3 col-sm-3 col-lm-3">
+        <div class="map_hour hidden-xs">
+            <a href="/locations">Maps &amp; Hours</a>
+        </div>
+        <div class="cart">
+            <a href="/ecommerce/cart" title="Cart">
+                <span><i class="fa fa-shopping-cart"></i></span>
+            </a>
+            <!-- <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
+            <div class="my-dropdown-menu" id="cart-items">
+                @include('load.cart')
+            </div> -->
+        </div>
+    </div>
+    <div class="header-tool header-min-tool ml-auto col-md-12 col-sm-12 col-lm-12;" style='height: 60px; line-height: 60px;'>
+        <div class="map_hour hidden-xs" style='text-align: left; '>
+            <a href="/locations">Maps &amp; Hours</a>
+        </div>
+        <div style='display: flex; justify-content: flex-end; '>
+            <div class="cart">
+                <a href="/ecommerce/cart" title="Cart">
+                    <span><i class="fa fa-shopping-cart"></i></span>
+                </a>
+            </div>
+            <div class="cart" style='margin-left: 10px'>
+                <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
+                    <span><i class="fa fa-search"></i></span>
+                </a>
+
             </div>
         </div>
-    </nav>        
+    </div>
 </section>
 
 <div class="top-gap"></div>
@@ -179,15 +223,15 @@
 <!-- Logo Header Area Start -->
 <section class="logo-header">
     <div class="container-fluid">
-        <div class="row ">
-            <div class="col-lg-3 col-sm-6 col-5 remove-padding">
+        <div class="row" style='padding: 0px;'>
+            <div class="col-lg-3 col-sm-3 remove-padding logo-div">
                 <div class="logo">
                     <a href="{{ route('front.index') }}">
                         <img src="{{asset('assets/front/images/logo.png')}}" alt="" class="img-responsive center-block logo-img">
                     </a>
                 </div>
             </div>
-            <div class="col-lg-7 col-sm-12 order-last order-sm-2 order-md-2 d-flex align-items-center justify-content-center">
+            <div class=" col-sm-6 col-lg-7 locations-div">
                 <div class="header-locations">
                     <div>
                         <i class="fa fa-map-marker" aria-hidden="true"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span></i>
@@ -236,34 +280,79 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6 col-7 remove-padding order-lg-last d-flex align-items-center justify-content-end">
-                <ul class="business-info-socialmedia">
-
-                    <li class="social-media search">
-						<a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
-							<span class="fa-stack fa-lg">
-								<i class="fa fa-search fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span></i>
-							</span>
-						</a>
-					</li>
-					<li class="social-media facebook">
-						<a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
-							<span class="fa-stack fa-lg">
-								<i class="fa fa-facebook fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span></i>
-							</span>
-						</a>
-					</li>
-					<li class="social-media youtube">
-						<a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos" title="YouTube" target="_blank" aria-describedby="audioeye_new_window_message">
-							<span class="fa-stack fa-lg">
-								<i class="fa fa-youtube-play fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span></i>
-							</span>
-						</a>
-					</li>
-			    </ul>
+            <div class="col-lg-2 col-sm-3 socials-div business-info-socialmedia" align="center" >
+                <div class="social-media search">
+                    <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-search fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span></i>
+                        </span>
+                    </a>
+                </div>
+                <div class="social-media facebook">
+                    <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-facebook fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span></i>
+                        </span>
+                    </a>
+                </div>
+                <div class="social-media youtube">
+                    <a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos" title="YouTube" target="_blank" aria-describedby="audioeye_new_window_message">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-youtube-play fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class='tiny-menu col-md-6 col-sm-6' align='right' style='width: 50%;'>
+                <button style="color: white;
+                        border-color: rgba(255, 255, 255, .1);
+                        margin-top: 10px;
+                        background-color: #F05223;" 
+                        class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <i class='fa fa-list'></i>
+                </button>
             </div>
         </div>
     </div>
+</section>
+
+<section class="top-header row bottom-menu"  style="margin: 0px; border: none">
+    <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px;'>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link root-link" href="/" target="">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link root-link" href="/" target="">
+                        New Models
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link root-link" href="/" target="">
+                        Inventory
+                    </a>
+                </li>
+                <li class="mainmenu-area">
+                    <a class="nav-link root-link" href="/" target="">
+                        Parts Finder
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link root-link" href="/" target="">
+                        Services
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link root-link" href="/" target="">
+                        Company Info
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </section>
 <!-- Logo Header Area End -->
 
@@ -966,9 +1055,14 @@
 <!-- Order Tracking modal End -->
 
 <script type="text/javascript">
+    
     var mainurl = "{{url('/')}}";
     var gs = {!! json_encode($gs) !!};
     var langg = {!! json_encode($langg) !!};
+
+
+    
+
 </script>
 
 <!-- jquery -->
@@ -992,6 +1086,8 @@
 <script src="{{asset('assets/front/js/main.js')}}"></script>
 <!-- custom -->
 <script src="{{asset('assets/front/js/custom.js')}}"></script>
+
+
 
 {!! $seo->google_analytics !!}
 

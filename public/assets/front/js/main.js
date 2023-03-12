@@ -11,7 +11,80 @@ $(function($) {
         $('.profilearea.my-dropdown').on('mouseout', function() {
             $('.profilearea.my-dropdown .my-dropdown-menu.profile-dropdown').stop().hide(0);
         });
+        $(window).resize(function() {
+            resizeLayout() ;
+        }) ;
+        
+        var orgin_scr_width = $("body").width() ;
 
+        function resizeLayout() {
+            resizeHeader() ;
+            // resizeFooter() ;
+        }
+
+        function resizeHeader() {
+            var scr_width = $("body").width() ;
+            var bar_cnt = $(".top-menu .navbar-nav").children().length ;
+
+            // var bar_width = scr_width - scr_width * 0.2 ;
+            var bar_item_width = ($(".navbar").width()+10) / bar_cnt ;
+            
+            $(".navbar-nav li").css("width", bar_item_width+"px") ;
+            $(".navbar-nav li a").css({
+                "width": bar_item_width+"px",
+                // "fontSize": '14px'
+            }) ;
+
+            if(scr_width < 768) {
+                $(".socials-div").css("display", "none") ;
+                $(".locations-div").css("display", "none") ;
+                $(".tiny-menu").css("display", "block") ;
+                
+                $(".logo-div").removeClass("col-sm-3") ;
+                $(".logo-div").addClass("col-sm-6") ;
+
+                $(".logo-div").addClass("fix-height-85-50") ;
+
+                $(".top-menu .navbar").css("display", "none") ;
+                $(".navbar-nav li a").css({
+                    "width": $(".bottom-menu").width()+"px",
+                    // "fontSize": (bar_width/orgin_scr_width*16)+"px",
+                    // "fontSize": '16px',
+                    "textAlign":"left"
+                }) ;
+
+                $(".navbar-nav li").css("width", "100%") ;
+                $(".bottom-menu .navbar").css("display", "block") ;
+                
+                $(".header-base-tool").css("display", "none") ;
+                $(".header-min-tool").css("display", "flex") ;
+                
+                
+            } else {
+                $(".socials-div").css("display", "flex") ;
+                $(".locations-div").css("display", "block") ;
+                $(".tiny-menu").css("display", "none") ;
+                
+                $(".logo-div").removeClass("col-sm-6") ;
+                $(".logo-div").addClass("col-sm-3") ;
+                
+                $(".top-menu .navbar").css("display", "block") ;
+                $(".bottom-menu .navbar").css("display", "none") ;
+
+                $(".header-base-tool").css("display", "flex") ;
+                $(".header-min-tool").css("display", "none") ;
+
+                $(".logo-div").css("fix-height-85-50") ;    
+
+                var logo_header_height = $(".logo-header").height() ;
+                // $(".logo-header").css("line-height", logo_header_height+"px") ;
+
+            }
+        }
+        function resizeFooter() {
+
+        }
+        resizeLayout() ;
         $(function() {
 
             var url = window.location.href,
