@@ -131,8 +131,8 @@
                         New Models
                     </a>
                     <ul class="dropdown-menu">
-                        <li class='nav-item'><a href="/">New Models</a></li>
-                        <li class='nav-item'><a href="/">Factory Promotions</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/new-models">New Models</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/factory-promotions">Factory Promotions</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -179,8 +179,8 @@
                         Services
                     </a>
                     <ul class="dropdown-menu">
-                        <li class='nav-item'><a href="/">Services</a></li>
-                        <li class='nav-item'><a href="/">Service Quote Request</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/services">Services</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/servicereq">Service Quote Request</a></li>
                     </ul>
                 </li>
                 <li class="dropdown nav-item">
@@ -188,9 +188,9 @@
                         Company Info
                     </a>
                     <ul class="dropdown-menu">
-                        <li class='nav-item'><a href="/">Company Info</a></li>
-                        <li class='nav-item'><a href="/">Contact Us</a></li>
-                        <li class='nav-item'><a href="/">Maps&Hours</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/aboutus">Company Info</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/contactus">Contact Us</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/locations">Maps&Hours</a></li>
                     </ul>
                 </li>
             </ul>
@@ -204,10 +204,10 @@
             <a href="/ecommerce/cart" title="Cart">
                 <span><i class="fa fa-shopping-cart"></i></span>
             </a>
-            <!-- <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
+            <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
             <div class="my-dropdown-menu" id="cart-items">
                 @include('load.cart')
-            </div> -->
+            </div>
         </div>
     </div>
     <div class="header-tool header-min-tool ml-auto col-md-12 col-sm-12 col-lm-12;" style='height: 60px; line-height: 60px;'>
@@ -224,7 +224,10 @@
                 <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
                     <span><i class="fa fa-search"></i></span>
                 </a>
-
+                <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
+                <div class="my-dropdown-menu" id="cart-items">
+                    @include('load.cart')
+                </div>
             </div>
         </div>
     </div>
@@ -294,7 +297,8 @@
                 </div>
             </div>
             <div class="col-lg-2 col-sm-3 socials-div business-info-socialmedia" align="center" >
-                <div class="social-media search">
+                
+                <!-- <div class="social-media search">
                     <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
                         <span class="fa-stack fa-lg">
                             <i class="fa fa-search fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span></i>
@@ -313,6 +317,21 @@
                         <span class="fa-stack fa-lg">
                             <i class="fa fa-youtube-play fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span></i>
                         </span>
+                    </a>
+                </div> -->
+                <div class="social-media">
+                    <a href="https://www.facebook.com/TractorBros" target="_blank">
+                        <button class='btn' style='background: #F05223'><i class='fa fa-search'></i></button>
+                    </a>
+                </div>
+                <div class="social-media">
+                    <a href="https://www.facebook.com/TractorBros" target="_blank">
+                        <button class='btn' style='background: #3C63A4; border: none;'><i class='fab fa-facebook'></i></button>
+                    </a>
+                </div>
+                <div class="social-media">
+                    <a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos" target="_blank">
+                        <button class='btn' style='background: #E20606'><i class='fab fa-youtube'></i></button>
                     </a>
                 </div>
             </div>
@@ -428,8 +447,20 @@
                         </a>
                     </div> -->
                     <div class="text">
-                        <p style="color: {{ $gs->footer_text_color }}">
+                        <!-- <p style="color: {{ $gs->footer_text_color }}">
                             {!! $gs->footer !!}
+                        </p>
+                         -->
+                        <p class='title'>Tractor Brothers - Greensburg</p>
+                        <p>113 Hartman Road<br>Greensburg PA 15601</p>
+                        <p><a  href='https://www.twitter.com/locations/36478'>(Map & Hours)</a></p>
+                        <p>(724) 691-0200</p>
+                        <p><a href="https://www.twitter.com/TractorBros" class='btn btn-primary'>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.youtube.com/youtube" class='btn btn-danger'>
+                            <i class="fab fa-youtube"></i>
+                        </a>
                         </p>
                     </div>
                     <div class="sub_text">
@@ -488,7 +519,7 @@
             </div>
             <div class="col-md-6 col-lg-4 footer-item">
                 <div class="footer-widget info-link-widget">
-                    <h4 class="title" style="color: {{ $gs->footer_text_color }}">
+                    <!-- <h4 class="title" style="color: {{ $gs->footer_text_color }}">
                         {{ $langg->lang21 }}
                     </h4>
                     <ul class="link-list">
@@ -511,12 +542,33 @@
                                 <i class="fas fa-angle-double-right" style="color: {{ $gs->footer_text_color }}"></i>{{ $langg->lang23 }}
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
+                    <div class="footer-info-area">
+                    <!-- <div class="footer-logo">
+                        <a href="{{ route('front.index') }}" class="logo-link">
+                            <img src="{{asset('assets/images/'.$gs->footer_logo)}}" alt="">
+                        </a>
+                    </div> -->
+                        <div class="text">
+                            <!-- <p style="color: {{ $gs->footer_text_color }}">
+                                {!! $gs->footer !!}
+                            </p>
+                            -->
+                            <p class='title'>Tractor Brothers - Bulter</p>
+                            <p>520 Evans City Road<br>Butler, PA 16001</p>
+
+                            <p><a  href='https://www.twitter.com/locations/37100'>(Map & Hours)</a></p>
+                            <p>(724) 482-6288</p>
+                            
+                        </div>
+                        <div class="sub_text">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4 footer-item">
                 <div class="footer-widget recent-post-widget">
-                    <h4 class="title" style="color: {{ $gs->footer_text_color }}">
+                    <!-- <h4 class="title" style="color: {{ $gs->footer_text_color }}">
                         {{ $langg->lang24 }}
                     </h4>
                     <ul class="post-list">
@@ -540,7 +592,28 @@
                                 </div>
                             </li>
                         @endforeach
-                    </ul>
+                    </ul> -->
+                    <div class="footer-info-area">
+                    <!-- <div class="footer-logo">
+                        <a href="{{ route('front.index') }}" class="logo-link">
+                            <img src="{{asset('assets/images/'.$gs->footer_logo)}}" alt="">
+                        </a>
+                    </div> -->
+                        <div class="text">
+                            <!-- <p style="color: {{ $gs->footer_text_color }}">
+                                {!! $gs->footer !!}
+                            </p>
+                            -->
+                            <p class='title'>Tractor Brothers - Stoneboro</p>
+                            <p>4352 Greenville Sandy Lake Road<br>Stoneboro, PA 161531</p>
+                            
+                            <p><a  href='https://www.twitter.com/locations/37101'>(Map & Hours)</a></p>
+                            <p>(724) 253-2035</p>
+                            
+                        </div>
+                        <div class="sub_text">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
