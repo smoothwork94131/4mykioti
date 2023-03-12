@@ -136,14 +136,13 @@
                         Inventory
                     </a>
                 </li>
-                <li class="mainmenu-area">
-                    <!-- <a class="nav-link root-link" href="/" target="">
-                        Parts Finder
-                    </a> -->
-                    <div class="categories_title">
-                        <h2 class="categori_toggle"> Parts Finder </h2>
-                    </div>
-                    <!-- <div class="categories_menu_inner products">
+               
+                <li class="dropdown nav-item dropbtn"> 
+                    <a class="nav-link root-link"  data-toggle="dropdown" style='cursor:pointer'>
+                        Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
+                    </a>
+                    <ul class='dropdown-content' >
+                    <div class="categories_menu_inner products dropdown-content" >
                         @foreach($eccategories as $product)
                         <div class="categories_menu ">
                             <div class="categories_title">
@@ -168,7 +167,8 @@
                             </div>
                         </div>
                         @endforeach
-                    </div> -->
+                    </div>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link root-link" href="/" target="">
@@ -316,8 +316,8 @@
     </div>
 </section>
 
-<section class="top-header row bottom-menu"  style="margin: 0px; border: none">
-    <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px;'>
+<section class="top-header row bottom-menu"  style="margin: 0px; border: none;position: relative;">
+    <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px; '>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -335,10 +335,42 @@
                         Inventory
                     </a>
                 </li>
-                <li class="mainmenu-area">
-                    <a class="nav-link root-link" href="/" target="">
-                        Parts Finder
+                <li class="dropdown nav-item dropbtn"> 
+                    <a class="nav-link root-link"  data-toggle="dropdown" style='cursor:pointer'>
+                        Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
                     </a>
+                    <ul class='dropdown-content' >
+                        <div class="categories_menu_inner products dropdown-content" >
+                            @foreach($eccategories as $product)
+                            <div class="categories_menu ">
+                                <div class="categories_title">
+                                    <h2 class="categori_toggle"> {{$product->product}} <i
+                                                class="fa fa-angle-down arrow-down"></i></h2>
+                                </div>
+                                <div class="categories_menu_inner series">
+                                    @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
+                                    <div class="categories_menu">
+                                        <div class="categories_title" data-type="model"
+                                                        data-series="{{$series->series}}"
+                                                        data-url="{{route('front.groups')}}" 
+                                                        data-status="0" data-token="{{ csrf_token() }}">
+                                            <h2 class="categori_toggle"> {{$series->series}} <i
+                                                        class="fa fa-angle-down arrow-down"></i></h2>
+                                        </div>
+                                        <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
+                                            loading...
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        <div style='position: absolute; top: 10px; right: 10px; color: black; z-index: 1000000;'>
+                            CLOSE
+                        </div>
+                    </ul>
+                    
                 </li>
                 <li class="nav-item">
                     <a class="nav-link root-link" href="/" target="">
@@ -360,6 +392,7 @@
 
 <!-- Footer Area Start -->
 <footer class="footer" id="footer">
+    
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 col-lg-4 footer-item">
