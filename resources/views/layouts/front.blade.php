@@ -138,7 +138,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
+                    <a class="nav-link root-link" href="https://www.tractorbrothers.com/search/inventory/availability/In%20Stock" target="">
                         Inventory
                     </a>
                 </li>
@@ -200,7 +200,7 @@
     </nav>
     <div class="header-tool header-base-tool ml-auto col-md-3 col-sm-3 col-lm-3">
         <div class="map_hour hidden-xs">
-            <a href="/locations">Maps &amp; Hours</a>
+            <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
         </div>
         <div class="cart">
             <a href="/ecommerce/cart" title="Cart">
@@ -214,7 +214,7 @@
     </div>
     <div class="header-tool header-min-tool ml-auto col-md-12 col-sm-12 col-lm-12;" style='height: 60px; line-height: 60px;'>
         <div class="map_hour hidden-xs" style='text-align: left; '>
-            <a href="/locations">Maps &amp; Hours</a>
+            <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
         </div>
         <div style='display: flex; justify-content: flex-end; '>
             <div class="cart">
@@ -255,7 +255,7 @@
                         <i class="fa fa-map-marker" aria-hidden="true"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span></i>
                         <ul class="header-links">
                             <li>
-                                <a href="/locations/36478" title="View Map &amp; Hours for Greensburg">
+                                <a href="https://www.tractorbrothers.com/locations/36478" title="View Map &amp; Hours for Greensburg">
                                     <span class="city">Greensburg</span>, <span class="region">PA</span>
                                 </a>
                             </li>
@@ -285,7 +285,7 @@
                         <i class="fa fa-map-marker" aria-hidden="true"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Map</span></i>
                         <ul class="header-links">
                             <li>
-                                <a href="/locations/37101" title="View Map &amp; Hours for Stoneboro">
+                                <a href="https://www.tractorbrothers.com/locations/37101" title="View Map &amp; Hours for Stoneboro">
                                     <span class="city">Stoneboro</span>, <span class="region">PA</span>
                                 </a>
                             </li>
@@ -477,7 +477,7 @@
                          -->
                         <p class='title'>Tractor Brothers - Greensburg</p>
                         <p>113 Hartman Road<br>Greensburg PA 15601</p>
-                        <p><a  href='https://www.twitter.com/locations/36478'>(Map & Hours)</a></p>
+                        <p><a  href='https://www.tractorbrothers.com/locations/36478'>(Map & Hours)</a></p>
                         <p>(724) 691-0200</p>
                         <p><a href="https://www.twitter.com/TractorBros" class='btn btn-primary'>
                             <i class="fab fa-twitter"></i>
@@ -581,7 +581,7 @@
                             <p class='title'>Tractor Brothers - Bulter</p>
                             <p>520 Evans City Road<br>Butler, PA 16001</p>
 
-                            <p><a  href='https://www.twitter.com/locations/37100'>(Map & Hours)</a></p>
+                            <p><a  href='https://www.tractorbrothers.com/locations/37100'>(Map & Hours)</a></p>
                             <p>(724) 482-6288</p>
                             
                         </div>
@@ -631,7 +631,7 @@
                             <p class='title'>Tractor Brothers - Stoneboro</p>
                             <p>4352 Greenville Sandy Lake Road<br>Stoneboro, PA 161531</p>
                             
-                            <p><a  href='https://www.twitter.com/locations/37101'>(Map & Hours)</a></p>
+                            <p><a  href='https://www.tractorbrothers.com/locations/37101'>(Map & Hours)</a></p>
                             <p>(724) 253-2035</p>
                             
                         </div>
