@@ -16,7 +16,7 @@ $(function($) {
         }) ;
         
         var orgin_scr_width = $("body").width() ;
-
+        
         function resizeLayout() {
             resizeHeader() ;
             // resizeFooter() ;
@@ -51,9 +51,8 @@ $(function($) {
                     "width": $(".bottom-menu").width()+"px",
                     "textAlign":"left"
                 }) ;
-                $(".dropdown-menu").css({
-                    "width": bar_item_width+"px !important",
-                }) ;
+
+                $(".navbar-nav .dropdown .dropdown-menu").css("position", "unset !important") ;
                 
                 $(".dropdown-menu .nav-item").css("width", bar_item_width+"px") ;
                 $(".navbar-nav li").css("width", $(".bottom-menu").width()+"px") ;
@@ -62,12 +61,11 @@ $(function($) {
                 $(".header-base-tool").css("display", "none") ;
                 $(".header-min-tool").css("display", "flex") ;
                 
-                
             } else {
                 $(".socials-div").css("display", "flex") ;
                 $(".locations-div").css("display", "block") ;
                 $(".tiny-menu").css("display", "none") ;
-                
+
                 $(".logo-div").removeClass("col-sm-6") ;
                 $(".logo-div").addClass("col-sm-3") ;
 

@@ -847,6 +847,24 @@ a.sell-btn {
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.header-tool .my-dropdown-menu {
+    top: 100%;
+    right: 0px;
+    left: auto;
+    padding: 10px 15px 12px;
+    min-width: 150px;
+    display: none;
+    position: absolute;
+    background: #fff;
+    z-index: 9999;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.header-tool .cart:hover >.my-dropdown-menu {
+    display: block;
+}
+
 .logo-header .search-box .categori-container {
     border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -1321,7 +1339,7 @@ Begin Header Custom Style
     width: 100%;
     padding: 12px 13px;
 }
-.top-header .navbar-nav li:hover {
+.top-header .navbar-nav .root-link:hover {
     background-color: #E92D46;
     color: white;
 }
@@ -1530,22 +1548,15 @@ Begin Header Custom Style
     transition: 0.2s linear;
 }
 
-
-
 .business-info-socialmedia {
     display: flex;
 }
 
-.business-info-socialmedia  .fa-inverse.fa-search {
-    background: #E92D46;
+.business-info-socialmedia div{
+    margin-left: 5px;
 }
-
-.business-info-socialmedia .fa-inverse.fa-facebook {
-    background: #3C63A4;
-}
-
-.business-info-socialmedia  .fa-inverse.fa-youtube-play {
-    background: #E20606;
+.business-info-socialmedia div button {
+    color: white ;
 }
 
 .business-info-socialmedia  .fa-inverse {
@@ -1653,14 +1664,24 @@ Begin Footer Custom Style
 }
 
 .footer .footer-info-area .text p{
-    color: #aaa;
+    /* color: #aaa; */
+    color: white ;
+    text-align: left;
     font-size: calc(18px + (25 - 18) * ((100vw - 768px) / (1920 - 768)));
+    /* font-weight: bolder; */
+}
+.footer .footer-info-area .text p a{
+    color: white ;
+}
+.footer .footer-info-area .text .title {
+    font-size: calc(20px + (25 - 18) * ((100vw - 768px) / (1920 - 768)));
     font-weight: bolder;
 }
 
 .copy-bg {
     border-top: 1px solid #aaa;
 }
+
 .core-nav .dropdown>.dropdown-menu {
     top: 90%;
 }
@@ -1681,7 +1702,7 @@ Begin Footer Custom Style
     display: block;
     text-align: left;
 }
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {color: #E92D46}
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -1691,8 +1712,8 @@ Begin Footer Custom Style
   background-color: #3e8e41;
 }
 
-.dropdown-content:hover  .root-link {
-    background-color: #E92D46;
+.navbar-nav li:hover >.root-link{
+    background-color: #E92D46 !important;
 }
 
 .dropdown-menu .nav-item {
@@ -1701,17 +1722,17 @@ Begin Footer Custom Style
     font-size:calc(11px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
     width: 100% !important;
 }
-.dropdown-menu .nav-item a:hover {
-    color: white ;
+.dropdown-menu .nav-item a:hover{
+    color: #E92D46 ;
 }
+
 .dropdown-menu .nav-item:hover >a {
-    color: white ;  
+    color: #E92D46 ;  
 }
 
 .dropdown>.dropdown-menu>li>a {
     border:none !important;
 }
-
 
 .dropdown-menu {
     /* min-width: 0px !important; */
