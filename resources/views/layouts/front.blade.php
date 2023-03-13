@@ -363,8 +363,8 @@
                         New Modals<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
                     <ul class="dropdown-menu"  style='position: unset !important'>
-                        <li class='nav-item'><a href="/">New Modals</a></li>
-                        <li class='nav-item'><a href="/">Factory Promotions</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/new-models">New Models</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/factory-promotions">Factory Promotions</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -411,8 +411,8 @@
                         Services<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
                     <ul class="dropdown-menu" style='position: unset !important'>
-                        <li class='nav-item'>Services</li>
-                        <li class='nav-item'>Service Quote Request</li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/services">Services</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/servicereq">Service Quote Request</a></li>
                     </ul>
                 </li>
                 <li class="dropdown nav-item">
@@ -420,9 +420,9 @@
                         Company Info<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
                     <ul class="dropdown-menu" style='position: unset !important'>
-                        <li class='nav-item'><a href="/">Company Info</a></li>
-                        <li class='nav-item'><a href="/">Contact Us</a></li>
-                        <li class='nav-item'><a href="/">Maps&Hours</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/aboutus">Company Info</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/contactus">Contact Us</a></li>
+                        <li class='nav-item'><a href="https://www.tractorbrothers.com/locations">Maps&Hours</a></li>
                     </ul>
                 </li>
             </ul>
