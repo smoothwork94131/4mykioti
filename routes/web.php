@@ -1614,6 +1614,7 @@ Route::get('finalize', 'Front\FrontendController@finalize');
 Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
 
 Route::post('search', 'Front\SearchController@search')->name('front-search');
+Route::post('search/detail', 'Front\SearchController@detail')->name('front-search-detail');
 
 //Search Route 
 

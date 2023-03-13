@@ -181,8 +181,7 @@ class CatalogController extends Controller
                 $adprod->update();
             }
         }
-
-
+        
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {

@@ -1820,6 +1820,10 @@ Begin Footer Custom Style
     padding-left: 30px !important;
 }
 
+.bottom-menu .dropdown-menu {
+    width: 100% !important ;
+}
+
 .bottom-menu .dropdown-menu li :hover {
     color: white ;
     padding-left: 15px;
