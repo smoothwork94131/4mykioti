@@ -32,9 +32,9 @@
                     <div class="col-6 remove-padding" >
                         <a href="https://3rdfunction.com/collections">
                             <div class="s-0-block s-block d-flex m-red">
-                                <div>
+                                <!-- <div>
                                     COMING SOON!!
-                                </div>
+                                </div> -->
                                 <div>
                                     3RD FUNCTION VALVES
                                 </div>

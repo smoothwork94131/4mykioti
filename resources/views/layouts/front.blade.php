@@ -148,7 +148,7 @@
                         Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
                     </a>
                     <ul class='dropdown-content' >
-                    <div class="categories_menu_inner products dropdown-content" >
+                    <div class="categories_menu_inner products dropdown-content" style='width: 400px !important;'>
                         @foreach($eccategories as $product)
                         <div class="categories_menu ">
                             <div class="categories_title">
@@ -165,7 +165,7 @@
                                         <h2 class="categori_toggle"> {{$series->series}} <i
                                                     class="fa fa-angle-down arrow-down"></i></h2>
                                     </div>
-                                    <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto;">
+                                    <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; ">
                                         loading...
                                     </div>
                                 </div>
@@ -217,19 +217,17 @@
             <a href="/locations">Maps &amp; Hours</a>
         </div>
         <div style='display: flex; justify-content: flex-end; '>
-            <div class="cart">
-                <a href="/ecommerce/cart" title="Cart">
-                    <span><i class="fa fa-shopping-cart"></i></span>
-                </a>
-            </div>
-            <div class="cart" style='margin-left: 10px'>
+           
+            <div class="cart" >
                 <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
                     <span><i class="fa fa-search"></i></span>
                 </a>
+            </div>
+            <div class="cart" style='margin-left: 10px'>
+                <a href="/ecommerce/cart" title="Cart">
+                    <span><i class="fa fa-shopping-cart"></i></span>
+                </a>
                 <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
-                <div class="my-dropdown-menu" id="cart-items">
-                    @include('load.cart')
-                </div>
             </div>
         </div>
     </div>
@@ -359,10 +357,10 @@
                     </a>
                 </li>
                 <li class="dropdown nav-item">
-                    <a class="nav-link root-link" target="" data-toggle="dropdown">
+                    <a class="nav-link root-link" target="" data-toggle="collapse" data-target="#collapse_new_model">
                         New Modals<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
-                    <ul class="dropdown-menu"  style='position: unset !important'>
+                    <ul class="collapse" id="collapse_new_model"  style='position: unset !important'>
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/new-models">New Models</a></li>
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/factory-promotions">Factory Promotions</a></li>
                     </ul>
@@ -373,13 +371,13 @@
                     </a>
                 </li>
                 <li class="dropdown nav-item dropbtn"> 
-                    <a class="nav-link root-link"  data-toggle="dropdown" style='cursor:pointer'>
+                    <a class="nav-link root-link"  data-toggle="collapse" data-target="#collapse_parts" style='cursor:pointer'>
                         Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
                     </a>
-                    <ul class='dropdown-menu' style='position: unset !important'>
-                        <div class="categories_menu_inner products dropdown-content" style='position: unset !important'>
+                    <ul class="collapse" id="collapse_parts" style='position: unset !important'>
+                        <div>
                             @foreach($eccategories as $product)
-                            <div class="categories_menu ">
+                            <div class="">
                                 <div class="categories_title">
                                     <h2 class="categori_toggle"> {{$product->product}} <i
                                                 class="fa fa-angle-down arrow-down"></i></h2>
@@ -394,11 +392,8 @@
                                             <h2 class="categori_toggle"> {{$series->series}} <i
                                                         class="fa fa-angle-down arrow-down"></i></h2>
                                         </div>
-                                        <!-- <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto; background-color: #e1e1e1">
-                                            loading...
-                                        </div>
-                                            -->
                                     </div>
+                                    
                                     @endforeach
                                 </div>
                             </div>
@@ -407,19 +402,19 @@
                     </ul>
                 </li>
                 <li class="dropdown nav-item">
-                    <a class="nav-link root-link" target="" data-toggle="dropdown">
+                    <a class="nav-link root-link" target="" data-toggle="collapse" data-target="#collapse_services">
                         Services<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
-                    <ul class="dropdown-menu" style='position: unset !important'>
+                    <ul class="collapse" id="collapse_services" style='position: unset !important'>
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/services">Services</a></li>
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/servicereq">Service Quote Request</a></li>
                     </ul>
                 </li>
                 <li class="dropdown nav-item">
-                    <a class="nav-link root-link" target="" data-toggle="dropdown">
+                    <a class="nav-link root-link" data-toggle="collapse" data-target="#collapse_info">
                         Company Info<span style='padding-left: 5px;'><i class="fa fa-angle-down arrow-down"></i></span>
                     </a>
-                    <ul class="dropdown-menu" style='position: unset !important'>
+                    <ul class="collapse" id="collapse_info" style='position: unset !important'>
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/aboutus">Company Info</a></li>
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/contactus">Contact Us</a></li>
                         <li class='nav-item'><a href="https://www.tractorbrothers.com/locations">Maps&Hours</a></li>
