@@ -210,68 +210,66 @@
     @else
     <section class="sub-categori">
         <div class="container">
-            <div class="row">
-                <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
-                    <thead>
+            <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th width='10%' class='th-img'></th>
+                    <th>Name</th>
+                    <th>Model</th>
+                    <th>Group</th>
+                    <th class='th-part'>Part</th>
+                    <th class='th-price'>Price</th>
+                    <th style="text-align:center;" class='th-action'>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                @foreach($prods as $key=>$prod)
                     <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Model</th>
-                        <th>Group</th>
-                        <th class='th-part'>Part</th>
-                        <th class='th-price'>Price</th>
-                        <th style="text-align:center;" class='th-action'>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    
-                    @foreach($prods as $key=>$prod)
-                        <tr>
-                            <td>
-                                <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
-                            </td>
-                            <td>
-                                {{ $prod->name }}
-                            </td>
-                            <td>
-                                {{ $prod->subcategory_id }}
-                            </td>
-                            <td>
-                                {{ $prod->parent }}
-                            </td>
-                            <td class='td-part'>
-                                {{ $prod->sku }}
-                            </td>
-                            <td class='td-price'>
-                                ${{ $prod->price }}
-                            </td>
-                            <td style="text-align:center;" class='td-action'>
-                                <div class="dropdown">
-                                    <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-primary">
-                                        @if(Auth::guard('web')->check())
-                                            <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
-                                        @else
-                                            <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
-                                        @endif
-                                        <span class="dropdown-item quick-view" data-href="{{ route('product.iquick',['db' => $db, 'id' => $prod->id]) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
-                                        @if($prod->product_type == "affiliate")
-                                            <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
-                                        @else
-                                        <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
-                                                <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
-                                        @endif
-                                    </div>
+                        <td>
+                            <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                        </td>
+                        <td>
+                            {{ $prod->name }}
+                        </td>
+                        <td>
+                            {{ $prod->subcategory_id }}
+                        </td>
+                        <td>
+                            {{ $prod->parent }}
+                        </td>
+                        <td class='td-part'>
+                            {{ $prod->sku }}
+                        </td>
+                        <td class='td-price'>
+                            ${{ $prod->price }}
+                        </td>
+                        <td style="text-align:center;" class='td-action'>
+                            <div class="dropdown">
+                                <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-primary">
+                                    @if(Auth::guard('web')->check())
+                                        <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                    @else
+                                        <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                    @endif
+                                    <span class="dropdown-item quick-view" data-href="{{ route('product.iquick',['db' => $db, 'id' => $prod->id]) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
+                                    @if($prod->product_type == "affiliate")
+                                        <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                    @else
+                                    <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
+                                            <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                    @endif
                                 </div>
-                            </td>
-                        </tr>
-                    @endforeach
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
     </section>
     @endif

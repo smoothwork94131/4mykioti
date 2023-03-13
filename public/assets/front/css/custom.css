@@ -1675,13 +1675,10 @@ Begin Header Custom Style
     #product_table {
         font-size: calc(14px + (25 - 18) * ((100vw - 768px) / (1920 - 768))); ;
     }
-    #product_table img {
-        width: 130%;
-    }
+    
 }
 @media(max-width:962px){
     .logo-header .header-locations>div+div::before {
-     
         width: 0px;
     }
 }
@@ -1691,6 +1688,20 @@ Begin Header Custom Style
         height: 70px;
         line-height: 70px;
     }
+}
+
+@media(max-width: 500px) {
+    #product_table .th-img {
+        width: 20% !important;
+    }
+}
+
+#product_table img {
+    width: 100%;
+}
+
+#product_table td {
+    vertical-align: middle;
 }
 
 /* 
