@@ -1640,11 +1640,11 @@ Begin Header Custom Style
 }
 
 @media(max-width:768px){
-    .sub-categori .product_table >.dropdown-menu {
-        left: -50px !important;
+    #product_table .dropdown-menu {
+        left: -100% !important ;
     }
 }
-@media(max-width:1220px){
+@media(max-width:962px){
     .logo-header .header-locations>div+div::before {
      
         width: 0px;
