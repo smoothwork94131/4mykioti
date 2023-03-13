@@ -12,78 +12,79 @@ $(function($) {
             $('.profilearea.my-dropdown .my-dropdown-menu.profile-dropdown').stop().hide(0);
         });
         $(window).resize(function() {
-            resizeLayout() ;
-        }) ;
-        
-        var orgin_scr_width = $("body").width() ;
-        
+            resizeLayout();
+        });
+
+        var orgin_scr_width = $("body").width();
+
         function resizeLayout() {
-            resizeHeader() ;
+            resizeHeader();
             // resizeFooter() ;
         }
 
         function resizeHeader() {
-            var scr_width = $("body").width() ;
-            var bar_cnt = $(".top-menu .navbar-nav").children().length ;
+            var scr_width = $("body").width();
+            var bar_cnt = $(".top-menu .navbar-nav").children().length;
 
             // var bar_width = scr_width - scr_width * 0.2 ;
-            var bar_item_width = ($(".navbar").width()+10) / bar_cnt ;
-            
-            $(".navbar-nav li").css("width", bar_item_width+"px") ;
-            
+            var bar_item_width = ($(".navbar").width() + 10) / bar_cnt;
+
+            $(".navbar-nav li").css("width", bar_item_width + "px");
+
             $(".navbar-nav li a").css({
-                "width": bar_item_width+"px",
+                "width": bar_item_width + "px",
                 "textAlign": "center",
-            }) ;
+            });
 
-            if(scr_width < 768) {
-                $(".socials-div").css("display", "none") ;
-                $(".locations-div").css("display", "none") ;
-                $(".tiny-menu").css("display", "block") ;
-                
-                $(".logo-div").removeClass("col-sm-3") ;
-                $(".logo-div").addClass("col-sm-6") ;
+            if (scr_width < 768) {
+                $(".socials-div").css("display", "none");
+                $(".locations-div").css("display", "none");
+                $(".tiny-menu").css("display", "block");
 
-                $(".logo-div").addClass("fix-height-85-50") ;
+                $(".logo-div").removeClass("col-sm-3");
+                $(".logo-div").addClass("col-sm-6");
 
-                $(".top-menu .navbar").css("display", "none") ;
+                $(".logo-div").addClass("fix-height-85-50");
+
+                $(".top-menu .navbar").css("display", "none");
                 $(".navbar-nav li a").css({
-                    "width": $(".bottom-menu").width()+"px",
-                    "textAlign":"left"
-                }) ;
+                    "width": $(".bottom-menu").width() + "px",
+                    "textAlign": "left"
+                });
 
-                $(".navbar-nav .dropdown .dropdown-menu").css("position", "unset !important") ;
-                
-                $(".dropdown-menu .nav-item").css("width", bar_item_width+"px") ;
-                $(".navbar-nav li").css("width", $(".bottom-menu").width()+"px") ;
-                $(".bottom-menu .navbar").css("display", "block") ;
-                
-                $(".header-base-tool").css("display", "none") ;
-                $(".header-min-tool").css("display", "flex") ;
-                
+                $(".navbar-nav .dropdown .dropdown-menu").css("position", "unset !important");
+
+                $(".dropdown-menu .nav-item").css("width", bar_item_width + "px");
+                $(".navbar-nav li").css("width", $(".bottom-menu").width() + "px");
+                $(".bottom-menu .navbar").css("display", "block");
+
+                $(".header-base-tool").css("display", "none");
+                $(".header-min-tool").css("display", "flex");
+
             } else {
-                $(".socials-div").css("display", "flex") ;
-                $(".locations-div").css("display", "block") ;
-                $(".tiny-menu").css("display", "none") ;
+                $(".socials-div").css("display", "flex");
+                $(".locations-div").css("display", "block");
+                $(".tiny-menu").css("display", "none");
 
-                $(".logo-div").removeClass("col-sm-6") ;
-                $(".logo-div").addClass("col-sm-3") ;
+                $(".logo-div").removeClass("col-sm-6");
+                $(".logo-div").addClass("col-sm-3");
 
-                $(".top-menu .navbar").css("display", "block") ;
-                $(".bottom-menu .navbar").css("display", "none") ;
+                $(".top-menu .navbar").css("display", "block");
+                $(".bottom-menu .navbar").css("display", "none");
 
-                $(".header-base-tool").css("display", "flex") ;
-                $(".header-min-tool").css("display", "none") ;
+                $(".header-base-tool").css("display", "flex");
+                $(".header-min-tool").css("display", "none");
 
-                $(".logo-div").css("fix-height-85-50") ;    
-                $(".dropdown-menu .nav-item").css("width","100% !important") ;
+                $(".logo-div").css("fix-height-85-50");
+                $(".dropdown-menu .nav-item").css("width", "100% !important");
 
             }
         }
+
         function resizeFooter() {
 
         }
-        resizeLayout() ;
+        resizeLayout();
         $(function() {
 
             var url = window.location.href,
@@ -102,7 +103,8 @@ $(function($) {
         /*------addClass/removeClass categories-------*/
         var w = window.innerWidth;
 
-        /*categories slideToggle*/
+        $('.categories_menu_inner').stop().slideUp();
+
         $(document).on("click", ".categories_title", function() {
             $(this).addClass('active');
             $(this).parent().siblings('.categories_menu').children('.categories_menu_inner').stop().slideUp();
@@ -150,7 +152,7 @@ $(function($) {
                                     </div>
                                     <div class="common-parts" style="background-color: white">
                                     </div>
-                                    <div class="categories_menu_inner sections">
+                                    <div class="categories_menu_inner sections" style="display: none">
                                         loading...
                                     </div>
                                 </div>`;
@@ -167,7 +169,7 @@ $(function($) {
                                     data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].section_name} <i
                                                     class="fa fa-angle-down arrow-down"></i></h2>
                                     </div>
-                                    <div class="categories_menu_inner groups">
+                                    <div class="categories_menu_inner groups" style="display: none">
                                         <ul class="category-groups">
                                             loading...
                                         </ul>
@@ -337,8 +339,6 @@ $(function($) {
             }
 
         });
-
-
 
 
         /*------addClass/removeClass categories-------*/
