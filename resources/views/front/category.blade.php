@@ -230,7 +230,7 @@
                             <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
                         </td>
                         <td>
-                            {{ $prod->name }}
+                            <a href="{{route('front.product', $prod->name)}}">{{ $prod->name }}</a>
                         </td>
                         <td>
                             {{ $prod->subcategory_id }}
