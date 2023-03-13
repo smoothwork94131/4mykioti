@@ -1665,7 +1665,7 @@ Begin Header Custom Style
 }
 
 @media(max-width:768px){
-    #product_table .th-img, .td-img{
+    #product_table .th-group, .td-group{
         display: none ;
     }
     #product_table {

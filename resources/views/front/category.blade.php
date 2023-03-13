@@ -216,7 +216,7 @@
                     <th width='10%' class='th-img'></th>
                     <th>Name</th>
                     <th>Model</th>
-                    <th>Group</th>
+                    <th class='th-group'>Group</th>
                     <th class='th-part'>Part</th>
                     <th class='th-price'>Price</th>
                     <th style="text-align:center;" class='th-action'>Action</th>
@@ -235,7 +235,7 @@
                         <td>
                             {{ $prod->subcategory_id }}
                         </td>
-                        <td>
+                        <td class='td-group'>
                             {{ $prod->parent }}
                         </td>
                         <td class='td-part'>
