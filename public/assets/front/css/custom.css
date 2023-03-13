@@ -1667,6 +1667,18 @@ Begin Header Custom Style
         left: -100% !important ;
     }
 }
+@media(max-width:768px){
+    #product_table .th-price, .th-group, .td-price, .td-group, .td-action, .th-action {
+        /* left: -100% !important ; */
+        display: none ;
+    }
+    #product_table {
+        font-size: calc(14px + (25 - 18) * ((100vw - 768px) / (1920 - 768))); ;
+    }
+    #product_table img {
+        width: 130%;
+    }
+}
 @media(max-width:962px){
     .logo-header .header-locations>div+div::before {
      

@@ -218,12 +218,13 @@
                         <th>Name</th>
                         <th>Model</th>
                         <th>Group</th>
-                        <th>Part</th>
-                        <th>Price</th>
-                        <th style="text-align:center;">Action</th>
+                        <th class='th-part'>Part</th>
+                        <th class='th-price'>Price</th>
+                        <th style="text-align:center;" class='th-action'>Action</th>
                     </tr>
                     </thead>
                     <tbody>
+                    
                     @foreach($prods as $key=>$prod)
                         <tr>
                             <td>
@@ -238,13 +239,13 @@
                             <td>
                                 {{ $prod->parent }}
                             </td>
-                            <td>
+                            <td class='td-part'>
                                 {{ $prod->sku }}
                             </td>
-                            <td>
+                            <td class='td-price'>
                                 ${{ $prod->price }}
                             </td>
-                            <td style="text-align:center;">
+                            <td style="text-align:center;" class='td-action'>
                                 <div class="dropdown">
                                     <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
@@ -267,6 +268,7 @@
                             </td>
                         </tr>
                     @endforeach
+
                     </tbody>
                 </table>
             </div>
