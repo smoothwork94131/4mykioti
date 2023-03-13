@@ -797,9 +797,9 @@ $(function($) {
             $('.' + $selector).hide();
             $.get($(this).data('href'), function(data) {
                 if (data == 0) {
-                    $("#cart-count").html(data);
+                    $(".header-cart-count").html(data);
                     $('.cart-table').html('<h3 class="mt-1 pl-3 text-left">Cart is empty.</h3>');
-                    $('#cart-items').html('<p class="mt-1 pl-3 text-left">Cart is empty.</p>');
+                    $('.header-cart-items').html('<p class="mt-1 pl-3 text-left">Cart is empty.</p>');
                     $('.cartpage .col-lg-4').html('');
                 } else {
                     $('.cart-quantity').html(data[1]);

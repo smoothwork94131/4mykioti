@@ -212,7 +212,7 @@
                 <span><i class="fa fa-shopping-cart"></i></span>
             </a>
             <span class="cart-quantity header-cart-count" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
-            <div class="my-dropdown-menu header-cart-items" id="cart-items">
+            <div class="my-dropdown-menu header-cart-items" id="cart-items">    
                 @include('load.cart')
             </div>
         </div>

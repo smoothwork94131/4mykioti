@@ -799,18 +799,12 @@ a.sell-btn {
     height: 48px;
     z-index: 99999;
 }
-
-
 /* Additional class that applied to thumb when it is active */
-
 .xactive {
     border: 1px solid rgba(0, 0, 0, 0.1);
     z-index: 99999;
 }
-
-
 /* Caption */
-
 .xzoom-caption {
     position: absolute;
     bottom: -43px;
