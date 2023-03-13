@@ -208,11 +208,11 @@
             <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
         </div>
         <div class="cart">
-            <a href="/ecommerce/cart" title="Cart">
+            <a href="/carts" title="Cart">
                 <span><i class="fa fa-shopping-cart"></i></span>
             </a>
-            <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
-            <div class="my-dropdown-menu" id="cart-items">
+            <span class="cart-quantity header-cart-count" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
+            <div class="my-dropdown-menu header-cart-items" id="cart-items">
                 @include('load.cart')
             </div>
         </div>
@@ -229,10 +229,10 @@
                 </a>
             </div>
             <div class="cart" style='margin-left: 10px'>
-                <a href="/ecommerce/cart" title="Cart">
+                <a href="/carts" title="Cart">
                     <span><i class="fa fa-shopping-cart"></i></span>
                 </a>
-                <span class="cart-quantity" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
+                <span class="cart-quantity header-cart-count"  id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
             </div>
         </div>
     </div>
@@ -489,7 +489,7 @@
                         <p><a href="https://www.twitter.com/TractorBros" class='btn btn-primary'>
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://www.youtube.com/youtube" class='btn btn-danger'>
+                        <a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos" class='btn btn-danger'>
                             <i class="fab fa-youtube"></i>
                         </a>
                         </p>

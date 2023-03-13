@@ -776,22 +776,21 @@ $(function($) {
 
         $(document).on('click', '.add-to-cart', function() {
 
-
             $.get($(this).data('href'), function(data) {
-
                 if (data == 'digital') {
                     toastr.error(langg.already_cart);
                 } else if (data == 0) {
                     toastr.error(langg.out_stock);
                 } else {
-                    $("#cart-count").html(data[0]);
-                    $("#cart-items").load(mainurl + '/carts/view');
+                    // $("#cart-count").html(data[0]);
+                    // $("#cart-items").load(mainurl + '/carts/view');
+                    $(".header-cart-count").html(data[0]) ;
+                    $(".header-cart-items").load(mainurl + '/carts/view') ;
                     toastr.success(langg.add_cart);
                 }
             });
             return false;
         });
-
 
         $(document).on('click', '.cart-remove', function() {
             var $selector = $(this).data('class');
@@ -1139,7 +1138,6 @@ $(function($) {
                     return $(this).data('price');
                 }).get();
 
-
             }
 
 
@@ -1166,8 +1164,8 @@ $(function($) {
                     } else if (data == 0) {
                         toastr.error(langg.out_stock);
                     } else {
-                        $("#cart-count").html(data[0]);
-                        $("#cart-items").load(mainurl + '/carts/view');
+                        $(".header-cart-count").html(data[0]);
+                        $(".header-cart-items").load(mainurl + '/carts/view');
                         toastr.success(langg.add_cart);
                     }
                 }
