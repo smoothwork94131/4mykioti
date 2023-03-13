@@ -1639,7 +1639,7 @@ Begin Header Custom Style
     }
 }
 
-@media(max-width:768px){
+@media(max-width:990px){
     #product_table .dropdown-menu {
         left: -100% !important ;
     }
