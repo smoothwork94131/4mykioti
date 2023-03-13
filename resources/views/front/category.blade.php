@@ -226,7 +226,7 @@
                 
                 @foreach($prods as $key=>$prod)
                     <tr>
-                        <td>
+                        <td class='td-img'>
                             <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
                         </td>
                         <td>
@@ -243,7 +243,7 @@
                         </td>
                         <td class='td-price'>
                             ${{ $prod->price }}
-                        </td>
+                        </td >
                         <td style="text-align:center;" class='td-action'>
                             <div class="dropdown">
                                 <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
