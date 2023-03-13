@@ -486,8 +486,8 @@
                         <p>113 Hartman Road<br>Greensburg PA 15601</p>
                         <p><a  href='https://www.tractorbrothers.com/locations/36478'>(Map & Hours)</a></p>
                         <p>(724) 691-0200</p>
-                        <p><a href="https://www.twitter.com/TractorBros" class='btn btn-primary'>
-                            <i class="fab fa-twitter"></i>
+                        <p><a href="https://www.facebook.com/TractorBros" class='btn btn-primary'>
+                            <i class="fab fa-facebook"></i>
                         </a>
                         <a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos" class='btn btn-danger'>
                             <i class="fab fa-youtube"></i>
