@@ -143,7 +143,7 @@ $(function($) {
                             if (type == 'model') {
                                 for (var x in data.categories) {
                                     element += `<div class="categories_menu">
-                                    <div class="categories_title" style="data-type="section"
+                                    <div class="categories_title" data-type="section"
                                     data-model="${data.categories[x].model}"
                                     data-series="${series}"
                                     data-url="${link}" 
