@@ -835,7 +835,7 @@ a.sell-btn {
     }
 }
 
-.top-header ul li.my-dropdown.profilearea .my-dropdown-menu {
+/* .top-header ul li.my-dropdown.profilearea .my-dropdown-menu {
     top: 22px;
     right: 0px;
     left: auto;
@@ -847,14 +847,14 @@ a.sell-btn {
     z-index: 9999;
     box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(0, 0, 0, 0.1);
-}
+} */
 
 .header-tool .my-dropdown-menu {
     top: 95%;
     right: 0px;
     left: auto;
     padding: 10px 15px 12px;
-    min-width: 150px;
+    width: 500px;
     display: none;
     position: absolute;
     background: #fff;
@@ -863,6 +863,33 @@ a.sell-btn {
     border: 1px solid rgba(0, 0, 0, 0.1);
     max-height: 500px;
     overflow-y: auto;
+    /* display: block; */
+}
+.my-dropdown-menu li .product-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0px;
+    cursor: pointer;
+}
+.my-dropdown-menu li .product-details  .img {
+    width: 30%;
+    border-right: 1px solid #b1b1b1 ;
+    padding-right: 2%;
+}
+.my-dropdown-menu li .product-details .img img {
+    height: 100px;
+    width: 98%;
+}
+
+.my-dropdown-menu li .product-details .content {
+    width: 60%;
+    display: grid;
+    justify-content: center;
+}
+
+.my-dropdown-menu li .product-details .cart-remove {
+    width: 10%;
+    cursor: pointer;
 }
 
 .header-tool .cart:hover >.my-dropdown-menu {
