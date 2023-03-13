@@ -495,7 +495,6 @@
                         </p>
                     </div>
                     <div class="sub_text">
-
                     </div>
                 </div>
                 <div class="fotter-social-links">

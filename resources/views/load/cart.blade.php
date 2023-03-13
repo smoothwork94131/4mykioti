@@ -14,8 +14,8 @@
                 <li class="product cremove{{ ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}">
                     <div class="product-details">
                         <div class="content">
-                            <a href="{{ route('front.product',$product['item']->slug) }}"><h4
-                                        class="product-title">{{mb_strlen($product['item']->name,'utf-8') > 45 ? mb_substr($product['item']->name,0,45,'utf-8').'...' : $product['item']->name}}</h4>
+                            <a href="{{ route('front.product',$product['item']->slug) }}"><h6
+                                        class="product-title">{{mb_strlen($product['item']->name,'utf-8') > 45 ? mb_substr($product['item']->name,0,45,'utf-8').'...' : $product['item']->name}}</h6>
                             </a>
 
                             <span class="cart-product-info">
