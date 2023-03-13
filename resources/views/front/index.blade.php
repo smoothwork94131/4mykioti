@@ -210,11 +210,23 @@
 
     {{-- @if($ps->featured == 1) --}}
         <!-- Trending Item Area Start -->
+        
 
         @if($gs->solo_mode == 1 && !empty($gs->solo_category))
             <section class="sub-categori grid-display">
                 <div class="container">
+                    <div class='promotions'>
+                        <div class='section-name'>
+                            Promotions
+                        </div>
+                        <a><img src="{{asset('assets/promotions/5f721233-577e-4e0b-9983-c1b8ad89e8d7.jpg')}}"/></a>
+                        <a><img src="{{asset('assets/promotions/8c1b7eaa-f63c-4f1e-9a98-046264d4418e.jpg')}}" /></a>
+                        <a><img src="{{asset('assets/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
+                        <a><img src="{{asset('assets/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
+                    </div>
                     <div class="row">
+                    
+                    
                         <div class="col-lg-12 order-first order-lg-last ajax-loader-parent">
                             <!-- <div class="section-top">
                                 <h2 class="section-title">
