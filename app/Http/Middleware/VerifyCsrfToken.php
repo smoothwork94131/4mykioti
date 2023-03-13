@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
+
         '/checkout/payment/notify',
         '/user/payment/notify',
         '/paytm-callback',
@@ -19,6 +20,6 @@ class VerifyCsrfToken extends Middleware
         '/user/paytm/notify',
         '/razorpay-callback',
         '/user/razorpay/notify',
-
+        '/search'
     ];
 }

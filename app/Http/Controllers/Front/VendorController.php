@@ -168,7 +168,6 @@ class VendorController extends Controller
             $msg->message = $request->message;
             $msg->sent_user = $request->user_id;;
             $msg->save();
-
         }
     }
 

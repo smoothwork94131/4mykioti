@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @if(isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
         <meta name="description" content="{{ $page->meta_description }}">
@@ -222,9 +223,8 @@
             <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
         </div>
         <div style='display: flex; justify-content: flex-end; '>
-           
-            <div class="cart" >
-                <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
+            <div class="cart">
+                <a onclick = 'showMobileSearchField(this)'>
                     <span><i class="fa fa-search"></i></span>
                 </a>
             </div>
@@ -240,8 +240,8 @@
 
 <div class="top-gap"></div>
 <!-- Top Header Area End -->
-
 <!-- Logo Header Area Start -->
+
 <section class="logo-header">
     <div class="container-fluid">
         <div class="row" style='padding: 0px;'>
@@ -302,31 +302,20 @@
                 </div>
             </div>
             <div class="col-lg-2 col-sm-3 socials-div business-info-socialmedia" align="center" >
-                
-                <!-- <div class="social-media search">
-                    <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-search fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Search</span></i>
-                        </span>
-                    </a>
-                </div>
-                <div class="social-media facebook">
-                    <a href="https://www.facebook.com/TractorBros" target="_blank" aria-label="Facebook" aria-describedby="audioeye_new_window_message">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-facebook fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Like us on Facebook</span></i>
-                        </span>
-                    </a>
-                </div>
-                <div class="social-media youtube">
-                    <a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos" title="YouTube" target="_blank" aria-describedby="audioeye_new_window_message">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-youtube-play fa-stack-1x fa-inverse"><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span><span class="sr-only" role="presentation" aria-hidden="true" tabindex="-1">Check us out on Youtube</span></i>
-                        </span>
-                    </a>
-                </div> -->
                 <div class="social-media">
-                    <a href="https://www.facebook.com/TractorBros" target="_blank">
-                        <button class='btn' style='background: #F05223'><i class='fa fa-search'></i></button>
+                    <a>
+                        <button class='btn' style='background: #F05223' 
+                            onclick="showDesktopSearchField(this)"><i class='fa fa-search'></i></button>
+                        <div class='desktop-search-field'>
+                            <div class='search-field'>
+                                <input 
+                                    class='search-input form-control' 
+                                    onkeyup="totalSearch(event)"/>
+                                <div class='icon'><i class='fa fa-search'></i></div>        
+                            </div>
+                            <div class='search-dropdown'>
+                            </div>
+                        </div>
                     </a>
                 </div>
                 <div class="social-media">
@@ -353,6 +342,17 @@
     </div>
 </section>
 <section class="top-header row bottom-menu"  style="margin: 0px; border: none;position: relative;">
+    <div class='mobile-search-field'>
+        <div class='search-field'>
+            <input 
+                class='search-input form-control' 
+                onkeyup="totalSearch(event)"/>
+            <div class='icon'><i class='fa fa-search'></i></div>        
+        </div>
+        <div class='search-dropdown'>
+        </div>
+        
+    </div>
     <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px; '>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
@@ -435,6 +435,7 @@
             </ul>
         </div>
     </nav>
+
     <!-- <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">

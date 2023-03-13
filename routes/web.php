@@ -1018,7 +1018,6 @@ Route::prefix('admin')->group(function () {
 
 });
 
-
 // ************************************ ADMIN SECTION ENDS**********************************************
 
 // ************************************ USER SECTION **********************************************
@@ -1163,13 +1162,6 @@ Route::prefix('user')->group(function () {
 });
 
 // ************************************ USER SECTION ENDS**********************************************
-
-
-Route::post('the/genius/ocean/2441139', 'Front\FrontendController@subscription');
-Route::get('finalize', 'Front\FrontendController@finalize');
-
-Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
-
 
 Route::group(['middleware' => 'maintenance'], function () {
 
@@ -1427,194 +1419,203 @@ Route::prefix('vendor')->group(function () {
 
 });
 
-
 // ************************************ VENDOR SECTION ENDS**********************************************
 
 // ************************************ FRONT SECTION **********************************************
 
-    Route::get('/', 'Front\FrontendController@index')->name('front.index');
-    Route::get('/partsbymodel', 'Front\FrontendController@partsByModel')->name('front.partsByModel');
-    Route::get('/schematics', 'Front\FrontendController@schematics')->name('front.schematics');
-    Route::get('/commonparts', 'Front\FrontendController@commonpart')->name('front.common');
-    Route::get('/extras', 'Front\FrontendController@extraIndex')->name('front.extraIndex');
-    Route::get('/currency/{id}', 'Front\FrontendController@currency')->name('front.currency');
-    Route::get('/language/{id}', 'Front\FrontendController@language')->name('front.language');
 
-    // BLOG SECTION
-    Route::get('/blog', 'Front\FrontendController@blog')->name('front.blog');
-    Route::get('/blog/{id}', 'Front\FrontendController@blogshow')->name('front.blogshow');
-    Route::get('/blog/category/{slug}', 'Front\FrontendController@blogcategory')->name('front.blogcategory');
-    Route::get('/blog/tag/{slug}', 'Front\FrontendController@blogtags')->name('front.blogtags');
-    Route::get('/blog-search', 'Front\FrontendController@blogsearch')->name('front.blogsearch');
-    Route::get('/blog/archive/{slug}', 'Front\FrontendController@blogarchive')->name('front.blogarchive');
-    // BLOG SECTION ENDS
+Route::get('/', 'Front\FrontendController@index')->name('front.index');
+Route::get('/partsbymodel', 'Front\FrontendController@partsByModel')->name('front.partsByModel');
+Route::get('/schematics', 'Front\FrontendController@schematics')->name('front.schematics');
+Route::get('/commonparts', 'Front\FrontendController@commonpart')->name('front.common');
+Route::get('/extras', 'Front\FrontendController@extraIndex')->name('front.extraIndex');
+Route::get('/currency/{id}', 'Front\FrontendController@currency')->name('front.currency');
+Route::get('/language/{id}', 'Front\FrontendController@language')->name('front.language');
 
-    // STRAIN SECTION
-    Route::get('/strain', 'Front\FrontendController@strain')->name('front.strain');
-    Route::get('/strainadd', 'Front\FrontendController@strainadd')->name('front.strainadd');
-    Route::get('/strain/{id}', 'Front\FrontendController@strainshow')->name('front.strainshow');
-    Route::get('/strain-search', 'Front\FrontendController@strainsearch')->name('front.strainsearch');
-    Route::post('/strain-save', 'Front\FrontendController@strainsave')->name('front.strainsave');
+// BLOG SECTION
+Route::get('/blog', 'Front\FrontendController@blog')->name('front.blog');
+Route::get('/blog/{id}', 'Front\FrontendController@blogshow')->name('front.blogshow');
+Route::get('/blog/category/{slug}', 'Front\FrontendController@blogcategory')->name('front.blogcategory');
+Route::get('/blog/tag/{slug}', 'Front\FrontendController@blogtags')->name('front.blogtags');
+Route::get('/blog-search', 'Front\FrontendController@blogsearch')->name('front.blogsearch');
+Route::get('/blog/archive/{slug}', 'Front\FrontendController@blogarchive')->name('front.blogarchive');
+// BLOG SECTION ENDS
 
-    // STRAIN SECTION ENDS
+// STRAIN SECTION
+Route::get('/strain', 'Front\FrontendController@strain')->name('front.strain');
+Route::get('/strainadd', 'Front\FrontendController@strainadd')->name('front.strainadd');
+Route::get('/strain/{id}', 'Front\FrontendController@strainshow')->name('front.strainshow');
+Route::get('/strain-search', 'Front\FrontendController@strainsearch')->name('front.strainsearch');
+Route::post('/strain-save', 'Front\FrontendController@strainsave')->name('front.strainsave');
 
-    // FAQ SECTION
-    Route::get('/faq', 'Front\FrontendController@faq')->name('front.faq');
-    // FAQ SECTION ENDS
+// STRAIN SECTION ENDS
 
-    Route::get('/terms_condition', 'Front\FrontendController@terms_condition')->name('front.terms-condition');
+// FAQ SECTION
+Route::get('/faq', 'Front\FrontendController@faq')->name('front.faq');
+// FAQ SECTION ENDS
 
-    // CONTACT SECTION
-    Route::get('/contact', 'Front\FrontendController@contact')->name('front.contact');
-    Route::post('/contact', 'Front\FrontendController@contactemail')->name('front.contact.submit');
-    Route::get('/contact/refresh_code', 'Front\FrontendController@refresh_code');
-    // CONTACT SECTION  ENDS
+Route::get('/terms_condition', 'Front\FrontendController@terms_condition')->name('front.terms-condition');
 
-    // PRODCT AUTO SEARCH SECTION
-    Route::get('/autosearch/product/{slug}', 'Front\FrontendController@autosearch');
-    Route::get('/common/parts/{series}/{model}', 'Front\FrontendController@commonparts');
-    Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables')->name('front.soloproduct.datatables');
-    // PRODCT AUTO SEARCH SECTION ENDS
+// CONTACT SECTION
+Route::get('/contact', 'Front\FrontendController@contact')->name('front.contact');
+Route::post('/contact', 'Front\FrontendController@contactemail')->name('front.contact.submit');
+Route::get('/contact/refresh_code', 'Front\FrontendController@refresh_code');
+// CONTACT SECTION  ENDS
 
-    // CATEGORY SECTION
-    Route::get('/category/{category?}/{subcategory?}/{childcategory?}', 'Front\CatalogController@category')->name('front.category');
-    Route::get('/category/{slug1}/{slug2}', 'Front\CatalogController@subcategory')->name('front.subcat');
-    Route::get('/category/{slug1}/{slug2}/{slug3}', 'Front\CatalogController@childcategory')->name('front.childcat');
-    Route::get('/categories/', 'Front\CatalogController@categories')->name('front.categories');
-    Route::get('/childcategories/{slug}', 'Front\CatalogController@childcategories')->name('front.childcategories');
-    // CATEGORY SECTION ENDS
+// PRODCT AUTO SEARCH SECTION
+Route::get('/autosearch/product/{slug}', 'Front\FrontendController@autosearch');
+Route::get('/common/parts/{series}/{model}', 'Front\FrontendController@commonparts');
+Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables')->name('front.soloproduct.datatables');
+// PRODCT AUTO SEARCH SECTION ENDS
 
-    // TAG SECTION
-    Route::get('/tag/{slug}', 'Front\CatalogController@tag')->name('front.tag');
-    // TAG SECTION ENDS
+// CATEGORY SECTION
+Route::get('/category/{category?}/{subcategory?}/{childcategory?}', 'Front\CatalogController@category')->name('front.category');
+Route::get('/category/{slug1}/{slug2}', 'Front\CatalogController@subcategory')->name('front.subcat');
+Route::get('/category/{slug1}/{slug2}/{slug3}', 'Front\CatalogController@childcategory')->name('front.childcat');
+Route::get('/categories/', 'Front\CatalogController@categories')->name('front.categories');
+Route::get('/childcategories/{slug}', 'Front\CatalogController@childcategories')->name('front.childcategories');
+// CATEGORY SECTION ENDS
 
-    // TAG SECTION
-    Route::get('/search/', 'Front\CatalogController@search')->name('front.search');
-    // TAG SECTION ENDS
+// TAG SECTION
+Route::get('/tag/{slug}', 'Front\CatalogController@tag')->name('front.tag');
+// TAG SECTION ENDS
 
-
-    // PRODCT SECTION
-    Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
-    Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
-    Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
-    Route::get('/item/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
-    Route::get('/item/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
-    Route::post('/item/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
-    Route::get('/item/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
-    // PRODCT SECTION ENDS
-
-    // COMMENT SECTION
-    Route::post('/item/comment/store', 'Front\CatalogController@comment')->name('product.comment');
-    Route::post('/item/comment/edit/{id}', 'Front\CatalogController@commentedit')->name('product.comment.edit');
-    Route::get('/item/comment/delete/{id}', 'Front\CatalogController@commentdelete')->name('product.comment.delete');
-    // COMMENT SECTION ENDS
-
-    // REPORT SECTION
-    Route::post('/item/report', 'Front\CatalogController@report')->name('product.report');
-    // REPORT SECTION ENDS
+// TAG SECTION
+Route::get('/search/', 'Front\CatalogController@search')->name('front.search');
+// TAG SECTION ENDS
 
 
-    // COMPARE SECTION
-    Route::get('/item/compare/view', 'Front\CompareController@compare')->name('product.compare');
-    Route::get('/item/compare/add/{id}', 'Front\CompareController@addcompare')->name('product.compare.add');
-    Route::get('/item/compare/remove/{id}', 'Front\CompareController@removecompare')->name('product.compare.remove');
-    // COMPARE SECTION ENDS
+// PRODCT SECTION
+Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
+Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
+Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
+Route::get('/item/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
+Route::get('/item/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
+Route::post('/item/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
+Route::get('/item/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
+// PRODCT SECTION ENDS
 
-    // REPLY SECTION
-    Route::post('/item/reply/{id}', 'Front\CatalogController@reply')->name('product.reply');
-    Route::post('/item/reply/edit/{id}', 'Front\CatalogController@replyedit')->name('product.reply.edit');
-    Route::get('/item/reply/delete/{id}', 'Front\CatalogController@replydelete')->name('product.reply.delete');
-    // REPLY SECTION ENDS
+// COMMENT SECTION
+Route::post('/item/comment/store', 'Front\CatalogController@comment')->name('product.comment');
+Route::post('/item/comment/edit/{id}', 'Front\CatalogController@commentedit')->name('product.comment.edit');
+Route::get('/item/comment/delete/{id}', 'Front\CatalogController@commentdelete')->name('product.comment.delete');
+// COMMENT SECTION ENDS
 
-    // CART SECTION
-    Route::get('/carts/view', 'Front\CartController@cartview');
-    Route::get('/carts/', 'Front\CartController@cart')->name('front.cart');
-    Route::get('/carts/clear', 'Front\CartController@clearcart')->name('front.cart.clear');
-    Route::get('/addcart/{db}/{id}', 'Front\CartController@addcart')->name('product.cart.add');
-    Route::get('/addtocart/{db}/{id}', 'Front\CartController@addtocart')->name('product.cart.quickadd');
-    Route::get('/addnumcart', 'Front\CartController@addnumcart');
-    Route::get('/addtonumcart', 'Front\CartController@addtonumcart');
-    Route::get('/addbyone', 'Front\CartController@addbyone');
-    Route::get('/reducebyone', 'Front\CartController@reducebyone');
-    Route::get('/upcolor', 'Front\CartController@upcolor');
-    Route::get('/removecart/{id}', 'Front\CartController@removecart')->name('product.cart.remove');
-    Route::get('/carts/coupon', 'Front\CartController@coupon');
-    Route::get('/carts/coupon/check', 'Front\CartController@couponcheck');
-    // CART SECTION ENDS
-
-    // CHECKOUT SECTION
-    Route::get('/checkout/', 'Front\CheckoutController@checkout')->name('front.checkout');
-    Route::get('/checkouttemp/{id}', 'Front\CheckoutController@checkouttemp')->name('front.checkout.temp');
-    Route::get('/checkout/payment/{slug1}/{slug2}', 'Front\CheckoutController@loadpayment')->name('front.load.payment');
-    Route::post('/checkout/shopify', 'Front\CheckoutController@shopifycheckout')->name('front.checkout.shopify');
-    Route::post('/checkout/addtemp', 'Front\CheckoutController@addToTemp')->name('front.checkout.addtemp');
-    Route::get('/order/track/{id}', 'Front\FrontendController@trackload')->name('front.track.search');
-    Route::get('/checkout/payment/return', 'Front\PaymentController@payreturn')->name('payment.return');
-    Route::get('/checkout/payment/cancle', 'Front\PaymentController@paycancle')->name('payment.cancle');
-    Route::post('/checkout/payment/notify', 'Front\PaymentController@notify')->name('payment.notify');
-    Route::get('/checkout/instamojo/notify', 'Front\InstamojoController@notify')->name('instamojo.notify');
-
-    Route::post('/paystack/submit', 'Front\PaystackController@store')->name('paystack.submit');
-    Route::post('/instamojo/submit', 'Front\InstamojoController@store')->name('instamojo.submit');
-    Route::post('/paypal-submit', 'Front\PaymentController@store')->name('paypal.submit');
-    Route::post('/stripe-submit', 'Front\StripeController@store')->name('stripe.submit');
+// REPORT SECTION
+Route::post('/item/report', 'Front\CatalogController@report')->name('product.report');
+// REPORT SECTION ENDS
 
 
-    // Molly Routes
+// COMPARE SECTION
+Route::get('/item/compare/view', 'Front\CompareController@compare')->name('product.compare');
+Route::get('/item/compare/add/{id}', 'Front\CompareController@addcompare')->name('product.compare.add');
+Route::get('/item/compare/remove/{id}', 'Front\CompareController@removecompare')->name('product.compare.remove');
+// COMPARE SECTION ENDS
 
-    Route::post('/molly/submit', 'Front\MollyController@store')->name('molly.submit');
-    Route::get('/molly/notify', 'Front\MollyController@notify')->name('molly.notify');
-    // Molly Routes Ends
+// REPLY SECTION
+Route::post('/item/reply/{id}', 'Front\CatalogController@reply')->name('product.reply');
+Route::post('/item/reply/edit/{id}', 'Front\CatalogController@replyedit')->name('product.reply.edit');
+Route::get('/item/reply/delete/{id}', 'Front\CatalogController@replydelete')->name('product.reply.delete');
+// REPLY SECTION ENDS
 
-    //PayTM Routes
-    Route::post('/paytm-submit', 'Front\PaytmController@store')->name('paytm.submit');;
-    Route::post('/paytm-callback', 'Front\PaytmController@paytmCallback')->name('paytm.notify');
+// CART SECTION
+Route::get('/carts/view', 'Front\CartController@cartview');
+Route::get('/carts/', 'Front\CartController@cart')->name('front.cart');
+Route::get('/carts/clear', 'Front\CartController@clearcart')->name('front.cart.clear');
+Route::get('/addcart/{db}/{id}', 'Front\CartController@addcart')->name('product.cart.add');
+Route::get('/addtocart/{db}/{id}', 'Front\CartController@addtocart')->name('product.cart.quickadd');
+Route::get('/addnumcart', 'Front\CartController@addnumcart');
+Route::get('/addtonumcart', 'Front\CartController@addtonumcart');
+Route::get('/addbyone', 'Front\CartController@addbyone');
+Route::get('/reducebyone', 'Front\CartController@reducebyone');
+Route::get('/upcolor', 'Front\CartController@upcolor');
+Route::get('/removecart/{id}', 'Front\CartController@removecart')->name('product.cart.remove');
+Route::get('/carts/coupon', 'Front\CartController@coupon');
+Route::get('/carts/coupon/check', 'Front\CartController@couponcheck');
+// CART SECTION ENDS
 
-    //RazorPay Routes
-    Route::post('/razorpay-submit', 'Front\RazorpayController@store')->name('razorpay.submit');;
-    Route::post('/razorpay-callback', 'Front\RazorpayController@razorCallback')->name('razorpay.notify');
+// CHECKOUT SECTION
+Route::get('/checkout/', 'Front\CheckoutController@checkout')->name('front.checkout');
+Route::get('/checkouttemp/{id}', 'Front\CheckoutController@checkouttemp')->name('front.checkout.temp');
+Route::get('/checkout/payment/{slug1}/{slug2}', 'Front\CheckoutController@loadpayment')->name('front.load.payment');
+Route::post('/checkout/shopify', 'Front\CheckoutController@shopifycheckout')->name('front.checkout.shopify');
+Route::post('/checkout/addtemp', 'Front\CheckoutController@addToTemp')->name('front.checkout.addtemp');
+Route::get('/order/track/{id}', 'Front\FrontendController@trackload')->name('front.track.search');
+Route::get('/checkout/payment/return', 'Front\PaymentController@payreturn')->name('payment.return');
+Route::get('/checkout/payment/cancle', 'Front\PaymentController@paycancle')->name('payment.cancle');
+Route::post('/checkout/payment/notify', 'Front\PaymentController@notify')->name('payment.notify');
+Route::get('/checkout/instamojo/notify', 'Front\InstamojoController@notify')->name('instamojo.notify');
 
-    Route::post('/cashondelivery', 'Front\CheckoutController@cashondelivery')->name('cash.submit');
-    Route::post('/gateway', 'Front\CheckoutController@gateway')->name('gateway.submit');
-    // CHECKOUT SECTION ENDS
-
-    // TAG SECTION
-    Route::get('/search/', 'Front\CatalogController@search')->name('front.search');
-    // TAG SECTION ENDS
-
-    // VENDOR SECTION
-    Route::get('/store/{category}', 'Front\VendorController@index')->name('front.vendor');
-    Route::post('/vendor/contact', 'Front\VendorController@vendorcontact');
-    // TAG SECTION ENDS
-
-    // SUBSCRIBE SECTION
-
-    Route::post('/subscriber/store', 'Front\FrontendController@subscribe')->name('front.subscribe');
-
-    // SUBSCRIBE SECTION ENDS
-
-   // AGE SET SECTION
-
-   Route::post('/age/store', 'Front\FrontendController@age')->name('front.age');
-   Route::post('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
-
-   // AGE SET SECTION ENDS
+Route::post('/paystack/submit', 'Front\PaystackController@store')->name('paystack.submit');
+Route::post('/instamojo/submit', 'Front\InstamojoController@store')->name('instamojo.submit');
+Route::post('/paypal-submit', 'Front\PaymentController@store')->name('paypal.submit');
+Route::post('/stripe-submit', 'Front\StripeController@store')->name('stripe.submit');
 
 
-    // LOGIN WITH FACEBOOK OR GOOGLE SECTION
-    Route::get('auth/{provider}', 'User\SocialRegisterController@redirectToProvider')->name('social-provider');
-    Route::get('auth/{provider}/callback', 'User\SocialRegisterController@handleProviderCallback');
-    // LOGIN WITH FACEBOOK OR GOOGLE SECTION ENDS
+// Molly Routes
 
-    //  CRONJOB
-    Route::get('/vendor/subscription/check', 'Front\FrontendController@subcheck');
+Route::post('/molly/submit', 'Front\MollyController@store')->name('molly.submit');
+Route::get('/molly/notify', 'Front\MollyController@notify')->name('molly.notify');
+// Molly Routes Ends
 
-    // CRONJOB ENDS
+//PayTM Routes
+Route::post('/paytm-submit', 'Front\PaytmController@store')->name('paytm.submit');;
+Route::post('/paytm-callback', 'Front\PaytmController@paytmCallback')->name('paytm.notify');
 
-    // PAGE SECTION
-    Route::get('/{slug}', 'Front\FrontendController@page')->name('front.page');
-    // PAGE SECTION ENDS
-    Route::get('/shopify/test', 'Front\FrontendController@shopify')->name('front.shopify');
+//RazorPay Routes
+Route::post('/razorpay-submit', 'Front\RazorpayController@store')->name('razorpay.submit');;
+Route::post('/razorpay-callback', 'Front\RazorpayController@razorCallback')->name('razorpay.notify');
+
+Route::post('/cashondelivery', 'Front\CheckoutController@cashondelivery')->name('cash.submit');
+Route::post('/gateway', 'Front\CheckoutController@gateway')->name('gateway.submit');
+// CHECKOUT SECTION ENDS
+
+// TAG SECTION
+Route::get('/search/', 'Front\CatalogController@search')->name('front.search');
+// TAG SECTION ENDS
+
+// VENDOR SECTION
+Route::get('/store/{category}', 'Front\VendorController@index')->name('front.vendor');
+Route::post('/vendor/contact', 'Front\VendorController@vendorcontact');
+// TAG SECTION ENDS
+
+// SUBSCRIBE SECTION
+
+Route::post('/subscriber/store', 'Front\FrontendController@subscribe')->name('front.subscribe');
+
+// SUBSCRIBE SECTION ENDS
+
+// AGE SET SECTION
+
+Route::post('/age/store', 'Front\FrontendController@age')->name('front.age');
+Route::post('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
+
+// AGE SET SECTION ENDS
+
+
+// LOGIN WITH FACEBOOK OR GOOGLE SECTION
+Route::get('auth/{provider}', 'User\SocialRegisterController@redirectToProvider')->name('social-provider');
+Route::get('auth/{provider}/callback', 'User\SocialRegisterController@handleProviderCallback');
+// LOGIN WITH FACEBOOK OR GOOGLE SECTION ENDS
+
+//  CRONJOB
+Route::get('/vendor/subscription/check', 'Front\FrontendController@subcheck');
+
+// CRONJOB ENDS
+
+// PAGE SECTION
+Route::get('/{slug}', 'Front\FrontendController@page')->name('front.page');
+// PAGE SECTION ENDS
+Route::get('/shopify/test', 'Front\FrontendController@shopify')->name('front.shopify');
+
+Route::post('the/genius/ocean/2441139', 'Front\FrontendController@subscription');
+Route::get('finalize', 'Front\FrontendController@finalize');
+
+Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
+
+Route::post('search', 'Front\SearchController@search')->name('front-search');
+
+//Search Route 
 
 // ************************************ FRONT SECTION ENDS**********************************************
 

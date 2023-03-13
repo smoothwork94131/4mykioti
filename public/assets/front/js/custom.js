@@ -1,3 +1,4 @@
+var search_list = [] ;
 $(function($) {
     "use strict";
 
@@ -807,7 +808,6 @@ $(function($) {
                     $('.coupon-total').val(data[0]);
                     $('.main-total').html(data[3]);
                 }
-
             });
         });
 
@@ -1473,8 +1473,63 @@ $(function($) {
         });
 
         // TRACK ORDER ENDS
-
     });
-
-
 });
+function showDesktopSearchField(obj) {
+    $(".search-input").val("") ;
+    if($(".desktop-search-field .search-field").css("display") == "flex") {
+        $(".desktop-search-field .search-field").css("display", "none") ;
+        $(obj).html("<i class = 'fa fa-search'></i>") ;
+        $(".search-dropdown").css("display", "none") ;
+    } else {
+        $(".desktop-search-field .search-field").css("display", "flex") ;
+        $(obj).html("<i class='icofont-close'></i>") ;
+    }
+}
+
+function showMobileSearchField(obj) {
+    $(".search-input").val("") ;
+    if($(".mobile-search-field .search-field").css("display") == "flex") {
+        $(".mobile-search-field .search-field").css("display", "none") ;
+        $(obj).html("<i class = 'fa fa-search'></i>") ;
+        $(".search-dropdown").css("display", "none") ;
+    } else {
+        $(".mobile-search-field .search-field").css("display", "flex") ;
+        $(obj).html("<i class='icofont-close'></i>") ;
+    }
+}
+
+function totalSearch(event) {
+    if(event.target.value == "") {
+        $(".search-dropdown").css("display", "none") ;
+        return ;
+    }
+    if(event.keyCode == 13 && search_list.length != 0) {
+        window.location.href = "item/"+search_list[0].name ;
+        return ;
+    }
+    console.log(window.location) ;
+    $.ajax({
+        method: "POST",
+        url:"/search",
+        data: "search_word="+event.target.value,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf- token"]').attr('content')          
+        }, 
+        dataType:'json',
+        success: function(data) {
+            if(data.length !=0 ) {
+                var html = "<a style='font-weight: bold; padding: 10px;  font-size: 17px; margin-bottom: 10px;'>Products(Name)</a>" ;
+                search_list = data ;
+                for(var k = 0 ; k < data.length ; k++) {
+                    html+="<a class='item' href='http://"+window.location.host+"/item/"+data[k].name+"' >"+data[k].name+"</a>" ;
+                }
+                $(".search-dropdown").html(html) ;
+                $(".search-dropdown").css("display", "block") ;
+            } else {
+                $(".search-dropdown").html("No Products") ;
+                $(".search-dropdown").css("display", "none") ;
+            }
+        }
+    });
+}
