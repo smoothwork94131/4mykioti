@@ -371,7 +371,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link root-link" href="/" target="">
+                    <a class="nav-link root-link" href="https://www.tractorbrothers.com/search/inventory/availability/In%20Stock" target="">
                         Inventory
                     </a>
                 </li>
