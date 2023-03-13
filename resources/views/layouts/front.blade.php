@@ -148,7 +148,7 @@
                         Parts Finder<i class="fa fa-angle-down ml-2 mt-1"></i>
                     </a>
                     <ul class='dropdown-content' >
-                    <div class="categories_menu">
+                    <div class="categories_menu"  style='width: 400px;!important'>
                                         <div class="categories_title">
                                             <h2 class="categori_toggle"> Categories </h2>
                                         </div>
