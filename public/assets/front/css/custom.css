@@ -1862,7 +1862,9 @@ Begin Footer Custom Style
     padding: 0px;
 }
 
-
+.promotions {
+    margin-bottom: 30px;
+}
 .promotions img{
     width: 100%;
     margin-top: 30px;
