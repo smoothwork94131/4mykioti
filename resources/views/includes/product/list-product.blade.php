@@ -3,7 +3,7 @@
 @if($prod->user_id != 0)
 
     {{-- check  If This vendor status is active --}}
-    @if($prod->user->is_vendor == 1)
+    {{--@if($prod->user->is_vendor == 1)--}}
         <li>
             <div class="single-box">
                 <div class="left-area">
@@ -17,18 +17,21 @@
                             <div class="full-stars" style="width:{{App\Models\Rating::ratings($prod->id)}}%"></div>
                         </div>
                     </div>
+                    {{-- 
                     <h4 class="price">{{ $prod->showPrice() }}
                         <del>{{ $prod->showPreviousPrice() }}</del>
                     </h4>
+                    --}}
                     <p class="text">
                         <a href="{{ route('front.product',$prod->slug) }}">{{ mb_strlen($prod->name,'utf-8') > 35 ? mb_substr($prod->name,0,35,'utf-8').'...' : $prod->name }}</a>
                     </p>
+                    
                 </div>
             </div>
         </li>
 
 
-    @endif
+    {{--@endif--}}
 
     {{-- If This product belongs admin and apply this --}}
 
@@ -47,12 +50,14 @@
                         <div class="full-stars" style="width:{{App\Models\Rating::ratings($prod->id)}}%"></div>
                     </div>
                 </div>
+                {{--
                 <h4 class="price">{{ $prod->showPrice() }}
                     <del>{{ $prod->showPreviousPrice() }}</del>
                 </h4>
                 <p class="text"><a
                             href="{{ route('front.product',$prod->slug) }}">{{ mb_strlen($prod->name,'utf-8') > 35 ? mb_substr($prod->name,0,35,'utf-8').'...' : $prod->name }}</a>
                 </p>
+                --}}
             </div>
         </div>
     </li>

@@ -1487,6 +1487,8 @@ Route::get('/search/', 'Front\CatalogController@search')->name('front.search');
 
 // PRODCT SECTION
 Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
+Route::get('/item/{prod_name}/{series}/{model}', 'Front\CatalogController@sub_category')->name('front.sub_category');
+
 Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
 Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
 Route::get('/item/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');

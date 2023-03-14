@@ -351,7 +351,6 @@
         </div>
         <div class='search-dropdown'>
         </div>
-        
     </div>
     <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px; '>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">

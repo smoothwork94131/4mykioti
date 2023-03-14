@@ -77,7 +77,6 @@ class CatalogController extends Controller
             return $query->orderBy('id', 'DESC');
         });
 
-
         // if(!Auth::guard('web')->check()) {
         //     $prods = $prods->where('is_verified', 0);
         // } else {
@@ -85,7 +84,7 @@ class CatalogController extends Controller
         //         $prods = $prods->where('is_verified', 0);
         //     }
         // }
-
+            
         if ($search) {
             $search1 = ' ' . $search;
             $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
@@ -102,8 +101,8 @@ class CatalogController extends Controller
             }
         } else {
             $prods = $prods->get();
-
         }
+        
 
         $group = DB::table($db.'_categories')->where('group_id', $slug2)->first();
 
@@ -166,13 +165,37 @@ class CatalogController extends Controller
 
     }
 
+    public function sub_category( $prod_name, $series, $model) {
+
+        $sql = "select * from {$series} where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
+        $productt =DB::select($sql);
+        $productt = $productt[0] ;
+
+        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
+        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
+
+        if (Session::has('currency')) {
+            $curr = Currency::find(Session::get('currency'));
+        } else {
+            $curr = Currency::where('is_default', '=', 1)->first();
+        }
+        
+        $vendors = DB::table($series)->where('subcategory_id', '=', $model)->where('name', '!=', $prod_name)->take(8)->get();
+        // $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
+        // $vendors = array() ;
+        $db=$series ;
+
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db"));
+    }
     public function product(Request $request, $slug)
     {
+        
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
         $productt->views += 1;
         $productt->update();
-
+        
+        
         $adproducts = AdvertisingProduct::where('product_id', $productt->id)->get();
 
         foreach($adproducts as $adprod) {
@@ -213,6 +236,7 @@ class CatalogController extends Controller
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
+        $db="product" ;
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
