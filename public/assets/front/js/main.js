@@ -68,7 +68,7 @@ $(function($) {
                 $(".mobile-search-field").css("display", "block") ;
                 $(".desktop-search-field").css("display", "none") ;
                 $(".search-dropdown").css("top", "40px") ;
-                // $(".categori-item-area .prod-item").addClass("disabled") ;
+                $(".categori-item-area .prod-item").addClass("disabled") ;
 
                 // $(".categori-item-area .prod-item").unbind('mouseenter mouseleave') ;
                 

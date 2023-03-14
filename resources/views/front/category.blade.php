@@ -158,7 +158,7 @@
 
                 <div class="group-table d-mobile">
                     <div style='margin-bottom: 15px' align='center'>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
+                        <button type="button" class="btn btn-primary" style="background: #F05223; border: 1px solid #F05223" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
                     </div>
                     <table id="product_table" class="table " cellspacing="0" width="100%">
                             <thead>
