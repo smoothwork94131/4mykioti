@@ -173,7 +173,8 @@
                                         <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     <td>
-                                        {{ $prod->name }}
+                                        <a href="{{route('front.sub_category', ['prod_name' => $prod->name, 'series'=>$group->series, 'model'=>$group->model])}}">{{ $prod->name }}</a>
+
                                     </td>
                                     <td>
                                         ${{ $prod->price }}
