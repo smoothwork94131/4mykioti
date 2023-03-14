@@ -181,7 +181,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
         
-        $vendors = DB::table($series)->where('subcategory_id', '=', $model)->where('name', '!=', $prod_name)->take(8)->get();
+        $vendors = DB::table($db)->where('subcategory_id', '=', $model)->where('name', '!=', $prod_name)->take(8)->get();
         // $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
         // $vendors = array() ;
     
@@ -244,7 +244,6 @@ class CatalogController extends Controller
     public function iproduct(Request $request, $slug, $slug1)
     {
         $this->code_image();
-
         $db = strtolower($slug);
 
         $productt = DB::table($db)->where('slug', '=', $slug1)->first();
