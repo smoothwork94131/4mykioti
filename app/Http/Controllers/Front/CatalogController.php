@@ -166,8 +166,9 @@ class CatalogController extends Controller
     }
 
     public function sub_category( $prod_name, $series, $model) {
-
-        $sql = "select * from {$series} where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
+       
+        $db = strtolower($series);
+        $sql = "select * from {$db} where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
         $productt =DB::select($sql);
         $productt = $productt[0] ;
 
@@ -183,7 +184,7 @@ class CatalogController extends Controller
         $vendors = DB::table($series)->where('subcategory_id', '=', $model)->where('name', '!=', $prod_name)->take(8)->get();
         // $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
         // $vendors = array() ;
-        $db=$series ;
+    
 
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db"));
     }
