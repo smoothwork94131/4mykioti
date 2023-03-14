@@ -36,7 +36,11 @@ $(function($) {
                 "width": bar_item_width + "px",
                 "textAlign": "center",
             });
-
+            
+            // $(".categori-item-area .prod-item").hover(function() {
+            //     $(this).unbind("mouseenter mouseleave");
+            // }) ;
+            
             if (scr_width < 768) {
                 $(".socials-div").css("display", "none");
                 $(".locations-div").css("display", "none");
@@ -64,6 +68,10 @@ $(function($) {
                 $(".mobile-search-field").css("display", "block") ;
                 $(".desktop-search-field").css("display", "none") ;
                 $(".search-dropdown").css("top", "40px") ;
+                // $(".categori-item-area .prod-item").addClass("disabled") ;
+
+                // $(".categori-item-area .prod-item").unbind('mouseenter mouseleave') ;
+                
             } else {
                 $(".socials-div").css("display", "flex");
                 $(".locations-div").css("display", "block");

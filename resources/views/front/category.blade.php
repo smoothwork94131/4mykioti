@@ -157,8 +157,8 @@
                 </div>
 
                 <div class="group-table d-mobile">
-                    <div style='margin-bottom: 15px' align='right'>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prod_img_modal">Show Product Image</button>
+                    <div style='margin-bottom: 15px' align='center'>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
                     </div>
                     <table id="product_table" class="table " cellspacing="0" width="100%">
                             <thead>
@@ -213,11 +213,14 @@
         <div class="modal fade" id="prod_img_modal" role="dialog" >
             <div class="modal-dialog modal-lg" style='width: 100%; top: 10%; left: 0%; margin: 0px;'>
                 <div class="modal-content">
+                    <div class="modal-header" style='padding: 5px;'>
+                        <button type="button" 
+                            class="close" 
+                            data-dismiss="modal" 
+                            style='right: 15px;top: 15px; background: transparent;z-index:100;'>&times;</button>
+                    </div>
                     <div class="modal-body">
                         <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}" style='width: 100%;'>
-                    </div>
-                    <div class="modal-footer" style='padding: 5px'>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
