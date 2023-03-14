@@ -107,7 +107,7 @@
                         <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
                     </div>
                     <div class="parts-table">
-                        <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+                        <table id="product_table" class="table " cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th></th>
@@ -157,7 +157,7 @@
                 </div>
 
                 <div class="group-table d-mobile">
-                    <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+                    <table id="product_table" class="table " cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th></th>
@@ -211,7 +211,7 @@
     @else
     <section class="sub-categori">
         <div class="container">
-            <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+            <table id="product_table" class="table" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th width='10%' class='th-img'></th>
