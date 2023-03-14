@@ -1671,6 +1671,20 @@ Begin Header Custom Style
     #product_table {
         font-size: calc(14px + (25 - 18) * ((100vw - 768px) / (1920 - 768))); ;
     }
+    .categori-item-area a .info {
+        opacity: 1;
+    }
+    .categori-item-area a .add-to-cart-btn {
+        opacity: 1;
+    }
+    .categori-item-area a .cart-area {
+        position: absolute ;
+        top: -200px;
+
+    }
+    .categori-item-area a .prod-image {
+        bottom: 70px;
+    }
 }
 @media(max-width:962px){
     .logo-header .header-locations>div+div::before {
@@ -1688,7 +1702,9 @@ Begin Header Custom Style
     #product_table .th-img {
         width: 20% !important;
     }
+    
 }
+
 #product_table img {
     width: 100%;
 }

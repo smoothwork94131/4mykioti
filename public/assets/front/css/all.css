@@ -39917,6 +39917,7 @@ nav button {
     -o-transition: all linear .3s;
     transition: all linear .3s;
     background: rgba(255, 255, 255, 0.90);
+    
 }
 
 .item .info .stars {
