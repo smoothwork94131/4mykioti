@@ -170,7 +170,7 @@
                             @foreach($prods as $key=>$prod)
                                 <tr>
                                     <td>
-                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     <td>
                                         {{ $prod->name }}
@@ -227,7 +227,7 @@
                 @foreach($prods as $key=>$prod)
                     <tr>
                         <td class='td-img'>
-                            <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                            <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                         </td>
                         <td>
                             <a href="{{route('front.product', $prod->name)}}">{{ $prod->name }}</a>
