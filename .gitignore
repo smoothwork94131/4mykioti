@@ -2,5 +2,6 @@
 /.vscode
 /node_modules
 /public/storage
+/public/images/group
 /vendor
 

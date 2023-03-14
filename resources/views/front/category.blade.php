@@ -243,7 +243,7 @@
                         </td>
                         <td class='td-price'>
                             ${{ $prod->price }}
-                        </td >
+                        </td >  
                         <td style="text-align:center;" class='td-action'>
                             <div class="dropdown">
                                 <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -267,7 +267,6 @@
                         </td>
                     </tr>
                 @endforeach
-
                 </tbody>
             </table>
         </div>
