@@ -245,7 +245,7 @@
                 </div>
                 <img class="prod-image" src="{{ $solo_prod->thumbnail ? asset('assets/images/thumbnails/'.$solo_prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
             </a>
-            <div class="m-cart-area">
+            <!-- <div class="m-cart-area">
                 @if($solo_prod->product_type == "affiliate")
                     <span class="add-to-cart-btn affilate-btn"
                         data-href="{{ route('affiliate.product', $solo_prod->slug) }}"><i class="icofont-cart"></i>
@@ -266,7 +266,7 @@
                     </span>
                     @endif
                 @endif
-            </div>
+            </div> -->
             </div>
         @endforeach
         <div class="col-lg-12">
