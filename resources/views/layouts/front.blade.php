@@ -158,7 +158,7 @@
                                 <div class="categories_menu ">
                                     <div class="categories_title">
                                         <h2 class="categori_toggle"> {{$product->product}} <i
-                                                    class="fa fa-angle-down arrow-down"></i></h2>
+                                                    class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                     </div>
                                     <div class="categories_menu_inner series">
                                         @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
@@ -168,7 +168,7 @@
                                                             data-url="{{route('front.groups')}}" 
                                                             data-status="0" data-token="{{ csrf_token() }}">
                                                 <h2 class="categori_toggle"> {{$series->series}} <i
-                                                            class="fa fa-angle-down arrow-down"></i></h2>
+                                                            class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                             </div>
                                             <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto;">
                                                 loading...
@@ -388,7 +388,7 @@
                                             <div class="categories_menu ">
                                                 <div class="categories_title">
                                                     <h2 class="categori_toggle"> {{$product->product}} <i
-                                                                class="fa fa-angle-down arrow-down"></i></h2>
+                                                                class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                                 </div>
                                                 <div class="categories_menu_inner series">
                                                     @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
@@ -398,7 +398,7 @@
                                                                         data-url="{{route('front.groups')}}" 
                                                                         data-status="0" data-token="{{ csrf_token() }}">
                                                             <h2 class="categori_toggle"> {{$series->series}} <i
-                                                                        class="fa fa-angle-down arrow-down"></i></h2>
+                                                                        class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                                         </div>
                                                         <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto;">
                                                             loading...

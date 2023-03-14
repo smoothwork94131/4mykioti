@@ -1947,6 +1947,9 @@ Begin Footer Custom Style
 .search-dropdown >.item:hover {
     color: #F05223 !important;
 }
+.fa-angle-down {
+    margin-left: 5px;
+}
 
 /* 
 End Footer Custom Style
