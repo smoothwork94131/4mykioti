@@ -322,9 +322,7 @@ $(function($) {
                                     }
                                 } else if (type == 'group') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${section}</a></li>`);
-
                                     for (var x in data.categories) {
-
                                         if (isSchematics == '1') {
                                             element += `<div class="col col-md-3 col-sm-4"><div class="m-block" 
                                             data-group="${data.categories[x].group_Id}"
@@ -337,8 +335,6 @@ $(function($) {
                                             <a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
                                             </div></div>`;
                                         }
-
-
                                     }
                                 }
                                 cat_elem.html(element);

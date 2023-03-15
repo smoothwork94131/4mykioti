@@ -647,7 +647,7 @@ public function solo_datatables()
 
         if ($request->type == 'model') {
             $table_name =  strtolower($request->series) ;
-            $categories = DB::table($table_name)->select('subcategory_id')->where("hot", "1")->distinct()->get();
+            $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->get();
         } else if ($request->type == 'section') {
             $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->get();
         } else if ($request->type == 'group') {
@@ -660,7 +660,7 @@ public function solo_datatables()
 
     public function maintenance()
     {
-        $gs = Generalsetting::find(1);
+        $gs = Generalsetting::find(1);  
         if ($gs->is_maintain != 1) {
 
             return redirect()->route('front.index');
