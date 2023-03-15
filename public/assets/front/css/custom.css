@@ -1673,7 +1673,7 @@ Begin Header Custom Style
     #product_table .th-group, .td-group{
         display: none ;
     }
-    #product_table {
+    #product_table {            
         font-size: calc(14px + (25 - 18) * ((100vw - 768px) / (1920 - 768))); ;
     }
     .categori-item-area a .info {
@@ -1686,7 +1686,6 @@ Begin Header Custom Style
     .categori-item-area a .cart-area {
         position: absolute ;
         top: -200px;
-
     }
     .categori-item-area a .prod-image {
         bottom: 70px;

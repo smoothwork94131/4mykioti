@@ -646,7 +646,8 @@ public function solo_datatables()
         $table_name = strtolower($request->series).'_categories';
 
         if ($request->type == 'model') {
-            $categories = DB::table($table_name)->select('model')->distinct()->get();
+            $table_name =  strtolower($request->series) ;
+            $categories = DB::table($table_name)->select('subcategory_id')->where("hot", "1")->distinct()->get();
         } else if ($request->type == 'section') {
             $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->get();
         } else if ($request->type == 'group') {

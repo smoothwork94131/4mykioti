@@ -290,21 +290,20 @@ $(function($) {
                                 if (type == 'model') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${series}</a></li>`);
                                     for (var x in data.categories) {
-
                                         if (isSchematics == '0') {
                                             element += `<div class="col col-md-3 col-sm-4">
-                                            <a href="${mainurl}/category/${series}/${data.categories[x].model}/common">
-                                            <div class="m-block">${data.categories[x].model}</div>
+                                            <a href="${mainurl}/category/${series}/${data.categories[x].subcategory_id}/common">
+                                            <div class="m-block">${data.categories[x].subcategory_id}</div>
                                             </a>
                                             </div>`;
                                         } else {
                                             element += `<div class="col col-md-3 col-sm-4">
                                             <div class="m-block"
                                             data-type="section"
-                                            data-model="${data.categories[x].model}"
+                                            data-model="${data.categories[x].subcategory_id}"
                                             data-series="${series}"
                                             data-url="${link}" 
-                                            data-status="0" data-token="${token}">${data.categories[x].model}</div>
+                                            data-status="0" data-token="${token}">${data.categories[x].subcategory_id}</div>
                                         </div>`;
                                         }
                                     }
