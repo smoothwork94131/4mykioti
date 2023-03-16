@@ -462,7 +462,18 @@
 
 </section>
 <div class='about-header'>
-    4myKIOTI.com  FOR ASSISTANCE CALL: (724) 691-0200
+    <div class='content'>
+        <div>
+            4myKIOTI.com  FOR ASSISTANCE CALL: (724) 691-0200    
+        </div>
+        <div class='sign-form'>
+        @guest
+        <span><a href="{{route('user.login')}}"><i class='fas fa-sign-in-alt'></i></a></span>
+        @else
+        <span><a href="{{route('user-logout')}}"><i class='fas fa-sign-out-alt'></i></a></span>
+        @endguest
+        </div>
+    </div>
 </div>
 <!-- Logo Header Area End -->
 

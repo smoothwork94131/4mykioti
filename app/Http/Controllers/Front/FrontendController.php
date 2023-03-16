@@ -276,7 +276,7 @@ public function solo_datatables()
             $gs = Generalsetting::findOrFail(1);
 
             $thumbnail = $data->thumbnail ? asset('assets/images/thumbnails/'.$data->thumbnail):asset('assets/images/products/'.$gs->prod_image);
-
+            
             return '<a href="'.route('front.product', $data->slug).'"><img src = "'.$thumbnail.'" alt="" width="50" height="50"> '.$name.'</a>';
         })
         ->editColumn('price', function (Product $data) {
