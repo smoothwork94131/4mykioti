@@ -1529,7 +1529,7 @@ function totalSearch(event) {
                     
                     // html+="<a class='item' href='http://"+window.location.host+"/item/"+data[k].name+"' >"+data[k].name+"</a>" ;
                     var item = data[k] ;
-                    html+="<a  href='http://"+window.location.host+"/item/"+item.name+"/"+item.table+"/"+item.subcategory_id+"'>" ;
+                    html+="<a  href='http://"+window.location.host+"/item/"+search_list[0].name+"/"+search_list[0].table+"/"+search_list[0].subcategory_id+"'>" ;
                     // html+="<div onclick=\"window.location.href = 'http://"+window.location.host+"/item/"+data[k].name+"'\">" ;
                     if(scr > 768) {
                         html+="<div class='item'>"+

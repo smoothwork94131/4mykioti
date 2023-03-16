@@ -346,8 +346,8 @@
         <div class='search-field'>
             <input 
                 class='search-input form-control' 
-                onkeyup=" event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"/>
-            <div class='icon'><i class='fa fa-search'></i></div>        
+                onkeyup="  "/>
+            <div class='icon' onclick = "event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"><i class='fa fa-search'></i></div>        
         </div>
         <div class='search-dropdown'>
         </div>
