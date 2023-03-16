@@ -51,7 +51,8 @@
                                                 <div class="item">
                                                     <img src="{{ $product['item']->photo ? asset('assets/images/products/'.$product['item']->photo):asset('assets/images/noimage.png') }}"
                                                          alt="">
-                                                    <p class="name"><a
+                                                        
+                                                         <p class="name"><a
                                                                 href="{{ route('front.product', $product['item']->slug) }}">{{mb_strlen($product['item']->name,'utf-8') > 35 ? mb_substr($product['item']->name,0,35,'utf-8').'...' : $product['item']->name}}</a>
                                                     </p>
                                                 </div>

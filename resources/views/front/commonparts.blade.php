@@ -29,20 +29,22 @@
 
     <section class="faq-section">
         <div class="container">
+            
             <div class="row justify-content-center m-block-content">
-                    @foreach($eccategories as $product)
-                        @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
+                    <!-- @foreach($eccategories as $product) -->
+                        @foreach($series_data as $series)
                             <div class="col col-md-3 col-sm-4">
                                 <div class="m-block" data-type="model"
                                                 data-series="{{$series->series}}"
                                                 data-url="{{route('front.groups')}}" 
-                                                data-status="0" data-token="{{ csrf_token() }}">
+                                                data-model_type="common"
+                                                data-status="0" 
+                                                data-token="{{ csrf_token() }}">
                                                 {{$series->series}}
                                 </div>
-                                
                             </div>
                         @endforeach
-                    @endforeach
+                    <!-- @endforeach -->
             </div>
         </div>
     </section>

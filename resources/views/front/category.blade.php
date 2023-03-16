@@ -107,7 +107,7 @@
                         <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
                     </div>
                     <div class="parts-table">
-                        <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+                        <table id="product_table" class="table " cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th></th>
@@ -120,10 +120,10 @@
                             @foreach($prods as $key=>$prod)
                                 <tr>
                                     <td>
-                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     <td>
-                                        <a href="{{route('front.product', $prod->name)}}">{{ $prod->name }}</a>
+                                        <a href="{{route('front.sub_category', ['prod_name' => $prod->name, 'series'=>$group->series, 'model'=>$group->model])}}">{{ $prod->name }}</a>
                                     </td>
                                     <td>
                                         ${{ $prod->price }}
@@ -157,7 +157,10 @@
                 </div>
 
                 <div class="group-table d-mobile">
-                    <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+                    <div style='margin-bottom: 15px' align='center'>
+                        <button type="button" class="btn btn-primary" style="background: #F05223; border: 1px solid #F05223" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
+                    </div>
+                    <table id="product_table" class="table " cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th></th>
@@ -170,10 +173,11 @@
                             @foreach($prods as $key=>$prod)
                                 <tr>
                                     <td>
-                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     <td>
-                                        {{ $prod->name }}
+                                        <a href="{{route('front.sub_category', ['prod_name' => $prod->name, 'series'=>$group->series, 'model'=>$group->model])}}">{{ $prod->name }}</a>
+
                                     </td>
                                     <td>
                                         ${{ $prod->price }}
@@ -206,11 +210,27 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="prod_img_modal" role="dialog" >
+            <div class="modal-dialog modal-lg" style='width: 100%; top: 10%; left: 0%; margin: 0px;'>
+                <div class="modal-content">
+                    <div class="modal-header" style='padding: 5px;'>
+                        <button type="button" 
+                            class="close" 
+                            data-dismiss="modal" 
+                            style='right: 15px;top: 15px; background: transparent;z-index:100;'>&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}" style='width: 100%;'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
     @else
     <section class="sub-categori">
         <div class="container">
-            <table id="product_table" class="table table-hover" cellspacing="0" width="100%">
+            <table id="product_table" class="table" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th width='10%' class='th-img'></th>
@@ -227,7 +247,7 @@
                 @foreach($prods as $key=>$prod)
                     <tr>
                         <td class='td-img'>
-                            <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
+                            <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                         </td>
                         <td>
                             <a href="{{route('front.product', $prod->name)}}">{{ $prod->name }}</a>

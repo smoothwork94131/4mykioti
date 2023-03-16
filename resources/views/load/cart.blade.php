@@ -38,7 +38,7 @@
                                 title="Remove Product">
                                 <i class="icofont-close"></i>
                             </div>
-                    </a>
+                        
                     </div><!-- End .product-details -->
 
                     <!-- <figure class="product-image-container">

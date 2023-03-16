@@ -376,13 +376,18 @@ public function solo_datatables()
     }
 
     public function commonpart(Request $request) {
-        return view('front.commonparts');
+        $series = DB::table("ec_categories")->get() ;
+        $series_data = array() ;
+        foreach($series as $key => $item) {
+            if(count(DB::table(strtolower($item->series))->where("best", "1")->get()) > 0){
+                $series_data[] = $item ;
+            }
+        }
+        return view('front.commonparts', compact("series_data"));
     }
 
     public function autosearch(Request $request, $slug)
-    {
-
-        
+    {        
         $db = strtolower($request->series);
 
         if (mb_strlen($slug, 'utf-8') > 1) {
@@ -643,10 +648,16 @@ public function solo_datatables()
     public function groups(Request $request)
     {
         $categories = [];
-        $table_name = strtolower($request->series).'_categories';
-
+        $table_name = strtolower($request->series)."_categories" ;
+     
         if ($request->type == 'model') {
-            $categories = DB::table($table_name)->select('model')->distinct()->get();
+            if($request->model_type == "common") {
+                $table_name =  strtolower($request->series) ;
+                $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->get();
+            } else {
+                $categories = DB::table($table_name)->select('model')->distinct()->distinct()->get();
+            }
+            
         } else if ($request->type == 'section') {
             $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->get();
         } else if ($request->type == 'group') {

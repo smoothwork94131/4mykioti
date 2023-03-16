@@ -36,7 +36,11 @@ $(function($) {
                 "width": bar_item_width + "px",
                 "textAlign": "center",
             });
-
+            
+            // $(".categori-item-area .prod-item").hover(function() {
+            //     $(this).unbind("mouseenter mouseleave");
+            // }) ;
+            
             if (scr_width < 768) {
                 $(".socials-div").css("display", "none");
                 $(".locations-div").css("display", "none");
@@ -64,6 +68,10 @@ $(function($) {
                 $(".mobile-search-field").css("display", "block") ;
                 $(".desktop-search-field").css("display", "none") ;
                 $(".search-dropdown").css("top", "40px") ;
+                // $(".categori-item-area .prod-item").addClass("disabled") ;
+
+                // $(".categori-item-area .prod-item").unbind('mouseenter mouseleave') ;
+                
             } else {
                 $(".socials-div").css("display", "flex");
                 $(".locations-div").css("display", "block");
@@ -243,6 +251,7 @@ $(function($) {
 
 
         $(document).on("click", ".m-block", function() {
+
             var type = $(this).data('type');
             var series = $(this).data('series')
             var model = $(this).data('model');
@@ -252,7 +261,7 @@ $(function($) {
             var token = $(this).data('token');
             var cat_elem = $('.m-block-content');
             var isSchematics = $('#isSchematics').val();
-
+            var model_type = $(this).data('model_type');
             var group_id = $(this).data('group');
             var group_name = $(this).data('groupname');
 
@@ -273,6 +282,7 @@ $(function($) {
                             'series': series,
                             'model': model,
                             'section': section,
+                            'model_type':model_type,
                         },
                         dataType: 'JSON',
                         success: function(data) {
@@ -281,22 +291,27 @@ $(function($) {
                                 var element = ``;
                                 if (type == 'model') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${series}</a></li>`);
+                                    var model_name = "" ;
                                     for (var x in data.categories) {
-
+                                        if(model_type == "common") {
+                                            model_name = data.categories[x].subcategory_id ;
+                                        } else {
+                                            model_name = data.categories[x].model ;
+                                        }
                                         if (isSchematics == '0') {
                                             element += `<div class="col col-md-3 col-sm-4">
-                                            <a href="${mainurl}/category/${series}/${data.categories[x].model}/common">
-                                            <div class="m-block">${data.categories[x].model}</div>
+                                            <a href="${mainurl}/category/${series}/${model_name}/common">
+                                            <div class="m-block">${model_name}</div>
                                             </a>
                                             </div>`;
                                         } else {
                                             element += `<div class="col col-md-3 col-sm-4">
                                             <div class="m-block"
                                             data-type="section"
-                                            data-model="${data.categories[x].model}"
+                                            data-model="${model_name}"
                                             data-series="${series}"
                                             data-url="${link}" 
-                                            data-status="0" data-token="${token}">${data.categories[x].model}</div>
+                                            data-status="0" data-token="${token}">${model_name}</div>
                                         </div>`;
                                         }
                                     }
@@ -315,9 +330,7 @@ $(function($) {
                                     }
                                 } else if (type == 'group') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${section}</a></li>`);
-
                                     for (var x in data.categories) {
-
                                         if (isSchematics == '1') {
                                             element += `<div class="col col-md-3 col-sm-4"><div class="m-block" 
                                             data-group="${data.categories[x].group_Id}"
@@ -330,8 +343,6 @@ $(function($) {
                                             <a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">${data.categories[x].group_name}</a>
                                             </div></div>`;
                                         }
-
-
                                     }
                                 }
                                 cat_elem.html(element);

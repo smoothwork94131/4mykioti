@@ -309,7 +309,7 @@ class CartController extends Controller
         $size_price = ($size_price / $curr->value);
         $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
-
+      
         if ($prod->user_id != 0) {
             $gs = Generalsetting::findOrFail(1);
             $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
@@ -354,12 +354,13 @@ class CartController extends Controller
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->addnum($prod,$db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values);
+
         if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return 'digital';
         }
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
-            return 0;
-        }
+        // if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
+        //     return 0;
+        // }
         if (!empty($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
             if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
                 return 0;
@@ -425,7 +426,7 @@ class CartController extends Controller
         $size_price = ($size_price / $curr->value);
         $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
-
+        
         if ($prod->user_id != 0) {
             $gs = Generalsetting::findOrFail(1);
             $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
@@ -438,7 +439,6 @@ class CartController extends Controller
                 }
             }
         }
-
 
         if (!empty($prod->license_qty)) {
             $lcheck = 1;

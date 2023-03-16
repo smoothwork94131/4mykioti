@@ -158,7 +158,7 @@
                                 <div class="categories_menu ">
                                     <div class="categories_title">
                                         <h2 class="categori_toggle"> {{$product->product}} <i
-                                                    class="fa fa-angle-down arrow-down"></i></h2>
+                                                    class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                     </div>
                                     <div class="categories_menu_inner series">
                                         @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
@@ -168,7 +168,7 @@
                                                             data-url="{{route('front.groups')}}" 
                                                             data-status="0" data-token="{{ csrf_token() }}">
                                                 <h2 class="categori_toggle"> {{$series->series}} <i
-                                                            class="fa fa-angle-down arrow-down"></i></h2>
+                                                            class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                             </div>
                                             <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto;">
                                                 loading...
@@ -311,7 +311,7 @@
                                 <input 
                                     class='search-input form-control' 
                                     onkeyup="totalSearch(event)"/>
-                                <div class='icon'><i class='fa fa-search'></i></div>        
+                                <div class='icon'><i class='fa fa-search' onclick=" event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"></i></div>        
                             </div>
                             <div class='search-dropdown'>
                             </div>
@@ -347,11 +347,10 @@
             <input 
                 class='search-input form-control' 
                 onkeyup="totalSearch(event)"/>
-            <div class='icon'><i class='fa fa-search'></i></div>        
+            <div class='icon' onclick = "event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"><i class='fa fa-search'></i></div>        
         </div>
         <div class='search-dropdown'>
         </div>
-        
     </div>
     <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px; '>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -389,7 +388,7 @@
                                             <div class="categories_menu ">
                                                 <div class="categories_title">
                                                     <h2 class="categori_toggle"> {{$product->product}} <i
-                                                                class="fa fa-angle-down arrow-down"></i></h2>
+                                                                class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                                 </div>
                                                 <div class="categories_menu_inner series">
                                                     @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
@@ -399,7 +398,7 @@
                                                                         data-url="{{route('front.groups')}}" 
                                                                         data-status="0" data-token="{{ csrf_token() }}">
                                                             <h2 class="categori_toggle"> {{$series->series}} <i
-                                                                        class="fa fa-angle-down arrow-down"></i></h2>
+                                                                        class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i></h2>
                                                         </div>
                                                         <div class="categories_menu_inner models" style="max-height: 300px; overflow-y: auto;">
                                                             loading...
