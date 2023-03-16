@@ -1506,7 +1506,7 @@ function totalSearch(event) {
     }
 
     if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
-        window.location.href = "item/"+search_list[0].name ;
+        window.location.href = "item/"+item.name+"/"+item.table+"/"+item.subcategory_id ;
         return ;
     } 
     
