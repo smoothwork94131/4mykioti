@@ -1034,7 +1034,7 @@ Route::prefix('user')->group(function () {
 
     // User Register
     Route::get('/register', 'User\RegisterController@showRegisterForm')->name('user.register');
-    Route::post('/register', 'User\RegisterController@register')->name('user-register-submit');
+    Route::post('/register-submit', 'User\RegisterController@register')->name('user-register-submit');
     Route::get('/register/verify/{token}', 'User\RegisterController@token')->name('user-register-token');
     // User Register End
 

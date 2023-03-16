@@ -201,7 +201,7 @@ class FrontendController extends Controller
         
         $solo_mode = $gs->solo_mode;
         $solo_category = $gs->solo_category;
-        
+
         $solo_products = array();
         
         if($solo_mode == 1) {
@@ -224,7 +224,7 @@ class FrontendController extends Controller
 
             // $settings->with('solo_products', $solo_products);
         }
-        
+
         $hot_plan = AdvertisingPlan::find(1);
 
         $main_slider_products = AdvertisingProduct::where('category_id', 0)->where('viewed_count','<',$hot_plan->view_count)->orderBy('id', 'asc')->take($hot_plan->product_count)->get();
@@ -379,7 +379,7 @@ public function solo_datatables()
         $series = DB::table("ec_categories")->get() ;
         $series_data = array() ;
         foreach($series as $key => $item) {
-            if(count(DB::table(strtolower($item->series))->where("best", "1")->get()) > 0){
+            if(count(DB::table(strtolower($item->series))->where("best", "1")->get())> 0){
                 $series_data[] = $item ;
             }
         }
@@ -387,7 +387,9 @@ public function solo_datatables()
     }
 
     public function autosearch(Request $request, $slug)
-    {        
+    {
+
+        
         $db = strtolower($request->series);
 
         if (mb_strlen($slug, 'utf-8') > 1) {

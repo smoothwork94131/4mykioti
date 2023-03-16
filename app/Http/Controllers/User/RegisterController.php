@@ -28,7 +28,6 @@ class RegisterController extends Controller
     
     public function register(Request $request)
     {
-
         $gs = Generalsetting::findOrFail(1);
 
         if ($gs->is_capcha == 1) {
@@ -157,6 +156,7 @@ class RegisterController extends Controller
     {
         $actual_path = str_replace('project', '', base_path());
         $image = imagecreatetruecolor(200, 50);
+    
         $background_color = imagecolorallocate($image, 255, 255, 255);
         imagefilledrectangle($image, 0, 0, 200, 50, $background_color);
 
@@ -165,7 +165,7 @@ class RegisterController extends Controller
             imagesetpixel($image, rand() % 200, rand() % 50, $pixel);
         }
 
-        $font = $actual_path . 'assets/front/fonts/NotoSans-Bold.ttf';
+        $font = $actual_path . '/public/assets/front/fonts/NotoSans-Bold.ttf';
         $allowed_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $length = strlen($allowed_letters);
         $letter = $allowed_letters[rand(0, $length - 1)];
@@ -173,6 +173,7 @@ class RegisterController extends Controller
         //$text_color = imagecolorallocate($image, 8, 186, 239);
         $text_color = imagecolorallocate($image, 0, 0, 0);
         $cap_length = 6;// No. of character in image
+        
         for ($i = 0; $i < $cap_length; $i++) {
             $letter = $allowed_letters[rand(0, $length - 1)];
             imagettftext($image, 25, 1, 35 + ($i * 25), 35, $text_color, $font, $letter);
@@ -183,7 +184,7 @@ class RegisterController extends Controller
             imagesetpixel($image, rand() % 200, rand() % 50, $pixels);
         }
         session(['captcha_string' => $word]);
-        imagepng($image, $actual_path . "assets/images/capcha_code.png");
+        imagepng($image, $actual_path . "/public/assets/images/capcha_code.png");
     }
 
 }
