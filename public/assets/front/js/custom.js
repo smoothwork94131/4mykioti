@@ -1504,26 +1504,66 @@ function totalSearch(event) {
         $(".search-dropdown").css("display", "none") ;
         return ;
     }
-    if(event.keyCode == 13 && search_list.length != 0) {
+
+    if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
         window.location.href = "item/"+search_list[0].name ;
         return ;
-    }
-    console.log(window.location) ;
+    } 
+    
     $.ajax({
         method: "POST",
         url:"/search",
-        data: "search_word="+event.target.value,
+        data: "search_word="+event.target.value,    
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf- token"]').attr('content')          
         }, 
         dataType:'json',
+        beforeSend:function(){$(".search-dropdown").css("display", "block") ; $(".search-dropdown").html("<div align='center'>loading data...</div>")},
         success: function(data) {
             if(data.length !=0 ) {
                 var html = "<a style='font-weight: bold; padding: 10px;  font-size: 17px; margin-bottom: 10px;'>Products(Name)</a>" ;
                 search_list = data ;
+                var scr = $("body").width() ;
+                
                 for(var k = 0 ; k < data.length ; k++) {
-                    html+="<a class='item' href='http://"+window.location.host+"/item/"+data[k].name+"' >"+data[k].name+"</a>" ;
+                    
+                    // html+="<a class='item' href='http://"+window.location.host+"/item/"+data[k].name+"' >"+data[k].name+"</a>" ;
+                    var item = data[k] ;
+                    html+="<a  href='http://"+window.location.host+"/item/"+item.name+"/"+item.table+"/"+item.subcategory_id+"'>" ;
+                    // html+="<div onclick=\"window.location.href = 'http://"+window.location.host+"/item/"+data[k].name+"'\">" ;
+                    if(scr > 768) {
+                        html+="<div class='item'>"+
+                            "<div style='width: 30%'>" ;
+                                    if(item.photo == "") {
+                                        html+="<img src='assets/images/noimage.png' style='width: 100%'/>" ;
+                                    } else {
+                                        html+="<img src='assets/images/thumbnails/"+item['photo']+"' style='width: 100% ;height: 114px'/>" ;
+                                    }
+                                html+="</div>"+
+                                "<div style='width: 55% ;padding-top: 30px;'>"+
+                                    "<div>"+item['subcategory_id']+"</div>"+
+                                    "<div>"+item['name']+"</div>"+
+                                "</div>"+
+                                "<div style='width: 15%; padding-top: 30px;'>"+
+                                    item['price']+"$"+
+                                "</div>"+
+                        "</div>" ;
+                        
+                    }  else {
+                        html+="<div class='item'>"+
+                            "<div style='width: 78% ;'>"+
+                                "<div>"+item['subcategory_id']+"</div>"+
+                                "<div>"+item['name']+"</div>"+
+                            "</div>"+
+                            "<div style='width: 20%;'>"+
+                                item['price']+"$"+
+                            "</div>"+
+                        "</div>" ;
+                    } 
                 }
+                html+="</a>" ;
+                // html+="</div>" ;
+
                 $(".search-dropdown").html(html) ;
                 $(".search-dropdown").css("display", "block") ;
             } else {

@@ -387,9 +387,7 @@ public function solo_datatables()
     }
 
     public function autosearch(Request $request, $slug)
-    {
-
-        
+    {        
         $db = strtolower($request->series);
 
         if (mb_strlen($slug, 'utf-8') > 1) {

@@ -311,7 +311,7 @@
                                 <input 
                                     class='search-input form-control' 
                                     onkeyup="totalSearch(event)"/>
-                                <div class='icon'><i class='fa fa-search'></i></div>        
+                                <div class='icon'><i class='fa fa-search' onclick=" event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"></i></div>        
                             </div>
                             <div class='search-dropdown'>
                             </div>
