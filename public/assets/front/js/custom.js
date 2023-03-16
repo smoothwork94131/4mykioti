@@ -1506,7 +1506,7 @@ function totalSearch(event) {
     }
 
     if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
-        window.location.href = "item/"+item.name+"/"+item.table+"/"+item.subcategory_id ;
+        window.location.href = "item/"+search_list[0].name+"/"+search_list[0].table+"/"+search_list[0].subcategory_id ;
         return ;
     } 
     
@@ -1521,7 +1521,8 @@ function totalSearch(event) {
         beforeSend:function(){$(".search-dropdown").css("display", "block") ; $(".search-dropdown").html("<div align='center'>loading data...</div>")},
         success: function(data) {
             if(data.length !=0 ) {
-                var html = "<a style='font-weight: bold; padding: 10px;  font-size: 17px; margin-bottom: 10px;'>Products(Name)</a>" ;
+                // var html = "<a style='font-weight: bold; padding: 10px;  font-size: 17px; margin-bottom: 10px;'>Products(Name)</a>" ;
+                var html = "" ;
                 search_list = data ;
                 var scr = $("body").width() ;
                 
@@ -1529,7 +1530,7 @@ function totalSearch(event) {
                     
                     // html+="<a class='item' href='http://"+window.location.host+"/item/"+data[k].name+"' >"+data[k].name+"</a>" ;
                     var item = data[k] ;
-                    html+="<a  href='http://"+window.location.host+"/item/"+search_list[0].name+"/"+search_list[0].table+"/"+search_list[0].subcategory_id+"'>" ;
+                    html+="<a  href='http://"+window.location.host+"/item/"+item.name+"/"+item.table+"/"+item.subcategory_id+"'>" ;
                     // html+="<div onclick=\"window.location.href = 'http://"+window.location.host+"/item/"+data[k].name+"'\">" ;
                     if(scr > 768) {
                         html+="<div class='item'>"+
@@ -1537,7 +1538,7 @@ function totalSearch(event) {
                                     if(item.photo == "") {
                                         html+="<img src='assets/images/noimage.png' style='width: 100%'/>" ;
                                     } else {
-                                        html+="<img src='assets/images/products/"+item['photo']+"' style='width: 100% ;height: 114px'/>" ;
+                                        html+="<img src='assets/images/thumbnails/"+item['photo']+"' style='width: 100% ;height: 114px'/>" ;
                                     }
                                 html+="</div>"+
                                 "<div style='width: 55% ;padding-top: 30px;'>"+
