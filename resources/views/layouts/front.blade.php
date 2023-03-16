@@ -464,7 +464,8 @@
 <div class='about-header'>
     <div class='content'>
         <div>
-            4myKIOTI.com  FOR ASSISTANCE CALL: (724) 691-0200    
+            <span class="site_url">4myKIOTI.com</span>
+            <span class="phone_num">FOR ASSISTANCE CALL: (724) 691-0200 </span>
         </div>
         <div class='sign-form'>
         @guest
