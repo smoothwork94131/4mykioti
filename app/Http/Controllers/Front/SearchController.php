@@ -37,7 +37,7 @@ class SearchController extends Controller{
             $flag = true ;
         }
 
-        $sql.=" order by id limit 50" ;
+        $sql.=" order by `name`  asc limit 50" ;
         $categoreis =DB::select($sql) ;
         echo json_encode($categoreis) ;
 
