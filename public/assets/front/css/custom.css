@@ -1977,6 +1977,13 @@ Begin Footer Custom Style
     overflow-y: auto;
 }
 
+.about-header {
+    position: relative; top: 0px; height: 60px; width: 100%; background: #1c1b1b;
+    line-height: 60px;
+    font-size:calc(15px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
+    color: white ;
+    text-align: center;
+}
 .search-dropdown .item {
     display:flex; 
     justify-content: space-around; 
