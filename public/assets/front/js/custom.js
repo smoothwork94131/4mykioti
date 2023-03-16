@@ -1536,9 +1536,9 @@ function totalSearch(event) {
                         html+="<div class='item'>"+
                             "<div style='width: 30%'>" ;
                                     if(item.photo == "") {
-                                        html+="<img src='assets/images/noimage.png' style='width: 100%'/>" ;
+                                        html+="<img src='/assets/images/noimage.png' style='width: 100%'/>" ;
                                     } else {
-                                        html+="<img src='assets/images/thumbnails/"+item['photo']+"' style='width: 100% ;height: 114px'/>" ;
+                                        html+="<img src='/assets/images/products/"+item['photo']+"' style='width: 100% ;height: 114px'/>" ;
                                     }
                                 html+="</div>"+
                                 "<div style='width: 55% ;padding-top: 30px;'>"+
