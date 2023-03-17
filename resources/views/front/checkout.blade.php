@@ -68,8 +68,6 @@
 
 
                 <div class="col-lg-8">
-
-
                     <form id="" action="" method="POST" class="checkoutform">
 
                         @include('includes.form-success')
@@ -422,9 +420,9 @@
                                                 </ul>
                                             </div>
                                             <div class="payment-information">
-                                                <!-- <h4 class="title">
-                                                        {{ $langg->lang759 }}
-                                                    </h4> -->
+                                                <h4 class="title">
+                                                    {{ $langg->lang759 }}
+                                                </h4>
 
                                                 <a class="nav-link payment" data-val="" data-show="no"
                                                     data-form="{{ route('front.checkout.shopify') }}"
@@ -659,74 +657,82 @@
 
                                                         </div>
                                                     </div>
-                                                    <!-- <div class="col-lg-12">
-                                                            <div class="pay-area d-none">
-                                                                <div class="tab-content" id="v-pills-tabContent">
-                                                                    @if ($gs->paypal_check == 2)
-    <div class="tab-pane fade" id="v-pills-tab1"
-                                                                             role="tabpanel"
-                                                                             aria-labelledby="v-pills-tab1-tab">
+                                                    <!-- --------------------  -->
+                                                    <div class="col-lg-12">
+                                                        <div class="pay-area d-none">
+                                                            <div class="tab-content" id="v-pills-tabContent">
+                                                                @if ($gs->paypal_check == 2)
+                                                                    <div class="tab-pane fade" id="v-pills-tab1"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="v-pills-tab1-tab">
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($gs->stripe_check == 2)
+                                                                    <div class="tab-pane fade" id="v-pills-tab2"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="v-pills-tab2-tab">
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($gs->cod_check == 2)
+                                                                    @if ($digital == 0)
+                                                                        <div class="tab-pane fade" id="v-pills-tab3"
+                                                                            role="tabpanel"
+                                                                            aria-labelledby="v-pills-tab3-tab">
+                                                                        </div>
+                                                                    @endif
+                                                                @endif
+
+                                                                @if ($gs->is_instamojo == 2)
+                                                                    <div class="tab-pane fade" id="v-pills-tab4"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="v-pills-tab4-tab">
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($gs->is_paytm == 2)
+                                                                    <div class="tab-pane fade" id="v-pills-tab5"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="v-pills-tab5-tab">
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($gs->is_razorpay == 2)
+                                                                    <div class="tab-pane fade" id="v-pills-tab6"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="v-pills-tab6-tab">
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($gs->is_paystack == 2)
+                                                                    <div class="tab-pane fade" id="v-pills-tab7"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="v-pills-tab7-tab">
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($gs->is_molly == 2)
+                                                                    <div class="tab-pane fade" id="v-pills-tab8"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="v-pills-tab8-tab">
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($digital == 2)
+                                                                    @foreach ($gateways as $gt)
+                                                                        <div class="tab-pane fade"
+                                                                            id="v-pills-tab{{ $gt->id }}"
+                                                                            role="tabpanel"
+                                                                            aria-labelledby="v-pills-tab{{ $gt->id }}-tab">
 
                                                                         </div>
-    @endif
-                                                                    @if ($gs->stripe_check == 2)
-    <div class="tab-pane fade" id="v-pills-tab2"
-                                                                             role="tabpanel"
-                                                                             aria-labelledby="v-pills-tab2-tab">
-                                                                        </div>
-    @endif
-                                                                    @if ($gs->cod_check == 2)
-    @if ($digital == 0)
-    <div class="tab-pane fade" id="v-pills-tab3"
-                                                                                 role="tabpanel"
-                                                                                 aria-labelledby="v-pills-tab3-tab">
-                                                                            </div>
-    @endif
-    @endif
-                                                                    @if ($gs->is_instamojo == 2)
-    <div class="tab-pane fade" id="v-pills-tab4"
-                                                                             role="tabpanel"
-                                                                             aria-labelledby="v-pills-tab4-tab">
-                                                                        </div>
-    @endif
-                                                                    @if ($gs->is_paytm == 2)
-    <div class="tab-pane fade" id="v-pills-tab5"
-                                                                             role="tabpanel"
-                                                                             aria-labelledby="v-pills-tab5-tab">
-                                                                        </div>
-    @endif
-                                                                    @if ($gs->is_razorpay == 2)
-    <div class="tab-pane fade" id="v-pills-tab6"
-                                                                             role="tabpanel"
-                                                                             aria-labelledby="v-pills-tab6-tab">
-                                                                        </div>
-    @endif
-                                                                    @if ($gs->is_paystack == 2)
-    <div class="tab-pane fade" id="v-pills-tab7"
-                                                                             role="tabpanel"
-                                                                             aria-labelledby="v-pills-tab7-tab">
-                                                                        </div>
-    @endif
-                                                                    @if ($gs->is_molly == 2)
-    <div class="tab-pane fade" id="v-pills-tab8"
-                                                                             role="tabpanel"
-                                                                             aria-labelledby="v-pills-tab8-tab">
-                                                                        </div>
-    @endif
-
-                                                                    @if ($digital == 2)
-    @foreach ($gateways as $gt)
-    <div class="tab-pane fade"
-                                                                                 id="v-pills-tab{{ $gt->id }}"
-                                                                                 role="tabpanel"
-                                                                                 aria-labelledby="v-pills-tab{{ $gt->id }}-tab">
-
-                                                                            </div>
-    @endforeach
-    @endif
-                                                                </div>
+                                                                    @endforeach
+                                                                @endif
                                                             </div>
-                                                        </div> -->
+                                                        </div>
+                                                    </div>
+                                                    <!-- --------    -->
                                                 </div>
                                             </div>
 
@@ -796,10 +802,7 @@
                             value="{{ Session::has('coupon') ? Session::get('coupon_id') : '' }}">
                         <input type="hidden" name="user_id" id="user_id"
                             value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->id : '' }}">
-
-
                     </form>
-
                 </div>
 
                 @if (Session::has('cart'))
@@ -813,11 +816,9 @@
                                             {{ $langg->lang128 }}
                                         </p>
                                         <P>
-                                            <b
-                                                class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
+                                            <b class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
                                         </P>
                                     </li>
-
                                     @if ($gs->tax != 0)
                                         <li>
                                             <p>
@@ -825,7 +826,6 @@
                                             </p>
                                             <P>
                                                 <b> {{ $gs->tax }}% </b>
-
                                             </P>
                                         </li>
                                     @endif
@@ -833,16 +833,14 @@
                                     @if (Session::has('coupon'))
                                         <li class="discount-bar">
                                             <p>
-                                                {{ $langg->lang145 }} <span
-                                                    class="dpercent">{{ Session::get('coupon_percentage') == 0 ? '' : '(' . Session::get('coupon_percentage') . ')' }}</span>
+                                                {{ $langg->lang145 }} 
+                                                <span class="dpercent">{{ Session::get('coupon_percentage') == 0 ? '' : '(' . Session::get('coupon_percentage') . ')' }}</span>
                                             </p>
                                             <P>
                                                 @if ($gs->currency_format == 0)
-                                                    <b
-                                                        id="discount">{{ $curr->sign }}{{ Session::get('coupon') }}</b>
+                                                    <b id="discount">{{ $curr->sign }}{{ Session::get('coupon') }}</b>
                                                 @else
-                                                    <b
-                                                        id="discount">{{ Session::get('coupon') }}{{ $curr->sign }}</b>
+                                                    <b id="discount">{{ Session::get('coupon') }}{{ $curr->sign }}</b>
                                                 @endif
                                             </P>
                                         </li>
@@ -863,23 +861,19 @@
                                         {{ $langg->lang131 }}
                                     </p>
                                     <p>
-
-                                        @if (Session::has('coupon_total'))
-                                            @if ($gs->currency_format == 0)
-                                                <span id="total-cost">{{ $curr->sign }}{{ $totalPrice }}</span>
-                                            @else
-                                                <span id="total-cost">{{ $totalPrice }}{{ $curr->sign }}</span>
-                                            @endif
-                                        @elseif(Session::has('coupon_total1'))
-                                            <span id="total-cost"> {{ Session::get('coupon_total1') }}</span>
+                                    @if (Session::has('coupon_total'))
+                                        @if ($gs->currency_format == 0)
+                                            <span id="total-cost">{{ $curr->sign }}{{ $totalPrice }}</span>
                                         @else
-                                            <span
-                                                id="total-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
+                                            <span id="total-cost">{{ $totalPrice }}{{ $curr->sign }}</span>
                                         @endif
-
+                                    @elseif(Session::has('coupon_total1'))
+                                        <span id="total-cost"> {{ Session::get('coupon_total1') }}</span>
+                                    @else
+                                        <span id="total-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
+                                    @endif
                                     </p>
                                 </div>
-
 
                                 <div class="cupon-box">
                                     <div id="coupon-link">
@@ -887,16 +881,12 @@
                                         {{ $langg->lang132 }}
                                     </div>
                                     <form id="check-coupon-form" class="coupon">
-                                        <input type="text" placeholder="{{ $langg->lang133 }}" id="code"
-                                            required="" autocomplete="off">
+                                        <input type="text" placeholder="{{ $langg->lang133 }}" id="code" required="" autocomplete="off">
                                         <button type="submit">{{ $langg->lang134 }}</button>
                                     </form>
                                 </div>
 
                                 @if ($digital == 0)
-
-                                    {{-- Shipping Method Area Start --}}
-
                                     @php
                                         $shipping_price = 9.99;
                                         $count = 0;
@@ -906,62 +896,65 @@
                                             }
                                         }
                                         $shipping_price = $shipping_price * (intdiv($count - 1, 3) + 1);
-                                        
                                     @endphp
 
-                                    <!-- <div class="packeging-area">
-                                            <h4 class="title">{{ $langg->lang765 }}</h4>
-                                                <div class="radio-design">
-                                                    <input type="radio" class="shipping" id="free-shepping"
-                                                           name="shipping"
-                                                           value="{{ $shipping_price }}" checked>
-                                                    <span class="checkmark"></span>
-                                                    <label for="free-shepping">
-                                                        Shipping ${{ $shipping_price }}
-                                                        <small>up to 3 items for 9.99</small>
-                                                    </label>
-                                                </div>
-                                            @foreach ($shipping_data as $data)
-    <div class="radio-design">
-                                                    <input type="radio" class="shipping" id="free-shepping{{ $data->id }}"
-                                                           name="shipping"
-                                                           value="{{ round($data->price * $curr->value, 2) }}" {{ $loop->first ? 'checked' : '' }}>
-                                                    <span class="checkmark"></span>
-                                                    <label for="free-shepping{{ $data->id }}">
-                                                        {{ $data->title }}
-                                                        @if ($data->price != 0)
-    + {{ $curr->sign }}{{ round($data->price * $curr->value, 2) }}
-    @endif
-                                                        <small>{{ $data->subtitle }}</small>
-                                                    </label>
-                                                </div>
-    @endforeach
+                                    {{-- --------------- --}}
 
+                                    {{-- Shipping Method Area Start --}}
+                                    {{-- <div class="packeging-area">
+                                        <h4 class="title">{{ $langg->lang765 }}</h4>
+                                        <div class="radio-design">
+                                            <input type="radio" class="shipping" id="free-shepping" name="shipping"
+                                                value="{{ $shipping_price }}" checked>
+                                            <span class="checkmark"></span>
+                                            <label for="free-shepping">
+                                                Shipping ${{ $shipping_price }}
+                                                <small>up to 3 items for 9.99</small>
+                                            </label>
                                         </div>
-                                        {{-- Shipping Method Area End --}}
 
-                                        {{-- Packeging Area Start --}}
-                                        <div class="packeging-area">
-                                            <h4 class="title">{{ $langg->lang766 }}</h4>
+                                        @foreach ($shipping_data as $data)
+                                            <div class="radio-design">
+                                                <input type="radio" class="shipping"
+                                                    id="free-shepping{{ $data->id }}" name="shipping"
+                                                    value="{{ round($data->price * $curr->value, 2) }}"
+                                                    {{ $loop->first ? 'checked' : '' }}>
+                                                <span class="checkmark"></span>
+                                                <label for="free-shepping{{ $data->id }}">
+                                                    {{ $data->title }}
+                                                    @if ($data->price != 0)
+                                                        + {{ $curr->sign }}{{ round($data->price * $curr->value, 2) }}
+                                                    @endif
+                                                    <small>{{ $data->subtitle }}</small>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div> --}}
+                                    {{-- Shipping Method Area End --}}
 
-                                            @foreach ($package_data as $data)
-    <div class="radio-design">
-                                                    <input type="radio" class="packing" id="free-package{{ $data->id }}"
-                                                           name="packeging"
-                                                           value="{{ round($data->price * $curr->value, 2) }}" {{ $loop->first ? 'checked' : '' }}>
-                                                    <span class="checkmark"></span>
-                                                    <label for="free-package{{ $data->id }}">
-                                                        {{ $data->title }}
-                                                        @if ($data->price != 0)
-    + {{ $curr->sign }}{{ round($data->price * $curr->value, 2) }}
-    @endif
-                                                        <small>{{ $data->subtitle }}</small>
-                                                    </label>
-                                                </div>
-    @endforeach
+                                    {{-- Packeging Area Start --}}
+                                    {{-- <div class="packeging-area">
+                                        <h4 class="title">{{ $langg->lang766 }}</h4>
+                                        @foreach ($package_data as $data)
+                                            <div class="radio-design">
+                                                <input type="radio" class="packing"
+                                                    id="free-package{{ $data->id }}" name="packeging"
+                                                    value="{{ round($data->price * $curr->value, 2) }}"
+                                                    {{ $loop->first ? 'checked' : '' }}>
+                                                <span class="checkmark"></span>
+                                                <label for="free-package{{ $data->id }}">
+                                                    {{ $data->title }}
+                                                    @if ($data->price != 0)
+                                                        + {{ $curr->sign }}{{ round($data->price * $curr->value, 2) }}
+                                                    @endif
+                                                    <small>{{ $data->subtitle }}</small>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div> --}}
+                                    {{-- ----------- --}}
 
-                                        </div> -->
-                                    {{-- Packeging Area End Start --}}
+                                    {{-- Packeging Area End --}}
 
                                     {{-- Final Price Area Start --}}
                                     <div class="final-price">
@@ -978,16 +971,12 @@
                                             <span
                                                 id="final-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
                                         @endif
-
-
                                     </div>
                                     {{-- Final Price Area End --}}
-
                                 @endif
-
-                                {{-- 						<a href="{{ route('front.checkout') }}" class="order-btn mt-4">
-                                                            {{ $langg->lang135 }}
-                                                        </a> --}}
+                                {{-- <a href="{{ route('front.checkout') }}" class="order-btn mt-4">
+                                    {{ $langg->lang135 }}
+                                </a> --}}
                             </div>
                         </div>
                     </div>
@@ -996,180 +985,10 @@
         </div>
     </section>
     <!-- Check Out Area End-->
-
-    @if (isset($checked))
-
-        <!-- LOGIN MODAL -->
-        <div class="modal fade" id="comment-log-reg1" data-keyboard="false" data-backdrop="static" tabindex="-1"
-            role="dialog" aria-labelledby="comment-log-reg-Title" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" aria-label="Close">
-                            <a href="{{ url()->previous() }}"><span aria-hidden="true">&times;</span></a>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <nav class="comment-log-reg-tabmenu">
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link login active" id="nav-log-tab" data-toggle="tab"
-                                    href="#nav-log" role="tab" aria-controls="nav-log" aria-selected="true">
-                                    {{ $langg->lang197 }}
-                                </a>
-                                <a class="nav-item nav-link" id="nav-reg-tab" data-toggle="tab" href="#nav-reg"
-                                    role="tab" aria-controls="nav-reg" aria-selected="false">
-                                    {{ $langg->lang198 }}
-                                </a>
-                            </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-log" role="tabpanel"
-                                aria-labelledby="nav-log-tab">
-                                <div class="login-area">
-                                    <div class="header-area">
-                                        <h4 class="title">{{ $langg->lang172 }}</h4>
-                                    </div>
-                                    <div class="login-form signin-form">
-                                        @include('includes.admin.form-login')
-                                        <form id="loginform" action="{{ route('user.login.submit') }}" method="POST">
-                                            {{ csrf_field() }}
-                                            <div class="form-input">
-                                                <input type="email" name="email"
-                                                    placeholder="{{ $langg->lang173 }}" required="">
-                                                <i class="icofont-user-alt-5"></i>
-                                            </div>
-                                            <div class="form-input">
-                                                <input type="password" class="Password" name="password"
-                                                    placeholder="{{ $langg->lang174 }}" required="">
-                                                <i class="icofont-ui-password"></i>
-                                            </div>
-                                            <div class="form-forgot-pass">
-                                                <div class="left">
-                                                    <input type="hidden" name="modal" value="1">
-                                                    <input type="checkbox" name="remember" id="mrp"
-                                                        {{ old('remember') ? 'checked' : '' }}>
-                                                    <label for="mrp">{{ $langg->lang175 }}</label>
-                                                </div>
-                                                <div class="right">
-                                                    <a href="{{ route('user-forgot') }}">
-                                                        {{ $langg->lang176 }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <input id="authdata" type="hidden" value="{{ $langg->lang177 }}">
-                                            <button type="submit" class="submit-btn">{{ $langg->lang178 }}</button>
-                                            @if (App\Models\Socialsetting::find(1)->f_check == 1 || App\Models\Socialsetting::find(1)->g_check == 1)
-                                                <div class="social-area">
-                                                    <h3 class="title">{{ $langg->lang179 }}</h3>
-                                                    <p class="text">{{ $langg->lang180 }}</p>
-                                                    <ul class="social-links">
-                                                        @if (App\Models\Socialsetting::find(1)->f_check == 1)
-                                                            <li>
-                                                                <a href="{{ route('social-provider', 'facebook') }}">
-                                                                    <i class="fab fa-facebook-f"></i>
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                        @if (App\Models\Socialsetting::find(1)->g_check == 1)
-                                                            <li>
-                                                                <a href="{{ route('social-provider', 'google') }}">
-                                                                    <i class="fab fa-google-plus-g"></i>
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                    </ul>
-                                                </div>
-                                            @endif
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="nav-reg" role="tabpanel" aria-labelledby="nav-reg-tab">
-                                <div class="login-area signup-area">
-                                    <div class="header-area">
-                                        <h4 class="title">{{ $langg->lang181 }}</h4>
-                                    </div>
-                                    <div class="login-form signup-form">
-                                        @include('includes.admin.form-login')
-                                        <form id="registerform" action="{{ route('user-register-submit') }}"
-                                            method="POST">
-                                            {{ csrf_field() }}
-
-                                            <div class="form-input">
-                                                <input type="text" class="User Name" name="name"
-                                                    placeholder="{{ $langg->lang182 }}" required="">
-                                                <i class="icofont-user-alt-5"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="email" class="User Name" name="email"
-                                                    placeholder="{{ $langg->lang183 }}" required="">
-                                                <i class="icofont-email"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="User Name" name="phone"
-                                                    placeholder="{{ $langg->lang184 }}" required="">
-                                                <i class="icofont-phone"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="text" class="User Name" name="address"
-                                                    placeholder="{{ $langg->lang185 }}" required="">
-                                                <i class="icofont-location-pin"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="password" class="Password" name="password"
-                                                    placeholder="{{ $langg->lang186 }}" required="">
-                                                <i class="icofont-ui-password"></i>
-                                            </div>
-
-                                            <div class="form-input">
-                                                <input type="password" class="Password" name="password_confirmation"
-                                                    placeholder="{{ $langg->lang187 }}" required="">
-                                                <i class="icofont-ui-password"></i>
-                                            </div>
-
-                                            @if ($gs->is_capcha == 1)
-                                                <ul class="captcha-area">
-                                                    <li>
-                                                        <p><img class="codeimg1"
-                                                                src="{{ asset('assets/images/capcha_code.png') }}"
-                                                                alt="">
-                                                            <i class="fas fa-sync-alt pointer refresh_code "></i>
-                                                        </p>
-                                                    </li>
-                                                </ul>
-
-                                                <div class="form-input">
-                                                    <input type="text" class="Password" name="codes"
-                                                        placeholder="{{ $langg->lang51 }}" required="">
-                                                    <i class="icofont-refresh"></i>
-                                                </div>
-                                            @endif
-
-                                            <input id="processdata" type="hidden" value="{{ $langg->lang188 }}">
-                                            <button type="submit" class="submit-btn">{{ $langg->lang189 }}</button>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- LOGIN MODAL ENDS -->
-
-    @endif
-
 @endsection
 
 @section('scripts')
     <script src="https://js.paystack.co/v1/inline.js"></script>
-
 
     <script type="text/javascript">
         $('a.payment:first').addClass('active');

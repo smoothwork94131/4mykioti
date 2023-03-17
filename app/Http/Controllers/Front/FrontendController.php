@@ -734,7 +734,6 @@ public function solo_datatables()
     // Capcha Code Image
     private function code_image()
     {
-        // $actual_path = str_replace('project', '', base_path());
         $actual_path = base_path() . '/public/';
 
         $image = imagecreatetruecolor(200, 50);
