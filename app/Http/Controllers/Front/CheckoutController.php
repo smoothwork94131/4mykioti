@@ -1013,76 +1013,75 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index');
             }
 
-            $input = '{
-                "allowPartialAddresses": true,
-                "buyerIdentity": { "countryCode": "US" },
-                "email": "majesty1994131@outlook.com",
-                "note": "a",
-                "shippingAddress": {
-                    "address1": "Hong Lok Yuan",
-                    "address2": "",
-                    "city": "Hong Lok Yuan",
-                    "company": "",
-                    "country": "US",
-                    "firstName": "Liu Xin",
-                    "lastName": "",
-                    "phone": "123456789",
-                    "province": "",
-                    "zip": "999077"
-                },
-                "lineItems": [
-                    {
-                    "quantity": 1,
-                    "variantId": "gid://shopify/ProductVariant/42106337886381"
-                    } ,
-                ] ,
-            }';
-
-            // $checkoutsh = $shopify->GraphQL->post(<<<QUERY
-            // mutation {
-            //     checkoutCreate(input: {$input}) {
-            //         checkout {
-            //             id
-            //             webUrl
-            //         }
-            //         checkoutUserErrors {
-            //             field
-            //             message
-            //         }
-            //     }
-            // }
-            // QUERY,);
+            // $input = '{
+            //     "allowPartialAddresses": true,
+            //     "buyerIdentity": { "countryCode": "US" },
+            //     "email": "majesty1994131@outlook.com",
+            //     "note": "a",
+            //     "shippingAddress": {
+            //         "address1": "Hong Lok Yuan",
+            //         "address2": "",
+            //         "city": "Hong Lok Yuan",
+            //         "company": "",
+            //         "country": "US",
+            //         "firstName": "Liu Xin",
+            //         "lastName": "",
+            //         "phone": "123456789",
+            //         "province": "",
+            //         "zip": "999077"
+            //     },
+            //     "lineItems": [
+            //         {
+            //         "quantity": 1,
+            //         "variantId": "gid://shopify/ProductVariant/42106337886381"
+            //         } ,
+            //     ] ,
+            // }';
             
-            $headers = array(
-                'X-Shopify-Access-Token: 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',
-                'Content-Type: application/json'
-            );
+            // $headers = array(
+            //     'X-Shopify-Access-Token: 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',
+            //     'Content-Type: application/json'
+            // );
 
-            var_dump(json_decode($input, true)); exit;
+            // var_dump(json_decode($input, true)); exit;
 
-            $checkoutsh = $shopify->GraphQL->post(
-                <<<QUERY
-                    mutation ($input: CheckoutCreateInput!) {
-                        checkoutCreate(input: $input) {
-                            checkout {
-                                id
-                                webUrl
-                            }
-                            checkoutUserErrors {
-                                field
-                                message
-                            }
-                        }
+            // $checkoutsh = $shopify->GraphQL->post(
+            //     <<<QUERY
+            //         mutation ($input: CheckoutCreateInput!) {
+            //             checkoutCreate(input: $input) {
+            //                 checkout {
+            //                     id
+            //                     webUrl
+            //                 }
+            //                 checkoutUserErrors {
+            //                     field
+            //                     message
+            //                 }
+            //             }
+            //         }
+            //     QUERY,
+            //     [
+            //         'input' => json_decode($input, true),
+            //     ],
+            //     $headers // this should be a string, not an array
+            // );
+
+            $checkoutsh = $shopify->GraphQL->post(<<<QUERY
+            mutation {
+                checkoutCreate(input: {$input}) {
+                    checkout {
+                        id
+                        webUrl
                     }
-                QUERY,
-                [
-                    'input' => json_decode($input, true),
-                ],
-                $headers // this should be a string, not an array
-            );
+                    checkoutUserErrors {
+                        field
+                        message
+                    }
+                }
+            }
+            QUERY,);
             
-                    
-            print_r($checkoutsh); exit;
+            // print_r($checkoutsh); exit;
             
             if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
                 Session::put('tempcart', $cart);
