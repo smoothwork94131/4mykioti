@@ -182,11 +182,11 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
         
-        $vendors = DB::table($db)->where('subcategory_id', '=', $model)->where('name', '!=', $prod_name)->take(8)->get();
-        // $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
-        // $vendors = array() ;
+        $vendors = DB::table($db)
+                ->where('subcategory_id', '=', $model)
+                ->where('name', '!=', $prod_name)
+                ->take(8)->get();
     
-
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db"));
     }
     public function product(Request $request, $slug)
@@ -241,6 +241,7 @@ class CatalogController extends Controller
         $db="product" ;
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
+
     public function searchProdDetail() {
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
@@ -291,6 +292,7 @@ class CatalogController extends Controller
         $db="product" ;
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
+
     public function iproduct(Request $request, $slug, $slug1)
     {
         $this->code_image();
@@ -341,6 +343,7 @@ class CatalogController extends Controller
 
         return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
+
     // Capcha Code Image
     private function code_image()
     {
@@ -407,8 +410,6 @@ class CatalogController extends Controller
 
     public function iquick($db, $id)
     {
-
-
         $product = DB::table($db)->find($id);
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));

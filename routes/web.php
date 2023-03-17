@@ -60,7 +60,6 @@ Route::prefix('admin')->group(function () {
     Route::get('/loadpolicy/{location_id}/', 'Admin\ProductController@policyload')->name('admin-policy-load'); //JSON REQUEST
     // END
 
-
     //------------ ADMIN ORDER SECTION ------------
 
     Route::group(['middleware' => 'permissions:orders'], function () {
@@ -147,18 +146,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/import/create', 'Admin\ImportController@createImport')->name('admin-import-create');
         Route::get('/products/import/edit/{id}', 'Admin\ImportController@edit')->name('admin-import-edit');
 
-
         Route::get('/products/import/datatables', 'Admin\ImportController@datatables')->name('admin-import-datatables'); //JSON REQUEST
         Route::get('/products/import/index', 'Admin\ImportController@index')->name('admin-import-index');
 
         Route::post('/products/import/store', 'Admin\ImportController@store')->name('admin-import-store');
         Route::post('/products/import/update/{id}', 'Admin\ImportController@update')->name('admin-import-update');
 
-
         // DELETE SECTION
         Route::get('/affiliate/products/delete/{id}', 'Admin\ProductController@destroy')->name('admin-import-delete');
         // DELETE SECTION ENDS
-
     });
 
     //------------ ADMIN AFFILIATE PRODUCT SECTION ENDS ------------
@@ -174,7 +170,6 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/strains/datatables', 'Admin\StrainController@datatables')->name('admin-strain-datatables'); //JSON REQUEST
         Route::get('/strains/index', 'Admin\StrainController@index')->name('admin-strain-index');
-
 
         Route::post('/strains/store', 'Admin\StrainController@store')->name('admin-strain-store');
         Route::post('/strains/update/{id}', 'Admin\StrainController@update')->name('admin-strain-update');
@@ -199,8 +194,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/pendingstrains/customer/accept/{id}', 'Admin\PendingStrainController@cus_accept')->name('admin-pendingstrain-cusaccept');
         Route::post('/pendingstrains/customer/store', 'Admin\PendingStrainController@cus_store')->name('admin-pendingstrain-cusstore');
         Route::post('/pendingstrains/gallery/remove', 'Admin\PendingStrainController@gallery_remove')->name('admin-pendingstrain-gallery-remove');
-
-
     });
 
     //------------ ADMIN STRAIN SECTION ENDS ------------
@@ -267,8 +260,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/general-settings/vendor-registration/{status}', 'Admin\GeneralSettingController@regvendor')->name('admin-gs-regvendor');
 
         //  Vendor Registration Section Ends
-
-        
     });
 
 
@@ -351,8 +342,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/verification/message{user_id}'  , 'Admin\VerificationPlanController@message')->name('admin-verification-message');
         Route::post('/verification/send_message'  , 'Admin\VerificationPlanController@send_message')->name('admin-verification-send-message');
         
-        
-
         // Verification Section
 
         Route::get('/verificatons/datatables/{status}', 'Admin\VerificationController@datatables')->name('admin-vr-datatables');
@@ -384,7 +373,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/category/delete/{id}', 'Admin\CategoryController@destroy')->name('admin-cat-delete');
         Route::get('/category/status/{id1}/{id2}', 'Admin\CategoryController@status')->name('admin-cat-status');
         Route::get('/category/cod/{id1}/{id2}', 'Admin\CategoryController@cod')->name('admin-cat-cod');
-
 
         //------------ ADMIN ATTRIBUTE SECTION ------------
 
@@ -430,19 +418,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/load/childcategories/{id}/', 'Admin\ChildCategoryController@load')->name('admin-childcat-load'); //JSON REQUEST
 
         // CHILDCATEGORY SECTION ENDS------------
-
     });
 
     //------------ ADMIN CATEGORY SECTION ENDS------------
 
 
     //------------ ADMIN CSV IMPORT SECTION ------------
-
     Route::group(['middleware' => 'permissions:bulk_product_upload'], function () {
-
         Route::get('/products/import', 'Admin\ProductController@import')->name('admin-prod-import');
         Route::post('/products/import-submit', 'Admin\ProductController@importSubmit')->name('admin-prod-importsubmit');
-
     });
 
     //------------ ADMIN CSV IMPORT SECTION ENDS ------------
@@ -450,7 +434,6 @@ Route::prefix('admin')->group(function () {
     //------------ ADMIN PRODUCT DISCUSSION SECTION ------------
 
     Route::group(['middleware' => 'permissions:product_discussion'], function () {
-
         // RATING SECTION ENDS------------
 
         Route::get('/ratings/datatables', 'Admin\RatingController@datatables')->name('admin-rating-datatables'); //JSON REQUEST
@@ -1469,10 +1452,14 @@ Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables
 // PRODCT AUTO SEARCH SECTION ENDS
 
 // CATEGORY SECTION
+
+// *********************
+Route::get('/categories/', 'Front\CatalogController@categories')->name('front.categories');
+// *********************
+
 Route::get('/category/{category?}/{subcategory?}/{childcategory?}', 'Front\CatalogController@category')->name('front.category');
 Route::get('/category/{slug1}/{slug2}', 'Front\CatalogController@subcategory')->name('front.subcat');
 Route::get('/category/{slug1}/{slug2}/{slug3}', 'Front\CatalogController@childcategory')->name('front.childcat');
-Route::get('/categories/', 'Front\CatalogController@categories')->name('front.categories');
 Route::get('/childcategories/{slug}', 'Front\CatalogController@childcategories')->name('front.childcategories');
 // CATEGORY SECTION ENDS
 

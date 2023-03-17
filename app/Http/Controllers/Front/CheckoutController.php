@@ -888,25 +888,30 @@ class CheckoutController extends Controller
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
+
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        // $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        $storefrontAccessToken = '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';
+        
         // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
 
         $config = array(
             'ShopUrl' => $shop,
-            'FrontAccessToken' => $storefrontAccessToken,
+            // 'FrontAccessToken' => $storefrontAccessToken,
+            'AccessToken' => $storefrontAccessToken,
         );
 
         $shopify = ShopifySDK::config($config);
+        // $shopify = new ShopifySDK($config);
 
         $input = '{
             allowPartialAddresses: true,
             buyerIdentity: {
-              countryCode: US
+              countryCode: "US"
             },
             email: "' . $request->personal_email . '",
             note: "' . $request->order_notes . '",
@@ -921,7 +926,7 @@ class CheckoutController extends Controller
                 phone: "' . ($request->shipping_phone ?? $request->phone) . '",
                 province: "",
                 zip: "' . ($request->shipping_zip ?? $request->zip) . '"
-              }
+            },
             lineItems: [
         ';
 
@@ -935,15 +940,16 @@ class CheckoutController extends Controller
                 }
 
                 $i++;
+                
                 $query = '{
                     products(first: 1, query:"(title:' . $prod['item']->name . ') AND (variants.sku:' . $prod['item']->sku . ')",) {
                         edges {
                             node {
                                 variants(first: 5) {
                                     edges {
-                                    node {
-                                        id
-                                    }
+                                        node {
+                                            id
+                                        }
                                     }
                                 }
                             }
@@ -957,7 +963,7 @@ class CheckoutController extends Controller
                     $input .= "{
                         quantity: {$prod['qty']},
                         variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                    },";
+                    }, ";
                 } else {
                     $this->createProductOnShopify($prod);
                 }
@@ -1007,21 +1013,77 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index');
             }
 
-            $checkoutsh = $shopify->GraphQL->post(<<<QUERY
-            mutation {
-                checkoutCreate(input: {$input}) {
-                    checkout {
-                    id
-                    webUrl
-                    }
-                    checkoutUserErrors {
-                    field
-                    message
-                    }
-                }
-            }
-            QUERY,);
+            $input = '{
+                "allowPartialAddresses": true,
+                "buyerIdentity": { "countryCode": "US" },
+                "email": "majesty1994131@outlook.com",
+                "note": "a",
+                "shippingAddress": {
+                    "address1": "Hong Lok Yuan",
+                    "address2": "",
+                    "city": "Hong Lok Yuan",
+                    "company": "",
+                    "country": "US",
+                    "firstName": "Liu Xin",
+                    "lastName": "",
+                    "phone": "123456789",
+                    "province": "",
+                    "zip": "999077"
+                },
+                "lineItems": [
+                    {
+                    "quantity": 1,
+                    "variantId": "gid://shopify/ProductVariant/42106337886381"
+                    } ,
+                ] ,
+            }';
 
+            // $checkoutsh = $shopify->GraphQL->post(<<<QUERY
+            // mutation {
+            //     checkoutCreate(input: {$input}) {
+            //         checkout {
+            //             id
+            //             webUrl
+            //         }
+            //         checkoutUserErrors {
+            //             field
+            //             message
+            //         }
+            //     }
+            // }
+            // QUERY,);
+            
+            $headers = array(
+                'X-Shopify-Access-Token: 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',
+                'Content-Type: application/json'
+            );
+
+            var_dump(json_decode($input, true)); exit;
+
+            $checkoutsh = $shopify->GraphQL->post(
+                <<<QUERY
+                    mutation ($input: CheckoutCreateInput!) {
+                        checkoutCreate(input: $input) {
+                            checkout {
+                                id
+                                webUrl
+                            }
+                            checkoutUserErrors {
+                                field
+                                message
+                            }
+                        }
+                    }
+                QUERY,
+                [
+                    'input' => json_decode($input, true),
+                ],
+                $headers // this should be a string, not an array
+            );
+            
+                    
+            print_r($checkoutsh); exit;
+            
             if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
                 Session::put('tempcart', $cart);
                 Session::forget('cart');
@@ -1042,6 +1104,10 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
             }
         } catch (\Exception $e) {
+
+            echo $e->getMessage(), "\n";
+            exit;
+
             Session::put('tempcart', $cart);
             Session::forget('cart');
             Session::forget('already');
@@ -1357,7 +1423,7 @@ class CheckoutController extends Controller
     // Capcha Code Image
     private function code_image()
     {
-        $actual_path = sbase_path();
+        $actual_path = base_path();
         $image = imagecreatetruecolor(200, 50);
         $background_color = imagecolorallocate($image, 255, 255, 255);
         imagefilledrectangle($image, 0, 0, 200, 50, $background_color);

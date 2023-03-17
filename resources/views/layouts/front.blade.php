@@ -463,13 +463,14 @@
 </section>
 <div class='about-header'>
     <div class='content'>
-        <div>
+        <div style="width: 10%;"></div>
+        <div class="site-info">
             <span class="site_url">4myKIOTI.com</span>
-            <span class="phone_num">FOR ASSISTANCE CALL: (724) 691-0200 </span>
+            <span class="phone_num">FOR ASSISTANCE CALL: <a href="tel:+1(724) 691-0200">(724) 691-0200</a> </span>
         </div>
         <div class='sign-form'>
         @guest
-        <span><a href="{{route('user.login')}}"><i class='fas fa-sign-in-alt'></i></a></span>
+        <span><a href="{{route('user.login')}}"><i class='fas fa-fw fa-2xl fa-user'></i></a></span>
         @else
         <span><a href="{{route('user-logout')}}"><i class='fas fa-sign-out-alt'></i></a></span>
         @endguest

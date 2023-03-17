@@ -4,34 +4,25 @@ namespace App\Http\Controllers\Front;
 
 use App\Classes\GeniusMailer;
 use App\Http\Controllers\Controller;
+use App\Models\AdvertisingPlan;
+use App\Models\AdvertisingProduct;
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\ColorSetting;
 use App\Models\Counter;
 use App\Models\Generalsetting;
 use App\Models\Order;
-use App\Models\Category;
-use App\Models\EcCategory;
 use App\Models\Product;
 use App\Models\Subscriber;
-use App\Models\ColorSetting;
 use App\Models\User;
-use App\Models\AdvertisingProduct;
-use App\Models\AdvertisingPlan;
-use App\Models\Strain;
-use App\Models\StrainTemp;
-use App\Models\StrainGalleryTemp;
-
+use Auth;
 use Carbon\Carbon;
+use Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use InvalidArgumentException;
 use Markury\MarkuryPost;
-
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
-use Auth;
-use Datatables;
 use PHPShopify\ShopifySDK;
 
 class FrontendController extends Controller
@@ -85,11 +76,7 @@ class FrontendController extends Controller
         }
     }
 
-    
-    
-    
-    
-    function getOS()
+    public function getOS()
     {
 
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -119,7 +106,7 @@ class FrontendController extends Controller
             '/ipad/i' => 'iPad',
             '/android/i' => 'Android',
             '/blackberry/i' => 'BlackBerry',
-            '/webos/i' => 'Mobile'
+            '/webos/i' => 'Mobile',
         );
 
         foreach ($os_array as $regex => $value) {
@@ -132,16 +119,10 @@ class FrontendController extends Controller
         return $os_platform;
     }
 
-
-
-
-
-
 // -------------------------------- HOME PAGE SECTION ----------------------------------------
 
     public function index(Request $request)
     {
-
 
         $this->code_image();
         if (!empty($request->reff)) {
@@ -164,21 +145,19 @@ class FrontendController extends Controller
         $genetics_products = Product::where('featured', '=', 1)
             ->where('status', '=', 1);
 
-        if(!Auth::guard('web')->check()) {
+        if (!Auth::guard('web')->check()) {
             $genetics_products = $genetics_products->where('is_verified', 0);
         } else {
-            if(!Auth::user()->is_verified) {
+            if (!Auth::user()->is_verified) {
                 $genetics_products = $genetics_products->where('is_verified', 0);
             }
         }
-
 
         $genetics_products = $genetics_products
             ->select($selectable)
             ->orderBy('id', 'desc')
             ->take(8)
             ->get();
-
 
         // $main_slider_products = Product::where('status', '=', 1);
 
@@ -190,7 +169,6 @@ class FrontendController extends Controller
         //     }
         // }
 
-
         // $main_slider_products = $main_slider_products
         //     ->select($selectable)
         //     ->orderBy('id', 'desc')
@@ -198,13 +176,13 @@ class FrontendController extends Controller
         //     ->get();
 
         $gs = Generalsetting::findOrFail(1);
-        
+
         $solo_mode = $gs->solo_mode;
         $solo_category = $gs->solo_category;
 
         $solo_products = array();
-        
-        if($solo_mode == 1) {
+
+        if ($solo_mode == 1) {
             $sort = $request->sort;
             $solo_products = Product::when($sort, function ($query, $sort) {
                 if ($sort == 'date_desc') {
@@ -217,25 +195,25 @@ class FrontendController extends Controller
                     return $query->orderBy('price', 'ASC');
                 }
             })
-            ->when(empty($sort), function ($query, $sort) {
-                return $query->orderBy('id', 'DESC');
-            })
-            ->paginate(24);
+                ->when(empty($sort), function ($query, $sort) {
+                    return $query->orderBy('id', 'DESC');
+                })
+                ->paginate(24);
 
             // $settings->with('solo_products', $solo_products);
         }
 
         $hot_plan = AdvertisingPlan::find(1);
 
-        $main_slider_products = AdvertisingProduct::where('category_id', 0)->where('viewed_count','<',$hot_plan->view_count)->orderBy('id', 'asc')->take($hot_plan->product_count)->get();
-        if(count($main_slider_products) < $hot_plan->product_count) {
+        $main_slider_products = AdvertisingProduct::where('category_id', 0)->where('viewed_count', '<', $hot_plan->view_count)->orderBy('id', 'asc')->take($hot_plan->product_count)->get();
+        if (count($main_slider_products) < $hot_plan->product_count) {
             $main_slider_products = AdvertisingProduct::where('category_id', 0)->orderBy('id', 'desc')->take($hot_plan->product_count)->get();
         }
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
-        return view('front.index', compact('ps', 'sliders','solo_products', 'top_small_banners', 'genetics_products', 'main_slider_products', 'colorsetting_style1', 'colorsetting_style2'));
+        return view('front.index', compact('ps', 'sliders', 'solo_products', 'top_small_banners', 'genetics_products', 'main_slider_products', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
     public function extraIndex()
@@ -249,8 +227,8 @@ class FrontendController extends Controller
         $selectable = ['id', 'user_id', 'name', 'slug', 'features', 'colors', 'thumbnail', 'price', 'previous_price', 'attributes', 'size', 'size_price', 'discount_date'];
         $discount_products = Product::where('is_discount', '=', 1)->where('status', '=', 1)->orderBy('id', 'desc')->take(8)->get();
         $best_products = Product::where('best', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(6)->get();
-        $top_products = Product::where('top', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(8)->get();;
-        $big_products = Product::where('big', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(6)->get();;
+        $top_products = Product::where('top', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(8)->get();
+        $big_products = Product::where('big', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(6)->get();
         $hot_products = Product::where('hot', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(9)->get();
         $latest_products = Product::where('latest', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(9)->get();
         $trending_products = Product::where('trending', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(9)->get();
@@ -260,80 +238,76 @@ class FrontendController extends Controller
 
 // -------------------------------- HOME PAGE SECTION ENDS ----------------------------------------
 
+    public function solo_datatables()
+    {
 
-public function solo_datatables()
-{
+        $gs = Generalsetting::findOrFail(1);
 
-    $gs = Generalsetting::findOrFail(1);
+        $solo_category = $gs->solo_category;
+        $datas = Product::where('category_id', $solo_category)->where('product_type', '=', 'normal')->orderBy('id', 'desc')->get();
 
-    $solo_category = $gs->solo_category;
-    $datas = Product::where('category_id', $solo_category)->where('product_type', '=', 'normal')->orderBy('id', 'desc')->get();
+        //--- Integrating This Collection Into Datatables
+        return Datatables::of($datas)
+            ->editColumn('name', function (Product $data) {
+                $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
+                $gs = Generalsetting::findOrFail(1);
 
-    //--- Integrating This Collection Into Datatables
-    return Datatables::of($datas)
-        ->editColumn('name', function (Product $data) {
-            $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
-            $gs = Generalsetting::findOrFail(1);
+                $thumbnail = $data->thumbnail ? asset('assets/images/thumbnails/' . $data->thumbnail) : asset('assets/images/products/' . $gs->prod_image);
 
-            $thumbnail = $data->thumbnail ? asset('assets/images/thumbnails/'.$data->thumbnail):asset('assets/images/products/'.$gs->prod_image);
-            
-            return '<a href="'.route('front.product', $data->slug).'"><img src = "'.$thumbnail.'" alt="" width="50" height="50"> '.$name.'</a>';
-        })
-        ->editColumn('price', function (Product $data) {
-            $price = $data->showPrice();
-            return $price;
-        })
-        ->editColumn('stock', function (Product $data) {
-            $stck = (string)$data->stock;
-            if ($stck == "0")
-                return "Out Of Stock";
-            elseif ($stck == null)
-                return "Unlimited";
-            else
-                return $data->stock;
-        })
-        ->addColumn('action', function (Product $data) {
+                return '<a href="' . route('front.product', $data->slug) . '"><img src = "' . $thumbnail . '" alt="" width="50" height="50"> ' . $name . '</a>';
+            })
+            ->editColumn('price', function (Product $data) {
+                $price = $data->showPrice();
+                return $price;
+            })
+            ->editColumn('stock', function (Product $data) {
+                $stck = (string) $data->stock;
+                if ($stck == "0") {
+                    return "Out Of Stock";
+                } elseif ($stck == null) {
+                    return "Unlimited";
+                } else {
+                    return $data->stock;
+                }
 
+            })
+            ->addColumn('action', function (Product $data) {
 
-            $action = '<div class="dropdown">
+                $action = '<div class="dropdown">
             <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <small>Actions</small>
             </a>
             <div class="dropdown-menu dropdown-primary">';
 
-                if(Auth::guard('web')->check()) {
-                    $action.='<span class="dropdown-item add-to-wish" data-href="'.route('user-wishlist-add',$data->id).'"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>';
+                if (Auth::guard('web')->check()) {
+                    $action .= '<span class="dropdown-item add-to-wish" data-href="' . route('user-wishlist-add', $data->id) . '"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>';
                 } else {
-                    $action.='<span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>';
+                    $action .= '<span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>';
                 }
-                
-                $action.='<span class="dropdown-item quick-view" data-href="'.route('product.quick',$data->id).'" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>';
 
+                $action .= '<span class="dropdown-item quick-view" data-href="' . route('product.quick', $data->id) . '" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>';
 
-                if($data->product_type == "affiliate") {
-                    $action.='<span class="dropdown-item add-to-cart-btn affilate-btn" data-href="'.route('affiliate.product', $data->slug).'"><i class="icofont-cart"></i>&nbsp;&nbsp;'.'Add to cart'.'</span>';
-                
+                if ($data->product_type == "affiliate") {
+                    $action .= '<span class="dropdown-item add-to-cart-btn affilate-btn" data-href="' . route('affiliate.product', $data->slug) . '"><i class="icofont-cart"></i>&nbsp;&nbsp;' . 'Add to cart' . '</span>';
+
                 } else {
-                    if($data->emptyStock()) {
-                        $action.='<span class="dropdown-item add-to-cart-btn cart-out-of-stock" href="#"><i class="icofont-close-circled"></i>&nbsp;&nbsp;'.'Add to cart'.'</span>';
+                    if ($data->emptyStock()) {
+                        $action .= '<span class="dropdown-item add-to-cart-btn cart-out-of-stock" href="#"><i class="icofont-close-circled"></i>&nbsp;&nbsp;' . 'Add to cart' . '</span>';
 
                     } else {
-                        $action.='<span class="dropdown-item add-to-cart add-to-cart-btn" data-href="'.route('product.cart.add',$data->id).'"><i class="icofont-cart"></i>&nbsp;&nbsp;'.'Add to cart'.'</span>';
-                        $action.='<span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="'.route('product.cart.quickadd',$data->id).'"><i class="icofont-dollar"></i>&nbsp;&nbsp;'.'Buy now'.'</span>';
+                        $action .= '<span class="dropdown-item add-to-cart add-to-cart-btn" data-href="' . route('product.cart.add', $data->id) . '"><i class="icofont-cart"></i>&nbsp;&nbsp;' . 'Add to cart' . '</span>';
+                        $action .= '<span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="' . route('product.cart.quickadd', $data->id) . '"><i class="icofont-dollar"></i>&nbsp;&nbsp;' . 'Buy now' . '</span>';
                     }
                 }
-            $action.='</div>
+                $action .= '</div>
         </div>';
 
-           
+                return $action;
+            })
 
-            return $action;
-        })
-        
-        ->rawColumns(['name', 'action'])
-        ->toJson(); //--- Returning Json Data To Client Side
-}
-
+            ->rawColumns(['name', 'action'])
+            ->toJson(); //--- Returning Json Data To Client Side
+    }
 
 // LANGUAGE SECTION
 
@@ -345,7 +319,6 @@ public function solo_datatables()
     }
 
 // LANGUAGE SECTION ENDS
-
 
 // CURRENCY SECTION
 
@@ -367,20 +340,23 @@ public function solo_datatables()
 
 // CURRENCY SECTION ENDS
 
-    public function partsByModel(Request $request) {
+    public function partsByModel(Request $request)
+    {
         return view('front.partsbymodel');
     }
 
-    public function schematics(Request $request) {
+    public function schematics(Request $request)
+    {
         return view('front.schematics');
     }
 
-    public function commonpart(Request $request) {
-        $series = DB::table("ec_categories")->get() ;
-        $series_data = array() ;
-        foreach($series as $key => $item) {
-            if(count(DB::table(strtolower($item->series))->where("best", "1")->get())> 0){
-                $series_data[] = $item ;
+    public function commonpart(Request $request)
+    {
+        $series = DB::table("ec_categories")->get();
+        $series_data = array();
+        foreach ($series as $key => $item) {
+            if (count(DB::table(strtolower($item->series))->where("best", "1")->get()) > 0) {
+                $series_data[] = $item;
             }
         }
         return view('front.commonparts', compact("series_data"));
@@ -389,23 +365,22 @@ public function solo_datatables()
     public function autosearch(Request $request, $slug)
     {
 
-        
         $db = strtolower($request->series);
 
         if (mb_strlen($slug, 'utf-8') > 1) {
             $search = ' ' . $slug;
             $prods = DB::table($db)->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $slug . '%')->where('status', '=', 1)->take(10);
-            if(Session::has('age')) {
+            if (Session::has('age')) {
                 $age = Session::get('age');
-                if(!Auth::guard('web')->check() && $age < 21) {
+                if (!Auth::guard('web')->check() && $age < 21) {
                     $prods->where('category_id', 15);
                 }
             }
 
-            if(!Auth::guard('web')->check()) {
+            if (!Auth::guard('web')->check()) {
                 $prods = $prods->where('is_verified', 0);
             } else {
-                if(!Auth::user()->is_verified) {
+                if (!Auth::user()->is_verified) {
                     $prods = $prods->where('is_verified', 0);
                 }
             }
@@ -425,11 +400,10 @@ public function solo_datatables()
         $prods = $prods->get();
         $slug = $model;
 
-        return view('load.suggest', compact('prods','slug', 'db'));
+        return view('load.suggest', compact('prods', 'slug', 'db'));
     }
 
-
-    function finalize()
+    public function finalize()
     {
         // $actual_path = str_replace('project', '', base_path());
         $actual_path = base_path() . '/public/';
@@ -439,7 +413,7 @@ public function solo_datatables()
         return redirect('/');
     }
 
-    function auth_guests()
+    public function auth_guests()
     {
         $chk = MarkuryPost::marcuryBase();
         $chkData = MarkuryPost::marcurryBase();
@@ -456,7 +430,6 @@ public function solo_datatables()
             }
         }
     }
-
 
 // -------------------------------- BLOG SECTION ----------------------------------------
 
@@ -550,7 +523,6 @@ public function solo_datatables()
     }
 // -------------------------------- FAQ SECTION ENDS----------------------------------------
 
-
 // -------------------------------- PAGE SECTION ----------------------------------------
     public function page($slug)
     {
@@ -564,7 +536,6 @@ public function solo_datatables()
     }
 // -------------------------------- PAGE SECTION ENDS----------------------------------------
 
-
 // -------------------------------- CONTACT SECTION ----------------------------------------
     public function contact()
     {
@@ -575,7 +546,6 @@ public function solo_datatables()
         $ps = DB::table('pagesettings')->where('id', '=', 1)->first();
         return view('front.contact', compact('ps'));
     }
-
 
     //Send email to admin
     public function contactemail(Request $request)
@@ -643,23 +613,22 @@ public function solo_datatables()
     public function age(Request $request)
     {
         Session::put('age', $request->age);
-        return response()->json('You are '.$request->age.' years old');
+        return response()->json('You are ' . $request->age . ' years old');
     }
-
 
     public function groups(Request $request)
     {
         $categories = [];
-        $table_name = strtolower($request->series)."_categories" ;
-     
+        $table_name = strtolower($request->series) . "_categories";
+
         if ($request->type == 'model') {
-            if($request->model_type == "common") {
-                $table_name =  strtolower($request->series) ;
+            if ($request->model_type == "common") {
+                $table_name = strtolower($request->series);
                 $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->get();
             } else {
                 $categories = DB::table($table_name)->select('model')->distinct()->distinct()->get();
             }
-            
+
         } else if ($request->type == 'section') {
             $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->get();
         } else if ($request->type == 'group') {
@@ -682,7 +651,6 @@ public function solo_datatables()
         return view('front.maintenance');
     }
 
-
     // Vendor Subscription Check
     public function subcheck()
     {
@@ -703,7 +671,7 @@ public function solo_datatables()
                             'oamount' => "",
                             'aname' => "",
                             'aemail' => "",
-                            'onumber' => ""
+                            'onumber' => "",
                         ];
                         $mailer = new GeniusMailer();
                         $mailer->sendAutoMail($data);
@@ -730,7 +698,6 @@ public function solo_datatables()
 
     }
 
-
     // Capcha Code Image
     private function code_image()
     {
@@ -752,7 +719,7 @@ public function solo_datatables()
         $word = '';
         //$text_color = imagecolorallocate($image, 8, 186, 239);
         $text_color = imagecolorallocate($image, 0, 0, 0);
-        $cap_length = 6;// No. of character in image
+        $cap_length = 6; // No. of character in image
         for ($i = 0; $i < $cap_length; $i++) {
             $letter = $allowed_letters[rand(0, $length - 1)];
             imagettftext($image, 25, 1, 35 + ($i * 25), 35, $text_color, $font, $letter);
@@ -768,9 +735,7 @@ public function solo_datatables()
 
 // -------------------------------- CONTACT SECTION ENDS----------------------------------------
 
-
 // -------------------------------- PRINT SECTION ----------------------------------------
-
 
 // -------------------------------- PRINT SECTION ENDS ----------------------------------------
 
@@ -811,39 +776,40 @@ public function solo_datatables()
         rmdir($dirPath);
     }
 
-    public function terms_condition() {
+    public function terms_condition()
+    {
         return view('front.terms_condition');
     }
 
-    public function shopify() {
-       // Load the access token as per instructions above
-// $storefrontAccessToken = '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';
-$storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-// Shop from which we're fetching data
-$shop = '4mykioti.myshopify.com';
+    public function shopify()
+    {
+        // Load the access token as per instructions above
+        // $storefrontAccessToken = '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';
+        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        // Shop from which we're fetching data
+        $shop = '4mykioti.myshopify.com';
 
-$config = array(
-    'ShopUrl' => $shop,
-    'FrontAccessToken' => $storefrontAccessToken,
-);
+        $config = array(
+            'ShopUrl' => $shop,
+            'FrontAccessToken' => $storefrontAccessToken,
+        );
 
-$shopify = ShopifySDK::config($config);
+        $shopify = ShopifySDK::config($config);
 
-// Now run your requests...
-$products = $shopify->GraphQL->post(<<<QUERY
-{
-    products (first: 3, query:"sku:04811-50650") {
-      edges {
-        node {
-          id
-          title
-        }
-      }
-    }
-  }
-QUERY,);
+        // Now run your requests...
+        $products = $shopify->GraphQL->post(<<<QUERY
+            {
+                products (first: 3, query:"sku:04811-50650") {
+                edges {
+                    node {
+                    id
+                    title
+                    }
+                }
+                }
+            }
+            QUERY,);
 
-
-echo json_encode($products);
+        echo json_encode($products);
     }
 }

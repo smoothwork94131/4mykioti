@@ -1959,6 +1959,7 @@ Begin Footer Custom Style
     overflow-y: auto;
 
 }
+
 .mobile-search-field .search-dropdown {
     position: absolute;
     top: 110%;
@@ -1979,14 +1980,37 @@ Begin Footer Custom Style
 
 .about-header {
     position: relative; top: 0px; height: 60px; width: 100%; background: #1c1b1b;
-    font-size:calc(15px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
     color: white ;
     text-align: center;
-    
+}
+
+.about-header .site-info {
+    text-align: center;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-header .content .site_url {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: calc(10px + 0.390625vw);
+}
+
+.about-header .content .phone_num {
+    margin-left: 5%;
+    font-size: calc(8px + 0.390625vw);
+}
+
+.about-header .content .phone_num a {
+    color: #FFF;
 }
 
 .about-header .sign-form {
-    margin-left: 10px;
+    text-align: right;
+    width: 10%;
+    margin-right: 20px;
 }
 
 .about-header .sign-form span {
@@ -2000,17 +2024,7 @@ Begin Footer Custom Style
 .about-header .content {
     display: flex;
     line-height: 60px;
-    justify-content: center;
-}
-
-.about-header .content .site_url {
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.about-header .content .phone_num {
-    margin-left: 10px;
-    font-size: 16px;
+    /* justify-content: center; */
 }
 
 .search-dropdown .item {

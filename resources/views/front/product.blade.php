@@ -7,8 +7,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ul class="pages">
-                        <li><a href="{{route('front.index')}}">{{ $langg->lang17 }}</a></li>
-                        <li><a href="{{ route('front.product', $productt->slug) }}">{{ $productt->name }}</a>
+                        <li><a href="{{ route('front.index') }}">{{ $langg->lang17 }}</a></li>
+                        <li>{{ $productt->name }}</li>
                     </ul>
                 </div>
             </div>
@@ -24,19 +24,20 @@
                         <div class="col-lg-5 col-md-12">
                             <div class="xzoom-container">
                                 <img class="xzoom5" id="xzoom-magnific"
-                                     src="{{filter_var($productt->photo, FILTER_VALIDATE_URL) ?$productt->photo:($productt->photo ? asset('assets/images/products/'.$productt->photo) : asset('assets/images/products/'.$gs->prod_image))}}"
-                                     xoriginal="{{filter_var($productt->photo, FILTER_VALIDATE_URL) ?$productt->photo:($productt->photo ? asset('assets/images/products/'.$productt->photo) : asset('assets/images/products/'.$gs->prod_image))}}"/>
+                                    src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}"
+                                    xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}" />
                                 <div class="xzoom-thumbs">
 
                                     <div class="all-slider">
 
-                                        <a href="{{filter_var($productt->photo, FILTER_VALIDATE_URL) ?$productt->photo:($productt->photo ? asset('assets/images/products/'.$productt->photo) : asset('assets/images/products/'.$gs->prod_image))}}">
+                                        <a
+                                            href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}">
                                             <img class="xzoom-gallery5" width="80"
-                                                 src="{{filter_var($productt->photo, FILTER_VALIDATE_URL) ?$productt->photo:($productt->photo ? asset('assets/images/products/'.$productt->photo) : asset('assets/images/products/'.$gs->prod_image))}}"
-                                                 title="The description goes here">
+                                                src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}"
+                                                title="The description goes here">
                                         </a>
 
-                                       
+
 
                                     </div>
 
@@ -66,9 +67,10 @@
                                             <li class="review-count">
                                                 <p>{{ $langg->lang80 }}</p>
                                             </li>
-                                            @if($productt->product_condition != 0)
+                                            @if ($productt->product_condition != 0)
                                                 <li>
-                                                    <div class="{{ $productt->product_condition == 2 ? 'mybadge' : 'mybadge1' }}">
+                                                    <div
+                                                        class="{{ $productt->product_condition == 2 ? 'mybadge' : 'mybadge1' }}">
                                                         {{ $productt->product_condition == 2 ? 'New' : 'Used' }}
                                                     </div>
                                                 </li>
@@ -76,14 +78,14 @@
                                         </ul>
                                     </div>
 
-                                    <div><small>Model #: <?php echo $productt->category_id;  ?></small></div>
-                                    <div><small>Part #: <?php echo $productt->sku;  ?></small></div>
+                                    <div><small>Model #: <?php echo $productt->category_id; ?></small></div>
+                                    <div><small>Part #: <?php echo $productt->sku; ?></small></div>
 
                                     <div class="product-price">
                                         <p class="title">{{ $langg->lang87 }} :</p>
                                         <p class="price"><span id="sizeprice">{{ $productt->price }}</span>
-                                            </p>
-                                        @if($productt->youtube != null)
+                                        </p>
+                                        @if ($productt->youtube != null)
                                             <a href="{{ $productt->youtube }}" class="video-play-btn mfp-iframe">
                                                 <i class="fas fa-play"></i>
                                             </a>
@@ -93,48 +95,49 @@
                                     <div class="info-meta-2">
                                         <ul>
 
-                                            @if($productt->type == 'License')
-
-                                                @if($productt->platform != null)
+                                            @if ($productt->type == 'License')
+                                                @if ($productt->platform != null)
                                                     <li>
                                                         <p>{{ $langg->lang82 }}: <b>{{ $productt->platform }}</b></p>
                                                     </li>
                                                 @endif
 
-                                                @if($productt->region != null)
+                                                @if ($productt->region != null)
                                                     <li>
                                                         <p>{{ $langg->lang83 }}: <b>{{ $productt->region }}</b></p>
                                                     </li>
                                                 @endif
 
-                                                @if($productt->licence_type != null)
+                                                @if ($productt->licence_type != null)
                                                     <li>
                                                         <p>{{ $langg->lang84 }}: <b>{{ $productt->licence_type }}</b>
                                                         </p>
                                                     </li>
                                                 @endif
-
                                             @endif
 
                                         </ul>
                                     </div>
 
 
-                                    @if(!empty($productt->size))
+                                    @if (!empty($productt->size))
                                         <div class="product-size">
                                             <p class="title">{{ $langg->lang88 }} :</p>
                                             <ul class="siz-list">
                                                 @php
                                                     $is_first = true;
                                                 @endphp
-                                                @foreach($productt->size as $key => $data1)
+                                                @foreach ($productt->size as $key => $data1)
                                                     <li class="{{ $is_first ? 'active' : '' }}">
                                                         <span class="box">{{ $data1 }}
-                                                        <input type="hidden" class="size" value="{{ $data1 }}">
-                                                        <input type="hidden" class="size_qty" value="{{ $productt->size_qty[$key] }}">
-                                                        <input type="hidden" class="size_key" value="{{$key}}">
-                                                        <input type="hidden" class="size_price"
-                                                                value="{{ round($productt->size_price[$key] * $curr->value,2) }}">
+                                                            <input type="hidden" class="size"
+                                                                value="{{ $data1 }}">
+                                                            <input type="hidden" class="size_qty"
+                                                                value="{{ $productt->size_qty[$key] }}">
+                                                            <input type="hidden" class="size_key"
+                                                                value="{{ $key }}">
+                                                            <input type="hidden" class="size_price"
+                                                                value="{{ round($productt->size_price[$key] * $curr->value, 2) }}">
                                                         </span>
                                                     </li>
                                                     @php
@@ -146,17 +149,17 @@
                                         </div>
                                     @endif
 
-                                    @if(!empty($productt->color))
+                                    @if (!empty($productt->color))
                                         <div class="product-color">
                                             <p class="title">{{ $langg->lang89 }} :</p>
                                             <ul class="color-list">
                                                 @php
                                                     $is_first = true;
                                                 @endphp
-                                                @foreach($productt->color as $key => $data1)
+                                                @foreach ($productt->color as $key => $data1)
                                                     <li class="{{ $is_first ? 'active' : '' }}">
                                                         <span class="box" data-color="{{ $productt->color[$key] }}"
-                                                              style="background-color: {{ $productt->color[$key] }}"></span>
+                                                            style="background-color: {{ $productt->color[$key] }}"></span>
                                                     </li>
                                                     @php
                                                         $is_first = false;
@@ -167,21 +170,19 @@
                                         </div>
                                     @endif
 
-                                    @if(!empty($productt->size))
-
+                                    @if (!empty($productt->size))
                                         <input type="hidden" id="stock" value="{{ $productt->size_qty[0] }}">
                                     @else
                                         @php
-                                            $stck = (string)$productt->stock;
+                                            $stck = (string) $productt->stock;
                                         @endphp
-                                        @if($stck != null)
+                                        @if ($stck != null)
                                             <input type="hidden" id="stock" value="{{ $stck }}">
                                         @elseif($productt->type != 'Physical')
                                             <input type="hidden" id="stock" value="0">
                                         @else
                                             <input type="hidden" id="stock" value="">
                                         @endif
-
                                     @endif
 
 
@@ -193,10 +194,13 @@
 
                                     <div class="info-meta-3">
                                         <ul class="meta-list">
-                                            @if($productt->product_type != "affiliate")
-                                                <li class="d-block count {{ $productt->type == 'Physical' ? '' : 'd-none' }}">
+                                            @if ($productt->product_type != 'affiliate')
+                                                <li
+                                                    class="d-block count {{ $productt->type == 'Physical' ? '' : 'd-none' }}">
                                                     <div class="qty" style="display: flex; align-items: center;">
-                                                        <label style="font-size: 14px; margin-right: 10px; margin-top: 3px;">Quantity: </label>
+                                                        <label
+                                                            style="font-size: 14px; margin-right: 10px; margin-top: 3px;">Quantity:
+                                                        </label>
                                                         <ul style="display:flex; align-items-center: center;">
                                                             <li>
                                                                 <span class="qtminus">
@@ -205,7 +209,9 @@
                                                             </li>
                                                             <li>
                                                                 <!-- <span class="qttotal">1</span> -->
-                                                                <input type="text" id="qttotal" class="qttotal" value="1" step="1" min="0" style="margin-right: 3px; width: 50px;"/>
+                                                                <input type="text" id="qttotal" class="qttotal"
+                                                                    value="1" step="1" min="0"
+                                                                    style="margin-right: 3px; width: 50px;" />
                                                             </li>
                                                             <li>
                                                                 <span class="qtplus">
@@ -226,27 +232,31 @@
                                                 <div class="product-attributes my-4">
                                                     <div class="row">
                                                         @foreach ($attrArr as $attrKey => $attrVal)
-                                                            @if (array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1)
-
+                                                            @if (array_key_exists('details_status', $attrVal) && $attrVal['details_status'] == 1)
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group mb-2">
                                                                         <strong for=""
-                                                                                class="text-capitalize">{{ str_replace("_", " ", $attrKey) }}
+                                                                            class="text-capitalize">{{ str_replace('_', ' ', $attrKey) }}
                                                                             :</strong>
                                                                         <div class="">
                                                                             @foreach ($attrVal['values'] as $optionKey => $optionVal)
                                                                                 <div class="custom-control custom-radio">
-                                                                                    <input type="hidden" class="keys" value="">
-                                                                                    <input type="hidden" class="values" value="">
+                                                                                    <input type="hidden" class="keys"
+                                                                                        value="">
+                                                                                    <input type="hidden" class="values"
+                                                                                        value="">
                                                                                     <input type="radio"
-                                                                                           id="{{$attrKey}}{{ $optionKey }}"
-                                                                                           name="{{ $attrKey }}"
-                                                                                           class="custom-control-input product-attr"
-                                                                                           data-key="{{ $attrKey }}"
-                                                                                           data-price="{{ round($attrVal['prices'][$optionKey] * $curr->value, 2) }}"
-                                                                                           value="{{ $optionVal }}" {{ $loop->first ? 'checked' : '' }}>
-                                                                                    <label class="custom-control-label" for="{{$attrKey}}{{ $optionKey }}">{{ $optionVal }}
-                                                                                        : {{$curr->sign}} {{ number_format($productt->showRealPrice() + $attrVal['prices'][$optionKey] * $curr->value, '2', '.', '') }}
+                                                                                        id="{{ $attrKey }}{{ $optionKey }}"
+                                                                                        name="{{ $attrKey }}"
+                                                                                        class="custom-control-input product-attr"
+                                                                                        data-key="{{ $attrKey }}"
+                                                                                        data-price="{{ round($attrVal['prices'][$optionKey] * $curr->value, 2) }}"
+                                                                                        value="{{ $optionVal }}"
+                                                                                        {{ $loop->first ? 'checked' : '' }}>
+                                                                                    <label class="custom-control-label"
+                                                                                        for="{{ $attrKey }}{{ $optionKey }}">{{ $optionVal }}
+                                                                                        : {{ $curr->sign }}
+                                                                                        {{ number_format($productt->showRealPrice() + $attrVal['prices'][$optionKey] * $curr->value, '2', '.', '') }}
                                                                                     </label>
                                                                                 </div>
                                                                             @endforeach
@@ -259,102 +269,95 @@
                                                 </div>
                                             @endif
 
-                                            @if($productt->product_type == "affiliate")
-
+                                            @if ($productt->product_type == 'affiliate')
                                                 <li class="addtocart">
                                                     <a href="{{ route('affiliate.product', $productt->slug) }}"
-                                                       target="_blank"><i
-                                                                class="icofont-cart"></i> {{ $langg->lang251 }}</a>
+                                                        target="_blank"><i class="icofont-cart"></i>
+                                                        {{ $langg->lang251 }}</a>
                                                 </li>
                                             @else
-                                            <li class="addtocart">
-                                                        <a href="javascript:;" id="addcrt"><i
-                                                                    class="icofont-cart"></i>{{ $langg->lang90 }}</a>
-                                                    </li>
+                                                <li class="addtocart">
+                                                    <a href="javascript:;" id="addcrt"><i
+                                                            class="icofont-cart"></i>{{ $langg->lang90 }}</a>
+                                                </li>
 
-                                                    <li class="addtocart">
-                                                        <a id="qaddcrt" href="javascript:;">
-                                                            <i class="icofont-cart"></i>{{ $langg->lang251 }}
-                                                        </a>
-                                                    </li>
-
+                                                <li class="addtocart">
+                                                    <a id="qaddcrt" href="javascript:;">
+                                                        <i class="icofont-cart"></i>{{ $langg->lang251 }}
+                                                    </a>
+                                                </li>
                                             @endif
 
-                                            @if(Auth::guard('web')->check())
+                                            @if (Auth::guard('web')->check())
                                                 <li class="favorite">
                                                     <a href="javascript:;" class="add-to-wish"
-                                                       data-href="{{ route('user-wishlist-add',$productt->id) }}"><i
-                                                                class="icofont-heart-alt"></i></a>
+                                                        data-href="{{ route('user-wishlist-add', $productt->id) }}"><i
+                                                            class="icofont-heart-alt"></i></a>
                                                 </li>
                                             @else
                                                 <li class="favorite">
                                                     <a href="javascript:;" data-toggle="modal"
-                                                       data-target="#comment-log-reg"><i
-                                                                class="icofont-heart-alt"></i></a>
+                                                        data-target="#comment-log-reg"><i
+                                                            class="icofont-heart-alt"></i></a>
                                                 </li>
                                             @endif
-                                            
+
                                         </ul>
                                     </div>
                                     <!--
-                                    <div class="social-links social-sharing a2a_kit a2a_kit_size_32">
-                                        <ul class="link-list social-links">
-                                            <li>
-                                                <a class="facebook a2a_button_facebook" href="">
-                                                    <i class="fab fa-facebook-f"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="twitter a2a_button_twitter" href="">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="linkedin a2a_button_linkedin" href="">
-                                                    <i class="fab fa-linkedin-in"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="pinterest a2a_button_pinterest" href="">
-                                                    <i class="fab fa-pinterest-p"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <script async src="https://static.addtoany.com/menu/page.js"></script>  -->
+                                        <div class="social-links social-sharing a2a_kit a2a_kit_size_32">
+                                            <ul class="link-list social-links">
+                                                <li>
+                                                    <a class="facebook a2a_button_facebook" href="">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="twitter a2a_button_twitter" href="">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="linkedin a2a_button_linkedin" href="">
+                                                        <i class="fab fa-linkedin-in"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="pinterest a2a_button_pinterest" href="">
+                                                        <i class="fab fa-pinterest-p"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <script async src="https://static.addtoany.com/menu/page.js"></script>  -->
 
 
-                                    @if($productt->ship != null)
+                                    @if ($productt->ship != null)
                                         <p class="estimate-time">{{ $langg->lang86 }}: <b> {{ $productt->ship }}</b></p>
-                                    @endif  <!--
-                                    @if( $productt->sku != null )
-                                        <p class="p-sku">
-                                            {{ $langg->lang77 }}: <span class="idno">{{ $productt->sku }}</span>
-                                        </p>
-                                    @endif  -->
-                                    @if($gs->is_report)
-
+                                    @endif
+                                    <!--
+                                        @if ($productt->sku != null)
+    <p class="p-sku">
+                                                {{ $langg->lang77 }}: <span class="idno">{{ $productt->sku }}</span>
+                                            </p>
+    @endif  -->
+                                    @if ($gs->is_report)
                                         {{-- PRODUCT REPORT SECTION --}}
 
-                                        @if(Auth::guard('web')->check())
-
+                                        @if (Auth::guard('web')->check())
                                             <div class="report-area">
-                                                <a href="javascript:;" data-toggle="modal"
-                                                   data-target="#report-modal"><i
-                                                            class="fas fa-flag"></i> {{ $langg->lang776 }}</a>
+                                                <a href="javascript:;" data-toggle="modal" data-target="#report-modal"><i
+                                                        class="fas fa-flag"></i> {{ $langg->lang776 }}</a>
                                             </div>
-
                                         @else
-
                                             <div class="report-area">
                                                 <a href="javascript:;" data-toggle="modal"
-                                                   data-target="#comment-log-reg"><i
-                                                            class="fas fa-flag"></i> {{ $langg->lang776 }}</a>
+                                                    data-target="#comment-log-reg"><i class="fas fa-flag"></i>
+                                                    {{ $langg->lang776 }}</a>
                                             </div>
                                         @endif
 
                                         {{-- PRODUCT REPORT SECTION ENDS --}}
-
                                     @endif
 
 
@@ -371,7 +374,7 @@
                                         <li><a href="#tabs-2">{{ $langg->lang93 }}</a></li>
                                         <li><a href="#tabs-3">{{ $langg->lang94 }}({{ '0' }})</a>
                                         </li>
-                                        
+
                                     </ul>
                                 </div>
                                 <div class="tab-content-wrapper">
@@ -388,17 +391,17 @@
                                             </h4>
                                             <div class="reating-area">
                                                 <div class="stars"><span
-                                                            id="star-rating">{{App\Models\Rating::rating($productt->id)}}</span>
-                                                    <i
-                                                            class="fas fa-star"></i></div>
+                                                        id="star-rating">{{ App\Models\Rating::rating($productt->id) }}</span>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="replay-area">
                                             <div id="reviews-section">
-                                               
-                                                    <p>{{ $langg->lang97 }}</p>
+
+                                                <p>{{ $langg->lang97 }}</p>
                                             </div>
-                                            @if(Auth::guard('web')->check())
+                                            @if (Auth::guard('web')->check())
                                                 <div class="review-area">
                                                     <h4 class="title">{{ $langg->lang98 }}</h4>
                                                     <div class="star-area">
@@ -433,29 +436,28 @@
                                                 </div>
                                                 <div class="write-comment-area">
                                                     <div class="gocover"
-                                                         style="background: url({{ asset('assets/images/'.$gs->loader) }}) no-repeat scroll center center rgba(45, 45, 45, 0.5);">
+                                                        style="background: url({{ asset('assets/images/' . $gs->loader) }}) no-repeat scroll center center rgba(45, 45, 45, 0.5);">
                                                     </div>
-                                                    <form id="reviewform" action="{{route('front.review.submit')}}"
-                                                          data-href="{{ route('front.reviews',$productt->id) }}"
-                                                          method="POST">
+                                                    <form id="reviewform" action="{{ route('front.review.submit') }}"
+                                                        data-href="{{ route('front.reviews', $productt->id) }}"
+                                                        method="POST">
                                                         @include('includes.admin.form-both')
                                                         {{ csrf_field() }}
-                                                        <input type="hidden" id="rating" name="rating" value="5">
+                                                        <input type="hidden" id="rating" name="rating"
+                                                            value="5">
                                                         <input type="hidden" name="user_id"
-                                                               value="{{Auth::guard('web')->user()->id}}">
+                                                            value="{{ Auth::guard('web')->user()->id }}">
                                                         <input type="hidden" name="product_id"
-                                                               value="{{$productt->id}}">
+                                                            value="{{ $productt->id }}">
                                                         <div class="row">
                                                             <div class="col-lg-12">
-                                                                <textarea name="review"
-                                                                          placeholder="{{ $langg->lang99 }}"
-                                                                          required=""></textarea>
+                                                                <textarea name="review" placeholder="{{ $langg->lang99 }}" required=""></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <button class="submit-btn"
-                                                                        type="submit">{{ $langg->lang100 }}</button>
+                                                                    type="submit">{{ $langg->lang100 }}</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -465,9 +467,9 @@
                                                     <div class="col-lg-12">
                                                         <br>
                                                         <h5 class="text-center"><a href="javascript:;"
-                                                                                   data-toggle="modal"
-                                                                                   data-target="#comment-log-reg"
-                                                                                   class="btn login-btn mr-1">{{ $langg->lang101 }}</a> {{ $langg->lang102 }}
+                                                                data-toggle="modal" data-target="#comment-log-reg"
+                                                                class="btn login-btn mr-1">{{ $langg->lang101 }}</a>
+                                                            {{ $langg->lang102 }}
                                                         </h5>
                                                         <br>
                                                     </div>
@@ -475,167 +477,153 @@
                                             @endif
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3">
-<!-- 
-                        <div class="table-area wholesale-details-page">
-                            <h3>{{ $langg->lang770 }}</h3>
-                            <table class="table">
-                                <tr>
-                                    <th>{{ $langg->lang768 }}</th>
-                                    <th>{{ $langg->lang769 }}</th>
-                                </tr>
-                                
-
+                    <!--
+                            <div class="table-area wholesale-details-page">
+                                <h3>{{ $langg->lang770 }}</h3>
+                                <table class="table">
                                     <tr>
-                                        <td>50+</td>
-                                        <td>$1 {{ $langg->lang771 }}</td>
+                                        <th>{{ $langg->lang768 }}</th>
+                                        <th>{{ $langg->lang769 }}</th>
                                     </tr>
-                                    <tr>
-                                        <td>100+</td>
-                                        <td>$2 {{ $langg->lang771 }}</td>
-                                    </tr>
+                                    
 
-                            </table>
-                        </div> -->
+                                        <tr>
+                                            <td>50+</td>
+                                            <td>$1 {{ $langg->lang771 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>100+</td>
+                                            <td>$2 {{ $langg->lang771 }}</td>
+                                        </tr>
+
+                                </table>
+                            </div> -->
 
 
                     <!-- <div class="seller-info mt-3">
-                        <div class="content">
-                            <h4 class="title">
-                                {{ $langg->lang246 }}
-                            </h4>
+                            <div class="content">
+                                <h4 class="title">
+                                    {{ $langg->lang246 }}
+                                </h4>
 
-                            <p class="stor-name">
-                                 {{ App\Models\Admin::find(1)->shop_name }}
-                            </p>
+                                <p class="stor-name">
+                                     {{ App\Models\Admin::find(1)->shop_name }}
+                                </p>
 
-                            <div class="total-product">
+                                <div class="total-product">
 
-                                @if( $productt->user_id  != 0)
-                                    
-                                @else
-                                    <p>{{ App\Models\Product::where('user_id','=',0)->get()->count() }}</p>
-                                @endif
-                                <span>{{ $langg->lang248 }}</span>
+                                    @if ($productt->user_id != 0)
+@else
+    <p>{{ App\Models\Product::where('user_id', '=', 0)->get()->count() }}</p>
+    @endif
+                                    <span>{{ $langg->lang248 }}</span>
+                                </div>
                             </div>
-                        </div>
-                    
+                        
 
-                        {{-- CONTACT SELLER --}}
-
-
-                        <div class="contact-seller">
-
-                            {{-- If The Product Belongs To A Vendor --}}
-
-                            @if($productt->user_id != 0)
+                            {{-- CONTACT SELLER --}}
 
 
-                                <ul class="list">
+                            <div class="contact-seller">
+
+                                {{-- If The Product Belongs To A Vendor --}}
+
+                                @if ($productt->user_id != 0)
 
 
-                                    @if(Auth::guard('web')->check())
+                                    <ul class="list">
 
-                                        <li>
 
-                                            @if(
-                                            Auth::guard('web')->user()->favorites()->where('vendor_id','=',$productt->user_id)->get()->count() >
-                                            0)
+                                        @if (Auth::guard('web')->check())
+    <li>
 
-                                                <a class="view-stor" href="javascript:;">
-                                                    <i class="icofont-check"></i>
-                                                    {{ $langg->lang225 }}
+                                                @if (Auth::guard('web')->user()->favorites()->where('vendor_id', '=', $productt->user_id)->get()->count() > 0)
+    <a class="view-stor" href="javascript:;">
+                                                        <i class="icofont-check"></i>
+                                                        {{ $langg->lang225 }}
+                                                    </a>
+@else
+    <a class="favorite-prod view-stor"
+                                                       data-href="{{ route('user-favorite', ['data1' => Auth::guard('web')->user()->id, 'data2' => $productt->user_id]) }}"
+                                                       href="javascript:;">
+                                                        <i class="icofont-plus"></i>
+                                                        {{ $langg->lang224 }}
+                                                    </a>
+    @endif
+
+                                            </li>
+
+                                            <li>
+                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                   data-target="#vendorform1">
+                                                    <i class="icofont-ui-chat"></i>
+                                                    {{ $langg->lang81 }}
                                                 </a>
+                                            </li>
+@else
+    <li>
 
-                                            @else
-
-                                                <a class="favorite-prod view-stor"
-                                                   data-href="{{ route('user-favorite',['data1' => Auth::guard('web')->user()->id, 'data2' => $productt->user_id]) }}"
-                                                   href="javascript:;">
+                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                   data-target="#comment-log-reg">
                                                     <i class="icofont-plus"></i>
                                                     {{ $langg->lang224 }}
                                                 </a>
 
 
-                                            @endif
+                                            </li>
 
-                                        </li>
+                                            <li>
 
-                                        <li>
-                                            <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                               data-target="#vendorform1">
-                                                <i class="icofont-ui-chat"></i>
-                                                {{ $langg->lang81 }}
-                                            </a>
-                                        </li>
-                                    @else
+                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                   data-target="#comment-log-reg">
+                                                    <i class="icofont-ui-chat"></i>
+                                                    {{ $langg->lang81 }}
+                                                </a>
+                                            </li>
+    @endif
 
-                                        <li>
-
-                                            <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                               data-target="#comment-log-reg">
-                                                <i class="icofont-plus"></i>
-                                                {{ $langg->lang224 }}
-                                            </a>
+                                    </ul>
 
 
-                                        </li>
+                                    {{-- VENDOR PART ENDS HERE :) --}}
+@else
+    {{-- If The Product Belongs To Admin  --}}
 
-                                        <li>
+                                    <ul class="list">
+                                        @if (Auth::guard('web')->check())
+    <li>
+                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                   data-target="#vendorform">
+                                                    <i class="icofont-ui-chat"></i>
+                                                    {{ $langg->lang81 }}
+                                                </a>
+                                            </li>
+@else
+    <li>
+                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                   data-target="#comment-log-reg">
+                                                    <i class="icofont-ui-chat"></i>
+                                                    {{ $langg->lang81 }}
+                                                </a>
+                                            </li>
+    @endif
 
-                                            <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                               data-target="#comment-log-reg">
-                                                <i class="icofont-ui-chat"></i>
-                                                {{ $langg->lang81 }}
-                                            </a>
-                                        </li>
+                                    </ul>
 
-                                    @endif
+                                @endif
 
-                                </ul>
+                            </div>
 
+                            {{-- CONTACT SELLER ENDS --}}
 
-                                {{-- VENDOR PART ENDS HERE :) --}}
-                            @else
-
-
-                                {{-- If The Product Belongs To Admin  --}}
-
-                                <ul class="list">
-                                    @if(Auth::guard('web')->check())
-                                        <li>
-                                            <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                               data-target="#vendorform">
-                                                <i class="icofont-ui-chat"></i>
-                                                {{ $langg->lang81 }}
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li>
-                                            <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                               data-target="#comment-log-reg">
-                                                <i class="icofont-ui-chat"></i>
-                                                {{ $langg->lang81 }}
-                                            </a>
-                                        </li>
-
-                                    @endif
-
-                                </ul>
-
-                            @endif
-
-                        </div>
-
-                        {{-- CONTACT SELLER ENDS --}}
-
-                    </div> -->
+                        </div> -->
 
 
                     <div class="categori  mt-30">
@@ -646,10 +634,10 @@
                         </div>
                         <div class="hot-and-new-item-slider">
 
-                            @foreach($vendors->chunk(3) as $chunk)
+                            @foreach ($vendors->chunk(3) as $chunk)
                                 <div class="item-slide">
                                     <ul class="item-list">
-                                        @foreach($chunk as $prod)
+                                        @foreach ($chunk as $prod)
                                             @include('includes.product.list-product')
                                         @endforeach
                                     </ul>
@@ -685,7 +673,7 @@
                 <div class="row">
                     <div class="col-lg-12 remove-padding">
                         <div class="trending-item-slider">
-                            
+
                         </div>
                     </div>
 
@@ -701,7 +689,7 @@
     {{-- MESSAGE MODAL --}}
     <div class="message-modal">
         <div class="modal" id="vendorform" tabindex="-1" role="dialog" aria-labelledby="vendorformLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -716,20 +704,21 @@
                                 <div class="col-md-12">
                                     <div class="contact-form">
                                         <form id="emailreply1">
-                                            {{csrf_field()}}
+                                            {{ csrf_field() }}
                                             <ul>
                                                 <li>
-                                                    <input type="text" class="input-field" id="subj1" name="subject"
-                                                           placeholder="{{ $langg->lang119}}" required="">
+                                                    <input type="text" class="input-field" id="subj1"
+                                                        name="subject" placeholder="{{ $langg->lang119 }}"
+                                                        required="">
                                                 </li>
                                                 <li>
-                        <textarea class="input-field textarea" name="message" id="msg1"
-                                  placeholder="{{ $langg->lang120 }}" required=""></textarea>
+                                                    <textarea class="input-field textarea" name="message" id="msg1" placeholder="{{ $langg->lang120 }}"
+                                                        required=""></textarea>
                                                 </li>
                                                 <input type="hidden" name="type" value="Ticket">
                                             </ul>
                                             <button class="submit-btn" id="emlsub"
-                                                    type="submit">{{ $langg->lang118 }}</button>
+                                                type="submit">{{ $langg->lang118 }}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -743,15 +732,13 @@
         {{-- MESSAGE MODAL ENDS --}}
 
 
-        @if(Auth::guard('web')->check())
-
-            @if($productt->user_id != 0)
-
+        @if (Auth::guard('web')->check())
+            @if ($productt->user_id != 0)
                 {{-- MESSAGE VENDOR MODAL --}}
 
 
                 <div class="modal" id="vendorform1" tabindex="-1" role="dialog" aria-labelledby="vendorformLabel1"
-                     aria-hidden="true">
+                    aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -766,38 +753,37 @@
                                         <div class="col-md-12">
                                             <div class="contact-form">
                                                 <form id="emailreply">
-                                                    {{csrf_field()}}
+                                                    {{ csrf_field() }}
                                                     <ul>
 
                                                         <li>
                                                             <input type="text" class="input-field" readonly=""
-                                                                   placeholder="Send To"
-                                                                   readonly="">
+                                                                placeholder="Send To" readonly="">
                                                         </li>
 
                                                         <li>
                                                             <input type="text" class="input-field" id="subj"
-                                                                   name="subject"
-                                                                   placeholder="{{ $langg->lang119}}" required="">
+                                                                name="subject" placeholder="{{ $langg->lang119 }}"
+                                                                required="">
                                                         </li>
 
                                                         <li>
-                        <textarea class="input-field textarea" name="message" id="msg"
-                                  placeholder="{{ $langg->lang120 }}" required=""></textarea>
+                                                            <textarea class="input-field textarea" name="message" id="msg" placeholder="{{ $langg->lang120 }}"
+                                                                required=""></textarea>
                                                         </li>
 
                                                         <input type="hidden" name="email"
-                                                               value="{{ Auth::guard('web')->user()->email }}">
+                                                            value="{{ Auth::guard('web')->user()->email }}">
                                                         <input type="hidden" name="name"
-                                                               value="{{ Auth::guard('web')->user()->name }}">
+                                                            value="{{ Auth::guard('web')->user()->name }}">
                                                         <input type="hidden" name="user_id"
-                                                               value="{{ Auth::guard('web')->user()->id }}">
+                                                            value="{{ Auth::guard('web')->user()->id }}">
                                                         <input type="hidden" name="vendor_id"
-                                                               value="{{ $productt->user_id }}">
+                                                            value="{{ $productt->user_id }}">
 
                                                     </ul>
                                                     <button class="submit-btn" id="emlsub1"
-                                                            type="submit">{{ $langg->lang118 }}</button>
+                                                        type="submit">{{ $langg->lang118 }}</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -810,23 +796,18 @@
 
 
                 {{-- MESSAGE VENDOR MODAL ENDS --}}
-
-
             @endif
-
         @endif
 
     </div>
 
 
-    @if($gs->is_report)
-
-        @if(Auth::check())
-
+    @if ($gs->is_report)
+        @if (Auth::check())
             {{-- REPORT MODAL SECTION --}}
 
-            <div class="modal fade" id="report-modal" tabindex="-1" role="dialog" aria-labelledby="report-modal-Title"
-                 aria-hidden="true">
+            <div class="modal fade" id="report-modal" tabindex="-1" role="dialog"
+                aria-labelledby="report-modal-Title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -837,7 +818,8 @@
                         <div class="modal-body">
 
                             <div class="gocover"
-                                 style="background: url({{ asset('assets/images/'.$gs->loader) }}) no-repeat scroll center center rgba(45, 45, 45, 0.5);"></div>
+                                style="background: url({{ asset('assets/images/' . $gs->loader) }}) no-repeat scroll center center rgba(45, 45, 45, 0.5);">
+                            </div>
 
                             <div class="login-area">
                                 <div class="header-area forgot-passwor-area">
@@ -855,13 +837,12 @@
                                         <input type="hidden" name="product_id" value="{{ $productt->id }}">
                                         <div class="form-input">
                                             <input type="text" name="title" class="User Name"
-                                                   placeholder="{{ $langg->lang779 }}" required="">
+                                                placeholder="{{ $langg->lang779 }}" required="">
                                             <i class="icofont-notepad"></i>
                                         </div>
 
                                         <div class="form-input">
-                                            <textarea name="note" class="User Name" placeholder="{{ $langg->lang780 }}"
-                                                      required=""></textarea>
+                                            <textarea name="note" class="User Name" placeholder="{{ $langg->lang780 }}" required=""></textarea>
                                         </div>
 
                                         <button type="submit" class="submit-btn">{{ $langg->lang196 }}</button>
@@ -874,19 +855,15 @@
             </div>
 
             {{-- REPORT MODAL SECTION ENDS --}}
-
         @endif
-
     @endif
 
 @endsection
 
 
 @section('scripts')
-
     <script type="text/javascript">
-
-        $(document).on("submit", "#emailreply1", function () {
+        $(document).on("submit", "#emailreply1", function() {
             var token = $(this).find('input[name=_token]').val();
             var subject = $(this).find('input[name=subject]').val();
             var message = $(this).find('textarea[name=message]').val();
@@ -896,14 +873,14 @@
             $('#emlsub').prop('disabled', true);
             $.ajax({
                 type: 'post',
-                url: "{{URL::to('/user/admin/user/send/message')}}",
+                url: "{{ URL::to('/user/admin/user/send/message') }}",
                 data: {
                     '_token': token,
                     'subject': subject,
                     'message': message,
                     'type': $type
                 },
-                success: function (data) {
+                success: function(data) {
                     $('#subj1').prop('disabled', false);
                     $('#msg1').prop('disabled', false);
                     $('#subj1').val('');
@@ -919,13 +896,11 @@
             });
             return false;
         });
-
     </script>
 
 
     <script type="text/javascript">
-
-        $(document).on("submit", "#emailreply", function () {
+        $(document).on("submit", "#emailreply", function() {
             var token = $(this).find('input[name=_token]').val();
             var subject = $(this).find('input[name=subject]').val();
             var message = $(this).find('textarea[name=message]').val();
@@ -938,7 +913,7 @@
             $('#emlsub').prop('disabled', true);
             $.ajax({
                 type: 'post',
-                url: "{{URL::to('/vendor/contact')}}",
+                url: "{{ URL::to('/vendor/contact') }}",
                 data: {
                     '_token': token,
                     'subject': subject,
@@ -948,7 +923,7 @@
                     'user_id': user_id,
                     'vendor_id': vendor_id
                 },
-                success: function () {
+                success: function() {
                     $('#subj').prop('disabled', false);
                     $('#msg').prop('disabled', false);
                     $('#subj').val('');
@@ -960,7 +935,5 @@
             });
             return false;
         });
-
     </script>
-
 @endsection

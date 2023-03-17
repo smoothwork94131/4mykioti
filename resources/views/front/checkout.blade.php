@@ -184,8 +184,7 @@
 
                                                 </div>
                                             </div>
-                                            <div
-                                                class="row {{ $digital == 1 || !Auth::guard('web')->user() || !Auth::guard('web')->user()->is_verified ? 'd-none' : '' }}">
+                                            <div class="row {{ $digital == 1 || !Auth::guard('web')->user() || !Auth::guard('web')->user()->is_verified ? 'd-none' : '' }}">
                                                 <div class="col-lg-12 mt-3">
                                                     <input class="styled-checkbox" id="ship-diff-address" type="checkbox"
                                                         value="value1">
@@ -1267,7 +1266,6 @@
             ck = 1;
         })
 
-
         $('.payment').on('click', function() {
             if ($(this).data('val') == 'paystack') {
                 $('.checkoutform').prop('id', 'step1-form');
@@ -1305,7 +1303,6 @@
                     },
                     onClose: function() {
                         window.location.reload();
-
                     }
                 });
                 handler.openIframe();
