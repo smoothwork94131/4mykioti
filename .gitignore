@@ -3,6 +3,5 @@
 /.vscode
 /node_modules
 /public/storage
-/public/assets/images/group
 /public/assets/images/capcha_code.png
 /vendor
