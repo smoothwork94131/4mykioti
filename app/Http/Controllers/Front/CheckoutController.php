@@ -893,8 +893,8 @@ class CheckoutController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        // $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        $storefrontAccessToken = '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';
+        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        $storeAccessToken = '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';
         
         // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
@@ -902,32 +902,31 @@ class CheckoutController extends Controller
         $config = array(
             'ShopUrl' => $shop,
             'FrontAccessToken' => $storefrontAccessToken,
-            'AccessToken' => $storefrontAccessToken,
+            'AccessToken' => $storeAccessToken,
         );
 
         $shopify = ShopifySDK::config($config);
-        // $shopify = new ShopifySDK($config);
-
+        
         $input = '{
-            "allowPartialAddresses": true,
-            "buyerIdentity": {
-                "countryCode": "US"
+            allowPartialAddresses: true,
+            buyerIdentity: {
+                countryCode: US
             },
-            "email": "' . $request->personal_email . '",
-            "note": "' . $request->order_notes . '",
-            "shippingAddress": {
-                "address1": "' . ($request->shipping_address ?? $request->address) . '",
-                "address2": "",
-                "city": "' . ($request->shipping_city ?? $request->city) . '",
-                "company": "",
-                "country": "' . ($request->shipping_country ?? $request->customer_country) . '",
-                "firstName": "' . ($request->shipping_name ?? $request->name) . '",
-                "lastName": "",
-                "phone": "' . ($request->shipping_phone ?? $request->phone) . '",
-                "province": "",
-                "zip": "' . ($request->shipping_zip ?? $request->zip) . '"
+            email: "' . $request->personal_email . '",
+            note: "' . $request->order_notes . '",
+            shippingAddress: {
+                address1: "' . ($request->shipping_address ?? $request->address) . '",
+                address2: "",
+                city: "' . ($request->shipping_city ?? $request->city) . '",
+                company: "",
+                country: "' . ($request->shipping_country ?? $request->customer_country) . '",
+                firstName: "' . ($request->shipping_name ?? $request->name) . '",
+                lastName: "",
+                phone: "' . ($request->shipping_phone ?? $request->phone) . '",
+                province: "",
+                zip: "' . ($request->shipping_zip ?? $request->zip) . '"
             },
-            "lineItems": [
+            lineItems: [
         ';
 
         try {
@@ -963,14 +962,14 @@ class CheckoutController extends Controller
                 if ($productFromShopify['data']['products']['edges']) {
                     if($i == $count) {
                         $input .= "{
-                            \"quantity\": {$prod['qty']},
-                            \"variantId\": \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                            quantity: {$prod['qty']},
+                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
                         }";
                     }
                     else {
                         $input .= "{
-                            \"quantity\": {$prod['qty']},
-                            \"variantId\": \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                            quantity: {$prod['qty']},
+                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
                         }, ";
                     }
         
@@ -1024,45 +1023,23 @@ class CheckoutController extends Controller
             }
 
             $query = <<<QUERY
-                mutation ($input: CheckoutCreateInput!) {
-                    checkoutCreate(input: $input) {
-                        checkout {
-                            id
-                            webUrl
-                        }
-                        checkoutUserErrors {
-                            field
-                            message
-                        }
+            mutation {
+                checkoutCreate(input: {$input}) {
+                    checkout {
+                        id
+                        webUrl
+                    }
+                    checkoutUserErrors {
+                        field
+                        message
                     }
                 }
+            }
             QUERY;
 
-            // echo $input; exit;
+            // echo $query; exit;
 
-            $variable = json_decode($input, true);
-            // print_r(json_encode($variable)); exit;
-            
-            $checkoutsh = $shopify->GraphQL->post($query, null, null, $variable);
-
-            // // $query = <<<QUERY
-            // // mutation {
-            // //     checkoutCreate(input: {$input}) {
-            // //         checkout {
-            // //             id
-            // //             webUrl
-            // //         }
-            // //         checkoutUserErrors {
-            // //             field
-            // //             message
-            // //         }
-            // //     }
-            // // }
-            // // QUERY;
-
-            // // echo $query; exit;
-
-            // $checkoutsh = $shopify->GraphQL->post($query);
+            $checkoutsh = $shopify->GraphQL->post($query);
                     
             print_r($checkoutsh); exit;
             
@@ -1083,7 +1060,7 @@ class CheckoutController extends Controller
                 Session::forget('coupon_total');
                 Session::forget('coupon_total1');
                 Session::forget('coupon_percentage');
-                return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
+                return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
             }
         } catch (\Exception $e) {
 
@@ -1097,14 +1074,14 @@ class CheckoutController extends Controller
             Session::forget('coupon_total');
             Session::forget('coupon_total1');
             Session::forget('coupon_percentage');
-            return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
+            return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
         }
     }
 
     public function addToTemp(Request $request)
     {
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('error', "You don't have any product to checkout.");
         }
 
         $gs = Generalsetting::findOrFail(1);
@@ -1438,13 +1415,16 @@ class CheckoutController extends Controller
 
     private function createProductOnShopify($prod)
     {
-
-        $adminAccessToken = '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';
         $shop = '4mykioti.myshopify.com';
+        $storeAccessToken = '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';
+        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        
         $adminConfig = array(
             'ShopUrl' => $shop,
-            'AccessToken' => $adminAccessToken,
+            'AccessToken' => $storeAccessToken,
+            'FrontAccessToken' => $storefrontAccessToken
         );
+
         $adminshopify = ShopifySDK::config($adminConfig);
 
         $input = '{

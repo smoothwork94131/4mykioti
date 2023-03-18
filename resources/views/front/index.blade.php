@@ -6,6 +6,23 @@
 
 @section('content')
 
+    @if (\Session::has('success'))
+    <div class="success alert-success">
+        <ul>
+            <li>{!! \Session::get('success') !!}</li>
+        </ul>
+    </div>
+    @endif
+
+    @if (\Session::has('error'))
+    <div class="danger alert-danger">
+        <ul>
+            <li>{!! \Session::get('error') !!}</li>
+        </ul>
+    </div>
+    @endif
+
+
     @if($ps->slider == 1)
         @if(count($sliders))
             @include('includes.slider-style')
@@ -62,7 +79,6 @@
         </section>
         <!-- Hero Area End -->
     @endif
-    
 
     {{-- @if($ps->featured_category == 1) --}}
 
