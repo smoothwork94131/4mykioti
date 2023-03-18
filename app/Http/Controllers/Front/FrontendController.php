@@ -624,15 +624,15 @@ class FrontendController extends Controller
         if ($request->type == 'model') {
             if ($request->model_type == "common") {
                 $table_name = strtolower($request->series);
-                $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->get();
+                $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('sub_category_id', 'asc')->get();
             } else {
-                $categories = DB::table($table_name)->select('model')->distinct()->distinct()->get();
+                $categories = DB::table($table_name)->select('model')->distinct()->distinct()->orderBy('model', 'asc')->get();
             }
 
         } else if ($request->type == 'section') {
-            $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->get();
+            $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->orderBy('section_name', 'asc')->get();
         } else if ($request->type == 'group') {
-            $categories = DB::table($table_name)->where('model', $request->model)->where('section_name', $request->section)->get();
+            $categories = DB::table($table_name)->where('model', $request->model)->where('section_name', $request->section)->orderBy('group_name', 'asc')->get();
         }
 
         return response()->json(['categories' => $categories]);
