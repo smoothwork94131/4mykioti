@@ -352,7 +352,7 @@ class FrontendController extends Controller
 
     public function commonpart(Request $request)
     {
-        $series = DB::table("ec_categories")->get();
+        $series = DB::table("ec_categories")->orderBy('series', 'asc')->get();
         $series_data = array();
         foreach ($series as $key => $item) {
             if (count(DB::table(strtolower($item->series))->where("best", "1")->get()) > 0) {
@@ -360,6 +360,18 @@ class FrontendController extends Controller
             }
         }
         return view('front.commonparts', compact("series_data"));
+    }
+
+    public function commonparts(Request $request, $series, $model)
+    {
+
+        $db = strtolower($series);
+        $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1);
+
+        $prods = $prods->get();
+        $slug = $model;
+
+        return view('load.suggest', compact('prods', 'slug', 'db'));
     }
 
     public function autosearch(Request $request, $slug)
@@ -389,18 +401,6 @@ class FrontendController extends Controller
             return view('load.suggest', compact('prods', 'slug', 'db'));
         }
         return "";
-    }
-
-    public function commonparts(Request $request, $series, $model)
-    {
-
-        $db = strtolower($series);
-        $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1);
-
-        $prods = $prods->get();
-        $slug = $model;
-
-        return view('load.suggest', compact('prods', 'slug', 'db'));
     }
 
     public function finalize()
