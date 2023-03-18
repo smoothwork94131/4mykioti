@@ -37,7 +37,7 @@ class SearchController extends Controller{
             $flag = true ;
         }
 
-        $sql.=" group by `name` limit 50" ;
+        $sql.=" limit 50" ;
         $categoreis =DB::select($sql) ;
         echo json_encode($categoreis) ;
 
