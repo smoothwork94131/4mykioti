@@ -1445,7 +1445,7 @@ class CheckoutController extends Controller
                 productCreate(input: {$input}) {
                     product {
                         id
-                      }
+                    }
                 }
             }
             QUERY,);
