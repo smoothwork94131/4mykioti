@@ -910,7 +910,7 @@ class CheckoutController extends Controller
         $input = '{
             allowPartialAddresses: true,
             buyerIdentity: {
-                "countryCode: US"
+                countryCode: US
             },
             email: "' . $request->personal_email . '",
             note: "' . $request->order_notes . '",
