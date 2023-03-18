@@ -849,239 +849,8 @@ class CheckoutController extends Controller
         return redirect($success_url);
     }
 
-    // public function shopifycheckout(Request $request)
-    // {
-    //     if ($request->pass_check) {
-    //         $users = User::where('email', '=', $request->personal_email)->get();
-    //         if (count($users) == 0) {
-    //             if ($request->personal_pass == $request->personal_confirm) {
-    //                 $user = new User;
-    //                 $user->name = $request->personal_name;
-    //                 $user->email = $request->personal_email;
-    //                 $user->password = bcrypt($request->personal_pass);
-
-    //                 $user->phone = $request->phone;
-    //                 $user->address = $request->address;
-    //                 $user->city = $request->city;
-    //                 $user->country = $request->customer_country;
-    //                 $user->zip = $request->zip;
-
-    //                 $token = md5(time() . $request->personal_name . $request->personal_email);
-    //                 $user->verification_link = $token;
-    //                 $user->affilate_code = md5($request->name . $request->email);
-    //                 $user->email_verified = 'Yes';
-    //                 $user->save();
-    //                 Auth::guard('web')->login($user);
-    //             } else {
-    //                 return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
-    //             }
-    //         } else {
-    //             return redirect()->back()->with('unsuccess', "This Email Already Exist.");
-    //         }
-    //     }
-
-    //     if (!Session::has('cart')) {
-    //         return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
-    //     }
-    //     if (Session::has('currency')) {
-    //         $curr = Currency::find(Session::get('currency'));
-    //     } else {
-    //         $curr = Currency::where('is_default', '=', 1)->first();
-    //     }
-
-    //     $gs = Generalsetting::findOrFail(1);
-    //     $oldCart = Session::get('cart');
-    //     $cart = new Cart($oldCart);
-
-    //     $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-    //     $storeAccessToken = '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';
-        
-    //     // Shop from which we're fetching data
-    //     $shop = '4mykioti.myshopify.com';
-
-    //     $config = array(
-    //         'ShopUrl' => $shop,
-    //         'AccessToken' => $storeAccessToken,
-    //         'FrontAccessToken' => $storefrontAccessToken
-    //     );
-
-    //     // $shopify = ShopifySDK::config($config);
-    //     $shopify = new ShopifySDK($config);
-        
-    //     $input = '{
-    //         allowPartialAddresses: true,
-    //         buyerIdentity: {
-    //             "countryCode: US"
-    //         },
-    //         email: "' . $request->personal_email . '",
-    //         note: "' . $request->order_notes . '",
-    //         shippingAddress: {
-    //             address1: "' . ($request->shipping_address ?? $request->address) . '",
-    //             address2: "",
-    //             city: "' . ($request->shipping_city ?? $request->city) . '",
-    //             company: "",
-    //             country: "' . ($request->shipping_country ?? $request->customer_country) . '",
-    //             firstName: "' . ($request->shipping_name ?? $request->name) . '",
-    //             lastName: "",
-    //             phone: "' . ($request->shipping_phone ?? $request->phone) . '",
-    //             province: "",
-    //             zip: "' . ($request->shipping_zip ?? $request->zip) . '"
-    //         },
-    //         lineItems: [
-    //     ';
-
-    //     try {
-    //         $i = 0;
-    //         $needToTemp = false;
-    //         $count = count($cart->items);
-    //         foreach ($cart->items as $key => $prod) {
-    //             // if (!$prod['item']->file) {
-    //             //     $needToTemp = true;
-    //             //     continue;
-    //             // }
-
-    //             // $i++;
-                
-    //             $query = '{
-    //                 products(first: 1, query:"(title:' . $prod['item']->name . ') AND (variants.sku:' . $prod['item']->sku . ')",) {
-    //                     edges {
-    //                         node {
-    //                             variants(first: 5) {
-    //                                 edges {
-    //                                     node {
-    //                                         id
-    //                                     }
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             }';
-
-    //             $productFromShopify = $shopify->GraphQL->post($query);
-
-    //             $input .= "{
-    //                 quantity: {$prod['qty']},
-    //                 variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-    //             },";
-
-    //             // if ($productFromShopify['data']['products']['edges']) {
-    //             //     if($i == $count) {
-    //             //         $input .= "{
-    //             //             quantity: {$prod['qty']},
-    //             //             variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-    //             //         }";
-    //             //     }
-    //             //     else {
-    //             //         $input .= "{
-    //             //             quantity: {$prod['qty']},
-    //             //             variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-    //             //         }, ";
-    //             //     }
-        
-    //             // } else {
-    //             //     $this->createProductOnShopify($prod);
-    //             // }
-
-    //             // $cart->removeItem($key);
-    //         }
-
-    //         $input .= '] }';
-
-    //         // if ($needToTemp) {
-    //         //     $content = [
-    //         //         'totalQty' => $cart->totalQty,
-    //         //         'totalPrice' => $cart->totalPrice,
-    //         //         'items' => $cart->items,
-    //         //     ];
-    //         //     $tempcart = new TempCart;
-    //         //     $tempcart->content = json_encode($content);
-    //         //     $tempcart->user_email = $request->email;
-    //         //     $tempcart->save();
-    //         //     $to = 'usamtg@hotmail.com';
-    //         //     $subject = 'No Weight Alert';
-    //         //     $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
-    //         //     //Sending Email To Customer
-    //         //     if ($gs->is_smtp == 1) {
-    //         //         $data = [
-    //         //             'to' => $to,
-    //         //             'subject' => $subject,
-    //         //             'body' => $msg,
-    //         //         ];
-
-    //         //         $mailer = new GeniusMailer();
-    //         //         $mailer->sendCustomMail($data);
-    //         //     } else {
-    //         //         $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-    //         //         mail($to, $subject, $msg, $headers);
-    //         //     }
-    //         // }
-
-    //         // if ($i == 0) {
-    //         //     Session::put('tempcart', $cart);
-    //         //     Session::forget('cart');
-    //         //     Session::forget('already');
-    //         //     Session::forget('coupon');
-    //         //     Session::forget('coupon_total');
-    //         //     Session::forget('coupon_total1');
-    //         //     Session::forget('coupon_percentage');
-    //         //     return redirect()->route('front.index');
-    //         // }
-
-    //         $checkoutsh = $shopify->GraphQL->post(<<<GraphQL
-    //         mutation {
-    //             checkoutCreate(input: {$input}) {
-    //                 checkout {
-    //                     id
-    //                     webUrl
-    //                 }
-    //                 checkoutUserErrors {
-    //                     field
-    //                     message
-    //                 }
-    //             }
-    //         }
-    //         GraphQL,);
-                    
-    //         // dd($checkoutsh); exit;
-            
-    //         if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
-    //             Session::put('tempcart', $cart);
-    //             Session::forget('cart');
-    //             Session::forget('already');
-    //             Session::forget('coupon');
-    //             Session::forget('coupon_total');
-    //             Session::forget('coupon_total1');
-    //             Session::forget('coupon_percentage');
-    //             return redirect($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']);
-    //         } else {
-    //             Session::put('tempcart', $cart);
-    //             Session::forget('cart');
-    //             Session::forget('already');
-    //             Session::forget('coupon');
-    //             Session::forget('coupon_total');
-    //             Session::forget('coupon_total1');
-    //             Session::forget('coupon_percentage');
-    //             return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
-    //         }
-    //     } catch (\Exception $e) {
-
-    //         echo "Error caught ". $e->getFile() . "\n" . $e->getLine() . "\n" . $e->getMessage(). "\n";
-    //         exit;
-
-    //         Session::put('tempcart', $cart);
-    //         Session::forget('cart');
-    //         Session::forget('already');
-    //         Session::forget('coupon');
-    //         Session::forget('coupon_total');
-    //         Session::forget('coupon_total1');
-    //         Session::forget('coupon_percentage');
-    //         return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
-    //     }
-    // }
-
-    public function shopifycheckout(Request $request) {
-
+    public function shopifycheckout(Request $request)
+    {
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
             if (count($users) == 0) {
@@ -1090,10 +859,17 @@ class CheckoutController extends Controller
                     $user->name = $request->personal_name;
                     $user->email = $request->personal_email;
                     $user->password = bcrypt($request->personal_pass);
+
+                    $user->phone = $request->phone;
+                    $user->address = $request->address;
+                    $user->city = $request->city;
+                    $user->country = $request->customer_country;
+                    $user->zip = $request->zip;
+
                     $token = md5(time() . $request->personal_name . $request->personal_email);
                     $user->verification_link = $token;
                     $user->affilate_code = md5($request->name . $request->email);
-                    $user->emai_verified = 'Yes';
+                    $user->email_verified = 'Yes';
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
@@ -1104,7 +880,6 @@ class CheckoutController extends Controller
             }
         }
 
-
         if (!Session::has('cart')) {
             return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
         }
@@ -1113,126 +888,191 @@ class CheckoutController extends Controller
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
+
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        // $storefrontAccessToken = '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';
         $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
+        $storeAccessToken = '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';
+        
         // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
 
         $config = array(
             'ShopUrl' => $shop,
-            'FrontAccessToken' => $storefrontAccessToken,
+            'AccessToken' => $storeAccessToken,
+            'FrontAccessToken' => $storefrontAccessToken
         );
 
         $shopify = ShopifySDK::config($config);
-
+        
         $input = '{
             allowPartialAddresses: true,
             buyerIdentity: {
-              countryCode: US
+                "countryCode: US"
             },
-            email: "'.$request->personal_email.'",
-            note: "'.$request->order_notes.'",
+            email: "' . $request->personal_email . '",
+            note: "' . $request->order_notes . '",
             shippingAddress: {
-                address1: "'.($request->shipping_address ?? $request->address).'",
+                address1: "' . ($request->shipping_address ?? $request->address) . '",
                 address2: "",
-                city: "'.($request->shipping_city ?? $request->city).'",
+                city: "' . ($request->shipping_city ?? $request->city) . '",
                 company: "",
-                country: "'.($request->shipping_country ?? $request->customer_country).'",
-                firstName: "'.($request->shipping_name ?? $request->name).'",
+                country: "' . ($request->shipping_country ?? $request->customer_country) . '",
+                firstName: "' . ($request->shipping_name ?? $request->name) . '",
                 lastName: "",
-                phone: "'.($request->shipping_phone ?? $request->phone).'",
+                phone: "' . ($request->shipping_phone ?? $request->phone) . '",
                 province: "",
-                zip: "'.($request->shipping_zip ?? $request->zip).'"
-              }
-            lineItems: [';
-        
-    try {
-        foreach ($cart->items as $key => $prod) {
+                zip: "' . ($request->shipping_zip ?? $request->zip) . '"
+            },
+            lineItems: [
+        ';
 
-            $query = '{
-                products(first: 1, query:"(title:'.$prod['item']->name.') AND (sku:'.$prod['item']->sku.')",) {
-                    edges {
-                        node {
-                            variants(first: 5) {
-                                edges {
-                                  node {
-                                    id
-                                  }
+        try {
+            $i = 0;
+            $needToTemp = false;
+            $count = count($cart->items);
+            foreach ($cart->items as $key => $prod) {
+                if (!$prod['item']->file) {
+                    $needToTemp = true;
+                    continue;
+                }
+
+                $i++;
+                
+                $query = '{
+                    products(first: 1, query:"(title:' . $prod['item']->name . ') AND (variants.sku:' . $prod['item']->sku . ')",) {
+                        edges {
+                            node {
+                                variants(first: 5) {
+                                    edges {
+                                        node {
+                                            id
+                                        }
+                                    }
                                 }
-                              }
+                            }
                         }
                     }
+                }';
+
+                $productFromShopify = $shopify->GraphQL->post($query);
+
+                $input .= "{
+                    quantity: {$prod['qty']},
+                    variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                },";
+
+                if ($productFromShopify['data']['products']['edges']) {
+                    if($i == $count) {
+                        $input .= "{
+                            quantity: {$prod['qty']},
+                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        }";
+                    }
+                    else {
+                        $input .= "{
+                            quantity: {$prod['qty']},
+                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        }, ";
+                    }
+        
+                } else {
+                    $this->createProductOnShopify($prod);
                 }
-            }';
 
-            $productFromShopify = $shopify->GraphQL->post($query);
+                $cart->removeItem($key);
+            }
 
-            $input .= "{
-                quantity: {$prod['qty']},
-                variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-            },";
+            $input .= '], }';
 
-            // if (!empty($prod['item']['license']) && !empty($prod['item']['license_qty'])) {
-            //     foreach ($prod['item']['license_qty'] as $ttl => $dtl) {
-            //         if ($dtl != 0) {
-            //             $dtl--;
-            //             $produc = Product::findOrFail($prod['item']['id']);
-            //             $temp = $produc->license_qty;
-            //             $temp[$ttl] = $dtl;
-            //             $final = implode(',', $temp);
-            //             $produc->license_qty = $final;
-            //             $produc->update();
-            //             $temp = $produc->license;
-            //             $license = $temp[$ttl];
-            //             $oldCart = Session::has('cart') ? Session::get('cart') : null;
-            //             $cart = new Cart($oldCart);
-            //             $cart->updateLicense($prod['item']['id'], $license);
-            //             Session::put('cart', $cart);
-            //             break;
-            //         }
-            //     }
-            // }
-        }
+            if ($needToTemp) {
+                $content = [
+                    'totalQty' => $cart->totalQty,
+                    'totalPrice' => $cart->totalPrice,
+                    'items' => $cart->items,
+                ];
+                $tempcart = new TempCart;
+                $tempcart->content = json_encode($content);
+                $tempcart->user_email = $request->email;
+                $tempcart->save();
+                $to = 'usamtg@hotmail.com';
+                $subject = 'No Weight Alert';
+                $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
+                //Sending Email To Customer
+                if ($gs->is_smtp == 1) {
+                    $data = [
+                        'to' => $to,
+                        'subject' => $subject,
+                        'body' => $msg,
+                    ];
 
-
-        $input.='],
-      }';
-
-
-        //   dd($checkoutQuery);
-
-
-          $checkoutsh = $shopify->GraphQL->post(<<<QUERY
-          mutation {
-            checkoutCreate(input: {$input}) {
-                checkout {
-                  id
-                  webUrl
-                }
-                checkoutUserErrors {
-                  field
-                  message
+                    $mailer = new GeniusMailer();
+                    $mailer->sendCustomMail($data);
+                } else {
+                    $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+                    mail($to, $subject, $msg, $headers);
                 }
             }
-          }
-        QUERY,);
 
+            if ($i == 0) {
+                Session::put('tempcart', $cart);
+                Session::forget('cart');
+                Session::forget('already');
+                Session::forget('coupon');
+                Session::forget('coupon_total');
+                Session::forget('coupon_total1');
+                Session::forget('coupon_percentage');
+                return redirect()->route('front.index');
+            }
 
-
-        if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
-            return redirect($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']);
-        } else {
-            return redirect()->route('front.cart')->with('error', "Something went wrong. Try again later!");
+            $checkoutsh = $shopify->GraphQL->post(<<<GraphQL
+            mutation {
+                checkoutCreate(input: {$input}) {
+                    checkout {
+                        id
+                        webUrl
+                    }
+                    checkoutUserErrors {
+                        field
+                        message
+                    }
+                }
+            }
+            GraphQL,);
+                    
+            // dd($checkoutsh); exit;
+            
+            if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
+                Session::put('tempcart', $cart);
+                Session::forget('cart');
+                Session::forget('already');
+                Session::forget('coupon');
+                Session::forget('coupon_total');
+                Session::forget('coupon_total1');
+                Session::forget('coupon_percentage');
+                return redirect($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']);
+            } else {
+                Session::put('tempcart', $cart);
+                Session::forget('cart');
+                Session::forget('already');
+                Session::forget('coupon');
+                Session::forget('coupon_total');
+                Session::forget('coupon_total1');
+                Session::forget('coupon_percentage');
+                return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
+            }
+        } catch (\Exception $e) {
+            Session::put('tempcart', $cart);
+            Session::forget('cart');
+            Session::forget('already');
+            Session::forget('coupon');
+            Session::forget('coupon_total');
+            Session::forget('coupon_total1');
+            Session::forget('coupon_percentage');
+            return redirect()->route('front.index')->with('error', $e->getMessage());
         }
-    } catch (\Exception $e) {
-        echo $e->getMessage(); exit;
-        return redirect()->route('front.cart')->with('error', "Something went wrong. Try again later!");
-    }
-
     }
 
     public function addToTemp(Request $request)
