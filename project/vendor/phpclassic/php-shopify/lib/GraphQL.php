@@ -44,7 +44,7 @@ class GraphQL extends ShopifyResource
     {
         if (!$url) $url = $this->generateUrl();
 
-
+        var_dump($graphQL); exit;
         if (isset($this->httpHeaders['X-Shopify-Storefront-Access-Token'])) {
             $url = str_replace('/admin', '', $url);
         }

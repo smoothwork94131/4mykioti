@@ -28,16 +28,16 @@ class SearchController extends Controller{
         }
 
         
-        
         for($k = 0 ; $k < count($arr_tbl) ; $k++) {
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select subcategory_id, name, photo, price, '$arr_tbl[$k]' as `table`  from $arr_tbl[$k] {$where_clause} " ;
+            $sql .= "select `subcategory_id`, `name`, `photo`, `price`, `{$arr_tbl[$k]}` as `table` from $arr_tbl[$k] {$where_clause} " ;
             $flag = true ;
         }
 
-        $sql.=" group by `name`  asc limit 50" ;
+        $sql.=" group by `name` order by `name` limit 50" ;
+        // echo $sql; exit;
         $categoreis =DB::select($sql) ;
         echo json_encode($categoreis) ;
 

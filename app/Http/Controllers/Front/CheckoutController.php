@@ -901,7 +901,7 @@ class CheckoutController extends Controller
 
         $config = array(
             'ShopUrl' => $shop,
-            // 'FrontAccessToken' => $storefrontAccessToken,
+            'FrontAccessToken' => $storefrontAccessToken,
             'AccessToken' => $storefrontAccessToken,
         );
 
@@ -909,30 +909,31 @@ class CheckoutController extends Controller
         // $shopify = new ShopifySDK($config);
 
         $input = '{
-            allowPartialAddresses: true,
-            buyerIdentity: {
-              countryCode: "US"
+            "allowPartialAddresses": true,
+            "buyerIdentity": {
+                "countryCode": "US"
             },
-            email: "' . $request->personal_email . '",
-            note: "' . $request->order_notes . '",
-            shippingAddress: {
-                address1: "' . ($request->shipping_address ?? $request->address) . '",
-                address2: "",
-                city: "' . ($request->shipping_city ?? $request->city) . '",
-                company: "",
-                country: "' . ($request->shipping_country ?? $request->customer_country) . '",
-                firstName: "' . ($request->shipping_name ?? $request->name) . '",
-                lastName: "",
-                phone: "' . ($request->shipping_phone ?? $request->phone) . '",
-                province: "",
-                zip: "' . ($request->shipping_zip ?? $request->zip) . '"
+            "email": "' . $request->personal_email . '",
+            "note": "' . $request->order_notes . '",
+            "shippingAddress": {
+                "address1": "' . ($request->shipping_address ?? $request->address) . '",
+                "address2": "",
+                "city": "' . ($request->shipping_city ?? $request->city) . '",
+                "company": "",
+                "country": "' . ($request->shipping_country ?? $request->customer_country) . '",
+                "firstName": "' . ($request->shipping_name ?? $request->name) . '",
+                "lastName": "",
+                "phone": "' . ($request->shipping_phone ?? $request->phone) . '",
+                "province": "",
+                "zip": "' . ($request->shipping_zip ?? $request->zip) . '"
             },
-            lineItems: [
+            "lineItems": [
         ';
 
         try {
             $i = 0;
             $needToTemp = false;
+            $count = count($cart->items);
             foreach ($cart->items as $key => $prod) {
                 if (!$prod['item']->file) {
                     $needToTemp = true;
@@ -960,10 +961,19 @@ class CheckoutController extends Controller
                 $productFromShopify = $shopify->GraphQL->post($query);
 
                 if ($productFromShopify['data']['products']['edges']) {
-                    $input .= "{
-                        quantity: {$prod['qty']},
-                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                    }, ";
+                    if($i == $count) {
+                        $input .= "{
+                            \"quantity\": {$prod['qty']},
+                            \"variantId\": \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        }";
+                    }
+                    else {
+                        $input .= "{
+                            \"quantity\": {$prod['qty']},
+                            \"variantId\": \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        }, ";
+                    }
+        
                 } else {
                     $this->createProductOnShopify($prod);
                 }
@@ -971,7 +981,7 @@ class CheckoutController extends Controller
                 $cart->removeItem($key);
             }
 
-            $input .= '], }';
+            $input .= ']}';
 
             if ($needToTemp) {
                 $content = [
@@ -1013,75 +1023,48 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index');
             }
 
-            // $input = '{
-            //     "allowPartialAddresses": true,
-            //     "buyerIdentity": { "countryCode": "US" },
-            //     "email": "majesty1994131@outlook.com",
-            //     "note": "a",
-            //     "shippingAddress": {
-            //         "address1": "Hong Lok Yuan",
-            //         "address2": "",
-            //         "city": "Hong Lok Yuan",
-            //         "company": "",
-            //         "country": "US",
-            //         "firstName": "Liu Xin",
-            //         "lastName": "",
-            //         "phone": "123456789",
-            //         "province": "",
-            //         "zip": "999077"
-            //     },
-            //     "lineItems": [
-            //         {
-            //         "quantity": 1,
-            //         "variantId": "gid://shopify/ProductVariant/42106337886381"
-            //         } ,
-            //     ] ,
-            // }';
-            
-            // $headers = array(
-            //     'X-Shopify-Access-Token: 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',
-            //     'Content-Type: application/json'
-            // );
-
-            // var_dump(json_decode($input, true)); exit;
-
-            // $checkoutsh = $shopify->GraphQL->post(
-            //     <<<QUERY
-            //         mutation ($input: CheckoutCreateInput!) {
-            //             checkoutCreate(input: $input) {
-            //                 checkout {
-            //                     id
-            //                     webUrl
-            //                 }
-            //                 checkoutUserErrors {
-            //                     field
-            //                     message
-            //                 }
-            //             }
-            //         }
-            //     QUERY,
-            //     [
-            //         'input' => json_decode($input, true),
-            //     ],
-            //     $headers // this should be a string, not an array
-            // );
-
-            $checkoutsh = $shopify->GraphQL->post(<<<QUERY
-            mutation {
-                checkoutCreate(input: {$input}) {
-                    checkout {
-                        id
-                        webUrl
-                    }
-                    checkoutUserErrors {
-                        field
-                        message
+            $query = <<<QUERY
+                mutation ($input: CheckoutCreateInput!) {
+                    checkoutCreate(input: $input) {
+                        checkout {
+                            id
+                            webUrl
+                        }
+                        checkoutUserErrors {
+                            field
+                            message
+                        }
                     }
                 }
-            }
-            QUERY,);
+            QUERY;
+
+            // echo $input; exit;
+
+            $variable = json_decode($input, true);
+            // print_r(json_encode($variable)); exit;
             
-            // print_r($checkoutsh); exit;
+            $checkoutsh = $shopify->GraphQL->post($query, null, null, $variable);
+
+            // // $query = <<<QUERY
+            // // mutation {
+            // //     checkoutCreate(input: {$input}) {
+            // //         checkout {
+            // //             id
+            // //             webUrl
+            // //         }
+            // //         checkoutUserErrors {
+            // //             field
+            // //             message
+            // //         }
+            // //     }
+            // // }
+            // // QUERY;
+
+            // // echo $query; exit;
+
+            // $checkoutsh = $shopify->GraphQL->post($query);
+                    
+            print_r($checkoutsh); exit;
             
             if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
                 Session::put('tempcart', $cart);
@@ -1104,7 +1087,7 @@ class CheckoutController extends Controller
             }
         } catch (\Exception $e) {
 
-            echo $e->getMessage(), "\n";
+            echo "Error caught ". $e->getFile() . "\n" . $e->getLine() . "\n" . $e->getMessage(). "\n";
             exit;
 
             Session::put('tempcart', $cart);
