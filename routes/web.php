@@ -1467,11 +1467,6 @@ Route::get('/childcategories/{slug}', 'Front\CatalogController@childcategories')
 Route::get('/tag/{slug}', 'Front\CatalogController@tag')->name('front.tag');
 // TAG SECTION ENDS
 
-// TAG SECTION
-Route::get('/search/', 'Front\CatalogController@search')->name('front.search');
-// TAG SECTION ENDS
-
-
 // PRODCT SECTION
 Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
 Route::get('/item/{prod_name}/{series}/{model}', 'Front\CatalogController@sub_category')->name('front.sub_category');
@@ -1559,10 +1554,6 @@ Route::post('/cashondelivery', 'Front\CheckoutController@cashondelivery')->name(
 Route::post('/gateway', 'Front\CheckoutController@gateway')->name('gateway.submit');
 // CHECKOUT SECTION ENDS
 
-// TAG SECTION
-Route::get('/search/', 'Front\CatalogController@search')->name('front.search');
-// TAG SECTION ENDS
-
 // VENDOR SECTION
 Route::get('/store/{category}', 'Front\VendorController@index')->name('front.vendor');
 Route::post('/vendor/contact', 'Front\VendorController@vendorcontact');
@@ -1602,8 +1593,8 @@ Route::get('finalize', 'Front\FrontendController@finalize');
 
 Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
 
+Route::get('/search/{keyword}', 'Front\SearchController@index')->name('front-search.index');
 Route::post('search', 'Front\SearchController@search')->name('front-search');
-Route::post('search/detail', 'Front\SearchController@detail')->name('front-search-detail');
 
 //Search Route 
 

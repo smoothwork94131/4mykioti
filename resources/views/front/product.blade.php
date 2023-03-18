@@ -305,41 +305,41 @@
                                         </ul>
                                     </div>
                                     <!--
-                                        <div class="social-links social-sharing a2a_kit a2a_kit_size_32">
-                                            <ul class="link-list social-links">
-                                                <li>
-                                                    <a class="facebook a2a_button_facebook" href="">
-                                                        <i class="fab fa-facebook-f"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="twitter a2a_button_twitter" href="">
-                                                        <i class="fab fa-twitter"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="linkedin a2a_button_linkedin" href="">
-                                                        <i class="fab fa-linkedin-in"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="pinterest a2a_button_pinterest" href="">
-                                                        <i class="fab fa-pinterest-p"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <script async src="https://static.addtoany.com/menu/page.js"></script>  -->
+                                            <div class="social-links social-sharing a2a_kit a2a_kit_size_32">
+                                                <ul class="link-list social-links">
+                                                    <li>
+                                                        <a class="facebook a2a_button_facebook" href="">
+                                                            <i class="fab fa-facebook-f"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="twitter a2a_button_twitter" href="">
+                                                            <i class="fab fa-twitter"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="linkedin a2a_button_linkedin" href="">
+                                                            <i class="fab fa-linkedin-in"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="pinterest a2a_button_pinterest" href="">
+                                                            <i class="fab fa-pinterest-p"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <script async src="https://static.addtoany.com/menu/page.js"></script>  -->
 
 
                                     @if ($productt->ship != null)
                                         <p class="estimate-time">{{ $langg->lang86 }}: <b> {{ $productt->ship }}</b></p>
                                     @endif
                                     <!--
-                                        @if ($productt->sku != null)
+                                            @if ($productt->sku != null)
     <p class="p-sku">
-                                                {{ $langg->lang77 }}: <span class="idno">{{ $productt->sku }}</span>
-                                            </p>
+                                                    {{ $langg->lang77 }}: <span class="idno">{{ $productt->sku }}</span>
+                                                </p>
     @endif  -->
                                     @if ($gs->is_report)
                                         {{-- PRODUCT REPORT SECTION --}}
@@ -485,145 +485,145 @@
                 </div>
                 <div class="col-lg-3">
                     <!--
-                            <div class="table-area wholesale-details-page">
-                                <h3>{{ $langg->lang770 }}</h3>
-                                <table class="table">
-                                    <tr>
-                                        <th>{{ $langg->lang768 }}</th>
-                                        <th>{{ $langg->lang769 }}</th>
-                                    </tr>
-                                    
-
+                                <div class="table-area wholesale-details-page">
+                                    <h3>{{ $langg->lang770 }}</h3>
+                                    <table class="table">
                                         <tr>
-                                            <td>50+</td>
-                                            <td>$1 {{ $langg->lang771 }}</td>
+                                            <th>{{ $langg->lang768 }}</th>
+                                            <th>{{ $langg->lang769 }}</th>
                                         </tr>
-                                        <tr>
-                                            <td>100+</td>
-                                            <td>$2 {{ $langg->lang771 }}</td>
-                                        </tr>
+                                        
 
-                                </table>
-                            </div> -->
+                                            <tr>
+                                                <td>50+</td>
+                                                <td>$1 {{ $langg->lang771 }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>100+</td>
+                                                <td>$2 {{ $langg->lang771 }}</td>
+                                            </tr>
+
+                                    </table>
+                                </div> -->
 
 
                     <!-- <div class="seller-info mt-3">
-                            <div class="content">
-                                <h4 class="title">
-                                    {{ $langg->lang246 }}
-                                </h4>
+                                <div class="content">
+                                    <h4 class="title">
+                                        {{ $langg->lang246 }}
+                                    </h4>
 
-                                <p class="stor-name">
-                                     {{ App\Models\Admin::find(1)->shop_name }}
-                                </p>
+                                    <p class="stor-name">
+                                         {{ App\Models\Admin::find(1)->shop_name }}
+                                    </p>
 
-                                <div class="total-product">
+                                    <div class="total-product">
 
-                                    @if ($productt->user_id != 0)
+                                        @if ($productt->user_id != 0)
 @else
     <p>{{ App\Models\Product::where('user_id', '=', 0)->get()->count() }}</p>
     @endif
-                                    <span>{{ $langg->lang248 }}</span>
+                                        <span>{{ $langg->lang248 }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        
+                            
 
-                            {{-- CONTACT SELLER --}}
-
-
-                            <div class="contact-seller">
-
-                                {{-- If The Product Belongs To A Vendor --}}
-
-                                @if ($productt->user_id != 0)
+                                {{-- CONTACT SELLER --}}
 
 
-                                    <ul class="list">
+                                <div class="contact-seller">
+
+                                    {{-- If The Product Belongs To A Vendor --}}
+
+                                    @if ($productt->user_id != 0)
 
 
-                                        @if (Auth::guard('web')->check())
+                                        <ul class="list">
+
+
+                                            @if (Auth::guard('web')->check())
     <li>
 
-                                                @if (Auth::guard('web')->user()->favorites()->where('vendor_id', '=', $productt->user_id)->get()->count() > 0)
+                                                    @if (Auth::guard('web')->user()->favorites()->where('vendor_id', '=', $productt->user_id)->get()->count() > 0)
     <a class="view-stor" href="javascript:;">
-                                                        <i class="icofont-check"></i>
-                                                        {{ $langg->lang225 }}
-                                                    </a>
+                                                            <i class="icofont-check"></i>
+                                                            {{ $langg->lang225 }}
+                                                        </a>
 @else
     <a class="favorite-prod view-stor"
-                                                       data-href="{{ route('user-favorite', ['data1' => Auth::guard('web')->user()->id, 'data2' => $productt->user_id]) }}"
-                                                       href="javascript:;">
+                                                           data-href="{{ route('user-favorite', ['data1' => Auth::guard('web')->user()->id, 'data2' => $productt->user_id]) }}"
+                                                           href="javascript:;">
+                                                            <i class="icofont-plus"></i>
+                                                            {{ $langg->lang224 }}
+                                                        </a>
+    @endif
+
+                                                </li>
+
+                                                <li>
+                                                    <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                       data-target="#vendorform1">
+                                                        <i class="icofont-ui-chat"></i>
+                                                        {{ $langg->lang81 }}
+                                                    </a>
+                                                </li>
+@else
+    <li>
+
+                                                    <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                       data-target="#comment-log-reg">
                                                         <i class="icofont-plus"></i>
                                                         {{ $langg->lang224 }}
                                                     </a>
+
+
+                                                </li>
+
+                                                <li>
+
+                                                    <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                       data-target="#comment-log-reg">
+                                                        <i class="icofont-ui-chat"></i>
+                                                        {{ $langg->lang81 }}
+                                                    </a>
+                                                </li>
     @endif
 
-                                            </li>
-
-                                            <li>
-                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                                   data-target="#vendorform1">
-                                                    <i class="icofont-ui-chat"></i>
-                                                    {{ $langg->lang81 }}
-                                                </a>
-                                            </li>
-@else
-    <li>
-
-                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                                   data-target="#comment-log-reg">
-                                                    <i class="icofont-plus"></i>
-                                                    {{ $langg->lang224 }}
-                                                </a>
+                                        </ul>
 
 
-                                            </li>
-
-                                            <li>
-
-                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                                   data-target="#comment-log-reg">
-                                                    <i class="icofont-ui-chat"></i>
-                                                    {{ $langg->lang81 }}
-                                                </a>
-                                            </li>
-    @endif
-
-                                    </ul>
-
-
-                                    {{-- VENDOR PART ENDS HERE :) --}}
+                                        {{-- VENDOR PART ENDS HERE :) --}}
 @else
     {{-- If The Product Belongs To Admin  --}}
 
-                                    <ul class="list">
-                                        @if (Auth::guard('web')->check())
+                                        <ul class="list">
+                                            @if (Auth::guard('web')->check())
     <li>
-                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                                   data-target="#vendorform">
-                                                    <i class="icofont-ui-chat"></i>
-                                                    {{ $langg->lang81 }}
-                                                </a>
-                                            </li>
+                                                    <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                       data-target="#vendorform">
+                                                        <i class="icofont-ui-chat"></i>
+                                                        {{ $langg->lang81 }}
+                                                    </a>
+                                                </li>
 @else
     <li>
-                                                <a class="view-stor" href="javascript:;" data-toggle="modal"
-                                                   data-target="#comment-log-reg">
-                                                    <i class="icofont-ui-chat"></i>
-                                                    {{ $langg->lang81 }}
-                                                </a>
-                                            </li>
+                                                    <a class="view-stor" href="javascript:;" data-toggle="modal"
+                                                       data-target="#comment-log-reg">
+                                                        <i class="icofont-ui-chat"></i>
+                                                        {{ $langg->lang81 }}
+                                                    </a>
+                                                </li>
     @endif
 
-                                    </ul>
+                                        </ul>
 
-                                @endif
+                                    @endif
 
-                            </div>
+                                </div>
 
-                            {{-- CONTACT SELLER ENDS --}}
+                                {{-- CONTACT SELLER ENDS --}}
 
-                        </div> -->
+                            </div> -->
 
 
                     <div class="categori  mt-30">

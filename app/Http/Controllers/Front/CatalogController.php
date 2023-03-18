@@ -48,7 +48,6 @@ class CatalogController extends Controller
 
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null)
     {
-
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
@@ -76,15 +75,7 @@ class CatalogController extends Controller
         ->when(empty($sort), function ($query, $sort) {
             return $query->orderBy('id', 'DESC');
         });
-
-        // if(!Auth::guard('web')->check()) {
-        //     $prods = $prods->where('is_verified', 0);
-        // } else {
-        //     if(!Auth::user()->is_verified) {
-        //         $prods = $prods->where('is_verified', 0);
-        //     }
-        // }
-            
+    
         if ($search) {
             $search1 = ' ' . $search;
             $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
@@ -103,7 +94,6 @@ class CatalogController extends Controller
             $prods = $prods->get();
         }
         
-
         $group = DB::table($db.'_categories')->where('group_id', $slug2)->first();
 
         $data['prods'] = $prods;
@@ -114,6 +104,7 @@ class CatalogController extends Controller
 
         $data['colorsetting_style1'] = $colorsetting_style1;
         $data['colorsetting_style2'] = $colorsetting_style2;
+        
         $data['db'] = $db;
 
         if ($request->ajax()) {

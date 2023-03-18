@@ -375,7 +375,8 @@
             </div>
         </div>
     </section>
-    <section class="top-header row bottom-menu" style="margin: 0px; border: none;position: relative;">
+
+    <section class="top-header row bottom-menu" style="margin: 0px; border: none; position: relative;">
         <div class='mobile-search-field'>
             <div class='search-field'>
                 <input class='search-input form-control' onkeyup="totalSearch(event)" />
@@ -517,7 +518,7 @@
             <div style="width: 10%;"></div>
             <div class="site-info">
                 <span class="site_url">4myKIOTI.com</span>
-                <span class="phone_num">FOR ASSISTANCE CALL: <a href="tel:+1(724) 691-0200">(724) 691-0200</a> </span>
+                <span class="phone_num"><span id="phone_num_desc">FOR ASSISTANCE CALL:</span> <a href="tel:+1(724) 691-0200">(724) 691-0200</a> </span>
             </div>
             <div class='sign-form'>
                 @guest
