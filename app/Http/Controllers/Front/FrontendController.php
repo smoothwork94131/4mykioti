@@ -624,7 +624,7 @@ class FrontendController extends Controller
         if ($request->type == 'model') {
             if ($request->model_type == "common") {
                 $table_name = strtolower($request->series);
-                $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('sub_category_id', 'asc')->get();
+                $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
             } else {
                 $categories = DB::table($table_name)->select('model')->distinct()->distinct()->orderBy('model', 'asc')->get();
             }
