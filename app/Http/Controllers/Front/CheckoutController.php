@@ -999,7 +999,7 @@ class CheckoutController extends Controller
                 $tempcart->save();
                 $to = 'usamtg@hotmail.com';
                 $subject = 'No Weight Alert';
-                $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
+                $msg = "A customer has tried to checkout with no weight products in their cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
                 //Sending Email To Customer
                 if ($gs->is_smtp == 1) {
                     $data = [
