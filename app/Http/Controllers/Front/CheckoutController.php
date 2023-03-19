@@ -23,6 +23,7 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use PHPShopify\ShopifySDK;
+use Signifly\Shopify\Shopify;
 use Session;
 use Validator;
 
@@ -895,14 +896,12 @@ class CheckoutController extends Controller
 
         $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
         $storeAccessToken = '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';
-        
-        // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
 
         $config = array(
             'ShopUrl' => $shop,
-            'AccessToken' => $storeAccessToken,
-            'FrontAccessToken' => $storefrontAccessToken
+            // 'FrontAccessToken' => $storefrontAccessToken,
+            'AccessToken' => $storeAccessToken
         );
 
         $shopify = ShopifySDK::config($config);
@@ -911,6 +910,10 @@ class CheckoutController extends Controller
             allowPartialAddresses: true,
             buyerIdentity: {
                 countryCode: US
+            },
+            customAttributes: {
+                key: "email",
+                value: "' . $request->personal_email . '"
             },
             email: "' . $request->personal_email . '",
             note: "' . $request->order_notes . '",
@@ -928,6 +931,33 @@ class CheckoutController extends Controller
             },
             lineItems: [
         ';
+
+        // $input = array(
+        //     "allowPartialAddresses" => true,
+        //     "buyerIdentity" => array(
+        //         "countryCode"=> "US"
+        //     ),
+        //     "customAttributes" => array(
+        //         "key" => "email",
+        //         "value" => $request->personal_email
+        //     ),
+        //     "email" => $request->personal_emai,
+        //     "note" => $request->order_notes,
+        //     "shippingAddress" => array(
+        //         "address1" => ($request->shipping_address ?? $request->address),
+        //         "address2" => "",
+        //         "city" => ($request->shipping_city ?? $request->city),
+        //         "company" => "",
+        //         "country" => ($request->shipping_country ?? $request->customer_country),
+        //         "firstName" => ($request->shipping_name ?? $request->name),
+        //         "lastName" => "",
+        //         "phone" => ($request->shipping_phone ?? $request->phone),
+        //         "province" => "PA",
+        //         "zip" => ($request->shipping_zip ?? $request->zip)
+        //     )
+        // );
+
+        // $lineItems = array();
 
         try {
             $i = 0;
@@ -959,11 +989,6 @@ class CheckoutController extends Controller
 
                 $productFromShopify = $shopify->GraphQL->post($query);
 
-                $input .= "{
-                    quantity: {$prod['qty']},
-                    variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                },";
-
                 if ($productFromShopify['data']['products']['edges']) {
                     if($i == $count) {
                         $input .= "{
@@ -977,6 +1002,12 @@ class CheckoutController extends Controller
                             variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
                         }, ";
                     }
+                    // $item = array(
+                    //     "quantity" => $prod['qty'],
+                    //     "variantId" => $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']
+                    // );
+
+                    // $lineItems[] = $item;
         
                 } else {
                     $this->createProductOnShopify($prod);
@@ -984,6 +1015,8 @@ class CheckoutController extends Controller
 
                 $cart->removeItem($key);
             }
+
+            // $input["lineItems"] = $lineItems;
 
             $input .= '], }';
 
@@ -1027,9 +1060,16 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index');
             }
 
+            // $headers = [
+                // 'X-Shopify-Storefront-Access-Token: d4ae789c32ebc20687d136affe3b6075',
+                // 'Content-Type: application/json'
+            // ];
+
+
+
             $query = <<<GraphQL
             mutation {
-                checkoutCreate(input: {$input}) {
+                checkoutCreate(input: {$input}, queueToken: "d4ae789c32ebc20687d136affe3b6075") {
                     checkout {
                         id
                         webUrl
@@ -1038,13 +1078,17 @@ class CheckoutController extends Controller
                         field
                         message
                     }
+                    d4ae789c32ebc20687d136affe3b6075
                 }
             }
             GraphQL;
 
-            // $query = <<<QUERY
+            // $inputData["input"] = $input;
+
+
+            // $query = <<<Query
             // mutation ($input: CheckoutCreateInput!) {
-            //     checkoutCreate(input: $input) {
+            //     checkoutCreate(input: {$input}) {
             //         checkout {
             //             id
             //             webUrl
@@ -1055,14 +1099,15 @@ class CheckoutController extends Controller
             //         }
             //     }
             // }
-            // QUERY;
+            // Query;
 
             // echo $query; exit;
-
-            $checkoutsh = $shopify->GraphQL->post($query);
-                    
-            // dd($checkoutsh); exit;
+            // var_dump($inputData); die;
+            // $checkoutsh = $shopify->GraphQL->post($query, null, null, $inputData);
             
+            $checkoutsh = $shopify->GraphQL->post($query);
+            var_dump($checkoutsh); die;
+
             if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
                 Session::put('tempcart', $cart);
                 Session::forget('cart');
@@ -1084,7 +1129,7 @@ class CheckoutController extends Controller
             }
         } catch (\Exception $e) {
 
-            // echo $e->getMessage(); exit;
+            echo "Cause Error: " . $e->getMessage(); exit;
 
             Session::put('tempcart', $cart);
             Session::forget('cart');
