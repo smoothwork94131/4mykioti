@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Front;
-
 use App\Classes\GeniusMailer;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
@@ -15,17 +13,16 @@ use App\Models\Pagesetting;
 use App\Models\PaymentGateway;
 use App\Models\Pickup;
 use App\Models\Product;
-use App\Models\TempCart;
 use App\Models\User;
+use App\Models\TempCart;
 use App\Models\UserNotification;
 use App\Models\VendorOrder;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
-use PHPShopify\ShopifySDK;
 use Session;
 use Validator;
-
+use PHPShopify\ShopifySDK;
 class CheckoutController extends Controller
 {
     public function loadpayment($slug1, $slug2)
@@ -43,12 +40,11 @@ class CheckoutController extends Controller
         }
         return view('load.payment', compact('payment', 'pay_id', 'gateway', 'curr'));
     }
-
     public function checkout()
     {
         $this->code_image();
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
         }
         $gs = Generalsetting::findOrFail(1);
         $dp = 1;
@@ -59,18 +55,14 @@ class CheckoutController extends Controller
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
-
-        // If a user is Authenticated then there is no problm user can go for checkout
-
+            // If a user is Authenticated then there is no problm user can go for checkout
         if (Auth::guard('web')->check()) {
             $gateways = PaymentGateway::where('status', '=', 1)->get();
             $pickups = Pickup::all();
             $oldCart = Session::get('cart');
             $cart = new Cart($oldCart);
             $products = $cart->items;
-
             // Shipping Method
-
             if ($gs->multiple_shipping == 1) {
                 $user = null;
                 foreach ($cart->items as $prod) {
@@ -87,11 +79,9 @@ class CheckoutController extends Controller
                 } else {
                     $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                 }
-
             } else {
                 $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
             }
-
             // Packaging
             if ($gs->multiple_packaging == 1) {
                 $user = null;
@@ -109,36 +99,29 @@ class CheckoutController extends Controller
                 } else {
                     $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                 }
-
             } else {
                 $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
             }
-
             foreach ($products as $prod) {
                 if ($prod['item']->type == 'Physical') {
                     $dp = 0;
                     break;
                 }
             }
-
             if ($dp == 1) {
                 $ship = 0;
             }
-
             $total = 0;
-
             $productList = [];
             $productListNoWeight = [];
-
             foreach ($products as $prod) {
-                if($prod['item']->file != NULL && $prod['item']->file > 0) {
+                if ($prod['item']->file) {
                     $total += $prod['item']->price;
                     array_push($productList, $prod);
                 } else {
                     array_push($productListNoWeight, $prod);
                 }
             }
-
             $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
             if ($gs->tax != 0) {
                 $tax = ($total / 100) * $gs->tax;
@@ -151,7 +134,6 @@ class CheckoutController extends Controller
                 $total = Session::get('coupon_total');
                 $total = $total + round(0 * $curr->value, 2);
             }
-
             return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
         } else {
             // If guest checkout is activated then user can go for checkout
@@ -161,9 +143,7 @@ class CheckoutController extends Controller
                 $oldCart = Session::get('cart');
                 $cart = new Cart($oldCart);
                 $products = $cart->items;
-
                 // Shipping Method
-
                 if ($gs->multiple_shipping == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -172,7 +152,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
-
                         if (count($shipping_data) == 0) {
                             $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                         } else {
@@ -181,13 +160,10 @@ class CheckoutController extends Controller
                     } else {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                 }
-
                 // Packaging
-
                 if ($gs->multiple_packaging == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -196,7 +172,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $package_data = DB::table('packages')->where('user_id', '=', $users[0])->get();
-
                         if (count($package_data) == 0) {
                             $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                         } else {
@@ -205,31 +180,26 @@ class CheckoutController extends Controller
                     } else {
                         $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                 }
-
                 foreach ($products as $prod) {
                     if ($prod['item']->type == 'Physical') {
                         $dp = 0;
                         break;
                     }
                 }
-
                 $productList = [];
                 $productListNoWeight = [];
-
                 $total = 0;
                 foreach ($products as $prod) {
-                    if ($prod['item']->file != NULL && $prod['item']->file > 0) {
+                    if ($prod['item']->file) {
                         $total += $prod['item']->price;
                         array_push($productList, $prod);
                     } else {
                         array_push($productListNoWeight, $prod);
                     }
                 }
-
                 if ($dp == 1) {
                     $ship = 0;
                 }
@@ -256,16 +226,13 @@ class CheckoutController extends Controller
                 }
                 return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
             } // If guest checkout is Deactivated then display pop up form with proper error message
-
             else {
                 $gateways = PaymentGateway::where('status', '=', 1)->get();
                 $pickups = Pickup::all();
                 $oldCart = Session::get('cart');
                 $cart = new Cart($oldCart);
                 $products = $cart->items;
-
                 // Shipping Method
-
                 if ($gs->multiple_shipping == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -274,7 +241,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
-
                         if (count($shipping_data) == 0) {
                             $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                         } else {
@@ -283,13 +249,10 @@ class CheckoutController extends Controller
                     } else {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                 }
-
                 // Packaging
-
                 if ($gs->multiple_packaging == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -298,7 +261,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $package_data = DB::table('packages')->where('user_id', '=', $users[0])->get();
-
                         if (count($package_data) == 0) {
                             $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                         } else {
@@ -307,11 +269,9 @@ class CheckoutController extends Controller
                     } else {
                         $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                 }
-
                 $total = $cart->totalPrice;
                 $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
                 if ($gs->tax != 0) {
@@ -329,9 +289,8 @@ class CheckoutController extends Controller
                 return view('front.checkout', ['products' => $cart->items, 'productsNw' => [], 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
             }
         }
-
     }
-
+    
     public function checkouttemp($id)
     {
         $this->code_image();
@@ -349,17 +308,12 @@ class CheckoutController extends Controller
         if (Auth::guard('web')->check()) {
             $gateways = PaymentGateway::where('status', '=', 1)->get();
             $pickups = Pickup::all();
-
             $cart = json_decode($tempcart->content);
-
-            foreach ($cart->items as $key => $value) {
-                $cart->items->$key = (array) $cart->items->$key;
+            foreach($cart->items as $key=>$value) {
+                $cart->items->$key = (array)$cart->items->$key;
             }
-
             $products = $cart->items;
-
             // Shipping Method
-
             if ($gs->multiple_shipping == 1) {
                 $user = null;
                 foreach ($cart->items as $prod) {
@@ -367,7 +321,6 @@ class CheckoutController extends Controller
                 }
                 $users = array_unique($user);
                 if (count($users) == 1) {
-
                     $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
                     if (count($shipping_data) == 0) {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
@@ -377,11 +330,9 @@ class CheckoutController extends Controller
                 } else {
                     $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                 }
-
             } else {
                 $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
             }
-
             // Packaging
             if ($gs->multiple_packaging == 1) {
                 $user = null;
@@ -399,7 +350,6 @@ class CheckoutController extends Controller
                 } else {
                     $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                 }
-
             } else {
                 $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
             }
@@ -413,19 +363,16 @@ class CheckoutController extends Controller
                 $ship = 0;
             }
             $total = 0;
-
             $productList = [];
             $productListNoWeight = [];
-
             foreach ($products as $prod) {
-                if ($prod['item']->file != NULL && $prod['item']->file > 0) {
+                if ($prod['item']->file) {
                     $total += $prod['item']->price;
                     array_push($productList, $prod);
                 } else {
                     array_push($productListNoWeight, $prod);
                 }
             }
-
             $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
             if ($gs->tax != 0) {
                 $tax = ($total / 100) * $gs->tax;
@@ -438,10 +385,8 @@ class CheckoutController extends Controller
                 $total = Session::get('coupon_total');
                 $total = $total + round(0 * $curr->value, 2);
             }
-
             return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
         } else {
-
             // If guest checkout is activated then user can go for checkout
             if ($gs->guest_checkout == 1) {
                 $gateways = PaymentGateway::where('status', '=', 1)->get();
@@ -449,9 +394,7 @@ class CheckoutController extends Controller
                 $oldCart = Session::get('cart');
                 $cart = new Cart($oldCart);
                 $products = $cart->items;
-
                 // Shipping Method
-
                 if ($gs->multiple_shipping == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -460,7 +403,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
-
                         if (count($shipping_data) == 0) {
                             $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                         } else {
@@ -469,13 +411,10 @@ class CheckoutController extends Controller
                     } else {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                 }
-
                 // Packaging
-
                 if ($gs->multiple_packaging == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -484,7 +423,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $package_data = DB::table('packages')->where('user_id', '=', $users[0])->get();
-
                         if (count($package_data) == 0) {
                             $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                         } else {
@@ -493,11 +431,9 @@ class CheckoutController extends Controller
                     } else {
                         $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                 }
-
                 foreach ($products as $prod) {
                     if ($prod['item']->type == 'Physical') {
                         $dp = 0;
@@ -520,27 +456,23 @@ class CheckoutController extends Controller
                     $total = Session::get('coupon_total');
                     $total = str_replace($curr->sign, '', $total) + round(0 * $curr->value, 2);
                 }
-
                 foreach ($products as $prod) {
                     if ($prod['item']->type != 'Physical') {
                         if (!Auth::guard('web')->check()) {
                             $ck = 1;
-                            return view('front.checkout', ['products' => $cart->items, 'productsNw' => [], 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
+                            return view('front.checkout', ['products' => $cart->items,'productsNw' => [], 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
                         }
                     }
                 }
                 return view('front.checkout', ['products' => $cart->items, 'productsNw' => [], 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
             } // If guest checkout is Deactivated then display pop up form with proper error message
-
             else {
                 $gateways = PaymentGateway::where('status', '=', 1)->get();
                 $pickups = Pickup::all();
                 $oldCart = Session::get('cart');
                 $cart = new Cart($oldCart);
                 $products = $cart->items;
-
                 // Shipping Method
-
                 if ($gs->multiple_shipping == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -549,7 +481,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
-
                         if (count($shipping_data) == 0) {
                             $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                         } else {
@@ -558,13 +489,10 @@ class CheckoutController extends Controller
                     } else {
                         $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
                 }
-
                 // Packaging
-
                 if ($gs->multiple_packaging == 1) {
                     $user = null;
                     foreach ($cart->items as $prod) {
@@ -573,7 +501,6 @@ class CheckoutController extends Controller
                     $users = array_unique($user);
                     if (count($users) == 1) {
                         $package_data = DB::table('packages')->where('user_id', '=', $users[0])->get();
-
                         if (count($package_data) == 0) {
                             $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                         } else {
@@ -582,11 +509,9 @@ class CheckoutController extends Controller
                     } else {
                         $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                     }
-
                 } else {
                     $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
                 }
-
                 $total = $cart->totalPrice;
                 $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
                 if ($gs->tax != 0) {
@@ -604,12 +529,8 @@ class CheckoutController extends Controller
                 return view('front.checkout', ['products' => $cart->items, 'productsNw' => [], 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
             }
         }
-
     }
-
-    public function cashondelivery(Request $request)
-    {
-
+    public function cashondelivery(Request $request) {
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
             if (count($users) == 0) {
@@ -625,15 +546,14 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
             }
         }
-
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
         }
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -643,8 +563,10 @@ class CheckoutController extends Controller
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-
+       
+        
         foreach ($cart->items as $key => $prod) {
+           
             if (!empty($prod['item']['license']) && !empty($prod['item']['license_qty'])) {
                 foreach ($prod['item']['license_qty'] as $ttl => $dtl) {
                     if ($dtl != 0) {
@@ -704,7 +626,6 @@ class CheckoutController extends Controller
         $order['currency_value'] = $curr->value;
         $order['vendor_shipping_id'] = $request->vendor_shipping_id;
         $order['vendor_packing_id'] = $request->vendor_packing_id;
-
         if (Session::has('affilate')) {
             $val = $request->total / $curr->value;
             $val = $val / 100;
@@ -715,15 +636,12 @@ class CheckoutController extends Controller
             $order['affilate_user'] = $user->name;
             $order['affilate_charge'] = $sub;
         }
-
         $order->save();
-
         $track = new OrderTrack;
         $track->title = 'Pending';
         $track->text = 'You have successfully placed your order.';
         $track->order_id = $order->id;
         $track->save();
-
         $notification = new Notification;
         $notification->order_id = $order->id;
         $notification->save();
@@ -731,19 +649,17 @@ class CheckoutController extends Controller
             $coupon = Coupon::findOrFail($request->coupon_id);
             $coupon->used++;
             if ($coupon->times != null) {
-                $i = (int) $coupon->times;
+                $i = (int)$coupon->times;
                 $i--;
-                $coupon->times = (string) $i;
+                $coupon->times = (string)$i;
             }
             $coupon->update();
-
         }
-
         foreach ($cart->items as $prod) {
-            $x = (string) $prod['size_qty'];
+            $x = (string)$prod['size_qty'];
             if (!empty($x)) {
                 $product = Product::findOrFail($prod['item']['id']);
-                $x = (int) $x;
+                $x = (int)$x;
                 $x = $x - $prod['qty'];
                 $temp = $product->size_qty;
                 $temp[$prod['size_key']] = $x;
@@ -752,11 +668,9 @@ class CheckoutController extends Controller
                 $product->update();
             }
         }
-
         foreach ($cart->items as $prod) {
-            $x = (string) $prod['stock'];
+            $x = (string)$prod['stock'];
             if ($x != null) {
-
                 $product = Product::findOrFail($prod['item']['id']);
                 $product->stock = $prod['stock'];
                 $product->update();
@@ -767,9 +681,7 @@ class CheckoutController extends Controller
                 }
             }
         }
-
         $notf = null;
-
         foreach ($cart->items as $prod) {
             if ($prod['item']->user_id != 0) {
                 $vorder = new VendorOrder;
@@ -781,9 +693,7 @@ class CheckoutController extends Controller
                 $vorder->order_number = $order->order_number;
                 $vorder->save();
             }
-
         }
-
         if (!empty($notf)) {
             $users = array_unique($notf);
             foreach ($users as $user) {
@@ -793,20 +703,15 @@ class CheckoutController extends Controller
                 $notification->save();
             }
         }
-
         Session::put('temporder', $order);
         Session::put('tempcart', $cart);
-
         Session::forget('cart');
-
         Session::forget('already');
         Session::forget('coupon');
         Session::forget('coupon_total');
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
-
         //Sending Email To Buyer
-
         if ($gs->is_smtp == 1) {
             $data = [
                 'to' => $request->email,
@@ -818,7 +723,6 @@ class CheckoutController extends Controller
                 'wtitle' => "",
                 'onumber' => $order->order_number,
             ];
-
             $mailer = new GeniusMailer();
             $mailer->sendAutoOrderMail($data, $order->id);
         } else {
@@ -835,7 +739,6 @@ class CheckoutController extends Controller
                 'subject' => "New Order Recieved!!",
                 'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
             ];
-
             $mailer = new GeniusMailer();
             $mailer->sendCustomMail($data);
         } else {
@@ -845,12 +748,9 @@ class CheckoutController extends Controller
             $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
             mail($to, $subject, $msg, $headers);
         }
-
         return redirect($success_url);
     }
-
-    public function shopifycheckout(Request $request)
-    {
+    public function shopifycheckout(Request $request) {
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
             if (count($users) == 0) {
@@ -859,13 +759,12 @@ class CheckoutController extends Controller
                     $user->name = $request->personal_name;
                     $user->email = $request->personal_email;
                     $user->password = bcrypt($request->personal_pass);
-
                     $user->phone = $request->phone;
                     $user->address = $request->address;
                     $user->city = $request->city;
                     $user->country = $request->customer_country;
                     $user->zip = $request->zip;
-
+                    
                     $token = md5(time() . $request->personal_name . $request->personal_email);
                     $user->verification_link = $token;
                     $user->affilate_code = md5($request->name . $request->email);
@@ -873,196 +772,142 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
             }
         }
-
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
         }
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
-
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-
         $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        $storeAccessToken = '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';
-        
         // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
-
         $config = array(
             'ShopUrl' => $shop,
-            'AccessToken' => $storeAccessToken,
-            'FrontAccessToken' => $storefrontAccessToken
+            'FrontAccessToken' => $storefrontAccessToken,
         );
-
         $shopify = ShopifySDK::config($config);
-        
         $input = '{
             allowPartialAddresses: true,
             buyerIdentity: {
-                countryCode: US
+              countryCode: US
             },
-            email: "' . $request->personal_email . '",
-            note: "' . $request->order_notes . '",
+            email: "'.$request->personal_email.'",
+            note: "'.$request->order_notes.'",
             shippingAddress: {
-                address1: "' . ($request->shipping_address ?? $request->address) . '",
+                address1: "'.($request->shipping_address ?? $request->address).'",
                 address2: "",
-                city: "' . ($request->shipping_city ?? $request->city) . '",
+                city: "'.($request->shipping_city ?? $request->city).'",
                 company: "",
-                country: "' . ($request->shipping_country ?? $request->customer_country) . '",
-                firstName: "' . ($request->shipping_name ?? $request->name) . '",
+                country: "'.($request->shipping_country ?? $request->customer_country).'",
+                firstName: "'.($request->shipping_name ?? $request->name).'",
                 lastName: "",
-                phone: "' . ($request->shipping_phone ?? $request->phone) . '",
-                province: "PA",
-                zip: "' . ($request->shipping_zip ?? $request->zip) . '"
-            },
-            lineItems: [
-        ';
-
+                phone: "'.($request->shipping_phone ?? $request->phone).'",
+                province: "",
+                zip: "'.($request->shipping_zip ?? $request->zip).'"
+              }
+            lineItems: [';
+        
         try {
             $i = 0;
             $needToTemp = false;
-            $count = count($cart->items);
             foreach ($cart->items as $key => $prod) {
                 if (!$prod['item']->file) {
                     $needToTemp = true;
                     continue;
                 }
-
                 $i++;
-                
                 $query = '{
-                    products(first: 1, query:"(title:' . $prod['item']->name . ') AND (variants.sku:' . $prod['item']->sku . ')",) {
+                    products(first: 1, query:"(title:'.$prod['item']->name.') AND (variants.sku:'.$prod['item']->sku.')",) {
                         edges {
                             node {
                                 variants(first: 5) {
                                     edges {
-                                        node {
-                                            id
-                                        }
+                                    node {
+                                        id
+                                    }
                                     }
                                 }
                             }
                         }
                     }
                 }';
-
                 $productFromShopify = $shopify->GraphQL->post($query);
-
-                $input .= "{
-                    quantity: {$prod['qty']},
-                    variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                },";
-
                 if ($productFromShopify['data']['products']['edges']) {
-                    if($i == $count) {
-                        $input .= "{
-                            quantity: {$prod['qty']},
-                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                        }";
-                    }
-                    else {
-                        $input .= "{
-                            quantity: {$prod['qty']},
-                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                        }, ";
-                    }
-        
+                    $input .= "{
+                        quantity: {$prod['qty']},
+                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                    },";
                 } else {
                     $this->createProductOnShopify($prod);
                 }
-
+                
+                
                 $cart->removeItem($key);
             }
-
-            $input .= '], }';
-
-            if ($needToTemp) {
-                $content = [
-                    'totalQty' => $cart->totalQty,
-                    'totalPrice' => $cart->totalPrice,
-                    'items' => $cart->items,
-                ];
-                $tempcart = new TempCart;
-                $tempcart->content = json_encode($content);
-                $tempcart->user_email = $request->email;
-                $tempcart->save();
-                $to = 'usamtg@hotmail.com';
-                $subject = 'No Weight Alert';
-                $msg = "A customer has tried to checkout with no weight products in their cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
-                //Sending Email To Customer
-                if ($gs->is_smtp == 1) {
-                    $data = [
-                        'to' => $to,
-                        'subject' => $subject,
-                        'body' => $msg,
+            $input.='],
+        }';
+                if ($needToTemp) {
+                    $content = [
+                        'totalQty' => $cart->totalQty,
+                        'totalPrice' => $cart->totalPrice,
+                        'items' => $cart->items
                     ];
-
-                    $mailer = new GeniusMailer();
-                    $mailer->sendCustomMail($data);
-                } else {
-                    $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-                    mail($to, $subject, $msg, $headers);
+                    $tempcart = new TempCart;
+                    $tempcart->content = json_encode($content);
+                    $tempcart->user_email = $request->email;
+                    $tempcart->save();
+                    $to = 'usamtg@hotmail.com';
+                    $subject = 'No Weight Alert';
+                    $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit')."/". $tempcart->id . ">click here to review:</a>";
+                    //Sending Email To Customer
+                    if ($gs->is_smtp == 1) {
+                        $data = [
+                            'to' => $to,
+                            'subject' => $subject,
+                            'body' => $msg,
+                        ];
+                        $mailer = new GeniusMailer();
+                        $mailer->sendCustomMail($data);
+                    } else {
+                        $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+                        mail($to, $subject, $msg, $headers);
+                    }
                 }
-            }
-
-            if ($i == 0) {
-                Session::put('tempcart', $cart);
-                Session::forget('cart');
-                Session::forget('already');
-                Session::forget('coupon');
-                Session::forget('coupon_total');
-                Session::forget('coupon_total1');
-                Session::forget('coupon_percentage');
-                return redirect()->route('front.index');
-            }
-
-            $query = <<<GraphQL
+        if ($i == 0) {
+            Session::put('tempcart', $cart);
+            Session::forget('cart');
+            Session::forget('already');
+            Session::forget('coupon');
+            Session::forget('coupon_total');
+            Session::forget('coupon_total1');
+            Session::forget('coupon_percentage');
+            return redirect()->route('front.index');
+        }
+        $checkoutsh = $shopify->GraphQL->post(<<<QUERY
             mutation {
                 checkoutCreate(input: {$input}) {
                     checkout {
-                        id
-                        webUrl
+                    id
+                    webUrl
                     }
                     checkoutUserErrors {
-                        field
-                        message
+                    field
+                    message
                     }
                 }
             }
-            GraphQL;
-
-            // $query = <<<QUERY
-            // mutation ($input: CheckoutCreateInput!) {
-            //     checkoutCreate(input: $input) {
-            //         checkout {
-            //             id
-            //             webUrl
-            //         }
-            //         checkoutUserErrors {
-            //             field
-            //             message
-            //         }
-            //     }
-            // }
-            // QUERY;
-
-            // echo $query; exit;
-
-            $checkoutsh = $shopify->GraphQL->post($query);
-                    
-            // dd($checkoutsh); exit;
-            
+            QUERY,);
             if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
                 Session::put('tempcart', $cart);
                 Session::forget('cart');
@@ -1080,12 +925,9 @@ class CheckoutController extends Controller
                 Session::forget('coupon_total');
                 Session::forget('coupon_total1');
                 Session::forget('coupon_percentage');
-                return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
+                return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
             }
         } catch (\Exception $e) {
-
-            // echo $e->getMessage(); exit;
-
             Session::put('tempcart', $cart);
             Session::forget('cart');
             Session::forget('already');
@@ -1093,16 +935,13 @@ class CheckoutController extends Controller
             Session::forget('coupon_total');
             Session::forget('coupon_total1');
             Session::forget('coupon_percentage');
-            return redirect()->route('front.index')->with('error', $e->getMessage());
+            return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
         }
     }
-
-    public function addToTemp(Request $request)
-    {
+    public function addToTemp(Request $request) {
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('error', "You don't have any products to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
         }
-
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -1110,7 +949,7 @@ class CheckoutController extends Controller
         $content = [
             'totalQty' => $cart->totalQty,
             'totalPrice' => $cart->totalPrice,
-            'items' => $cart->items,
+            'items' => $cart->items
         ];
         $tempcart = new TempCart;
         $tempcart->content = json_encode($content);
@@ -1118,7 +957,7 @@ class CheckoutController extends Controller
         $tempcart->save();
         $to = 'usamtg@hotmail.com';
         $subject = 'No Weight Alert';
-        $msg = "A customer has tried add no weight products to their cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
+        $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit')."/". $tempcart->id . ">click here to review:</a>";
         //Sending Email To Customer
         if ($gs->is_smtp == 1) {
             $data = [
@@ -1140,29 +979,23 @@ class CheckoutController extends Controller
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
         $email = $request->email;
-        $message = 'Thank you for your business. We will notify you via email to ' . $email . ' when your order is ready and you can finish your checkout.';
+        $message = 'Thanks for your business. We will notify you via an email to '.$email.' when your order is ready and you can finish your checkout.';
         return view('front.success', compact('message', 'email'));
     }
-
     public function gateway(Request $request)
     {
         $input = $request->all();
-
         $rules = [
             'txn_id4' => 'required',
         ];
-
         $messages = [
             'required' => 'The Transaction ID field is required.',
         ];
-
         $validator = Validator::make($input, $rules, $messages);
-
         if ($validator->fails()) {
             Session::flash('unsuccess', $validator->messages()->first());
             return redirect()->back()->withInput();
         }
-
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
             if (count($users) == 0) {
@@ -1178,16 +1011,15 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
             }
         }
-
         $gs = Generalsetting::findOrFail(1);
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -1269,13 +1101,11 @@ class CheckoutController extends Controller
             $order['affilate_charge'] = $sub;
         }
         $order->save();
-
         $track = new OrderTrack;
         $track->title = 'Pending';
         $track->text = 'You have successfully placed your order.';
         $track->order_id = $order->id;
         $track->save();
-
         $notification = new Notification;
         $notification->order_id = $order->id;
         $notification->save();
@@ -1283,19 +1113,17 @@ class CheckoutController extends Controller
             $coupon = Coupon::findOrFail($request->coupon_id);
             $coupon->used++;
             if ($coupon->times != null) {
-                $i = (int) $coupon->times;
+                $i = (int)$coupon->times;
                 $i--;
-                $coupon->times = (string) $i;
+                $coupon->times = (string)$i;
             }
             $coupon->update();
-
         }
-
         foreach ($cart->items as $prod) {
-            $x = (string) $prod['size_qty'];
+            $x = (string)$prod['size_qty'];
             if (!empty($x)) {
                 $product = Product::findOrFail($prod['item']['id']);
-                $x = (int) $x;
+                $x = (int)$x;
                 $x = $x - $prod['qty'];
                 $temp = $product->size_qty;
                 $temp[$prod['size_key']] = $x;
@@ -1304,11 +1132,9 @@ class CheckoutController extends Controller
                 $product->update();
             }
         }
-
         foreach ($cart->items as $prod) {
-            $x = (string) $prod['stock'];
+            $x = (string)$prod['stock'];
             if ($x != null) {
-
                 $product = Product::findOrFail($prod['item']['id']);
                 $product->stock = $prod['stock'];
                 $product->update();
@@ -1319,9 +1145,7 @@ class CheckoutController extends Controller
                 }
             }
         }
-
         $notf = null;
-
         foreach ($cart->items as $prod) {
             if ($prod['item']->user_id != 0) {
                 $vorder = new VendorOrder;
@@ -1333,9 +1157,7 @@ class CheckoutController extends Controller
                 $vorder->order_number = $order->order_number;
                 $vorder->save();
             }
-
         }
-
         if (!empty($notf)) {
             $users = array_unique($notf);
             foreach ($users as $user) {
@@ -1345,7 +1167,6 @@ class CheckoutController extends Controller
                 $notification->save();
             }
         }
-
         Session::put('temporder', $order);
         Session::put('tempcart', $cart);
         Session::forget('cart');
@@ -1354,7 +1175,6 @@ class CheckoutController extends Controller
         Session::forget('coupon_total');
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
-
         //Sending Email To Buyer
         if ($gs->is_smtp == 1) {
             $data = [
@@ -1367,7 +1187,6 @@ class CheckoutController extends Controller
                 'wtitle' => "",
                 'onumber' => $order->order_number,
             ];
-
             $mailer = new GeniusMailer();
             $mailer->sendAutoOrderMail($data, $order->id);
         } else {
@@ -1381,31 +1200,27 @@ class CheckoutController extends Controller
         if ($gs->is_smtp == 1) {
             $data = [
                 'to' => Pagesetting::find(1)->contact_email,
-                'subject' => "New Order Received!!",
+                'subject' => "New Order Recieved!!",
                 'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
             ];
-
             $mailer = new GeniusMailer();
             $mailer->sendCustomMail($data);
         } else {
             $to = Pagesetting::find(1)->contact_email;
-            $subject = "New Order Received!!";
-            $msg = "Hello Admin!\nYour store has received a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
+            $subject = "New Order Recieved!!";
+            $msg = "Hello Admin!\nYour store has recieved a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
             $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
             mail($to, $subject, $msg, $headers);
         }
-
         return redirect($success_url);
     }
-
     // Capcha Code Image
     private function code_image()
     {
-        $actual_path = base_path();
+        $actual_path = str_replace('project', '', base_path());
         $image = imagecreatetruecolor(200, 50);
         $background_color = imagecolorallocate($image, 255, 255, 255);
         imagefilledrectangle($image, 0, 0, 200, 50, $background_color);
-
         $pixel = imagecolorallocate($image, 0, 0, 255);
         for ($i = 0; $i < 500; $i++) {
             imagesetpixel($image, rand() % 200, rand() % 50, $pixel);
@@ -1418,7 +1233,7 @@ class CheckoutController extends Controller
         $word = '';
         //$text_color = imagecolorallocate($image, 8, 186, 239);
         $text_color = imagecolorallocate($image, 0, 0, 0);
-        $cap_length = 6; // No. of character in image
+        $cap_length = 6;// No. of character in image
         for ($i = 0; $i < $cap_length; $i++) {
             $letter = $allowed_letters[rand(0, $length - 1)];
             imagettftext($image, 25, 1, 35 + ($i * 25), 35, $text_color, $font, $letter);
@@ -1432,39 +1247,32 @@ class CheckoutController extends Controller
         imagepng($image, $actual_path . "/public/assets/images/capcha_code.png");
     }
 
-    private function createProductOnShopify($prod)
-    {
+    private function createProductOnShopify($prod) {
+        $adminAccessToken = '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';
         $shop = '4mykioti.myshopify.com';
-        $storeAccessToken = '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';
-        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        
         $adminConfig = array(
             'ShopUrl' => $shop,
-            'AccessToken' => $storeAccessToken,
-            'FrontAccessToken' => $storefrontAccessToken
+            'AccessToken' => $adminAccessToken,
         );
-
         $adminshopify = ShopifySDK::config($adminConfig);
-
         $input = '{
-            title: "' . $prod['item']->name . '",
-            descriptionHtml: "' . $prod['item']->name . '",
+            title: "'.$prod['item']->name.'", 
+            descriptionHtml: "'.$prod['item']->name.'", 
             vendor: "Tractor Brothers",
             variants: [
                 {
-                    sku: "' . $prod['item']->sku . '",
-                    weight: ' . $prod['item']->file . '
-                    price: ' . $prod['item']->price . '
+                    sku: "'.$prod['item']->sku.'",
+                    weight: '.$prod['item']->file.'
+                    price: '.$prod['item']->price.'
                 }
             ]
         }';
-
         $checkoutsh = $adminshopify->GraphQL->post(<<<QUERY
             mutation {
                 productCreate(input: {$input}) {
                     product {
                         id
-                    }
+                      }
                 }
             }
             QUERY,);
