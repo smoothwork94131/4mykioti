@@ -49,7 +49,7 @@ class CheckoutController extends Controller
     {
         $this->code_image();
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         $gs = Generalsetting::findOrFail(1);
         $dp = 1;
@@ -626,15 +626,15 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
             }
         }
 
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -874,15 +874,15 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
             }
         }
 
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -895,7 +895,9 @@ class CheckoutController extends Controller
         $cart = new Cart($oldCart);
 
         $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        $storeAccessToken = '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';
+        $storeAccessToken = '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';
+        
+        // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
 
         $config = array(
@@ -931,33 +933,6 @@ class CheckoutController extends Controller
             },
             lineItems: [
         ';
-
-        // $input = array(
-        //     "allowPartialAddresses" => true,
-        //     "buyerIdentity" => array(
-        //         "countryCode"=> "US"
-        //     ),
-        //     "customAttributes" => array(
-        //         "key" => "email",
-        //         "value" => $request->personal_email
-        //     ),
-        //     "email" => $request->personal_emai,
-        //     "note" => $request->order_notes,
-        //     "shippingAddress" => array(
-        //         "address1" => ($request->shipping_address ?? $request->address),
-        //         "address2" => "",
-        //         "city" => ($request->shipping_city ?? $request->city),
-        //         "company" => "",
-        //         "country" => ($request->shipping_country ?? $request->customer_country),
-        //         "firstName" => ($request->shipping_name ?? $request->name),
-        //         "lastName" => "",
-        //         "phone" => ($request->shipping_phone ?? $request->phone),
-        //         "province" => "PA",
-        //         "zip" => ($request->shipping_zip ?? $request->zip)
-        //     )
-        // );
-
-        // $lineItems = array();
 
         try {
             $i = 0;
@@ -1002,12 +977,6 @@ class CheckoutController extends Controller
                             variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
                         }, ";
                     }
-                    // $item = array(
-                    //     "quantity" => $prod['qty'],
-                    //     "variantId" => $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']
-                    // );
-
-                    // $lineItems[] = $item;
         
                 } else {
                     $this->createProductOnShopify($prod);
@@ -1015,8 +984,6 @@ class CheckoutController extends Controller
 
                 $cart->removeItem($key);
             }
-
-            // $input["lineItems"] = $lineItems;
 
             $input .= '], }';
 
@@ -1032,7 +999,7 @@ class CheckoutController extends Controller
                 $tempcart->save();
                 $to = 'usamtg@hotmail.com';
                 $subject = 'No Weight Alert';
-                $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
+                $msg = "A customer has tried to checkout with no weight products in their cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
                 //Sending Email To Customer
                 if ($gs->is_smtp == 1) {
                     $data = [
@@ -1060,16 +1027,9 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index');
             }
 
-            // $headers = [
-                // 'X-Shopify-Storefront-Access-Token: d4ae789c32ebc20687d136affe3b6075',
-                // 'Content-Type: application/json'
-            // ];
-
-
-
             $query = <<<GraphQL
             mutation {
-                checkoutCreate(input: {$input}, queueToken: "d4ae789c32ebc20687d136affe3b6075") {
+                checkoutCreate(input: {$input}) {
                     checkout {
                         id
                         webUrl
@@ -1083,28 +1043,6 @@ class CheckoutController extends Controller
             }
             GraphQL;
 
-            // $inputData["input"] = $input;
-
-
-            // $query = <<<Query
-            // mutation ($input: CheckoutCreateInput!) {
-            //     checkoutCreate(input: {$input}) {
-            //         checkout {
-            //             id
-            //             webUrl
-            //         }
-            //         checkoutUserErrors {
-            //             field
-            //             message
-            //         }
-            //     }
-            // }
-            // Query;
-
-            // echo $query; exit;
-            // var_dump($inputData); die;
-            // $checkoutsh = $shopify->GraphQL->post($query, null, null, $inputData);
-            
             $checkoutsh = $shopify->GraphQL->post($query);
             var_dump($checkoutsh); die;
 
@@ -1128,9 +1066,6 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
             }
         } catch (\Exception $e) {
-
-            echo "Cause Error: " . $e->getMessage(); exit;
-
             Session::put('tempcart', $cart);
             Session::forget('cart');
             Session::forget('already');
@@ -1145,7 +1080,7 @@ class CheckoutController extends Controller
     public function addToTemp(Request $request)
     {
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('error', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('error', "You don't have any products to checkout.");
         }
 
         $gs = Generalsetting::findOrFail(1);
@@ -1163,7 +1098,7 @@ class CheckoutController extends Controller
         $tempcart->save();
         $to = 'usamtg@hotmail.com';
         $subject = 'No Weight Alert';
-        $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
+        $msg = "A customer has tried add no weight products to their cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
         //Sending Email To Customer
         if ($gs->is_smtp == 1) {
             $data = [
@@ -1185,7 +1120,7 @@ class CheckoutController extends Controller
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
         $email = $request->email;
-        $message = 'Thanks for your business. We will notify you via an email to ' . $email . ' when your order is ready and you can finish your checkout.';
+        $message = 'Thank you for your business. We will notify you via email to ' . $email . ' when your order is ready and you can finish your checkout.';
         return view('front.success', compact('message', 'email'));
     }
 
@@ -1223,16 +1158,16 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
             }
         }
 
         $gs = Generalsetting::findOrFail(1);
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -1426,7 +1361,7 @@ class CheckoutController extends Controller
         if ($gs->is_smtp == 1) {
             $data = [
                 'to' => Pagesetting::find(1)->contact_email,
-                'subject' => "New Order Recieved!!",
+                'subject' => "New Order Received!!",
                 'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
             ];
 
@@ -1434,8 +1369,8 @@ class CheckoutController extends Controller
             $mailer->sendCustomMail($data);
         } else {
             $to = Pagesetting::find(1)->contact_email;
-            $subject = "New Order Recieved!!";
-            $msg = "Hello Admin!\nYour store has recieved a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
+            $subject = "New Order Received!!";
+            $msg = "Hello Admin!\nYour store has received a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
             $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
             mail($to, $subject, $msg, $headers);
         }
