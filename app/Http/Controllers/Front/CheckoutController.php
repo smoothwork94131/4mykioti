@@ -1140,7 +1140,7 @@ class CheckoutController extends Controller
         Session::forget('coupon_total1');
         Session::forget('coupon_percentage');
         $email = $request->email;
-        $message = 'Thanks for your business. We will notify you via an email to ' . $email . ' when your order is ready and you can finish your checkout.';
+        $message = 'Thank you for your business. We will notify you via email to ' . $email . ' when your order is ready and you can finish your checkout.';
         return view('front.success', compact('message', 'email'));
     }
 
