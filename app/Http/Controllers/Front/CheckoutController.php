@@ -131,7 +131,7 @@ class CheckoutController extends Controller
             $productListNoWeight = [];
 
             foreach ($products as $prod) {
-                if ($prod['item']->file) {
+                if($prod['item'] != '' && $prod['item'] > 0) {
                     $total += $prod['item']->price;
                     array_push($productList, $prod);
                 } else {

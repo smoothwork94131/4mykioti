@@ -48,6 +48,7 @@ class CatalogController extends Controller
 
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null)
     {
+        echo 'ok'; exit;
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
@@ -80,7 +81,6 @@ class CatalogController extends Controller
             $search1 = ' ' . $search;
             $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
         }
-
 
         $prods = $prods->where('status', 1);
 

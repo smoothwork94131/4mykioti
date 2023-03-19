@@ -237,11 +237,7 @@ $(function($) {
 
         });
 
-
-
-
         $(document).on("click", ".m-block", function() {
-
             var type = $(this).data('type');
             var series = $(this).data('series')
             var model = $(this).data('model');
