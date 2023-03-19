@@ -48,7 +48,7 @@ class CheckoutController extends Controller
     {
         $this->code_image();
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         $gs = Generalsetting::findOrFail(1);
         $dp = 1;
@@ -625,15 +625,15 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
             }
         }
 
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -873,15 +873,15 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
             }
         }
 
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -1078,7 +1078,7 @@ class CheckoutController extends Controller
     public function addToTemp(Request $request)
     {
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('error', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('error', "You don't have any products to checkout.");
         }
 
         $gs = Generalsetting::findOrFail(1);
@@ -1096,7 +1096,7 @@ class CheckoutController extends Controller
         $tempcart->save();
         $to = 'usamtg@hotmail.com';
         $subject = 'No Weight Alert';
-        $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
+        $msg = "A customer has tried add no weight products to their cart, <a href=" . url('admin/tempcart/edit') . "/" . $tempcart->id . ">click here to review:</a>";
         //Sending Email To Customer
         if ($gs->is_smtp == 1) {
             $data = [
@@ -1156,16 +1156,16 @@ class CheckoutController extends Controller
                     $user->save();
                     Auth::guard('web')->login($user);
                 } else {
-                    return redirect()->back()->with('unsuccess', "Confirm Password Doesn't Match.");
+                    return redirect()->back()->with('unsuccess', "Password Doesn't Match.");
                 }
             } else {
-                return redirect()->back()->with('unsuccess', "This Email Already Exist.");
+                return redirect()->back()->with('unsuccess', "This Email Already Exists.");
             }
         }
 
         $gs = Generalsetting::findOrFail(1);
         if (!Session::has('cart')) {
-            return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
+            return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -1359,7 +1359,7 @@ class CheckoutController extends Controller
         if ($gs->is_smtp == 1) {
             $data = [
                 'to' => Pagesetting::find(1)->contact_email,
-                'subject' => "New Order Recieved!!",
+                'subject' => "New Order Received!!",
                 'body' => "Hello Admin!<br>Your store has received a new order.<br>Order Number is " . $order->order_number . ".Please login to your panel to check. <br>Thank you.",
             ];
 
@@ -1367,8 +1367,8 @@ class CheckoutController extends Controller
             $mailer->sendCustomMail($data);
         } else {
             $to = Pagesetting::find(1)->contact_email;
-            $subject = "New Order Recieved!!";
-            $msg = "Hello Admin!\nYour store has recieved a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
+            $subject = "New Order Received!!";
+            $msg = "Hello Admin!\nYour store has received a new order.\nOrder Number is " . $order->order_number . ".Please login to your panel to check. \nThank you.";
             $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
             mail($to, $subject, $msg, $headers);
         }
