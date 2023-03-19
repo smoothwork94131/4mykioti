@@ -162,13 +162,12 @@
                                                             value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->address : '' }}"
                                                             {!! Auth::check() ? 'readonly' : '' !!}>
                                                     </div>
-                                                    {{-- <div class="col-lg-6">
+                                                    <div class="col-lg-6">
                                                         <select class="form-control" name="customer_country"
                                                             required="" {!! Auth::check() ? 'readonly' : '' !!}>
                                                             @include('includes.countries')
                                                         </select>
-                                                    </div> --}}
-                                                    <input type="hidden" name="customer_country" value="US" />
+                                                    </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="text" name="city"
                                                             placeholder="{{ $langg->lang158 }}" required=""
