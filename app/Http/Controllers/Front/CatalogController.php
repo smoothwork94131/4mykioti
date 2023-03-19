@@ -48,7 +48,6 @@ class CatalogController extends Controller
 
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null)
     {
-        echo 'ok'; exit;
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
