@@ -131,7 +131,7 @@ class CheckoutController extends Controller
             $productListNoWeight = [];
 
             foreach ($products as $prod) {
-                if($prod['item'] != '' && $prod['item'] > 0) {
+                if($prod['item']->file != NULL && $prod['item']->file > 0) {
                     $total += $prod['item']->price;
                     array_push($productList, $prod);
                 } else {
@@ -222,7 +222,7 @@ class CheckoutController extends Controller
 
                 $total = 0;
                 foreach ($products as $prod) {
-                    if ($prod['item']->file) {
+                    if ($prod['item']->file != NULL && $prod['item']->file > 0) {
                         $total += $prod['item']->price;
                         array_push($productList, $prod);
                     } else {
@@ -418,7 +418,7 @@ class CheckoutController extends Controller
             $productListNoWeight = [];
 
             foreach ($products as $prod) {
-                if ($prod['item']->file) {
+                if ($prod['item']->file != NULL && $prod['item']->file > 0) {
                     $total += $prod['item']->price;
                     array_push($productList, $prod);
                 } else {
@@ -923,7 +923,7 @@ class CheckoutController extends Controller
                 firstName: "' . ($request->shipping_name ?? $request->name) . '",
                 lastName: "",
                 phone: "' . ($request->shipping_phone ?? $request->phone) . '",
-                province: "",
+                province: "PA",
                 zip: "' . ($request->shipping_zip ?? $request->zip) . '"
             },
             lineItems: [
@@ -1027,7 +1027,7 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index');
             }
 
-            $checkoutsh = $shopify->GraphQL->post(<<<GraphQL
+            $query = <<<GraphQL
             mutation {
                 checkoutCreate(input: {$input}) {
                     checkout {
@@ -1040,7 +1040,26 @@ class CheckoutController extends Controller
                     }
                 }
             }
-            GraphQL,);
+            GraphQL;
+
+            // $query = <<<QUERY
+            // mutation ($input: CheckoutCreateInput!) {
+            //     checkoutCreate(input: $input) {
+            //         checkout {
+            //             id
+            //             webUrl
+            //         }
+            //         checkoutUserErrors {
+            //             field
+            //             message
+            //         }
+            //     }
+            // }
+            // QUERY;
+
+            echo $query; exit;
+
+            $checkoutsh = $shopify->GraphQL->post($query);
                     
             // dd($checkoutsh); exit;
             
@@ -1064,6 +1083,9 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
             }
         } catch (\Exception $e) {
+
+            echo $e->getMessage(); exit;
+
             Session::put('tempcart', $cart);
             Session::forget('cart');
             Session::forget('already');
