@@ -1038,7 +1038,6 @@ class CheckoutController extends Controller
                         field
                         message
                     }
-                    d4ae789c32ebc20687d136affe3b6075
                 }
             }
             GraphQL;
