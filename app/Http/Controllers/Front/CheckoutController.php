@@ -894,7 +894,7 @@ class CheckoutController extends Controller
         $cart = new Cart($oldCart);
 
         $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        $storeAccessToken = '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';
+        $storeAccessToken = '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';
         
         // Shop from which we're fetching data
         $shop = '4mykioti.myshopify.com';
