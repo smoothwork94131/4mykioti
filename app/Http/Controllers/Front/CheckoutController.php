@@ -1057,7 +1057,7 @@ class CheckoutController extends Controller
             // }
             // QUERY;
 
-            echo $query; exit;
+            // echo $query; exit;
 
             $checkoutsh = $shopify->GraphQL->post($query);
                     
@@ -1084,7 +1084,7 @@ class CheckoutController extends Controller
             }
         } catch (\Exception $e) {
 
-            echo $e->getMessage(); exit;
+            // echo $e->getMessage(); exit;
 
             Session::put('tempcart', $cart);
             Session::forget('cart');
