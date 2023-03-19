@@ -802,6 +802,10 @@ class CheckoutController extends Controller
             buyerIdentity: {
               countryCode: US
             },
+            customAttributes: {
+                key: "email",
+                value: "' . $request->personal_email . '"
+            },
             email: "'.$request->personal_email.'",
             note: "'.$request->order_notes.'",
             shippingAddress: {
