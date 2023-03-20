@@ -793,14 +793,17 @@ class CheckoutController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         
-        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        $storeAccessToken = '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';
-        $shop = '4mykioti.myshopify.com';
-
+    
+        $shop_url = env('SHOPIFY_SHOP_URL', '');
+        $storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
+        $storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
+        $shopify_api_version = env('SHOPIFY_API_VERSION', '2023-01');
+        
         $config = array(
-            'ShopUrl' => $shop,
+            'ShopUrl' => $shop_url,
             'AccessToken' => $storeAccessToken,
             'FrontAccessToken' => $storefrontAccessToken,
+            'ApiVersion' => $shopify_api_version
         );
 
         $shopify = ShopifySDK::config($config);
@@ -935,10 +938,7 @@ class CheckoutController extends Controller
             }
             QUERY;
 
-            // echo $query; exit;
-
-            $graphql_url = "https://4mykioti.myshopify.com/api/2023-01/graphql.json";
-
+            $graphql_url = "https://" . $shop_url . "/api/". $shopify_api_version ."/graphql.json";
             $post_data = array();
             $post_data['query'] = $query;
             $curl_init = curl_init();
@@ -946,8 +946,8 @@ class CheckoutController extends Controller
             curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json', 
                 'Accept: application/json', 
-                'X-Shopify-Storefront-Access-Token: d4ae789c32ebc20687d136affe3b6075', 
-                'X-Shopify-Access-Token: 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'
+                'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
+                'X-Shopify-Access-Token: '. $storeAccessToken
             ));
             curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
@@ -955,8 +955,6 @@ class CheckoutController extends Controller
             curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
             $response = curl_exec ($curl_init);
             $checkoutsh = json_decode($response, true);
-
-            // print_r($decode_response); exit;
 
             $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
             curl_close ($curl_init);
