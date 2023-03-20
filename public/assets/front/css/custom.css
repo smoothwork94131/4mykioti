@@ -1667,6 +1667,7 @@ Begin Header Custom Style
     #product_table .dropdown-menu {
         left: -100% !important ;
     }
+    
 }
 
 @media(max-width:768px){
