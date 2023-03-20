@@ -1,6 +1,13 @@
 @extends('layouts.front')
 
 @section('content')
+
+    <?php 
+        $sel_part_id = 0 ;
+        if($sel_part) {
+            $sel_part_id = $sel_part->id ;
+        }
+    ?>
     <section class="user-dashbord">
         <div class="container">
             <div class="row">
@@ -9,6 +16,7 @@
                     <!-- @include('includes.form-success') -->
                     <div class="user-profile-details my-tractor-content">
                         <div class="order-history" >
+                            
                             <div class="header-area d-flex align-items-center">
                                 <h4 class="title">{{ $langg->lang230 }}</h4>
                             </div>
@@ -19,61 +27,63 @@
                                     data-target="#add_my_tractor_modal"
                                 >New</button>
                             </div>
-                            
-                            <div class='row'>
-                                <div class='col-md-8 col-sm-12'>
-                                    <form id='edit_tractor_form' style='margin: 0;'>
-                                        <div class="form-group">
-                                            <label for="value" class='name'>series</label>
-                                            <select class="form-control value series" onchange = 'changeEditSeries(event)'>
-                                            @foreach($series as $item)
-                                                <?php 
-                                                $selected = '';
-                                                if($sel_part->series == strtolower($item->series))
-                                                {
-                                                    $selected = 'selected="selected"';
-                                                }
-                                                ?>
-                                                <option {{$selected}}>{{$item->series}}</option>
-                                            @endforeach
-                                            </select>
+                            @if (count($cate_tractor) == 0) 
+                                <div align='center'>No data</div>
+                                
+                            @else 
+                                <div class='row'>
+                                    <div class='col-md-8 col-sm-12'>
+                                        <form id='edit_tractor_form' style='margin: 0;'>
+                                            <div class="form-group">
+                                                <label for="value" class='name'>series</label>
+                                                <select class="form-control value series" onchange = 'changeEditSeries(event)'>
+                                                @foreach($series as $item)
+                                                    <?php 
+                                                    $selected = '';
+                                                    if($sel_part->series == strtolower($item->series))
+                                                    {
+                                                        $selected = 'selected="selected"';
+                                                    }
+                                                    ?>
+                                                    <option {{$selected}}>{{$item->series}}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="value" class='name'>model</label>
+                                                <select class="form-control value model">
+                                                @foreach($model as $key => $item)
+                                                    <?php
+                                                    $selected = '';
+                                                    if($sel_part->model == $key)
+                                                    {
+                                                        $selected = 'selected="selected"';
+                                                    }
+                                                    ?>
+                                                    <option {{$selected}}>{{$key}}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
+                                        <div align='right' style='padding: 15px;'>
+                                            <button class='btn btn-success' onclick="addTractor('edit')"><i class='fa fa-edit'></i>Edit</button>
+                                            <button class='btn btn-danger' onclick='removeItem()'><i class='fa fa-trash'></i>Remove</button>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="value" class='name'>model</label>
-                                            <select class="form-control value model">
-                                            @foreach($model as $key => $item)
-                                                <?php
-                                                $selected = '';
-                                                if($sel_part->model == $key)
-                                                {
-                                                    $selected = 'selected="selected"';
-                                                }
-                                                ?>
-                                                <option {{$selected}}>{{$key}}</option>
-                                            @endforeach
-                                            </select>
-                                        </div>
-                                    </form>
-                                    <div align='right' style='padding: 15px;'>
-                                        <button class='btn btn-success' onclick="addTractor('edit')"><i class='fa fa-edit'></i>Edit</button>
-                                        <button class='btn btn-danger' onclick='removeItem()'><i class='fa fa-trash'></i>Remove</button>
                                     </div>
-                                </div>
-                                <div class='col-md-4 col-sm-12 my-tractor-list'>
-                                    @if (count($cate_tractor) == 0) 
-                                        <div align='center'>No data</div>
-                                    @else  
+                                    <div class='col-md-4 col-sm-12 my-tractor-list'>
+                                        
                                         @foreach($cate_tractor as $key => $item) 
-                                            <div class="list-item <?php if($sel_part->id == $item->id)  echo 'sel-list' ;?>">
+                                            <div class="list-item <?php if($sel_part_id == $item->id)  echo 'sel-list' ;?>">
                                                 <a href="{{route('user-my-tractor')}}?part_id={{$item->id}}">
-                                                 {{strtoupper($item->series)}},
-                                                 {{$item->model}}
+                                                    {{strtoupper($item->series)}},
+                                                    {{$item->model}}
                                                 </a>
                                             </div>
                                         @endforeach
-                                    @endif
+                                    </div>
                                 </div>
-                            </div>
+                                
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -123,6 +133,8 @@
             
         }
         function addTractor(type) {
+          
+
             var series =  $("#"+type+"_tractor_form .series").val() ;
             var model =  $("#"+type+"_tractor_form .model").val() ;
             
@@ -135,7 +147,7 @@
                     series: series,
                     model: model,
                     type:type,
-                    sel_part_id: "{{$sel_part->id}}"
+                    sel_part_id: "{{$sel_part_id }}" 
                 },
                 type:'post',
                 dataType:'json',
@@ -182,13 +194,15 @@
             }) ;
         }
         function removeItem() {
+           
+
             $.ajax({
                 url: "{{route('user-remove-my-tractor')}}",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data:{
-                    sel_part_id: "{{$sel_part->id}}"
+                    sel_part_id: "{{$sel_part_id}}"
                 },
                 type:'post',
                 success:function(result) {

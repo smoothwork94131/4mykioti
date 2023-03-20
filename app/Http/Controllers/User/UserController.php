@@ -195,11 +195,11 @@ class UserController extends Controller
         $user_data = Auth::user();
         $user_id = $user_data['id'] ;
         $cate_tractor = DB::table("users-tractor")->where('user_id', '=', $user_id)->orderBy('updatetime', 'desc')->get()->toArray();
-        $sel_part = array() ;
+        $sel_part = false ;
         $series = DB::table("ec_categories")->get()->toArray();
         $model = array() ;
         if(count($cate_tractor) > 0) {
-            $sel_part = array() ;
+            $sel_part = false ;
             if($part_id) {
                 foreach($cate_tractor as $key => $item) {
                     if($part_id == $item->id) {
@@ -216,6 +216,7 @@ class UserController extends Controller
         }
         
         $msg = "" ;
+        
         
         return view('user.myTractor', compact('cate_tractor', 'msg','series', 'model', "sel_part"));
     }
@@ -246,7 +247,6 @@ class UserController extends Controller
             )) ;
             return response()->json(array("msg"=>"Succssfully Add")) ;
         }
-
         
     }
 
