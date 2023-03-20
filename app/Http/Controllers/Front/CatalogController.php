@@ -95,6 +95,7 @@ class CatalogController extends Controller
         
         $group = DB::table($db.'_categories')->where('group_id', $slug2)->first();
 
+        $data['db'] = $db;
         $data['prods'] = $prods;
         $data['group'] = $group;
 

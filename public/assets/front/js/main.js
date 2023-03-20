@@ -62,7 +62,7 @@ $(function($) {
                 $(".desktop-search-field").css("display", "none") ;
                 $(".search-dropdown").css("top", "40px") ;
                 
-                $("#phone_num_desc").text("FOR CALL:");
+                $("#phone_num_desc").text("CALL:");
             } else {
                 $(".socials-div").css("display", "flex");
                 $(".locations-div").css("display", "block");
@@ -122,8 +122,8 @@ $(function($) {
             var token = $(this).data('token');
             var elem = $(this);
             var cat_elem = $(this).parent().children('.categories_menu_inner');
-            if (type) {
 
+            if (type) {
                 if (type != 'group') {
                     cat_elem.html('');
                 }
@@ -151,8 +151,9 @@ $(function($) {
                                     data-model="${data.categories[x].model}"
                                     data-series="${series}"
                                     data-url="${link}" 
-                                    data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].model} <i
-                                                    class="fa fa-angle-down arrow-down"></i></h2>
+                                    data-status="0" data-token="${token}">
+                                        <h2 class="categori_toggle"> ${data.categories[x].model} <i class="fa fa-angle-down arrow-down"></i>
+                                        </h2>
                                     </div>
                                     <div class="common-parts" style="background-color: white">
                                     </div>
@@ -232,9 +233,6 @@ $(function($) {
                 $(".categories_mega_menu").removeClass('open');
                 $(".categories_title").removeClass('active');
             }
-
-
-
         });
 
         $(document).on("click", ".m-block", function() {
