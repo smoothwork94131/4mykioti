@@ -6,6 +6,23 @@
 
 @section('content')
 
+    @if (\Session::has('success'))
+    <div class="success alert-success">
+        <ul>
+            <li>{!! \Session::get('success') !!}</li>
+        </ul>
+    </div>
+    @endif
+
+    @if (\Session::has('error'))
+    <div class="danger alert-danger">
+        <ul>
+            <li>{!! \Session::get('error') !!}</li>
+        </ul>
+    </div>
+    @endif
+
+
     @if($ps->slider == 1)
         @if(count($sliders))
             @include('includes.slider-style')
@@ -62,7 +79,6 @@
         </section>
         <!-- Hero Area End -->
     @endif
-    
 
     {{-- @if($ps->featured_category == 1) --}}
 
@@ -219,10 +235,10 @@
                         <div class='section-name'>
                             Promotions
                         </div>
-                        <a href="https://www.tractorbrothers.com/new-models/woods-265"><img src="{{asset('assets/promotions/5f721233-577e-4e0b-9983-c1b8ad89e8d7.jpg')}}"/></a>
-                        <a href="https://www.tractorbrothers.com/new-models/husqvarna-157"><img src="{{asset('assets/promotions/8c1b7eaa-f63c-4f1e-9a98-046264d4418e.jpg')}}" /></a>
-                        <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
-                        <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
+                        <a href="https://www.tractorbrothers.com/new-models/woods-265"><img src="{{asset('assets/images/promotions/5f721233-577e-4e0b-9983-c1b8ad89e8d7.jpg')}}"/></a>
+                        <a href="https://www.tractorbrothers.com/new-models/husqvarna-157"><img src="{{asset('assets/images/promotions/8c1b7eaa-f63c-4f1e-9a98-046264d4418e.jpg')}}" /></a>
+                        <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
+                        <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
                         
                     </div>
                     <div class="row">

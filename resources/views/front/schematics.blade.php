@@ -29,7 +29,7 @@
 
     <section class="faq-section">
         <div class="container">
-            <div class="row justify-content-center m-block-content">
+            <div class="row m-block-content">
                     @foreach($eccategories as $product)
                         @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
                             <div class="col col-md-3 col-sm-4">

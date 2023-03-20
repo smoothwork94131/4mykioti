@@ -30,7 +30,7 @@
     <section class="faq-section">
         <div class="container">
             
-            <div class="row justify-content-center m-block-content">
+            <div class="row m-block-content">
                     <!-- @foreach($eccategories as $product) -->
                         @foreach($series_data as $series)
                             <div class="col col-md-3 col-sm-4">

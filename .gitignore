@@ -1,8 +1,7 @@
 .env
+.cpanel.yml
 /.vscode
 /node_modules
 /public/storage
-/public/images/group
-/public/images/capcha_code.png
+/public/assets/images/capcha_code.png
 /vendor
-

@@ -48,7 +48,6 @@ class CatalogController extends Controller
 
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null)
     {
-
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
@@ -76,20 +75,11 @@ class CatalogController extends Controller
         ->when(empty($sort), function ($query, $sort) {
             return $query->orderBy('id', 'DESC');
         });
-
-        // if(!Auth::guard('web')->check()) {
-        //     $prods = $prods->where('is_verified', 0);
-        // } else {
-        //     if(!Auth::user()->is_verified) {
-        //         $prods = $prods->where('is_verified', 0);
-        //     }
-        // }
-            
+    
         if ($search) {
             $search1 = ' ' . $search;
             $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
         }
-
 
         $prods = $prods->where('status', 1);
 
@@ -103,9 +93,9 @@ class CatalogController extends Controller
             $prods = $prods->get();
         }
         
-
         $group = DB::table($db.'_categories')->where('group_id', $slug2)->first();
 
+        $data['db'] = $db;
         $data['prods'] = $prods;
         $data['group'] = $group;
 
@@ -114,6 +104,7 @@ class CatalogController extends Controller
 
         $data['colorsetting_style1'] = $colorsetting_style1;
         $data['colorsetting_style2'] = $colorsetting_style2;
+        
         $data['db'] = $db;
 
         if ($request->ajax()) {
@@ -182,11 +173,11 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
         
-        $vendors = DB::table($db)->where('subcategory_id', '=', $model)->where('name', '!=', $prod_name)->take(8)->get();
-        // $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
-        // $vendors = array() ;
+        $vendors = DB::table($db)
+                ->where('subcategory_id', '=', $model)
+                ->where('name', '!=', $prod_name)
+                ->take(8)->get();
     
-
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db"));
     }
     public function product(Request $request, $slug)
@@ -241,6 +232,7 @@ class CatalogController extends Controller
         $db="product" ;
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
+
     public function searchProdDetail() {
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
@@ -291,6 +283,7 @@ class CatalogController extends Controller
         $db="product" ;
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
+
     public function iproduct(Request $request, $slug, $slug1)
     {
         $this->code_image();
@@ -341,6 +334,7 @@ class CatalogController extends Controller
 
         return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
     }
+
     // Capcha Code Image
     private function code_image()
     {
@@ -407,8 +401,6 @@ class CatalogController extends Controller
 
     public function iquick($db, $id)
     {
-
-
         $product = DB::table($db)->find($id);
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));

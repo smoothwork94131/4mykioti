@@ -1,127 +1,105 @@
 @extends('layouts.front')
-@section('content')
 
-    <!-- Breadcrumb Area Start -->
-    <div class="breadcrumb-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="pages">
-                        <li>
-                            <a href="{{route('front.index')}}">{{ $langg->lang17 }}</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">{{ $langg->lang58 }}</a>
-                        </li>
-                    </ul>
-                </div>
+@section('content')
+<!-- Breadcrumb Area Start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="pages">
+                    <li>
+                        <a href="{{route('front.index')}}">{{ $langg->lang17 }}</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">{{ $langg->lang58 }}</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-    <!-- Breadcrumb Area End -->
+</div>
+<!-- Breadcrumb Area End -->
 
-    <!-- SubCategori Area Start -->
-    <section class="sub-categori">
-        <div class="container">
-            <div class="row">
-
-                @include('includes.catalog')
-
-                <div class="col-lg-9 order-first order-lg-last">
-
-                    <div class="right-area">
-
-                        @if(count($products) > 0)
-
-                            @include('includes.filter')
-
-                            <div class="categori-item-area">
-                                <div id="ajaxContent">
-                                    <div class="row">
-                                        @foreach($products as $prod)
-                                            @include('includes.product.product')
-                                        @endforeach
-
-                                    </div>
-
-                                    @if(isset($min) || isset($max))
-
-                                        <div class="page-center category">
-                                            {!! $products->appends(['cat_id' => $cat_id ,'min' => $min, 'max' => $max])->links() !!}
-                                        </div>
-
-                                    @elseif(!empty($sort))
-                                        @if(!empty($category_id))
-
-                                            <div class="page-center category">
-                                                {!! $products->appends(['category_id' => $category_id, 'search' => $search, 'sort' => $sort])->links() !!}
-                                            </div>
-
-                                        @else
-                                            <div class="page-center category">
-                                                {!! $products->appends(['cat_id' => $cat_id, 'min' => $min, 'max' => $max, 'sort' => $sort])->links() !!}
-                                            </div>
-                                        @endif
-                                    @else
-
-                                        <div class="page-center category">
-                                            {!! $products->appends(['category_id' => $category_id, 'search' => $search])->links() !!}
-                                        </div>
-
-                                    @endif
-
-                                </div>
+<!-- SubCategori Area Start -->
+<section class="sub-categori">
+    <div class="container">
+        <table id="product_table" class="table" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th width='10%' class='th-img'></th>
+                <th>Name</th>
+                <th>Model</th>
+                <th class='th-group'>Group</th>
+                <th class='th-part'>Part</th>
+                <th class='th-price'>Price</th>
+                <th style="text-align:center;" class='th-action'>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            @foreach($products as $key=>$prod)
+                <tr>
+                    <td class='td-img'>
+                        <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                    </td>
+                    <td>
+                        <a href="{{route('front.product', $prod->name)}}">{{ $prod->name }}</a>
+                    </td>
+                    <td>
+                        {{ $prod->subcategory_id }}
+                    </td>
+                    <td class='td-group'>
+                        {{ $prod->parent }}
+                    </td>
+                    <td class='td-part'>
+                        {{ $prod->sku }}
+                    </td>
+                    <td class='td-price'>
+                        ${{ $prod->price }}
+                    </td >  
+                    <td style="text-align:center;" class='td-action'>
+                        <div class="dropdown">
+                            <a class="btn-floating btn-lg black" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-primary">
+                                @if(Auth::guard('web')->check())
+                                    <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                @else
+                                    <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                @endif
+                                <span class="dropdown-item quick-view" data-href="{{ route('product.iquick',['db' => $prod->table, 'id' => $prod->id]) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
+                                @if($prod->product_type == "affiliate")
+                                    <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                @else
+                                <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => $prod->table, 'id' => $prod->id]) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
+                                        <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',['db' => $prod->table, 'id' => $prod->id]) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                @endif
                             </div>
-                        @else
-                            <div class="page-center">
-                                <h4 class="text-center">{{ $langg->lang60 }}</h4>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- SubCategori Area End -->
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</section>
+<!-- SubCategori Area End -->
 @endsection
 
 @section('scripts')
-
-    <script type="text/javascript">
-        $("#sortby").on('change', function () {
-            var sort = $("#sortby").val();
-            @if(empty($sort))
-                window.location = window.location.href + '&sort=' + sort;
-            @else
-            var url = window.location.href.split("&sort");
-            ;
-            window.location = url[0] + '&sort=' + sort;
-            @endif
-        });
-
-        $(function () {
-            $("#slider-range").slider({
-                range: true,
-                orientation: "horizontal",
-                min: 0,
-                max: 1000,
-                values: [{{ isset($_GET['min']) ? $_GET['min'] : '0' }}, {{ isset($_GET['max']) ? $_GET['max'] : '1000' }}],
-                step: 5,
-
-                slide: function (event, ui) {
-                    if (ui.values[0] == ui.values[1]) {
-                        return false;
-                    }
-
-                    $("#min_price").val(ui.values[0]);
-                    $("#max_price").val(ui.values[1]);
-                }
-            });
-
-            $("#min_price").val($("#slider-range").slider("values", 0));
-            $("#max_price").val($("#slider-range").slider("values", 1));
-
-        });
-    </script>
+<script type="text/javascript">
+    var search_table = $('#product_table').DataTable({
+        paging: true,
+        ordering: false,
+        info: false,
+        searching: false,
+        lengthMenu: [[20, 100, 150, 200, -1], [20, 100, 150, 200, "All"]],
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    });
+</script>
 
 @endsection

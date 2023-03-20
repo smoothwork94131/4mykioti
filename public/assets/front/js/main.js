@@ -1,7 +1,6 @@
 $(function($) {
     "use strict";
 
-
     $(document).ready(function() {
 
         // Profile Dropdown
@@ -11,6 +10,7 @@ $(function($) {
         $('.profilearea.my-dropdown').on('mouseout', function() {
             $('.profilearea.my-dropdown .my-dropdown-menu.profile-dropdown').stop().hide(0);
         });
+        
         $(window).resize(function() {
             resizeLayout();
         });
@@ -19,14 +19,11 @@ $(function($) {
 
         function resizeLayout() {
             resizeHeader();
-            // resizeFooter() ;
         }
 
         function resizeHeader() {
             var scr_width = $("body").width();
             var bar_cnt = $(".top-menu .navbar-nav").children().length;
-
-            // var bar_width = scr_width - scr_width * 0.2 ;
             var bar_item_width = ($(".navbar").width() + 10) / bar_cnt;
 
             $(".navbar-nav li").css("width", bar_item_width + "px");
@@ -36,10 +33,6 @@ $(function($) {
                 "width": bar_item_width + "px",
                 "textAlign": "center",
             });
-            
-            // $(".categori-item-area .prod-item").hover(function() {
-            //     $(this).unbind("mouseenter mouseleave");
-            // }) ;
             
             if (scr_width < 768) {
                 $(".socials-div").css("display", "none");
@@ -68,10 +61,8 @@ $(function($) {
                 $(".mobile-search-field").css("display", "block") ;
                 $(".desktop-search-field").css("display", "none") ;
                 $(".search-dropdown").css("top", "40px") ;
-                // $(".categori-item-area .prod-item").addClass("disabled") ;
-
-                // $(".categori-item-area .prod-item").unbind('mouseenter mouseleave') ;
                 
+                $("#phone_num_desc").text("CALL:");
             } else {
                 $(".socials-div").css("display", "flex");
                 $(".locations-div").css("display", "block");
@@ -92,13 +83,12 @@ $(function($) {
                 $(".desktop-search-field").css("display", "block") ;
                 $(".search-dropdown").css("top", "100%") ;
 
+                $("#phone_num_desc").text("FOR ASSISTANCE CALL:");
             }
         }
 
-        function resizeFooter() {
-
-        }
         resizeLayout();
+
         $(function() {
 
             var url = window.location.href,
@@ -132,8 +122,8 @@ $(function($) {
             var token = $(this).data('token');
             var elem = $(this);
             var cat_elem = $(this).parent().children('.categories_menu_inner');
-            if (type) {
 
+            if (type) {
                 if (type != 'group') {
                     cat_elem.html('');
                 }
@@ -161,8 +151,9 @@ $(function($) {
                                     data-model="${data.categories[x].model}"
                                     data-series="${series}"
                                     data-url="${link}" 
-                                    data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].model} <i
-                                                    class="fa fa-angle-down arrow-down"></i></h2>
+                                    data-status="0" data-token="${token}">
+                                        <h2 class="categori_toggle"> ${data.categories[x].model} <i class="fa fa-angle-down arrow-down"></i>
+                                        </h2>
                                     </div>
                                     <div class="common-parts" style="background-color: white">
                                     </div>
@@ -242,16 +233,9 @@ $(function($) {
                 $(".categories_mega_menu").removeClass('open');
                 $(".categories_title").removeClass('active');
             }
-
-
-
         });
 
-
-
-
         $(document).on("click", ".m-block", function() {
-
             var type = $(this).data('type');
             var series = $(this).data('series')
             var model = $(this).data('model');

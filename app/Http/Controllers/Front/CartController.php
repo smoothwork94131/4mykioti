@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers\Front;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\UserCart;
-use App\Models\Product;
-use App\Models\Currency;
 use App\Models\Coupon;
+use App\Models\Currency;
 use App\Models\Generalsetting;
-use Session;
-use Illuminate\Support\Facades\DB;
+use App\Models\UserCart;
 use Auth;
-
+use Illuminate\Support\Facades\DB;
+use Session;
 
 class CartController extends Controller
 {
-
     public function cart()
     {
         $this->code_image();
@@ -59,7 +55,7 @@ class CartController extends Controller
         return view('load.cart');
     }
 
-    public function addtocart($db,$id)
+    public function addtocart($db, $id)
     {
         $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
@@ -96,7 +92,6 @@ class CartController extends Controller
             $color = str_replace('#', '', $color);
         }
 
-
         if ($prod->user_id != 0) {
             $gs = Generalsetting::findOrFail(1);
             $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
@@ -108,26 +103,27 @@ class CartController extends Controller
         $keys = rtrim($keys, ',');
         $values = rtrim($values, ',');
 
-
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
 
         $cart->add($prod, $db, $prod->id, $size, $color, $keys, $values);
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
+        if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return redirect()->route('front.cart');
         }
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
+        if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
             return redirect()->route('front.cart');
         }
-        if (!empty($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
-            if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
+        if (!empty($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
+            if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
                 return redirect()->route('front.cart');
             }
         }
 
         $cart->totalPrice = 0;
-        foreach ($cart->items as $data)
+        foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
+        }
+
         Session::put('cart', $cart);
 
         $user = Auth::user();
@@ -135,7 +131,7 @@ class CartController extends Controller
             $content = [
                 'totalQty' => $cart->totalQty,
                 'totalPrice' => $cart->totalPrice,
-                'items' => $cart->items
+                'items' => $cart->items,
             ];
             $usercart = new UserCart;
             $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
@@ -153,7 +149,7 @@ class CartController extends Controller
         return redirect()->route('front.cart');
     }
 
-    public function addcart($db,$id)
+    public function addcart($db, $id)
     {
         $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
@@ -200,9 +196,7 @@ class CartController extends Controller
             $prod->price = round($prc, 2);
         }
 
-
         // Set Attribute
-
 
         if (!empty($prod->attributes)) {
             $attrArr = json_decode($prod->attributes, true);
@@ -228,7 +222,6 @@ class CartController extends Controller
                             $prod->price += $attrVal['prices'][$optionKey];
                             break;
 
-
                         }
 
                     }
@@ -240,25 +233,26 @@ class CartController extends Controller
         $keys = rtrim($keys, ',');
         $values = rtrim($values, ',');
 
-
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
 
-        $cart->add($prod,$db, $prod->id, $size, $color, $keys, $values);
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
+        $cart->add($prod, $db, $prod->id, $size, $color, $keys, $values);
+        if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return 'digital';
         }
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
+        if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
             return 0;
         }
-        if (!empty($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
-            if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
+        if (!empty($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
+            if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
                 return 0;
             }
         }
         $cart->totalPrice = 0;
-        foreach ($cart->items as $data)
+        foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
+        }
+
         Session::put('cart', $cart);
         $data[0] = count($cart->items);
 
@@ -267,7 +261,7 @@ class CartController extends Controller
             $content = [
                 'totalQty' => $cart->totalQty,
                 'totalPrice' => $cart->totalPrice,
-                'items' => $cart->items
+                'items' => $cart->items,
             ];
             $usercart = new UserCart;
             $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
@@ -293,7 +287,7 @@ class CartController extends Controller
         $size = str_replace(' ', '-', $_GET['size']);
         $color = $_GET['color'];
         $size_qty = $_GET['size_qty'];
-        $size_price = (double)$_GET['size_price'];
+        $size_price = (double) $_GET['size_price'];
         $size_key = $_GET['size_key'];
         $keys = $_GET['keys'];
         $values = $_GET['values'];
@@ -309,7 +303,6 @@ class CartController extends Controller
         $size_price = ($size_price / $curr->value);
         $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
-      
         if ($prod->user_id != 0) {
             $gs = Generalsetting::findOrFail(1);
             $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
@@ -321,7 +314,6 @@ class CartController extends Controller
             }
 
         }
-
 
         if (!empty($prod->license_qty)) {
             $lcheck = 1;
@@ -353,23 +345,25 @@ class CartController extends Controller
         $color = str_replace('#', '', $color);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->addnum($prod,$db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values);
+        $cart->addnum($prod, $db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values);
 
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
+        if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return 'digital';
         }
         // if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
         //     return 0;
         // }
-        if (!empty($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
-            if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
+        if (!empty($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
+            if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
                 return 0;
             }
         }
 
         $cart->totalPrice = 0;
-        foreach ($cart->items as $data)
+        foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
+        }
+
         Session::put('cart', $cart);
         $data[0] = count($cart->items);
 
@@ -378,7 +372,7 @@ class CartController extends Controller
             $content = [
                 'totalQty' => $cart->totalQty,
                 'totalPrice' => $cart->totalPrice,
-                'items' => $cart->items
+                'items' => $cart->items,
             ];
             $usercart = new UserCart;
             $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
@@ -396,7 +390,6 @@ class CartController extends Controller
         return response()->json($data);
     }
 
-
     public function addtonumcart()
     {
         $id = $_GET['id'];
@@ -405,7 +398,7 @@ class CartController extends Controller
         $size = str_replace(' ', '-', $_GET['size']);
         $color = $_GET['color'];
         $size_qty = $_GET['size_qty'];
-        $size_price = (double)$_GET['size_price'];
+        $size_price = (double) $_GET['size_price'];
         $size_key = $_GET['size_key'];
         $keys = $_GET['keys'];
         $keys = explode(",", $keys);
@@ -422,11 +415,9 @@ class CartController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-
         $size_price = ($size_price / $curr->value);
         $prod = DB::table($db)->where('id', '=', $id)->first(['id', 'user_id', 'slug', 'name', 'best', 'photo', 'size', 'size_qty', 'size_price', 'color', 'price', 'stock', 'type', 'file', 'link', 'license', 'license_qty', 'measure', 'sku', 'category_id', 'subcategory_id']);
 
-        
         if ($prod->user_id != 0) {
             $gs = Generalsetting::findOrFail(1);
             $prc = $prod->price + $gs->fixed_commission + ($prod->price / 100) * $gs->percentage_commission;
@@ -470,22 +461,23 @@ class CartController extends Controller
         $color = str_replace('#', '', $color);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->addnum($prod,$db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values);
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
+        $cart->addnum($prod, $db, $prod->id, $qty, $size, $color, $size_qty, $size_price, $size_key, $keys, $values);
+        if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['dp'] == 1) {
             return 'digital';
         }
-        if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
+        if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['stock'] < 0) {
             return 0;
         }
-        if (!empty($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
-            if ($cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db.$id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
+        if (!empty($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty'])) {
+            if ($cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['qty'] > $cart->items[$db . $id . $size . $color . str_replace(str_split(' ,'), '', $values)]['size_qty']) {
                 return 0;
             }
         }
 
         $cart->totalPrice = 0;
-        foreach ($cart->items as $data)
+        foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
+        }
 
         Session::put('cart', $cart);
 
@@ -494,7 +486,7 @@ class CartController extends Controller
             $content = [
                 'totalQty' => $cart->totalQty,
                 'totalPrice' => $cart->totalPrice,
-                'items' => $cart->items
+                'items' => $cart->items,
             ];
             $usercart = new UserCart;
             $data = $usercart->where('user_id', $user->id)->get()->first();
@@ -551,7 +543,7 @@ class CartController extends Controller
         }
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->adding($prod,$itemid, $size_qty, $size_price);
+        $cart->adding($prod, $itemid, $size_qty, $size_price);
         if ($cart->items[$itemid]['stock'] < 0) {
             return 0;
         }
@@ -561,8 +553,10 @@ class CartController extends Controller
             }
         }
         $cart->totalPrice = 0;
-        foreach ($cart->items as $data)
+        foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
+        }
+
         Session::put('cart', $cart);
 
         $user = Auth::user();
@@ -570,7 +564,7 @@ class CartController extends Controller
             $content = [
                 'totalQty' => $cart->totalQty,
                 'totalPrice' => $cart->totalPrice,
-                'items' => $cart->items
+                'items' => $cart->items,
             ];
             $usercart = new UserCart;
             $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
@@ -584,7 +578,6 @@ class CartController extends Controller
                 $usercartdata->update();
             }
         }
-
 
         $data[0] = $cart->totalPrice;
 
@@ -639,8 +632,9 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->reducing($prod, $itemid, $size_qty, $size_price);
         $cart->totalPrice = 0;
-        foreach ($cart->items as $data)
+        foreach ($cart->items as $data) {
             $cart->totalPrice += $data['price'];
+        }
 
         Session::put('cart', $cart);
         $data[0] = $cart->totalPrice;
@@ -672,7 +666,7 @@ class CartController extends Controller
             $content = [
                 'totalQty' => $cart->totalQty,
                 'totalPrice' => $cart->totalPrice,
-                'items' => $cart->items
+                'items' => $cart->items,
             ];
             $usercart = new UserCart;
             $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
@@ -702,7 +696,6 @@ class CartController extends Controller
         Session::put('cart', $cart);
     }
 
-
     public function removecart($id)
     {
         $gs = Generalsetting::findOrFail(1);
@@ -715,13 +708,12 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->removeItem($id);
 
-
         $user = Auth::user();
         if ($user) {
             $content = [
                 'totalQty' => $cart->totalQty,
                 'totalPrice' => $cart->totalPrice,
-                'items' => $cart->items
+                'items' => $cart->items,
             ];
             $usercart = new UserCart;
             $usercartdata = $usercart->where('user_id', $user->id)->get()->first();
@@ -770,7 +762,8 @@ class CartController extends Controller
         }
     }
 
-    public function clearcart() {
+    public function clearcart()
+    {
         Session::forget('cart');
         Session::forget('already');
         Session::forget('coupon');
@@ -784,7 +777,7 @@ class CartController extends Controller
     {
         $gs = Generalsetting::findOrFail(1);
         $code = $_GET['code'];
-        $total = (float)preg_replace('/[^0-9\.]/ui', '', $_GET['total']);;
+        $total = (float) preg_replace('/[^0-9\.]/ui', '', $_GET['total']);
         $fnd = Coupon::where('code', '=', $code)->get()->count();
         if ($fnd < 1) {
             return response()->json(0);
@@ -813,7 +806,7 @@ class CartController extends Controller
                     $cart = new Cart($oldCart);
                     if ($coupon->type == 0) {
                         Session::put('already', $code);
-                        $coupon->price = (int)$coupon->price;
+                        $coupon->price = (int) $coupon->price;
                         $val = $total / 100;
                         $sub = $val * $coupon->price;
                         $total = $total - $sub;
@@ -854,7 +847,6 @@ class CartController extends Controller
                             $data[4] = $data[2] . $curr->sign;
                             $data[0] = $data[0] . $curr->sign;
                         }
-
 
                         Session::put('coupon_percentage', 0);
 
@@ -903,7 +895,7 @@ class CartController extends Controller
                     $cart = new Cart($oldCart);
                     if ($coupon->type == 0) {
                         Session::put('already', $code);
-                        $coupon->price = (int)$coupon->price;
+                        $coupon->price = (int) $coupon->price;
 
                         $oldCart = Session::get('cart');
                         $cart = new Cart($oldCart);
@@ -935,7 +927,6 @@ class CartController extends Controller
                         $data[5] = 1;
 
                         Session::put('coupon_percentage', $data[4]);
-
 
                         return response()->json($data);
                     } else {
@@ -976,11 +967,10 @@ class CartController extends Controller
         }
     }
 
-
     // Capcha Code Image
     private function code_image()
     {
-        $actual_path = str_replace('project', '', base_path());
+        $actual_path = base_path();
         $image = imagecreatetruecolor(200, 50);
         $background_color = imagecolorallocate($image, 255, 255, 255);
         imagefilledrectangle($image, 0, 0, 200, 50, $background_color);
@@ -997,7 +987,7 @@ class CartController extends Controller
         $word = '';
         //$text_color = imagecolorallocate($image, 8, 186, 239);
         $text_color = imagecolorallocate($image, 0, 0, 0);
-        $cap_length = 6;// No. of character in image
+        $cap_length = 6; // No. of character in image
         for ($i = 0; $i < $cap_length; $i++) {
             $letter = $allowed_letters[rand(0, $length - 1)];
             imagettftext($image, 25, 1, 35 + ($i * 25), 35, $text_color, $font, $letter);
@@ -1010,6 +1000,5 @@ class CartController extends Controller
         session(['captcha_string' => $word]);
         imagepng($image, $actual_path . "/public/assets/images/capcha_code.png");
     }
-
 
 }

@@ -2,7 +2,6 @@ var search_list = [] ;
 $(function($) {
     "use strict";
 
-
     $(document).ready(function() {
 
 
@@ -99,12 +98,8 @@ $(function($) {
                     }
 
                     $('#sub-btn').prop('disabled', false);
-
-
                 }
-
             });
-
         });
 
         //  SUBSCRIBE FORM SUBMIT SECTION ENDS
@@ -1506,7 +1501,7 @@ function totalSearch(event) {
     }
 
     if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
-        window.location.href ="http://"+window.location.host+"/item/"+search_list[0].name+"/"+search_list[0].table+"/"+search_list[0].subcategory_id ;
+        window.location.href ="http://"+window.location.host+"/search/"+search_list[0].event.target.value ;
         return ;
     } 
     
@@ -1521,17 +1516,14 @@ function totalSearch(event) {
         beforeSend:function(){$(".search-dropdown").css("display", "block") ; $(".search-dropdown").html("<div align='center'>loading data...</div>")},
         success: function(data) {
             if(data.length !=0 ) {
-                // var html = "<a style='font-weight: bold; padding: 10px;  font-size: 17px; margin-bottom: 10px;'>Products(Name)</a>" ;
                 var html = "" ;
                 search_list = data ;
                 var scr = $("body").width() ;
                 
                 for(var k = 0 ; k < data.length ; k++) {
                     
-                    // html+="<a class='item' href='http://"+window.location.host+"/item/"+data[k].name+"' >"+data[k].name+"</a>" ;
                     var item = data[k] ;
                     html+="<a  href='http://"+window.location.host+"/item/"+item.name+"/"+item.table+"/"+item.subcategory_id+"'>" ;
-                    // html+="<div onclick=\"window.location.href = 'http://"+window.location.host+"/item/"+data[k].name+"'\">" ;
                     if(scr > 768) {
                         html+="<div class='item'>"+
                             "<div style='width: 30%'>" ;
@@ -1563,7 +1555,6 @@ function totalSearch(event) {
                     } 
                 }
                 html+="</a>" ;
-                // html+="</div>" ;
 
                 $(".search-dropdown").html(html) ;
                 $(".search-dropdown").css("display", "block") ;

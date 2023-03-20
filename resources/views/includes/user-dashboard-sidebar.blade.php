@@ -32,13 +32,13 @@
             </li>
 
             @if(Auth::user()->IsVendor())
-                <li>
+                <!-- <li>
                     <a href="{{ route('vendor-dashboard') }}">
                         {{ $langg->lang230 }}
                     </a>
-                </li>
+                </li> -->
             @endif
-
+            
             @if(Auth::user())
                 <li class="{{ $link == route('user-verified-index') ? 'active':'' }}">
                     @php

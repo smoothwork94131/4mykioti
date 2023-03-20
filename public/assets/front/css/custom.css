@@ -835,6 +835,16 @@ a.sell-btn {
     }
 }
 
+@media (max-width: 768px) {
+    #product_table .dropdown-menu.show {
+        left: -150px!important;
+    }
+    .sign-form .dropdown-menu.show {
+        left: -40px!important;
+    }
+    
+}
+
 /* .top-header ul li.my-dropdown.profilearea .my-dropdown-menu {
     top: 22px;
     right: 0px;
@@ -1663,20 +1673,19 @@ Begin Header Custom Style
     pointer-events: none;
     /* opacity: 0.3; */
 }
-@media(max-width:990px){
+/* @media(max-width:990px){
     #product_table .dropdown-menu {
         left: -100% !important ;
     }
-    
-}
+} */
 
 @media(max-width:768px){
-    #product_table .th-group, .td-group{
+    /* #product_table .th-group, .td-group{
         display: none ;
     }
     #product_table {            
         font-size: calc(14px + (25 - 18) * ((100vw - 768px) / (1920 - 768))); ;
-    }
+    } */
     .categori-item-area a .info {
         opacity: 1;
     }
@@ -1709,7 +1718,7 @@ Begin Header Custom Style
 
 @media(max-width: 500px) {
     #product_table .th-img {
-        width: 20% !important;
+        width: 30% !important;
     }
     
 }
@@ -1960,6 +1969,7 @@ Begin Footer Custom Style
     overflow-y: auto;
 
 }
+
 .mobile-search-field .search-dropdown {
     position: absolute;
     top: 110%;
@@ -1980,29 +1990,63 @@ Begin Footer Custom Style
 
 .about-header {
     position: relative; top: 0px; height: 60px; width: 100%; background: #1c1b1b;
-    font-size:calc(15px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
     color: white ;
     text-align: center;
-    
+}
+
+.about-header .site-info {
+    text-align: center;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-header .content .site_url {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: calc(10px + 0.390625vw);
+}
+
+.about-header .content .phone_num {
+    margin-left: 5%;
+    font-size: calc(8px + 0.390625vw);
+}
+
+.about-header .content .phone_num a {
+    color: #FFF;
 }
 
 .about-header .sign-form {
-    margin-left: 10px;
+    text-align: right;
+    width: 10%;
+    margin-right: 20px;
 }
 
-.about-header .sign-form span {
-    margin-left: 5px;
-    cursor: pointer;
+.about-header .sign-form .avatar {
+    width: 40px ;
+    border-radius: 50%;
 }
-.about-header .sign-form span>a {
-    color:white ;
+.about-header .sign-form .dropdown-item {
+    height: 40px;
+    line-height: 40px;;
 }
 
+.about-header .sign-form .btn-lg {
+    padding: 0px;
+}
+.about-header .sign-form .dropdown-item i{
+    margin-right: 7px;
+}
+.about-header .sign-form span a{
+    color: white ;
+}
 .about-header .content {
     display: flex;
     line-height: 60px;
-    justify-content: center;
+    /* justify-content: center; */
 }
+
 .search-dropdown .item {
     display:flex; 
     justify-content: space-around; 
