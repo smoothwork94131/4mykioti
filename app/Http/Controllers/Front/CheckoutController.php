@@ -850,9 +850,9 @@ class CheckoutController extends Controller
                             node {
                                 variants(first: 5) {
                                     edges {
-                                    node {
-                                        id
-                                    }
+                                        node {
+                                            id
+                                        }
                                     }
                                 }
                             }
@@ -860,9 +860,57 @@ class CheckoutController extends Controller
                     }
                 }';
                 
-                $productFromShopify = $shopify->GraphQL->post($query);
-                
+                $productFromShopify = $shopify->GraphQL->post($query);      
+
                 if ($productFromShopify['data']['products']['edges']) {
+
+                    $update_input = '{
+                        id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
+                        price: '. $prod['item']->price .'
+                    }';
+    
+                    $update_query = <<<QUERY
+                    mutation {
+                        productVariantUpdate( input: {$update_input}) {
+                            productVariant {
+                                id
+                                title
+                                inventoryPolicy
+                                inventoryQuantity
+                                price
+                                compareAtPrice
+                            }
+                            userErrors {
+                                field
+                                message
+                            }
+                        }
+                    }
+                    QUERY;
+    
+                    $graphql_url = "https://" . $shop_url . "/admin/api/". $shopify_api_version ."/graphql.json";
+                    
+                    $post_data = array();
+                    $post_data['query'] = $update_query;
+                    $curl_init = curl_init();
+                    curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
+                    curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
+                        'Content-Type: application/json', 
+                        'Accept: application/json', 
+                        'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
+                        'X-Shopify-Access-Token: '. $storeAccessToken
+                    ));
+                    curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
+                    curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
+                    $response = curl_exec ($curl_init);
+                    $product_info = json_decode($response, true);
+                    $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
+                    curl_close ($curl_init);
+    
+                    // print_r($product_info); exit;
+
                     if($i == $count) {
                         $input .= "{
                             quantity: {$prod['qty']},
@@ -993,6 +1041,7 @@ class CheckoutController extends Controller
             return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
         }
     }
+
     public function addToTemp(Request $request) {
         if (!Session::has('cart')) {
             return redirect()->route('front.cart')->with('success', "You don't have any products to checkout.");
@@ -1037,6 +1086,7 @@ class CheckoutController extends Controller
         $message = 'Thank you for your business. We will notify you via an email to '.$email.' when your order is ready and you can finish your checkout.';
         return view('front.success', compact('message', 'email'));
     }
+
     public function gateway(Request $request)
     {
         $input = $request->all();
@@ -1309,7 +1359,9 @@ class CheckoutController extends Controller
             'ShopUrl' => $shop,
             'AccessToken' => $adminAccessToken,
         );
+
         $adminshopify = ShopifySDK::config($adminConfig);
+        
         $input = '{
             title: "'.$prod['item']->name.'", 
             descriptionHtml: "'.$prod['item']->name.'", 
@@ -1322,14 +1374,15 @@ class CheckoutController extends Controller
                 }
             ]
         }';
+
         $checkoutsh = $adminshopify->GraphQL->post(<<<QUERY
-            mutation {
-                productCreate(input: {$input}) {
-                    product {
-                        id
-                      }
+        mutation {
+            productCreate(input: {$input}) {
+                product {
+                    id
                 }
             }
-            QUERY,);
+        }
+        QUERY,);
     }
 }
