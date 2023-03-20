@@ -1353,13 +1353,19 @@ class CheckoutController extends Controller
     }
 
     private function createProductOnShopify($prod) {
-        $adminAccessToken = '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';
-        $shop = '4mykioti.myshopify.com';
-        $adminConfig = array(
-            'ShopUrl' => $shop,
-            'AccessToken' => $adminAccessToken,
-        );
 
+        $shop_url = env('SHOPIFY_SHOP_URL', '');
+        $storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
+        $storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
+        $shopify_api_version = env('SHOPIFY_API_VERSION', '2023-01');
+        
+        $adminConfig = array(
+            'ShopUrl' => $shop_url,
+            'AccessToken' => $storeAccessToken,
+            'FrontAccessToken' => $storefrontAccessToken,
+            'ApiVersion' => $shopify_api_version
+        );
+        
         $adminshopify = ShopifySDK::config($adminConfig);
         
         $input = '{

@@ -84,15 +84,18 @@ class TempCartController extends Controller
         $cartContent = json_decode($cart->content);
         $admin = Auth::guard('admin')->user();
 
-        $storefrontAccessToken = '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';
-        // $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        // Shop from which we're fetching data
-        $shop = '4mykioti.myshopify.com';
-
+        $shop_url = env('SHOPIFY_SHOP_URL', '');
+        $storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
+        $storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
+        $shopify_api_version = env('SHOPIFY_API_VERSION', '2023-01');
+        
         $config = array(
-            'ShopUrl' => $shop,
-            'AccessToken' => $storefrontAccessToken,
+            'ShopUrl' => $shop_url,
+            'AccessToken' => $storeAccessToken,
+            'FrontAccessToken' => $storefrontAccessToken,
+            'ApiVersion' => $shopify_api_version
         );
+        
         $shopify = ShopifySDK::config($config);
 
 

@@ -1586,7 +1586,6 @@ Route::get('/vendor/subscription/check', 'Front\FrontendController@subcheck');
 // PAGE SECTION
 Route::get('/{slug}', 'Front\FrontendController@page')->name('front.page');
 // PAGE SECTION ENDS
-Route::get('/shopify/test', 'Front\FrontendController@shopify')->name('front.shopify');
 
 Route::post('the/genius/ocean/2441139', 'Front\FrontendController@subscription');
 Route::get('finalize', 'Front\FrontendController@finalize');

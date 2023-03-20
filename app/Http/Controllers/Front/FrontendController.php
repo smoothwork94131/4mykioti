@@ -780,36 +780,4 @@ class FrontendController extends Controller
     {
         return view('front.terms_condition');
     }
-
-    public function shopify()
-    {
-        // Load the access token as per instructions above
-        // $storefrontAccessToken = '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';
-        $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        // Shop from which we're fetching data
-        $shop = '4mykioti.myshopify.com';
-
-        $config = array(
-            'ShopUrl' => $shop,
-            'FrontAccessToken' => $storefrontAccessToken,
-        );
-
-        $shopify = ShopifySDK::config($config);
-
-        // Now run your requests...
-        $products = $shopify->GraphQL->post(<<<QUERY
-            {
-                products (first: 3, query:"sku:04811-50650") {
-                edges {
-                    node {
-                    id
-                    title
-                    }
-                }
-                }
-            }
-            QUERY,);
-
-        echo json_encode($products);
-    }
 }
