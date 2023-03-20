@@ -778,25 +778,33 @@ class CheckoutController extends Controller
                 return redirect()->back()->with('unsuccess', "This Email Already Exist.");
             }
         }
+
         if (!Session::has('cart')) {
             return redirect()->route('front.cart')->with('success', "You don't have any product to checkout.");
         }
+
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
+
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
+        
         $storefrontAccessToken = 'd4ae789c32ebc20687d136affe3b6075';
-        // Shop from which we're fetching data
+        $storeAccessToken = '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';
         $shop = '4mykioti.myshopify.com';
+
         $config = array(
             'ShopUrl' => $shop,
+            'AccessToken' => $storeAccessToken,
             'FrontAccessToken' => $storefrontAccessToken,
         );
+
         $shopify = ShopifySDK::config($config);
+        
         $input = '{
             allowPartialAddresses: true,
             buyerIdentity: {
@@ -817,13 +825,14 @@ class CheckoutController extends Controller
                 firstName: "'.($request->shipping_name ?? $request->name).'",
                 lastName: "",
                 phone: "'.($request->shipping_phone ?? $request->phone).'",
-                province: "",
+                province: "PA",
                 zip: "'.($request->shipping_zip ?? $request->zip).'"
               }
             lineItems: [';
         
         try {
             $i = 0;
+            $count = count($cart->items);
             $needToTemp = false;
             foreach ($cart->items as $key => $prod) {
                 if (!$prod['item']->file) {
@@ -831,6 +840,7 @@ class CheckoutController extends Controller
                     continue;
                 }
                 $i++;
+                
                 $query = '{
                     products(first: 1, query:"(title:'.$prod['item']->name.') AND (variants.sku:'.$prod['item']->sku.')",) {
                         edges {
@@ -846,59 +856,71 @@ class CheckoutController extends Controller
                         }
                     }
                 }';
+                
                 $productFromShopify = $shopify->GraphQL->post($query);
+                
                 if ($productFromShopify['data']['products']['edges']) {
-                    $input .= "{
-                        quantity: {$prod['qty']},
-                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                    },";
+                    if($i == $count) {
+                        $input .= "{
+                            quantity: {$prod['qty']},
+                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        }";
+                    }
+                    else {
+                        $input .= "{
+                            quantity: {$prod['qty']},
+                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        },";
+                    }
                 } else {
                     $this->createProductOnShopify($prod);
                 }
                 
-                
                 $cart->removeItem($key);
             }
-            $input.='],
-        }';
-                if ($needToTemp) {
-                    $content = [
-                        'totalQty' => $cart->totalQty,
-                        'totalPrice' => $cart->totalPrice,
-                        'items' => $cart->items
+
+            $input.=']}';
+            
+            if ($needToTemp) {
+                $content = [
+                    'totalQty' => $cart->totalQty,
+                    'totalPrice' => $cart->totalPrice,
+                    'items' => $cart->items
+                ];
+                $tempcart = new TempCart;
+                $tempcart->content = json_encode($content);
+                $tempcart->user_email = $request->email;
+                $tempcart->save();
+                $to = 'usamtg@hotmail.com';
+                $subject = 'No Weight Alert';
+                $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit')."/". $tempcart->id . ">click here to review:</a>";
+                //Sending Email To Customer
+                if ($gs->is_smtp == 1) {
+                    $data = [
+                        'to' => $to,
+                        'subject' => $subject,
+                        'body' => $msg,
                     ];
-                    $tempcart = new TempCart;
-                    $tempcart->content = json_encode($content);
-                    $tempcart->user_email = $request->email;
-                    $tempcart->save();
-                    $to = 'usamtg@hotmail.com';
-                    $subject = 'No Weight Alert';
-                    $msg = "A customer has tried no weight products cart, <a href=" . url('admin/tempcart/edit')."/". $tempcart->id . ">click here to review:</a>";
-                    //Sending Email To Customer
-                    if ($gs->is_smtp == 1) {
-                        $data = [
-                            'to' => $to,
-                            'subject' => $subject,
-                            'body' => $msg,
-                        ];
-                        $mailer = new GeniusMailer();
-                        $mailer->sendCustomMail($data);
-                    } else {
-                        $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-                        mail($to, $subject, $msg, $headers);
-                    }
+                    $mailer = new GeniusMailer();
+                    $mailer->sendCustomMail($data);
+                } else {
+                    $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+                    mail($to, $subject, $msg, $headers);
                 }
-        if ($i == 0) {
-            Session::put('tempcart', $cart);
-            Session::forget('cart');
-            Session::forget('already');
-            Session::forget('coupon');
-            Session::forget('coupon_total');
-            Session::forget('coupon_total1');
-            Session::forget('coupon_percentage');
-            return redirect()->route('front.index');
-        }
-        $checkoutsh = $shopify->GraphQL->post(<<<QUERY
+            }
+
+            if ($i == 0) {
+                Session::put('tempcart', $cart);
+                Session::forget('cart');
+                Session::forget('already');
+                Session::forget('coupon');
+                Session::forget('coupon_total');
+                Session::forget('coupon_total1');
+                Session::forget('coupon_percentage');
+                return redirect()->route('front.index');
+            }
+
+            $query = <<<QUERY
             mutation {
                 checkoutCreate(input: {$input}) {
                     checkout {
@@ -911,7 +933,36 @@ class CheckoutController extends Controller
                     }
                 }
             }
-            QUERY,);
+            QUERY;
+
+            // echo $query; exit;
+
+            $graphql_url = "https://4mykioti.myshopify.com/api/2023-01/graphql.json";
+
+            $post_data = array();
+            $post_data['query'] = $query;
+            $curl_init = curl_init();
+            curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
+            curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json', 
+                'Accept: application/json', 
+                'X-Shopify-Storefront-Access-Token: d4ae789c32ebc20687d136affe3b6075', 
+                'X-Shopify-Access-Token: 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'
+            ));
+            curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
+            curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
+            $response = curl_exec ($curl_init);
+            $checkoutsh = json_decode($response, true);
+
+            // print_r($decode_response); exit;
+
+            $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
+            curl_close ($curl_init);
+
+            // $checkoutsh = $shopify->GraphQL->post();
+
             if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
                 Session::put('tempcart', $cart);
                 Session::forget('cart');
@@ -932,6 +983,8 @@ class CheckoutController extends Controller
                 return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
             }
         } catch (\Exception $e) {
+
+            echo $e->getMessage(); exit;
             Session::put('tempcart', $cart);
             Session::forget('cart');
             Session::forget('already');
