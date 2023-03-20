@@ -1010,6 +1010,13 @@ Route::prefix('user')->group(function () {
     // User Dashboard
     Route::get('/dashboard', 'User\UserController@index')->name('user-dashboard');
 
+    Route::get('/my_tractor', 'User\UserController@my_tractor')->name('user-my-tractor');
+    Route::post('/add_my_tractor', 'User\UserController@add_my_tractor')->name('user-add-my-tractor');
+    Route::post('/remove_my_tractor', 'User\UserController@remove_my_tractor')->name('user-remove-my-tractor');
+
+    
+    Route::post('/get_my_tractor_model', 'User\UserController@get_my_tractor_model')->name('user-get-my-tractor-model');
+
     // User Login
     Route::get('/login', 'User\LoginController@showLoginForm')->name('user.login');
     Route::post('/login', 'User\LoginController@login')->name('user.login.submit');

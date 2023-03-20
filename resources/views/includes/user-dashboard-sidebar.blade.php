@@ -31,53 +31,19 @@
                 </a>
             </li>
 
-            @if(Auth::user()->IsVendor())
-                <!-- <li>
-                    <a href="{{ route('vendor-dashboard') }}">
-                        {{ $langg->lang230 }}
-                    </a>
-                </li> -->
-            @endif
-            
-            @if(Auth::user())
-                <li class="{{ $link == route('user-verified-index') ? 'active':'' }}">
-                    @php
-                        $user_id = Auth::user()->id;
-                        $now = date("Y-m-d");
-
-                        $flag = VerifiedLicense::join('users', 'users.id', '=', 'verified_license.user_id')
-                                    ->where('verified_license.user_id', '=', $user_id)
-                                    ->where('users.is_verified', '=', 1)
-                                    ->whereDate('verified_license.expires', '>=', $now)
-                                    ->count();
-                    @endphp
-
-                    @if($flag > 0)
-                        <a href="javascript:void(0)">
-                            @php
-                                $exprire_date = VerifiedLicense::join('users', 'users.id', '=', 'verified_license.user_id')
-                                    ->where('verified_license.user_id', '=', $user_id)
-                                    ->where('users.is_verified', '=', 1)
-                                    ->whereDate('verified_license.expires', '>=', $now)
-                                    ->first()->expires;
-                            @endphp
-                            
-                            Verified Until {{date("F j, Y", strtotime($exprire_date)) }}
-                        </a>
-                    @else
-                        <a href="{{route('user-verified-index')}}">
-                            Get Verified
-                        </a>
-                    @endif
-                </li>
-            @endif
+    
+            <li class="{{ $link == route('user-my-tractor') ? 'active':'' }}">
+                <a href="{{ route('user-my-tractor') }}">
+                    {{ $langg->lang230 }}
+                </a>
+            </li>
 
             <li class="{{ $link == route('user-orders') ? 'active':'' }}">
                 <a href="{{ route('user-orders') }}">
                     {{ $langg->lang201 }}
                 </a>
             </li>
-
+            
             @if($gs->is_affilate == 1)
 
                 <li class="{{ $link == route('user-affilate-code') ? 'active':'' }}">
@@ -95,23 +61,11 @@
                 <a href="{{route('user-order-track')}}">{{ $langg->lang772 }}</a>
             </li>
 
-            <li class="{{ $link == route('user-favorites') ? 'active':'' }}">
-                <a href="{{route('user-favorites')}}">{{ $langg->lang231 }}</a>
-            </li>
-
             <li class="{{ $link == route('user-messages') ? 'active':'' }}">
                 <a href="{{route('user-messages')}}">{{ $langg->lang232 }}</a>
             </li>
 
-            <li class="{{ $link == route('user-message-index') ? 'active':'' }}">
-                <a href="{{route('user-message-index')}}">{{ $langg->lang204 }}</a>
-            </li>
-
-            <li class="{{ $link == route('user-dmessage-index') ? 'active':'' }}">
-                <a href="{{route('user-dmessage-index')}}">{{ $langg->lang250 }}</a>
-            </li>
-
-            </li>
+    
 
             <li class="{{ $link == route('user-profile') ? 'active':'' }}">
                 <a href="{{ route('user-profile') }}">

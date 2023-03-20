@@ -332,7 +332,30 @@ textarea.affilate {
 .order-history form .mybtn1 {
     border: 0px;
 }
+.my-tractor-content .add-btn {
+    text-align: right;
+    padding: 15px;
+}
+.my-tractor-content .my-tractor-list {
+    padding: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.342) ;
+    padding: 10px;
+}
 
+.my-tractor-content .my-tractor-list .list-item {
+    padding: 8px 0px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.342);
+    cursor: pointer;
+}
+
+.my-tractor-content .my-tractor-list .sel-list {
+    font-weight: bold;
+}
+
+
+#add_my_tractor_modal {
+    top: 80px;
+}
 textarea.affilate {
     height: 120px;
 }

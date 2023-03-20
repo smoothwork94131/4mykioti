@@ -14,6 +14,7 @@ use App\Models\Subscription;
 use App\Models\Generalsetting;
 use App\Models\UserSubscription;
 use App\Models\FavoriteSeller;
+use DB ;
 
 class UserController extends Controller
 {
@@ -187,5 +188,82 @@ class UserController extends Controller
         $wish = FavoriteSeller::findOrFail($id);
         $wish->delete();
         return redirect()->route('user-favorites')->with('success', 'Successfully Removed The Seller.');
+    }
+    public function my_tractor() {
+        $part_id = isset($_REQUEST['part_id'])?$_REQUEST['part_id']:false ;
+
+        $user_data = Auth::user();
+        $user_id = $user_data['id'] ;
+        $cate_tractor = DB::table("users-tractor")->where('user_id', '=', $user_id)->orderBy('updatetime', 'desc')->get()->toArray();
+        $sel_part = array() ;
+        $series = DB::table("ec_categories")->get()->toArray();
+        $model = array() ;
+        if(count($cate_tractor) > 0) {
+            $sel_part = array() ;
+            if($part_id) {
+                foreach($cate_tractor as $key => $item) {
+                    if($part_id == $item->id) {
+                        $sel_part = $item ;
+                    }
+                } 
+            } else {
+                $sel_part = $cate_tractor[0] ;
+            }
+            
+            $model = $this->getTractorModel($sel_part->series) ;
+        } else {
+            $model = $this->getTractorModel($series[0]->series) ;
+        }
+        
+        $msg = "" ;
+        
+        return view('user.myTractor', compact('cate_tractor', 'msg','series', 'model', "sel_part"));
+    }
+    public function add_my_tractor(Request $request) {
+        $series = $request->series ;
+        $model = $request->model ;
+        $user_id = $user = Auth::user()->id;
+        $series = strtolower($series) ;
+        $sel_part_id = $request->sel_part_id ;
+
+        $type = $request->type ;
+        if($type == "edit") {
+            DB::table("users-tractor")
+            ->where("id", $sel_part_id)
+            ->update(array(
+                "updatetime"=>date("Y-m-d H:i:s"),
+                "series"=>$series,
+                "model"=>$model,
+                "user_id"=>$user_id
+            )) ;
+            return response()->json(array("msg"=>"Succssfully Edit")) ;
+        } else {
+            DB::table("users-tractor")->insert(array(
+                "updatetime"=>date("Y-m-d H:i:s"),
+                "series"=>$series,
+                "model"=>$model,
+                "user_id"=>$user_id,
+            )) ;
+            return response()->json(array("msg"=>"Succssfully Add")) ;
+        }
+
+        
+    }
+
+    public function remove_my_tractor(Request $request) {
+        $sel_part_id = $request->sel_part_id ;
+        DB::table("users-tractor")->where('id', '=', $sel_part_id)->delete() ;
+        return response()->json(array("msg"=>"Succssfully Remove")) ;
+    }
+
+    public function getTractorModel($series) {
+        $series = strtolower($series) ;
+        $model =  DB::table("{$series}_categories")->select("*")->get()->groupBy("model")->toArray() ;
+        return $model ;
+    }
+    public function get_my_tractor_model(Request $request) {
+        $series = $request->series ;
+        $model = $this->getTractorModel($series) ;
+        return response()->json($model) ;
     }
 }
