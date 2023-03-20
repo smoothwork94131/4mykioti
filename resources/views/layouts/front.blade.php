@@ -524,18 +524,24 @@
                 @guest
                     <span><a href="{{ route('user.login') }}"><i class='fas fa-fw fa-2xl fa-user'></i></a></span>
                 @else
-                    <span><a href="{{ route('user-logout') }}"><i class='fas fa-sign-out-alt'></i></a></span>
+                    <div class="dropdown">
+                        <a class="btn-floating btn-lg black"type="button" id="usr_loc_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class='avatar' src="{{ auth()->user()->photo ? asset('assets/images/users/'.auth()->user()->photo):asset('assets/front/images/User.png') }}" />
+                        </a>
+                        <div class="dropdown-menu dropdown-primary">
+                            <a class='dropdown-item' href="{{ route('user-profile') }}"><i class='fas fa-fw fa-2xl fa-user'></i>Profile</a>
+                            <a class='dropdown-item' href="{{ route('user-logout') }}"><i class='fas fa-sign-out-alt'></i>Logout</a>
+                        </div>
+                    </div>
                 @endguest
             </div>
         </div>
     </div>
     <!-- Logo Header Area End -->
-
+    
     @yield('content')
-
     <!-- Footer Area Start -->
     <footer class="footer" id="footer">
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6 col-lg-4 footer-item">
