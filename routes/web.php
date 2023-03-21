@@ -1575,7 +1575,7 @@ Route::post('/subscriber/store', 'Front\FrontendController@subscribe')->name('fr
 // AGE SET SECTION
 
 Route::post('/age/store', 'Front\FrontendController@age')->name('front.age');
-Route::post('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
+Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
 
 // AGE SET SECTION ENDS
 

@@ -336,17 +336,23 @@ class FrontendController extends Controller
 
     public function partsByModel(Request $request)
     {
-        return view('front.partsbymodel');
+        $type="category" ;
+        $page_categories = array() ;
+        return view('front.partsbymodel', compact("type", "page_categories"));
     }
 
     public function schematics(Request $request)
-    {
-        return view('front.schematics');
+    {   
+        $type="category" ;
+        $page_categories = array() ;
+        return view('front.schematics', compact("type", "page_categories"));
     }
 
     public function commonpart(Request $request)
     {
-        return view('front.commonparts');
+        $type="category" ;
+        $page_categories = array() ;
+        return view('front.commonparts', compact("type", "page_categories"));
     }
 
     public function commonparts(Request $request, $series, $model)
@@ -605,26 +611,50 @@ class FrontendController extends Controller
 
     public function groups(Request $request)
     {
-        $categories = [];
-        $table_name = strtolower($request->series) . "_categories";
+        $type = isset($_REQUEST['type'])?$_REQUEST['type']:"" ;
+        $series = isset($_REQUEST['series'])?$_REQUEST['series']:false ;
+        $model = isset($_REQUEST['model'])?$_REQUEST['model']:false ;
+        $section = isset($_REQUEST['section'])?$_REQUEST['section']:false ;
+        $page = isset($_REQUEST['page'])?$_REQUEST['page']:'partsbymodel' ;
+        $req_type = isset($_REQUEST['req_type'])?$_REQUEST['req_type']:'page' ;
 
-        if ($request->type == 'model') {
+        $categories = array();
+        $table_name = strtolower($request->series) . "_categories";
+        
+        
+        if($request->req_type == "json") {
+            $series = $request->series ;
+            $model = $request->model ;
+            $type = $request->type ;
+            $section = $request->section ;
+        }
+
+        if ($type == 'model') {
             if ($request->model_type == "common") {
-                $table_name = strtolower($request->series);
+                $table_name = strtolower($series);
                 $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
             } else {
                 $categories = DB::table($table_name)->select('model')->distinct()->distinct()->orderBy('model', 'asc')->get();
             }
-
-        } else if ($request->type == 'section') {
-            $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->orderBy('section_name', 'asc')->get();
-        } else if ($request->type == 'group') {
-            $categories = DB::table($table_name)->where('model', $request->model)->where('section_name', $request->section)->orderBy('group_name', 'asc')->get();
-        } else if($request->type == "category" ) {
-            $categories = DB::table("categories")->where("parent", $request->series)->orderBy("name", "asc")->get() ;
+            $type = "section" ;    
+        } else if ($type == 'section') {
+            $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
+            $type = "group" ;     
+            
+        } else if ($type == 'group') {
+            $categories = DB::table($table_name)->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+            $type = "detail" ;
+        } else if($type == "category" ) {
+            $categories = DB::table("categories")->where("parent", $series)->orderBy("name", "asc")->get() ;
+            $type = "model" ;
         }
-
-        return response()->json(['categories' => $categories]);
+        
+        $page_categories = $categories ;
+        if($request->req_type != "json") {
+            return view('front.'.$page, compact("page_categories", "type", "series", "model")) ;
+        } else {
+            return response()->json(array("categories"=>$categories));
+        }
     }
 // Maintenance Mode
 
