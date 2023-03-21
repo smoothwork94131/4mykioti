@@ -639,7 +639,7 @@
                                 {!! $gs->footer !!}
                             </p>
                             -->
-                                <p class='title'>Tractor Brothers - Bulter</p>
+                                <p class='title'>Tractor Brothers - Butler</p>
                                 <p>520 Evans City Road<br>Butler, PA 16001</p>
 
                                 <p><a href='https://www.tractorbrothers.com/locations/37100'>(Map & Hours)</a></p>
