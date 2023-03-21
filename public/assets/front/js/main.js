@@ -270,20 +270,20 @@ $(function($) {
             var group_name = $(this).data('groupname');
             var page =  $(this).data('page');
             var that = this ;
-
+            var category = $(this).data("category") ;
             if(series == undefined) series = "" ;
             if(section == undefined) section = "" ;
             if(model == undefined) model = "" ;
             if(model_type == undefined) model_type = "" ;
-
-            if (group_id != "" && page == "schematics") {
+         
+            if (type == "detail" && page == "schematics") {
                 cat_elem.html(`<h2>${group_name}</h2><div class="group-schematics">
                     <img src="/assets/images/group/${group_id}.png"/>
                 </div>`);
                 return ;
             } 
 
-            if (page != "schematics") {
+            // if (page != "schematics") {
                 if (hasData == '0') {
                     if(type == "detail") {
                         window.location.href = `${mainurl}/category/${series}/${model}/${group_id}` ;
@@ -291,11 +291,11 @@ $(function($) {
                         if(type == "section" && isSchematics == "0") {
                             window.location.href = `${mainurl}/category/${series}/${model}/common` ;
                         } else {
-                            window.location.href = link+"?type="+type+"&series="+series+"&model="+model+"&section="+section+"&model_type="+model_type+"&req_type=page&page="+page ; 
+                            window.location.href = link+"?type="+type+"&series="+series+"&category="+category+"&model="+model+"&section="+section+"&model_type="+model_type+"&req_type=page&page="+page ; 
                         }
                     }
                 }
-            }
+            // }
 
         });
 

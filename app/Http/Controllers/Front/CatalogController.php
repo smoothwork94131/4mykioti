@@ -113,8 +113,8 @@ class CatalogController extends Controller
             
             return view('includes.product.filtered-products', $data);
         }
-
         return view('front.category', $data);
+        
     }
 
     public function getsubs(Request $request)
@@ -181,7 +181,7 @@ class CatalogController extends Controller
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db"));
     }
     public function product(Request $request, $slug)
-    {
+    {   
         
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
@@ -189,14 +189,14 @@ class CatalogController extends Controller
         $productt->update();
         
         
-        $adproducts = AdvertisingProduct::where('product_id', $productt->id)->get();
+        // $adproducts = AdvertisingProduct::where('product_id', $productt->id)->get();
 
-        foreach($adproducts as $adprod) {
-            if($adprod->viewed_count < $adprod->adplan->view_count) {
-                $adprod->viewed_count += 1;
-                $adprod->update();
-            }
-        }
+        // foreach($adproducts as $adprod) {
+        //     if($adprod->viewed_count < $adprod->adplan->view_count) {
+        //         $adprod->viewed_count += 1;
+        //         $adprod->update();
+        //     }
+        // }
         
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -204,22 +204,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        // $product_click = new ProductClick;
-
-        // if(Auth::user()) {
-        //     $product_click->user_id = Auth::user()->id;
-        // }
-        // else {
-        //     $product_click->user_id = 0;
-        // }
-        
-        // $product_click->category_id = $productt->showCategoryID();
-        // $product_click->product_id = $productt->id;
-        // $product_click->search_term = '';
-        // $product_click->action = 'view';
-        // $product_click->date = Carbon::now()->format('Y-m-d');
-        // $product_click->save();
-
+     
         if ($productt->user_id != 0) {
             $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
         } else {
@@ -239,15 +224,7 @@ class CatalogController extends Controller
         $productt->views += 1;
         $productt->update();
         
-        
-        $adproducts = AdvertisingProduct::where('product_id', $productt->id)->get();
-
-        foreach($adproducts as $adprod) {
-            if($adprod->viewed_count < $adprod->adplan->view_count) {
-                $adprod->viewed_count += 1;
-                $adprod->update();
-            }
-        }
+      
         
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -255,21 +232,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        // $product_click = new ProductClick;
-
-        // if(Auth::user()) {
-        //     $product_click->user_id = Auth::user()->id;
-        // }
-        // else {
-        //     $product_click->user_id = 0;
-        // }
-        
-        // $product_click->category_id = $productt->showCategoryID();
-        // $product_click->product_id = $productt->id;
-        // $product_click->search_term = '';
-        // $product_click->action = 'view';
-        // $product_click->date = Carbon::now()->format('Y-m-d');
-        // $product_click->save();
+   
 
         if ($productt->user_id != 0) {
             $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
@@ -291,14 +254,6 @@ class CatalogController extends Controller
 
         $productt = DB::table($db)->where('slug', '=', $slug1)->first();
 
-        $adproducts = AdvertisingProduct::where('product_id', $productt->id)->get();
-
-        foreach($adproducts as $adprod) {
-            if($adprod->viewed_count < $adprod->adplan->view_count) {
-                $adprod->viewed_count += 1;
-                $adprod->update();
-            }
-        }
 
 
         if (Session::has('currency')) {
@@ -307,21 +262,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        // $product_click = new ProductClick;
 
-        // if(Auth::user()) {
-        //     $product_click->user_id = Auth::user()->id;
-        // }
-        // else {
-        //     $product_click->user_id = 0;
-        // }
-        
-        // $product_click->category_id = $productt->showCategoryID();
-        // $product_click->product_id = $productt->id;
-        // $product_click->search_term = '';
-        // $product_click->action = 'view';
-        // $product_click->date = Carbon::now()->format('Y-m-d');
-        // $product_click->save();
 
         if ($productt->user_id != 0) {
             $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();

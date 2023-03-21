@@ -99,6 +99,7 @@
                                         data-groupname="{{$item->group_name}}"
                                         data-group="{{$group_id}}"
                                         data-page="partsbymodel"
+                                        data-category="{{$cate_list['category']}}"
                                         data-status="0" data-token="{{ csrf_token() }}">
                                         {{$name}}
                                     </div>

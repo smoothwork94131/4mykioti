@@ -620,7 +620,8 @@ class FrontendController extends Controller
         $section = isset($_REQUEST['section'])?$_REQUEST['section']:false ;
         $page = isset($_REQUEST['page'])?$_REQUEST['page']:'partsbymodel' ;
         $req_type = isset($_REQUEST['req_type'])?$_REQUEST['req_type']:'page' ;
-
+        $category = isset($_REQUEST['category'])?$_REQUEST['category']:'' ;
+        
         $categories = array();
         $table_name = strtolower($request->series) . "_categories";
         
@@ -650,13 +651,14 @@ class FrontendController extends Controller
         } else if($type == "category" ) {
             $categories = DB::table("categories")->where("parent", $series)->orderBy("name", "asc")->get() ;
             $series_info = DB::table("categories")->where("id", $series)->get() ;
-            $series = $series_info[0]->name ;
+            $category = $series_info[0]->name ;
+            $series = "" ;
             $type = "model" ;
         }
         
         $page_categories = $categories ;
         if($request->req_type != "json") {
-            $cate_list = array("series"=>$series, "model"=>$model, "section"=>$section) ;
+            $cate_list = array("category"=>$category,"series"=>$series, "model"=>$model, "section"=>$section) ;
             return view('front.'.$page, compact("page_categories", "type", "series", "model", "cate_list")) ;
         } else {
             return response()->json(array("categories"=>$categories));
@@ -668,9 +670,7 @@ class FrontendController extends Controller
     {
         $gs = Generalsetting::find(1);
         if ($gs->is_maintain != 1) {
-
             return redirect()->route('front.index');
-
         }
 
         return view('front.maintenance');
