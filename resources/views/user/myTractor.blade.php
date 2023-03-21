@@ -21,11 +21,10 @@
                                 <h4 class="title">{{ $langg->lang230 }}</h4>
                             </div>
                             <div class='add-btn'>
-                                <button class='btn btn-primary' 
-                                    class='button' 
+                                <button class='btn btn-primary'
                                     data-toggle="modal"
                                     data-target="#add_my_tractor_modal"
-                                >New</button>
+                                ><i class='fa fa-plus'></i>New</button>
                             </div>
                             @if (count($cate_tractor) == 0) 
                                 <div align='center'>No data</div>

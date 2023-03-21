@@ -336,6 +336,26 @@ textarea.affilate {
     text-align: right;
     padding: 15px;
 }
+
+.my-tractor-content button {
+    background: #333 ;
+    border: none ;
+
+}
+
+.my-tractor-content button:hover {
+    background: #143250 ;
+}
+
+#add_my_tractor_modal button {
+    background: #333 ;
+    border: none ;
+}
+
+#add_my_tractor_modal button:hover {
+    background: #143250 ;
+}
+
 .my-tractor-content .my-tractor-list {
     padding: 5px;
     border: 1px solid rgba(0, 0, 0, 0.342) ;
