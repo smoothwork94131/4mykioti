@@ -188,16 +188,6 @@ class CatalogController extends Controller
         $productt->views += 1;
         $productt->update();
         
-        
-        // $adproducts = AdvertisingProduct::where('product_id', $productt->id)->get();
-
-        // foreach($adproducts as $adprod) {
-        //     if($adprod->viewed_count < $adprod->adplan->view_count) {
-        //         $adprod->viewed_count += 1;
-        //         $adprod->update();
-        //     }
-        // }
-        
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
