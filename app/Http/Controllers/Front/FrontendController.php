@@ -338,21 +338,24 @@ class FrontendController extends Controller
     {
         $type="category" ;
         $page_categories = array() ;
-        return view('front.partsbymodel', compact("type", "page_categories"));
+        $cate_list = array() ;
+        return view('front.partsbymodel', compact("type", "page_categories", "cate_list"));
     }
 
     public function schematics(Request $request)
     {   
         $type="category" ;
+        $cate_list = array() ;
         $page_categories = array() ;
-        return view('front.schematics', compact("type", "page_categories"));
+        return view('front.schematics', compact("type", "page_categories", "cate_list"));
     }
 
     public function commonpart(Request $request)
     {
         $type="category" ;
+        $cate_list = array() ;
         $page_categories = array() ;
-        return view('front.commonparts', compact("type", "page_categories"));
+        return view('front.commonparts', compact("type", "page_categories", "cate_list"));
     }
 
     public function commonparts(Request $request, $series, $model)
@@ -646,12 +649,15 @@ class FrontendController extends Controller
             $type = "detail" ;
         } else if($type == "category" ) {
             $categories = DB::table("categories")->where("parent", $series)->orderBy("name", "asc")->get() ;
+            $series_info = DB::table("categories")->where("id", $series)->get() ;
+            $series = $series_info[0]->name ;
             $type = "model" ;
         }
         
         $page_categories = $categories ;
         if($request->req_type != "json") {
-            return view('front.'.$page, compact("page_categories", "type", "series", "model")) ;
+            $cate_list = array("series"=>$series, "model"=>$model, "section"=>$section) ;
+            return view('front.'.$page, compact("page_categories", "type", "series", "model", "cate_list")) ;
         } else {
             return response()->json(array("categories"=>$categories));
         }

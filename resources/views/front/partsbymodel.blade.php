@@ -17,6 +17,21 @@
                                 Categories
                             </a>
                         </li>
+                        <?php 
+                            if(count($cate_list) > 0) {
+                                foreach($cate_list as $item) {
+                                    if($item != "") {
+                                        ?>
+                                        <li>
+                                            <a href="javascript:location.reload();">
+                                                {{$item}}
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
+                                }
+                            }
+                        ?>
                     </ul>
                 </div>
             </div>
