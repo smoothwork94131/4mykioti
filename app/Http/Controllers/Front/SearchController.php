@@ -42,11 +42,9 @@ class SearchController extends Controller{
         
         
         foreach($tbl_info as $item) {
-            $arr_tbl[] = strtolower($item->series) ;
+            $arr_tbl[] = strtolower($item->name) ;
         }
 
-        
-        
         for($k = 0 ; $k < count($arr_tbl) ; $k++) {
             if($flag) {
                 $sql.=" union all " ;
