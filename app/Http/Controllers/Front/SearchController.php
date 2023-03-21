@@ -35,7 +35,7 @@ class SearchController extends Controller{
         `name` like '%{$search_word}%'" ;
         
         $arr_tbl = array("products") ;
-        $sql = "select * from categories where parent > 0 ; " ;
+        $sql = "select * from categories where parent > 0 and `status` = 1 ; " ;
         $tbl_info =DB::select($sql);
         $sql = "" ;
         $flag = false ;
