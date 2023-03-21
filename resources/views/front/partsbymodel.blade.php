@@ -89,10 +89,11 @@
                                     </div>
                                 </div>
                         @endforeach
+                        @if(count($page_categories) == 0)
+                            <h3 align='center'>No Data</h3>
+                        @endif
                     @endif    
-                    @if(count($page_categories) == 0)
-                        <h3 align='center'>No Data</h3>
-                    @endif
+                    
             </div>
         </div>
     </section>
