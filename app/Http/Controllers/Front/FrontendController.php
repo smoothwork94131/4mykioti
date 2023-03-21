@@ -203,17 +203,11 @@ class FrontendController extends Controller
             // $settings->with('solo_products', $solo_products);
         }
 
-        $hot_plan = AdvertisingPlan::find(1);
-
-        $main_slider_products = AdvertisingProduct::where('category_id', 0)->where('viewed_count', '<', $hot_plan->view_count)->orderBy('id', 'asc')->take($hot_plan->product_count)->get();
-        if (count($main_slider_products) < $hot_plan->product_count) {
-            $main_slider_products = AdvertisingProduct::where('category_id', 0)->orderBy('id', 'desc')->take($hot_plan->product_count)->get();
-        }
-
+        
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
-        return view('front.index', compact('ps', 'sliders', 'solo_products', 'top_small_banners', 'genetics_products', 'main_slider_products', 'colorsetting_style1', 'colorsetting_style2'));
+        return view('front.index', compact('ps', 'sliders', 'solo_products', 'top_small_banners', 'genetics_products', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
     public function extraIndex()
