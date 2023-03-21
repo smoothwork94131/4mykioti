@@ -24,7 +24,10 @@
     </div>
     <!-- Breadcrumb Area End -->
     <!-- faq Area Start -->
-    
+    <?php 
+        var_export($eccategories);
+        exit ;
+    ?>
     <section class="faq-section">
         <div class="container">
             <div class="row m-block-content">
