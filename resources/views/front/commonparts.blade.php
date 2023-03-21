@@ -31,20 +31,17 @@
         <div class="container">
             
             <div class="row m-block-content">
-                    <!-- @foreach($eccategories as $product) -->
-                        @foreach($series_data as $series)
-                            <div class="col col-md-3 col-sm-4">
-                                <div class="m-block" data-type="model"
-                                                data-series="{{$series->series}}"
-                                                data-url="{{route('front.groups')}}" 
-                                                data-model_type="common"
-                                                data-status="0" 
-                                                data-token="{{ csrf_token() }}">
-                                                {{$series->series}}
-                                </div>
-                            </div>
-                        @endforeach
-                    <!-- @endforeach -->
+                @foreach($eccategories as $key => $item)
+                    <div class="col col-md-3 col-sm-4">
+                        <div class="m-block" data-type="category"
+                            data-series="{{$item->id}}"
+                            data-url="{{route('front.groups')}}"
+                            data-category-name="{{$item->name}}"
+                            data-status="0" data-token="{{ csrf_token() }}">
+                            {{$item->name}}
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>

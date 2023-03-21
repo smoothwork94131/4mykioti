@@ -161,33 +161,22 @@
                                 </div>
                                 <div class="categories_menu_inner products">
                                     @foreach ($eccategories as $product)
-                                        <div class="categories_menu ">
-                                            <div class="categories_title">
-                                                <h2 class="categori_toggle"> 
-                                                    {{ $product->product }} 
-                                                    <i class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i>
-                                                </h2>
-                                            </div>
-                                            <div class="categories_menu_inner series">
-                                                @foreach ($product->where('product', $product->product)->select('series')->distinct()->orderBy('series', 'asc')->get() as $series)
-                                                    <div class="categories_menu">
-                                                        <div class="categories_title" data-type="model"
-                                                            data-series="{{ $series->series }}"
-                                                            data-url="{{ route('front.groups') }}" 
-                                                            data-status="0"
-                                                            data-token="{{ csrf_token() }}">
-                                                            <h2 class="categori_toggle"> {{ $series->series }} 
-                                                                <i class="fa fa-angle-down arrow-down"
-                                                                    style='margin-left: 5px'></i></h2>
-                                                        </div>
-                                                        <div class="categories_menu_inner models"
-                                                            style="max-height: 300px; overflow-y: auto;">
-                                                            loading...
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
+                                    <div class="categories_menu">
+                                        <div class="categories_title" 
+                                            data-type="category"
+                                            data-series="{{ $product->id }}"
+                                            data-url="{{ route('front.groups') }}" 
+                                            data-status="0"
+                                            data-token="{{ csrf_token() }}">
+                                            <h2 class="categori_toggle"> {{ $product->name }} 
+                                                <i class="fa fa-angle-down arrow-down"
+                                                    style='margin-left: 5px'></i></h2>
                                         </div>
+                                        <div class="categories_menu_inner models"
+                                            style="max-height: 300px; overflow-y: auto;">
+                                            loading...
+                                        </div>
+                                    </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -427,31 +416,22 @@
                                 </div>
                                 <div class="categories_menu_inner products">
                                     @foreach ($eccategories as $product)
-                                        <div class="categories_menu ">
-                                            <div class="categories_title">
-                                                <h2 class="categori_toggle"> {{ $product->product }} <i
-                                                        class="fa fa-angle-down arrow-down"
-                                                        style='margin-left: 5px'></i></h2>
-                                            </div>
-                                            <div class="categories_menu_inner series">
-                                                @foreach ($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
-                                                    <div class="categories_menu">
-                                                        <div class="categories_title" data-type="model"
-                                                            data-series="{{ $series->series }}"
-                                                            data-url="{{ route('front.groups') }}" data-status="0"
-                                                            data-token="{{ csrf_token() }}">
-                                                            <h2 class="categori_toggle"> {{ $series->series }} <i
-                                                                    class="fa fa-angle-down arrow-down"
-                                                                    style='margin-left: 5px'></i></h2>
-                                                        </div>
-                                                        <div class="categories_menu_inner models"
-                                                            style="max-height: 300px; overflow-y: auto;">
-                                                            loading...
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
+                                    <div class="categories_menu">
+                                        <div class="categories_title" 
+                                            data-type="category"
+                                            data-series="{{ $product->id }}"
+                                            data-url="{{ route('front.groups') }}" 
+                                            data-status="0"
+                                            data-token="{{ csrf_token() }}">
+                                            <h2 class="categori_toggle"> {{ $product->name }} 
+                                                <i class="fa fa-angle-down arrow-down"
+                                                    style='margin-left: 5px'></i></h2>
                                         </div>
+                                        <div class="categories_menu_inner models"
+                                            style="max-height: 300px; overflow-y: auto;">
+                                            loading...
+                                        </div>
+                                    </div>
                                     @endforeach
                                 </div>
                             </div>

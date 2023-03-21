@@ -162,25 +162,45 @@ $(function($) {
                                     </div>
                                 </div>`;
                                 }
+                            } else if(type == "category") {
+                                for (var x in data.categories) {
+                                    element += `<div class="categories_menu">
+                                        <div class="categories_title"
+                                        data-type="model"
+                                        data-section="${data.categories[x].name}"
+                                        data-model="${model}"
+                                        data-series="${data.categories[x].name}"
+                                        data-url="${link}" 
+                                        data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].name} <i
+                                                        class="fa fa-angle-down arrow-down"></i></h2>
+                                        </div>
+                                        <div class="categories_menu_inner groups" style="display: none">
+                                            <ul class="category-groups">
+                                                loading...
+                                            </ul>
+                                        </div>
+                                    </div>`;
+                                }
                             } else if (type == 'section') {
                                 for (var x in data.categories) {
                                     element += `<div class="categories_menu">
-                                    <div class="categories_title"
-                                    data-type="group"
-                                    data-section="${data.categories[x].section_name}"
-                                    data-model="${model}"
-                                    data-series="${series}"
-                                    data-url="${link}" 
-                                    data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].section_name} <i
-                                                    class="fa fa-angle-down arrow-down"></i></h2>
-                                    </div>
-                                    <div class="categories_menu_inner groups" style="display: none">
-                                        <ul class="category-groups">
-                                            loading...
-                                        </ul>
-                                    </div>
-                                </div>`;
+                                        <div class="categories_title"
+                                        data-type="group"
+                                        data-section="${data.categories[x].section_name}"
+                                        data-model="${model}"
+                                        data-series="${series}"
+                                        data-url="${link}" 
+                                        data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].section_name} <i
+                                                        class="fa fa-angle-down arrow-down"></i></h2>
+                                        </div>
+                                        <div class="categories_menu_inner groups" style="display: none">
+                                            <ul class="category-groups">
+                                                loading...
+                                            </ul>
+                                        </div>
+                                    </div>`;
                                 }
+                            
                             } else if (type == 'group') {
                                 for (var x in data.categories) {
                                     element += `<li><a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
@@ -203,12 +223,10 @@ $(function($) {
                                 });
                             }
 
-
                         } else {
-                            cat_elem.append('<li>No Data</li>');
+                            cat_elem.append('<li><div align="center">No Data</div></li>');
                         }
                     }
-
                 });
             }
 
@@ -236,6 +254,7 @@ $(function($) {
         });
 
         $(document).on("click", ".m-block", function() {
+            
             var type = $(this).data('type');
             var series = $(this).data('series')
             var model = $(this).data('model');
@@ -248,11 +267,13 @@ $(function($) {
             var model_type = $(this).data('model_type');
             var group_id = $(this).data('group');
             var group_name = $(this).data('groupname');
+            
+            var that = this ;
 
             if (group_id) {
                 cat_elem.html(`<h2>${group_name}</h2><div class="group-schematics">
-                <img src="/assets/images/group/${group_id}.png"/>
-            </div>`);
+                    <img src="/assets/images/group/${group_id}.png"/>
+                </div>`);
             }
 
             if (type) {
@@ -270,7 +291,7 @@ $(function($) {
                         },
                         dataType: 'JSON',
                         success: function(data) {
-                            console.log(data);
+
                             if (data.categories.length > 0) {
                                 var element = ``;
                                 if (type == 'model') {
@@ -299,18 +320,32 @@ $(function($) {
                                         </div>`;
                                         }
                                     }
+                                } else if(type == "category") {
+                                    var category_name = $(that).data('category-name');
+                                    $('.parts-by-model-title').append(`<li><a href="#">${category_name}</a></li>`);
+                                    for (var x in data.categories) {  
+                                        element += `<div class="col col-md-3 col-sm-4">
+                                            <div class="m-block"
+                                            data-type="model"
+                                            data-status="0"
+                                            data-series="${data.categories[x].name}"
+                                            data-url="${link}" 
+                                            data-status="0" data-token="${token}">${data.categories[x].name}</div>
+                                        </div>`;
+                                    }
                                 } else if (type == 'section') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${model}</a></li>`);
                                     for (var x in data.categories) {
                                         element += `<div class="col col-md-3 col-sm-4">
-                                        <div class="m-block"
-                                        data-type="group"
-                                        data-section="${data.categories[x].section_name}"
-                                        data-model="${model}"
-                                        data-series="${series}"
-                                        data-url="${link}" 
-                                        data-status="0" data-token="${token}">${data.categories[x].section_name}</div>
-                                    </div>`;
+                                            <div class="m-block"
+                                            data-type="group"
+                                            data-section="${data.categories[x].section_name}"
+                                            data-model="${model}"
+                                            data-series="${series}"
+                                            data-url="${link}" 
+                                            data-status="0" data-token="${token}">${data.categories[x].section_name}</div>
+                                        </div>`;
+
                                     }
                                 } else if (type == 'group') {
                                     $('.parts-by-model-title').append(`<li><a href="#">${section}</a></li>`);

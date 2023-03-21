@@ -196,7 +196,7 @@ class UserController extends Controller
         $user_id = $user_data['id'] ;
         $cate_tractor = DB::table("users-tractor")->where('user_id', '=', $user_id)->orderBy('updatetime', 'desc')->get()->toArray();
         $sel_part = false ;
-        $series = DB::table("ec_categories")->get()->toArray();
+        $series = DB::table("categories")->select("name as series")->where("parent", ">", "0")->get()->toArray();
         $model = array() ;
         if(count($cate_tractor) > 0) {
             $sel_part = false ;
@@ -209,7 +209,6 @@ class UserController extends Controller
             } else {
                 $sel_part = $cate_tractor[0] ;
             }
-            
             $model = $this->getTractorModel($sel_part->series) ;
         } else {
             $model = $this->getTractorModel($series[0]->series) ;

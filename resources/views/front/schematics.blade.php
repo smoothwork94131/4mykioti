@@ -14,7 +14,7 @@
                         </li>
                         <li>
                             <a href="javascript:location.reload();">
-                                Tractors
+                                Categories
                             </a>
                         </li>
                     </ul>
@@ -30,18 +30,16 @@
     <section class="faq-section">
         <div class="container">
             <div class="row m-block-content">
-                    @foreach($eccategories as $product)
-                        @foreach($product->where('product', $product->product)->select('series')->distinct()->get() as $series)
+                     @foreach($eccategories as $key => $item)
                             <div class="col col-md-3 col-sm-4">
-                                <div class="m-block" data-type="model"
-                                                data-series="{{$series->series}}"
-                                                data-url="{{route('front.groups')}}" 
+                                <div class="m-block" data-type="category"
+                                                data-series="{{$item->id}}"
+                                                data-url="{{route('front.groups')}}"
+                                                data-category-name="{{$item->name}}"
                                                 data-status="0" data-token="{{ csrf_token() }}">
-                                                {{$series->series}}
+                                                {{$item->name}}
                                 </div>
-                                
                             </div>
-                        @endforeach
                     @endforeach
             </div>
         </div>

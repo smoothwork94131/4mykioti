@@ -352,14 +352,7 @@ class FrontendController extends Controller
 
     public function commonpart(Request $request)
     {
-        $series = DB::table("ec_categories")->orderBy('series', 'asc')->get();
-        $series_data = array();
-        foreach ($series as $key => $item) {
-            if (count(DB::table(strtolower($item->series))->where("best", "1")->get()) > 0) {
-                $series_data[] = $item;
-            }
-        }
-        return view('front.commonparts', compact("series_data"));
+        return view('front.commonparts');
     }
 
     public function commonparts(Request $request, $series, $model)
@@ -633,6 +626,8 @@ class FrontendController extends Controller
             $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $request->model)->orderBy('section_name', 'asc')->get();
         } else if ($request->type == 'group') {
             $categories = DB::table($table_name)->where('model', $request->model)->where('section_name', $request->section)->orderBy('group_name', 'asc')->get();
+        } else if($request->type == "category" ) {
+            $categories = DB::table("categories")->where("parent", $request->series)->orderBy("name", "asc")->get() ;
         }
 
         return response()->json(['categories' => $categories]);

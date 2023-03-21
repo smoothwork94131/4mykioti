@@ -34,8 +34,8 @@ class AppServiceProvider extends ServiceProvider
             $settings->with('gs', $gs);
             $settings->with('seo', DB::table('seotools')->find(1));
             $settings->with('categories', Category::where('status', '=', 1)->orderBy('id', 'asc')->get());
-            $settings->with('eccategories', EcCategory::select('product')->distinct()->orderBy('product', 'asc')->get());
-
+            $settings->with('eccategories', DB::table("categories")->where("parent","0")->orderBy('name', 'asc')->get());
+            
             if (Session::has('language')) {
                 $data = DB::table('languages')->find(Session::get('language'));
                 $data_results = file_get_contents(public_path() . '/assets/languages/' . $data->file);
