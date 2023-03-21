@@ -21,7 +21,7 @@
                                 Categories
                             </a>
                         </li>
-                        <!-- <?php 
+                        <?php 
                             if(count($cate_list) > 0) {
                                 foreach($cate_list as $item) {
                                     if($item != "") {
@@ -35,7 +35,7 @@
                                     }
                                 }
                             }
-                        ?> -->
+                        ?>
                     </ul>
                 </div>
             </div>

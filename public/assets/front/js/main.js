@@ -276,14 +276,14 @@ $(function($) {
             if(model == undefined) model = "" ;
             if(model_type == undefined) model_type = "" ;
 
-            if (group_id && type == "schematics") {
+            if (group_id != "" && page == "schematics") {
                 cat_elem.html(`<h2>${group_name}</h2><div class="group-schematics">
                     <img src="/assets/images/group/${group_id}.png"/>
                 </div>`);
                 return ;
             } 
-            
-            if (type != "schematics") {
+
+            if (page != "schematics") {
                 if (hasData == '0') {
                     if(type == "detail") {
                         window.location.href = `${mainurl}/category/${series}/${model}/${group_id}` ;

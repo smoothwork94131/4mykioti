@@ -649,6 +649,8 @@ class FrontendController extends Controller
             $type = "detail" ;
         } else if($type == "category" ) {
             $categories = DB::table("categories")->where("parent", $series)->orderBy("name", "asc")->get() ;
+            $series_info = DB::table("categories")->where("id", $series)->get() ;
+            $series = $series_info[0]->name ;
             $type = "model" ;
         }
         
