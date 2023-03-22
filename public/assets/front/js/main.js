@@ -155,6 +155,7 @@ $(function($) {
                                     data-model="${data.categories[x].model}"
                                     data-series="${series}"
                                     data-url="${link}" 
+                                    data-category="${category}"
                                     data-status="0" data-token="${token}">
                                         <h2 class="categori_toggle"> ${data.categories[x].model} <i class="fa fa-angle-down arrow-down"></i>
                                         </h2>
@@ -173,6 +174,7 @@ $(function($) {
                                         data-type="model"
                                         data-section="${data.categories[x].name}"
                                         data-model="${model}"
+                                        data-category="${category}"
                                         data-series="${data.categories[x].name}"
                                         data-url="${link}" 
                                         data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].name} <i
@@ -194,6 +196,7 @@ $(function($) {
                                         data-model="${model}"
                                         data-series="${series}"
                                         data-url="${link}" 
+                                        data-category="${category}"
                                         data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].section_name} <i
                                                         class="fa fa-angle-down arrow-down"></i></h2>
                                         </div>
