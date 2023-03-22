@@ -364,7 +364,7 @@ class FrontendController extends Controller
         }   
        
         if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->orderBy("name", "asc")->get() ;
+            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
         }
         else{
             if(count($slug_list) == 1) {
@@ -418,7 +418,7 @@ class FrontendController extends Controller
         }   
        
         if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->orderBy("name", "asc")->get() ;
+            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
         }
         else{
             if(count($slug_list) == 1) {
@@ -461,15 +461,26 @@ class FrontendController extends Controller
         if(isset($model) && $model != NULL) {
             $slug_list["model"] = $model ;
         }
-
+        
         if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->orderBy("name", "asc")->get() ;
+            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
         }
         else{
             if(count($slug_list) == 1) {
                 $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
-                $result = DB::table("categories")->select("*")->where("parent", $category_id)->orderBy("name", "asc")->get() ;
+                
+                $result_ = DB::table("categories")->select("*")->where("parent", $category_id)->orderBy("name", "asc")->get() ;
+                $result = array() ;
+                foreach($result_ as $key =>$item) {
+                    $table_name = strtolower($item->name);
+                    $ret = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get()->toArray();
+                    
+                    if(count($ret) > 0) {
+                        $result[$key] = $item ;
+                    }
+                }
+
             } else if(count($slug_list) == 2) {
                 $table_name = strtolower($series);
                 $result = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();

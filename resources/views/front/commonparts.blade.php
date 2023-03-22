@@ -53,7 +53,7 @@
     <section class="faq-section">
         <div class="container">
             <div class="row m-block-content">
-
+               
                 @foreach($result as $item)
                 <div class="col col-md-3 col-sm-4">
 

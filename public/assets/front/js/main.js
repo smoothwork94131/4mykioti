@@ -257,54 +257,6 @@ $(function($) {
             }
         });
 
-        $(document).on("click", ".m-block", function() {
-            
-            var type = $(this).data('type');
-            var series = $(this).data('series')
-            var model = $(this).data('model');
-            var section = $(this).data('section');
-            var hasData = $(this).data('status');
-            var link = $(this).data('url');
-            var token = $(this).data('token');
-            var cat_elem = $('.m-block-content');
-            var isSchematics = $('#isSchematics').val();
-            var model_type = $(this).data('model_type');
-            var group_id = $(this).data('group');
-            var group_name = $(this).data('groupname');
-            var page =  $(this).data('page');
-            var that = this ;
-            var category = $(this).data("category") ;
-            
-            var request = "page="+page+"&type="+type ;
-
-            if(category !=undefined && category!="") request+="&category="+category ; 
-            if(series != undefined && series!="") request +="&series="+series ; 
-            if(model != undefined && model!="") request +="&model="+model;
-            if(section != undefined && section!="") request +="&section="+section ;
-            if(model_type != undefined && model_type !="") request +="&model_type="+model_type ;
-            
-            if (type == "detail" && page == "schematics") {
-                cat_elem.html(`<h2>${group_name}</h2><div class="group-schematics">
-                    <img src="/assets/images/group/${group_id}.png"/>
-                </div>`);
-                return ;
-            } 
-
-            if (hasData == '0') {
-                if(type == "detail") {
-                    window.location.href = `${mainurl}/category/${series}/${model}/${group_id}` ;
-                } else {
-                    if(type == "section" && isSchematics == "0") {
-                        window.location.href = `${mainurl}/category/${series}/${model}/common` ;
-                    } else {
-                        window.location.href = link+"?"+request ;
-                    }
-                }
-            }
-
-        });
-
-
         /*------addClass/removeClass categories-------*/
 
 
