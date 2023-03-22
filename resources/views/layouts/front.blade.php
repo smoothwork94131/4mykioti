@@ -164,7 +164,7 @@
                                     <div class="categories_menu">
                                         <div class="categories_title" 
                                             data-type="category"
-                                            data-series="{{ $product->id }}"
+                                            data-category="{{ $product->name }}"
                                             data-url="{{ route('front.groups') }}" 
                                             data-status="0"
                                             data-token="{{ csrf_token() }}">
@@ -419,7 +419,7 @@
                                     <div class="categories_menu">
                                         <div class="categories_title" 
                                             data-type="category"
-                                            data-series="{{ $product->id }}"
+                                            data-category="{{ $product->name }}"
                                             data-url="{{ route('front.groups') }}" 
                                             data-status="0"
                                             data-token="{{ csrf_token() }}">

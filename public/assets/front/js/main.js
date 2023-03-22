@@ -115,6 +115,8 @@ $(function($) {
             $(this).parent().children('.categories_menu_inner').stop().slideToggle();
             var type = $(this).data('type');
             var series = $(this).data('series')
+            var category = $(this).data('category')
+            
             var model = $(this).data('model');
             var section = $(this).data('section');
             var link = $(this).data('url');
@@ -135,6 +137,7 @@ $(function($) {
                         '_token': token,
                         'type': type,
                         'series': series,
+                        'category': category,
                         'model': model,
                         'section': section,
                         'req_type':'json',

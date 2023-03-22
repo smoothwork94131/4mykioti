@@ -20,7 +20,7 @@
                         <?php 
                         
                             if(count($cate_list) > 0) {
-                                $req = "?page=partsByModel" ;
+                                $req = "?page=partbymodel" ;
                                 foreach($cate_list as $key => $item) {
                                     if($item['name']) {
                                         
