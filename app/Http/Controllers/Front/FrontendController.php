@@ -664,6 +664,9 @@ class FrontendController extends Controller
                         "model"=>array("name"=>$model, "type"=>"model"), 
                         "section"=>array("name"=>$section, "type"=>"section")) ;
 
+            Session::put("breadcrumb_list", $cate_list) ;
+            Session::put("page_name", $page) ;
+
             return view('front.'.$page, compact("page_categories", "type", "series", "model", "cate_list")) ;
         } else {
             return response()->json(array("categories"=>$categories));

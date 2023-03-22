@@ -1415,9 +1415,9 @@ Route::prefix('vendor')->group(function () {
 
 
 Route::get('/', 'Front\FrontendController@index')->name('front.index');
-Route::get('/partsbymodel', 'Front\FrontendController@partsByModel')->name('front.partsByModel');
+Route::get('/partsbymodel', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
 Route::get('/schematics', 'Front\FrontendController@schematics')->name('front.schematics');
-Route::get('/commonparts', 'Front\FrontendController@commonpart')->name('front.common');
+Route::get('/commonparts', 'Front\FrontendController@commonpart')->name('front.commonparts');
 Route::get('/extras', 'Front\FrontendController@extraIndex')->name('front.extraIndex');
 Route::get('/currency/{id}', 'Front\FrontendController@currency')->name('front.currency');
 Route::get('/language/{id}', 'Front\FrontendController@language')->name('front.language');

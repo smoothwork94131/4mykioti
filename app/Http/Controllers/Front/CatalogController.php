@@ -48,6 +48,7 @@ class CatalogController extends Controller
 
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null)
     {
+        
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
@@ -98,7 +99,7 @@ class CatalogController extends Controller
         $data['db'] = $db;
         $data['prods'] = $prods;
         $data['group'] = $group;
-
+        $data['model'] = $slug1 ;
         $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
 

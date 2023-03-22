@@ -92,10 +92,57 @@
     @if ($group)
     <section class="sub-categori">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
-            <div class="row">
+            <div class="row breadcrumb-area" >
                 <div class="col-12">
-                    <div class="section-top" style="display: block">
-                        <h6>{{$group->model}}</h6>
+                    <div class="section-top" style="display: block; padding-left: 0px;">
+                        
+                        <?php 
+                            $cate_list = session("breadcrumb_list") ;
+                            $page = session("page_name") ;
+                            $cate_url = "front.$page" ;
+                            
+                        ?>
+                        <div class="col-lg-12">
+                            <ul class="pages parts-by-model-title">
+                                <li>
+                                    <a href="{{ route('front.index') }}">
+                                        {{ $langg->lang17 }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{route($cate_url)}}">
+                                        Categories
+                                    </a>
+                                </li>
+
+                                <?php 
+                        
+                                    if(count($cate_list) > 0) {
+                                        $req = "?page=$page" ;
+                                        foreach($cate_list as $key => $item) {
+                                            if($item['name']) {
+                                                
+                                                $req.="&{$key}=".$item['name'] ;
+
+                                                ?>
+                                                <li>
+                                                    <a href="{{route('front.groups').$req.'&type='.$item['type']}}">
+                                                        {{$item['name']}}
+                                                    </a>
+                                                </li>
+                                                <?php
+                                            }
+                                        }
+                                    }
+                                ?>
+                                <li>
+                                    <a>
+                                        {{$group->model}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
                         <h2 class="section-title remove-padding">
                             {{$group->group_name }}
                             <span class="title-underline"></span>
@@ -228,8 +275,57 @@
 
     </section>
     @else
+
     <section class="sub-categori">
         <div class="container">
+        <?php 
+            $cate_list = session("breadcrumb_list") ;
+            $page = session("page_name") ;
+            $cate_url = "front.$page" ;
+            // var_export($db) ;
+            // exit ;
+            
+        ?>
+        <div class="col-lg-12 breadcrumb-area">
+            <ul class="pages parts-by-model-title">
+                <li>
+                    <a href="{{ route('front.index') }}">
+                        {{ $langg->lang17 }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route($cate_url)}}">
+                        Categories
+                    </a>
+                </li>
+
+                <?php 
+        
+                    if(count($cate_list) > 0) {
+                        $req = "?page=$page" ;
+                        foreach($cate_list as $key => $item) {
+                            if($item['name']) {
+                                
+                                $req.="&{$key}=".$item['name'] ;
+
+                                ?>
+                                <li>
+                                    <a href="{{route('front.groups').$req.'&type='.$item['type']}}">
+                                        {{$item['name']}}
+                                    </a>
+                                </li>
+                                <?php
+                            }
+                        }
+                    }
+                ?>
+                <li>
+                    <a >
+                        {{$model}}
+                    </a>
+                </li>
+            </ul>
+        </div>
             <table id="product_table" class="table" cellspacing="0" width="100%">
                 <thead>
                 <tr>

@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col-6 remove-padding pr-1">
-                        <a href="{{route('front.partsByModel')}}"><div class="s-0-block s-block d-flex m-blue">
+                        <a href="{{route('front.partsbymodel')}}"><div class="s-0-block s-block d-flex m-blue">
                             <div>
                                 FIND PARTS
                             </div>
@@ -66,7 +66,7 @@
                         </div></a>
                     </div>
                     <div class="col-6 remove-padding">
-                    <a href="{{route('front.common')}}">
+                    <a href="{{route('front.commonparts')}}">
                         <div class="s-0-block s-block d-flex m-brown">
                             <div>
                                  COMMON PARTS

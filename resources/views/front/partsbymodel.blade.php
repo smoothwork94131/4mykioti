@@ -13,7 +13,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('front.partsByModel')}}">
+                            <a href="{{route('front.partsbymodel')}}">
                                 Categories
                             </a>
                         </li>

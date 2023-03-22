@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('front.common')}}">
+                            <a href="{{route('front.commonparts')}}">
                                 Categories
                             </a>
                         </li>
