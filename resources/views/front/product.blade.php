@@ -1,7 +1,6 @@
 @extends('layouts.front')
 
 @section('content')
-
     <div class="breadcrumb-area">
         <div class="container">
             <div class="row">
@@ -10,7 +9,10 @@
                         <li><a href="{{ route('front.index') }}">{{ $langg->lang17 }}</a></li>
                         @php
                             $index = 1 ;
-                            $route = route("front.".$page) ;
+                            $route =  "" ;
+                            if($page != "product") {
+                                $route = route("front.".$page) ;
+                            }
                         @endphp
                         @foreach($slug_list as $key =>$item)
                             @php
@@ -39,6 +41,8 @@
         </div>
     </div>
 
+    
+
     <!-- Product Details Area Start -->
     <section class="product-details-page">
         <div class="container">
@@ -59,15 +63,10 @@
                                             <img class="xzoom-gallery5" width="80"
                                                 src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}"
                                                 title="The description goes here">
-                                        </a>
-
-
-
+</a>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-lg-7">
                             <div class="right-area">

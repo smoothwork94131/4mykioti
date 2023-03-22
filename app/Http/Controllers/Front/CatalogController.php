@@ -220,7 +220,10 @@ class CatalogController extends Controller
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
         $db="product" ;
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
+        $page = "product" ; $slug_list = array() ;
+
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+    
     }
 
     public function searchProdDetail() {
@@ -257,6 +260,7 @@ class CatalogController extends Controller
         $this->code_image();
         $db = strtolower($slug);
 
+
         $productt = DB::table($db)->where('slug', '=', $slug1)->first();
 
         if (Session::has('currency')) {
@@ -273,8 +277,9 @@ class CatalogController extends Controller
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
-
-        return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
+        $page = "product" ;
+        $slug_list = array("prod_name"=>$slug1) ;
+        return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
 
     }
 

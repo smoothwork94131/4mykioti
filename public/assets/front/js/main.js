@@ -207,7 +207,7 @@ $(function($) {
                             
                             } else if (type == 'group') {
                                 for (var x in data.categories) {
-                                    element += `<li><a href="${mainurl}/category/${series}/${model}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                    element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
                                 }
                                 cat_elem = cat_elem.children('.category-groups');
                                 cat_elem.html(element);

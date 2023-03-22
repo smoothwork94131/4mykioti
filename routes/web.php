@@ -1477,14 +1477,15 @@ Route::get('/tag/{slug}', 'Front\CatalogController@tag')->name('front.tag');
 
 // PRODCT SECTION
 Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
+Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
 Route::get('/item/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@sub_category')->name('front.sub_category');
 
-Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
 Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
 Route::get('/item/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
 Route::get('/item/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
 Route::post('/item/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
 Route::get('/item/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
+
 // PRODCT SECTION ENDS
 
 // COMMENT SECTION

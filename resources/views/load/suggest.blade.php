@@ -1,5 +1,5 @@
 @foreach($prods as $prod)
-    <div class="docname">
+    <div class="docname">   
         <a href="{{ route('front.iproduct', ['slug' => $db, 'slug1' => $prod->slug]) }}">
             <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}"
  alt="">
