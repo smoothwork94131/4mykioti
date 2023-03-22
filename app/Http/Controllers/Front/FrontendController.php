@@ -644,21 +644,26 @@ class FrontendController extends Controller
         } else if ($type == 'section') {
             $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
             $type = "group" ;     
-            
         } else if ($type == 'group') {
             $categories = DB::table($table_name)->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
             $type = "detail" ;
         } else if($type == "category" ) {
-            $categories = DB::table("categories")->where("parent", $series)->orderBy("name", "asc")->get() ;
-            $series_info = DB::table("categories")->where("id", $series)->get() ;
-            $category = $series_info[0]->name ;
-            $series = "" ;
+            $series_info = DB::table("categories")->where("name", $category)->get() ;
+            $paret_id = $series_info[0]->id ;
+            $categories = DB::table("categories")->where("parent", $paret_id)->orderBy("name", "asc")->get() ;
             $type = "model" ;
+            $series = "" ;
         }
         
         $page_categories = $categories ;
         if($request->req_type != "json") {
-            $cate_list = array("category"=>$category,"series"=>$series, "model"=>$model, "section"=>$section) ;
+            
+            $cate_list = array(
+                        "category"=>array("name"=>$category, "type"=>"category"),
+                        "series"=>array("name"=>$series, "type"=>"model"), 
+                        "model"=>array("name"=>$model, "type"=>"model"), 
+                        "section"=>array("name"=>$section, "type"=>"section")) ;
+
             return view('front.'.$page, compact("page_categories", "type", "series", "model", "cate_list")) ;
         } else {
             return response()->json(array("categories"=>$categories));

@@ -271,11 +271,15 @@ $(function($) {
             var page =  $(this).data('page');
             var that = this ;
             var category = $(this).data("category") ;
-            if(series == undefined) series = "" ;
-            if(section == undefined) section = "" ;
-            if(model == undefined) model = "" ;
-            if(model_type == undefined) model_type = "" ;
-         
+            
+            var request = "page="+page+"&type="+type ;
+
+            if(category !=undefined && category!="") request+="&category="+category ; 
+            if(series != undefined && series!="") request +="&series="+series ; 
+            if(model != undefined && model!="") request +="&model="+model;
+            if(section != undefined && section!="") request +="&section="+section ;
+            if(model_type != undefined && model_type !="") request +="&model_type="+model_type ;
+            
             if (type == "detail" && page == "schematics") {
                 cat_elem.html(`<h2>${group_name}</h2><div class="group-schematics">
                     <img src="/assets/images/group/${group_id}.png"/>
@@ -283,19 +287,17 @@ $(function($) {
                 return ;
             } 
 
-            // if (page != "schematics") {
-                if (hasData == '0') {
-                    if(type == "detail") {
-                        window.location.href = `${mainurl}/category/${series}/${model}/${group_id}` ;
+            if (hasData == '0') {
+                if(type == "detail") {
+                    window.location.href = `${mainurl}/category/${series}/${model}/${group_id}` ;
+                } else {
+                    if(type == "section" && isSchematics == "0") {
+                        window.location.href = `${mainurl}/category/${series}/${model}/common` ;
                     } else {
-                        if(type == "section" && isSchematics == "0") {
-                            window.location.href = `${mainurl}/category/${series}/${model}/common` ;
-                        } else {
-                            window.location.href = link+"?type="+type+"&series="+series+"&category="+category+"&model="+model+"&section="+section+"&model_type="+model_type+"&req_type=page&page="+page ; 
-                        }
+                        window.location.href = link+"?"+request ;
                     }
                 }
-            // }
+            }
 
         });
 

@@ -13,18 +13,23 @@
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:location.reload();">
+                            <a href="{{route('front.schematics')}}">
                                 Categories
                             </a>
                         </li>
                         <?php 
                             if(count($cate_list) > 0) {
-                                foreach($cate_list as $item) {
-                                    if($item != "") {
-                                        ?>
+                                $req = "?page=schematics" ;
+                                foreach($cate_list as $key => $item) {
+                                    
+                                    if($item['name']) {
+                                       
+                                        $req.="&{$key}=".$item['name'] ;
+                                        
+                                        ?>  
                                         <li>
-                                            <a href="javascript:location.reload();">
-                                                {{$item}}
+                                            <a href="{{route('front.groups').$req.'&type='.$item['type']}}">
+                                                {{$item['name']}}
                                             </a>
                                         </li>
                                         <?php
@@ -50,7 +55,7 @@
                         <div class="col col-md-3 col-sm-4">
                             <div class="m-block" 
                                 data-type="category"
-                                data-series="{{$item->id}}"
+                                data-category="{{$item->name}}"
                                 data-url="{{route('front.groups')}}"
                                 data-category-name="{{$item->name}}"
                                 data-page="schematics"
@@ -101,7 +106,7 @@
                                 data-groupname="{{$item->group_name}}"
                                 data-group="{{$group_id}}"
                                 data-page="schematics"
-                                data-category="{{$cate_list['category']}}"
+                                data-category="{{$cate_list['category']['name']}}"
                                 data-status="0" data-token="{{ csrf_token() }}">
                                 {{$name}}
                             </div>
