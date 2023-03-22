@@ -463,7 +463,26 @@ class FrontendController extends Controller
         }
         
         if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            $result_ = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            foreach($result_ as $key =>$item) {
+                $ret = DB::table("categories")->select("*")->where("parent", $item->id)->get()->toArray();
+                $flag = false ;
+                foreach($ret as $sub_item) {
+
+                    $table_name = strtolower($sub_item->name);
+                    $sub_ret = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get()->toArray();
+                    
+                    if(count($sub_ret) > 0) {
+                        $flag = true ;
+                        break ;
+                    }
+                }
+               
+                if($flag) {
+                    $result[$key] = $item ;
+                }
+            }
+           
         }
         else{
             if(count($slug_list) == 1) {
