@@ -161,12 +161,15 @@
                             </thead>
                             <tbody>
                             @foreach($prods as $key=>$prod)
+                                @php 
+                                    $slug_list['prod_name'] = $prod->name ;
+                                @endphp
                                 <tr>
                                     <td>
                                         <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     <td>
-                                        <a href="{{route('front.sub_category', ['prod_name' => $prod->name, 'series'=>$group->series, 'model'=>$group->model])}}">{{ $prod->name }}</a>
+                                        <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
                                     </td>
                                     <td>
                                         ${{ $prod->price }}
@@ -275,7 +278,7 @@
     <section class="sub-categori">
         <div class="container">
         @php 
-            $route = "front.partsbymodel" ;
+            $route = "front.commonparts" ;
             $index = 1 ;
         @endphp
         <div class="col-lg-12 breadcrumb-area">
@@ -332,12 +335,15 @@
                 <tbody>
                 
                 @foreach($prods as $key=>$prod)
+                @php 
+                    $slug_list['prod'] = $prod->slug ;
+                @endphp
                     <tr>
                         <td class='td-img'>
                             <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                         </td>
                         <td>
-                            <a href="{{route('front.iproduct', ['slug' => $db, 'slug1' => $prod->slug])}}">{{ $prod->name }}</a>
+                            <a href="{{route('front.commonparts', $slug_list)}}">{{ $prod->name }}</a>
                         </td>
                         <td>
                             {{ $prod->subcategory_id }}

@@ -8,7 +8,31 @@
                 <div class="col-lg-12">
                     <ul class="pages">
                         <li><a href="{{ route('front.index') }}">{{ $langg->lang17 }}</a></li>
-                        <li>{{ $productt->name }}</li>
+                        @php
+                            $index = 1 ;
+                            $route = route("front.".$page) ;
+                        @endphp
+                        @foreach($slug_list as $key =>$item)
+                            @php
+                            
+                                $route = $route."/".$item
+                            @endphp
+                            <li>
+                                @if(count($slug_list) == $index) 
+                                    <a>
+                                        {{$item}}
+                                    </a>
+                                @else
+                                    <a href = "{{$route}}">
+                                        {{$item}}
+                                    </a>
+                                @endif
+                                
+                            </li>
+                            @php
+                                $index++ ;
+                            @endphp
+                        @endforeach
                     </ul>
                 </div>
             </div>

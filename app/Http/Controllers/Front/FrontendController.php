@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Session;
 use InvalidArgumentException;
 use Markury\MarkuryPost;
 use PHPShopify\ShopifySDK;
+use App\Models\Currency;
 
 class FrontendController extends Controller
 {
@@ -378,9 +379,9 @@ class FrontendController extends Controller
             } else if(count($slug_list) == 4) {
                 $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
             } else if(count($slug_list) == 5) {
-                $group_info = DB::table(strtolower($series)."_categories")->select("group_id")->where("model", $model)->where("group_name", $group)->get() ;
-                $group_id = $group_info[0]->group_id ;
-                return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$group_id, "category"=>$category]);
+                $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+                $group_id = $group_info[0]->group_Id ;
+                return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
             }
 
             Session::put("slug_list", $slug_list) ;
@@ -444,7 +445,7 @@ class FrontendController extends Controller
         return view('front.schematics', compact("result", "slug_list"));
     }
 
-    public function commonpart(Request $request, $category=null, $series=null, $model=null)
+    public function commonpart(Request $request, $category=null, $series=null, $model=null, $prod=null)
     {
         $slug_list = array() ;
         $result = array() ;
@@ -461,7 +462,10 @@ class FrontendController extends Controller
         if(isset($model) && $model != NULL) {
             $slug_list["model"] = $model ;
         }
-        
+        if(isset($prod) && $model != NULL) {
+            $slug_list["prod"] = $prod ;
+        }
+
         if(count($slug_list) == 0) {
             $result_ = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
             foreach($result_ as $key =>$item) {
@@ -494,7 +498,6 @@ class FrontendController extends Controller
                 foreach($result_ as $key =>$item) {
                     $table_name = strtolower($item->name);
                     $ret = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get()->toArray();
-                    
                     if(count($ret) > 0) {
                         $result[$key] = $item ;
                     }
@@ -506,6 +509,30 @@ class FrontendController extends Controller
             } else if(count($slug_list) == 3) {
                 $page = "commonparts" ;
                 return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>"common", "category"=>$category]);
+            } else if(count($slug_list) == 4) {
+                $this->code_image();
+                
+                $db = strtolower($series);
+                $productt = DB::table($db)->where('slug', '=', $prod)->first();
+
+                if (Session::has('currency')) {
+                    $curr = Currency::find(Session::get('currency'));
+                } else {
+                    $curr = Currency::where('is_default', '=', 1)->first();
+                }
+
+                if ($productt->user_id != 0) {
+                    $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
+                } else {
+                    $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
+                }
+
+                $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
+                $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
+                
+                $page = "commonparts" ;
+                return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page"));
+
             }
 
         }

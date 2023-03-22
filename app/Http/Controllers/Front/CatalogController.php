@@ -46,13 +46,15 @@ class CatalogController extends Controller
 
     // -------------------------------- CATEGORY SECTION ----------------------------------------
 
-    public function category(Request $request, $category = null, $series = null, $model = null, $section = null)
+    public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
     {   
 
-        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$section) ;
+        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group_id ) ;
+        
         if($section == "common") {
             $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model) ;
         }
+
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
@@ -92,19 +94,24 @@ class CatalogController extends Controller
             if ($section == 'common') {
                 $prods = $prods->where('best', 1)->where('subcategory_id', $model)->get();
             } else {
-                $prods = $prods->where('category_id', $section)->where('subcategory_id', $model)->get();
+                $prods = $prods->where('category_id', $group_id)->where('subcategory_id', $model)->get();
             }
         } else {
             $prods = $prods->get();
         }
         
-        $group = DB::table($db.'_categories')->where('group_id', $section)->first();
-        
+        $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
+        if($group) {
+            $slug_list['group'] = $group->group_name ;
+        }
         $data['db'] = $db;
         $data['prods'] = $prods;
         $data['group'] = $group;
+        
         $data['model'] = $model ;
         $data['slug_list'] = $slug_list ;
+        
+        
 
         $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
@@ -163,11 +170,11 @@ class CatalogController extends Controller
 
     }
 
-    public function sub_category( $prod_name, $series, $model) {
+    public function sub_category(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
         
         $db = strtolower($series);
         $sql = "select * from {$db} where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
-        
+       
         $productt =DB::select($sql);
         $productt = $productt[0] ;
         
@@ -184,8 +191,9 @@ class CatalogController extends Controller
                 ->where('subcategory_id', '=', $model)
                 ->where('name', '!=', $prod_name)
                 ->take(8)->get();
-    
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db"));
+        $page = "partsbymodel" ;
+        $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$section, "group"=>$group, "prod_name"=>$prod_name);
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list"));
     }
     public function product(Request $request, $slug)
     {   
@@ -251,15 +259,11 @@ class CatalogController extends Controller
 
         $productt = DB::table($db)->where('slug', '=', $slug1)->first();
 
-
-
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
-
-
 
         if ($productt->user_id != 0) {
             $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
@@ -271,6 +275,7 @@ class CatalogController extends Controller
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
         return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
+
     }
 
     // Capcha Code Image

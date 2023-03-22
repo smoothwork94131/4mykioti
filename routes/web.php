@@ -1417,7 +1417,7 @@ Route::prefix('vendor')->group(function () {
 Route::get('/', 'Front\FrontendController@index')->name('front.index');
 Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
 Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
-Route::get('/commonparts/{category?}/{series?}/{model?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
+Route::get('/commonparts/{category?}/{series?}/{model?}/{prod?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
 Route::get('/extras', 'Front\FrontendController@extraIndex')->name('front.extraIndex');
 Route::get('/currency/{id}', 'Front\FrontendController@currency')->name('front.currency');
 Route::get('/language/{id}', 'Front\FrontendController@language')->name('front.language');
@@ -1464,7 +1464,8 @@ Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables
 Route::get('/categories/', 'Front\CatalogController@categories')->name('front.categories');
 // *********************
 
-Route::get('/category/{category?}/{series?}/{model?}/{section?}', 'Front\CatalogController@category')->name('front.category');
+Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
+
 Route::get('/category/{slug1}/{slug2}', 'Front\CatalogController@subcategory')->name('front.subcat');
 Route::get('/category/{slug1}/{slug2}/{slug3}', 'Front\CatalogController@childcategory')->name('front.childcat');
 Route::get('/childcategories/{slug}', 'Front\CatalogController@childcategories')->name('front.childcategories');
@@ -1476,7 +1477,7 @@ Route::get('/tag/{slug}', 'Front\CatalogController@tag')->name('front.tag');
 
 // PRODCT SECTION
 Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
-Route::get('/item/{prod_name}/{series}/{model}', 'Front\CatalogController@sub_category')->name('front.sub_category');
+Route::get('/item/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@sub_category')->name('front.sub_category');
 
 Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
 Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
