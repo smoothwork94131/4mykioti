@@ -53,10 +53,11 @@
     <section class="faq-section">
         <div class="container">
             <div class="row m-block-content">
-
+                @if(count($result) == 0) 
+                    <h3 algin='center'>No data</h3>
+                @endif
                 @foreach($result as $item)
                 <div class="col col-md-3 col-sm-4">
-
                     <a href="{{$route.'/'.$item->name}}">
                         <div class="m-block" >
                             {{$item->name}}

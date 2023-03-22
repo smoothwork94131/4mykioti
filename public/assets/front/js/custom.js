@@ -1499,7 +1499,13 @@ function totalSearch(event) {
         $(".search-dropdown").css("display", "none") ;
         return ;
     }
-
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; 
+    var status = format.test(event.target.value) ;
+    if(!status) {
+        $(".search-dropdown").html("Special Letter") ;
+        $(".search-dropdown").css("display", "none") ;
+        return ;
+    }
     if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
         window.location.href ="http://"+window.location.host+"/search/"+search_list[0].event.target.value ;
         return ;
