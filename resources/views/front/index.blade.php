@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col-6 remove-padding pr-1">
-                        <a href="{{route('front.partsbymodel')}}"><div class="s-0-block s-block d-flex m-blue">
+                        <a href="{{route('front.partsbymodel', [])}}"><div class="s-0-block s-block d-flex m-blue">
                             <div>
                                 FIND PARTS
                             </div>

@@ -46,14 +46,18 @@ class CatalogController extends Controller
 
     // -------------------------------- CATEGORY SECTION ----------------------------------------
 
-    public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null)
-    {
-        
+    public function category(Request $request, $category = null, $series = null, $model = null, $section = null)
+    {   
+
+        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$section) ;
+        if($section == "common") {
+            $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model) ;
+        }
         $minprice = $request->min;
         $maxprice = $request->max;
         $sort = $request->sort;
         $search = $request->search;
-        $db = strtolower($slug);
+        $db = strtolower($series);
 
         $prods = DB::table($db)
         ->when($minprice, function ($query, $minprice) {
@@ -84,22 +88,24 @@ class CatalogController extends Controller
 
         $prods = $prods->where('status', 1);
 
-        if ($slug2) {
-            if ($slug2 == 'common') {
-                $prods = $prods->where('best', 1)->where('subcategory_id', $slug1)->get();
+        if ($section) {
+            if ($section == 'common') {
+                $prods = $prods->where('best', 1)->where('subcategory_id', $model)->get();
             } else {
-                $prods = $prods->where('category_id', $slug2)->where('subcategory_id', $slug1)->get();
+                $prods = $prods->where('category_id', $section)->where('subcategory_id', $model)->get();
             }
         } else {
             $prods = $prods->get();
         }
         
-        $group = DB::table($db.'_categories')->where('group_id', $slug2)->first();
-
+        $group = DB::table($db.'_categories')->where('group_id', $section)->first();
+        
         $data['db'] = $db;
         $data['prods'] = $prods;
         $data['group'] = $group;
-        $data['model'] = $slug1 ;
+        $data['model'] = $model ;
+        $data['slug_list'] = $slug_list ;
+
         $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
 

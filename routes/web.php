@@ -1415,9 +1415,9 @@ Route::prefix('vendor')->group(function () {
 
 
 Route::get('/', 'Front\FrontendController@index')->name('front.index');
-Route::get('/partsbymodel', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
-Route::get('/schematics', 'Front\FrontendController@schematics')->name('front.schematics');
-Route::get('/commonparts', 'Front\FrontendController@commonpart')->name('front.commonparts');
+Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
+Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
+Route::get('/commonparts/{category?}/{series?}/{model?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
 Route::get('/extras', 'Front\FrontendController@extraIndex')->name('front.extraIndex');
 Route::get('/currency/{id}', 'Front\FrontendController@currency')->name('front.currency');
 Route::get('/language/{id}', 'Front\FrontendController@language')->name('front.language');
@@ -1464,7 +1464,7 @@ Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables
 Route::get('/categories/', 'Front\CatalogController@categories')->name('front.categories');
 // *********************
 
-Route::get('/category/{category?}/{subcategory?}/{childcategory?}', 'Front\CatalogController@category')->name('front.category');
+Route::get('/category/{category?}/{series?}/{model?}/{section?}', 'Front\CatalogController@category')->name('front.category');
 Route::get('/category/{slug1}/{slug2}', 'Front\CatalogController@subcategory')->name('front.subcat');
 Route::get('/category/{slug1}/{slug2}/{slug3}', 'Front\CatalogController@childcategory')->name('front.childcat');
 Route::get('/childcategories/{slug}', 'Front\CatalogController@childcategories')->name('front.childcategories');

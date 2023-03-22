@@ -96,12 +96,10 @@
                 <div class="col-12">
                     <div class="section-top" style="display: block; padding-left: 0px;">
                         
-                        <?php 
-                            $cate_list = session("breadcrumb_list") ;
-                            $page = session("page_name") ;
-                            $cate_url = "front.$page" ;
-                            
-                        ?>
+                        @php 
+                            $route = "front.partsbymodel" ;
+                            $index = 1 ;
+                        @endphp
                         <div class="col-lg-12">
                             <ul class="pages parts-by-model-title">
                                 <li>
@@ -110,36 +108,34 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{route($cate_url)}}">
-                                        Categories
+                                    <a href="{{ route($route) }}">
+                                        Category
                                     </a>
                                 </li>
-
-                                <?php 
-                        
-                                    if(count($cate_list) > 0) {
-                                        $req = "?page=$page" ;
-                                        foreach($cate_list as $key => $item) {
-                                            if($item['name']) {
-                                                
-                                                $req.="&{$key}=".$item['name'] ;
-
-                                                ?>
-                                                <li>
-                                                    <a href="{{route('front.groups').$req.'&type='.$item['type']}}">
-                                                        {{$item['name']}}
-                                                    </a>
-                                                </li>
-                                                <?php
-                                            }
-                                        }
-                                    }
-                                ?>
-                                <li>
-                                    <a>
-                                        {{$group->model}}
-                                    </a>
-                                </li>
+                                @php
+                                    $route = route("$route") ;
+                                @endphp
+                                @foreach($slug_list as $key =>$item)
+                                    @php
+                                        $route = $route."/".$item
+                                    @endphp
+                                    <li>
+                                        @if(count($slug_list) == $index) 
+                                            <a>
+                                                {{$item}}
+                                            </a>
+                                        @else
+                                            <a href = "{{$route}}">
+                                                {{$item}}
+                                            </a>
+                                        @endif
+                                        
+                                    </li>
+                                    @php
+                                        $index++ ;
+                                    @endphp
+                                @endforeach
+                            
                             </ul>
                         </div>
 
@@ -278,14 +274,10 @@
 
     <section class="sub-categori">
         <div class="container">
-        <?php 
-            $cate_list = session("breadcrumb_list") ;
-            $page = session("page_name") ;
-            $cate_url = "front.$page" ;
-            // var_export($db) ;
-            // exit ;
-            
-        ?>
+        @php 
+            $route = "front.partsbymodel" ;
+            $index = 1 ;
+        @endphp
         <div class="col-lg-12 breadcrumb-area">
             <ul class="pages parts-by-model-title">
                 <li>
@@ -294,36 +286,35 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route($cate_url)}}">
-                        Categories
+                    <a href="{{ route($route) }}">
+                        Category
                     </a>
                 </li>
-
-                <?php 
-        
-                    if(count($cate_list) > 0) {
-                        $req = "?page=$page" ;
-                        foreach($cate_list as $key => $item) {
-                            if($item['name']) {
-                                
-                                $req.="&{$key}=".$item['name'] ;
-
-                                ?>
-                                <li>
-                                    <a href="{{route('front.groups').$req.'&type='.$item['type']}}">
-                                        {{$item['name']}}
-                                    </a>
-                                </li>
-                                <?php
-                            }
-                        }
-                    }
-                ?>
-                <li>
-                    <a >
-                        {{$model}}
-                    </a>
-                </li>
+                @php
+                    $route = route("$route") ;
+                @endphp
+                @foreach($slug_list as $key =>$item)
+                    @php
+                        
+                        $route = $route."/".$item
+                    @endphp
+                    <li>
+                        @if(count($slug_list) == $index) 
+                            <a>
+                                {{$item}}
+                            </a>
+                        @else
+                            <a href = "{{$route}}">
+                                {{$item}}
+                            </a>
+                        @endif
+                        
+                    </li>
+                    @php
+                        $index++ ;
+                    @endphp
+                @endforeach
+                
             </ul>
         </div>
             <table id="product_table" class="table" cellspacing="0" width="100%">

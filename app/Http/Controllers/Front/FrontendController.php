@@ -334,28 +334,152 @@ class FrontendController extends Controller
 
 // CURRENCY SECTION ENDS
 
-    public function partsByModel(Request $request)
+    public function partsByModel(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {
-        $type="category" ;
-        $page_categories = array() ;
-        $cate_list = array() ;
-        return view('front.partsbymodel', compact("type", "page_categories", "cate_list"));
+
+        $slug_list = array() ;
+        $result = array() ;
+
+        if(isset($category) && $category != NULL) { 
+            $slug_list["category"] = $category ;
+        }
+
+        if(isset($series) && $series != NULL) {
+            $slug_list["series"] = $series ;
+
+        }
+
+        if(isset($model) && $model != NULL) {
+            $slug_list["model"] = $model ;
+
+        }
+
+        if(isset($section) && $section != NULL) {
+            $slug_list["section"] = $section ;
+
+        }
+
+        if(isset($group) && $group != NULL) {
+            $slug_list["group"] = $group ;
+        }   
+       
+        if(count($slug_list) == 0) {
+            $result = DB::table("categories")->select("*")->where("parent", "0")->orderBy("name", "asc")->get() ;
+        }
+        else{
+            if(count($slug_list) == 1) {
+                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
+                $category_id = $category_info[0]->id ;
+                $result = DB::table("categories")->select("*")->where("parent", $category_id)->orderBy("name", "asc")->get() ;
+            } else if(count($slug_list) == 2) {
+                $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
+            } else if(count($slug_list) == 3) {
+                $result = DB::table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
+            } else if(count($slug_list) == 4) {
+                $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+            } else if(count($slug_list) == 5) {
+                $group_info = DB::table(strtolower($series)."_categories")->select("group_id")->where("model", $model)->where("group_name", $group)->get() ;
+                $group_id = $group_info[0]->group_id ;
+                return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$group_id, "category"=>$category]);
+            }
+
+            Session::put("slug_list", $slug_list) ;
+            Session::put("page_name", "partsbymodel") ;
+        }
+        return view('front.partsbymodel', compact("result", "slug_list"));
     }
 
-    public function schematics(Request $request)
+    public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {   
-        $type="category" ;
-        $cate_list = array() ;
-        $page_categories = array() ;
-        return view('front.schematics', compact("type", "page_categories", "cate_list"));
+        $slug_list = array() ;
+        $result = array() ;
+
+        if(isset($category) && $category != NULL) { 
+            $slug_list["category"] = $category ;
+        }
+
+        if(isset($series) && $series != NULL) {
+            $slug_list["series"] = $series ;
+
+        }
+
+        if(isset($model) && $model != NULL) {
+            $slug_list["model"] = $model ;
+
+        }
+
+        if(isset($section) && $section != NULL) {
+            $slug_list["section"] = $section ;
+
+        }
+
+        if(isset($group) && $group != NULL) {
+            $slug_list["group"] = $group ;
+        }   
+       
+        if(count($slug_list) == 0) {
+            $result = DB::table("categories")->select("*")->where("parent", "0")->orderBy("name", "asc")->get() ;
+        }
+        else{
+            if(count($slug_list) == 1) {
+                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
+                $category_id = $category_info[0]->id ;
+                $result = DB::table("categories")->select("*")->where("parent", $category_id)->orderBy("name", "asc")->get() ;
+            } else if(count($slug_list) == 2) {
+                $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
+            } else if(count($slug_list) == 3) {
+                $result = DB::table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
+            } else if(count($slug_list) == 4) {
+                $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+            } else if(count($slug_list) == 5) {
+                $group_info = DB::table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
+                // $group_id = $group_info[0]->group_id ;
+                // return redirect()->route('front.category',["category"=>$series, "subcategory"=>$model, "childcategory"=>$group_id]);
+                $result = $group_info ;
+            }
+
+            Session::put("slug_list", $slug_list) ;
+            Session::put("page_name", "schematics") ;
+        }
+        return view('front.schematics', compact("result", "slug_list"));
     }
 
-    public function commonpart(Request $request)
+    public function commonpart(Request $request, $category=null, $series=null, $model=null)
     {
-        $type="category" ;
-        $cate_list = array() ;
-        $page_categories = array() ;
-        return view('front.commonparts', compact("type", "page_categories", "cate_list"));
+        $slug_list = array() ;
+        $result = array() ;
+
+        if(isset($category) && $category != NULL) { 
+            $slug_list["category"] = $category ;
+        }
+
+        if(isset($series) && $series != NULL) {
+            $slug_list["series"] = $series ;
+
+        }
+
+        if(isset($model) && $model != NULL) {
+            $slug_list["model"] = $model ;
+        }
+
+        if(count($slug_list) == 0) {
+            $result = DB::table("categories")->select("*")->where("parent", "0")->orderBy("name", "asc")->get() ;
+        }
+        else{
+            if(count($slug_list) == 1) {
+                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
+                $category_id = $category_info[0]->id ;
+                $result = DB::table("categories")->select("*")->where("parent", $category_id)->orderBy("name", "asc")->get() ;
+            } else if(count($slug_list) == 2) {
+                $table_name = strtolower($series);
+                $result = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
+            } else if(count($slug_list) == 3) {
+                $page = "commonparts" ;
+                return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>"common", "category"=>$category]);
+            }
+
+        }
+        return view('front.commonparts', compact("result", "slug_list"));
     }
 
     public function commonparts(Request $request, $series, $model)
@@ -664,7 +788,7 @@ class FrontendController extends Controller
                         "model"=>array("name"=>$model, "type"=>"model"), 
                         "section"=>array("name"=>$section, "type"=>"section")) ;
 
-            Session::put("breadcrumb_list", $cate_list) ;
+            Session::put("breadcrumb", $cate_list) ;
             Session::put("page_name", $page) ;
 
             return view('front.'.$page, compact("page_categories", "type", "series", "model", "cate_list")) ;
