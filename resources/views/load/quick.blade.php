@@ -39,29 +39,6 @@
             </div>
             @endif
         </div>
-
-            <!-- <div class="table-area wholesale-details-page">
-                <h3>{{ $langg->lang770 }}</h3>
-                <table class="table">
-                    <tr>
-                        <th>{{ $langg->lang768 }}</th>
-                        <th>{{ $langg->lang769 }}</th>
-                    </tr>
-                 
-
-                    <tr>
-                        <td>50+</td>
-                        <td>$1 {{ $langg->lang771 }}</td>
-                    </tr>
-                    <tr>
-                        <td>100+</td>
-                        <td>$2 {{ $langg->lang771 }}</td>
-                    </tr>
-
-                </table>
-            </div> -->
-
-
     </div>
     <div class="col-lg-7">
         <div class="right-area">

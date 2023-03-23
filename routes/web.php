@@ -1463,6 +1463,13 @@ Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables
 Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
 /*Category list page */
 
+// PRODCT SECTION ENDS
+Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
+Route::get('/product/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
+Route::get('/product/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
+Route::post('/product/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
+Route::get('/product/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
+
 // CATEGORY SELECT DETAIL PAGE
 
 Route::get('/product/{slug}', 'Front\CatalogController@product')->name('front.product');
@@ -1473,13 +1480,8 @@ Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_na
 /*route is long~. why? this route pointed by commonparts, partsbymode detail so in latest, it is neccessary page have detail breadcrumb */
 
 
-Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
-Route::get('/product/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
-Route::get('/product/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
-Route::post('/product/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
-Route::get('/product/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
 
-// PRODCT SECTION ENDS
+
 
 // COMMENT SECTION
 Route::post('/product/comment/store', 'Front\CatalogController@comment')->name('product.comment');

@@ -31,7 +31,7 @@ $(function($) {
         });
 
         //  FORM SUBMIT SECTION
-        
+
         $(document).on('submit', '#contactform', function(e) {
             e.preventDefault();
             $('.gocover').show();
@@ -597,6 +597,9 @@ $(function($) {
             $this.find('.modal-header').hide();
             $this.find('.modal-body').hide();
             $this.find('.modal-content').css('border', 'none');
+       
+
+
             $('.submit-loader').show();
             $(".quick-view-modal").load($(this).data('href'), function(response, status, xhr) {
                 if (status == "success")

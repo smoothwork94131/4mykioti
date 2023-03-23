@@ -119,8 +119,6 @@
         </div>
         <!--  Ending of subscribe-pre-loader Area   -->
     @endif
-
-
     <section class="top-header row top-menu" style="margin: 0px;">
         <nav class="navbar navbar-expand-md navbar-dark col-md-9 col-sm-9 col-lm-9" style='padding: 0px;'>
             <div class="collapse navbar-collapse">

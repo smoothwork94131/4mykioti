@@ -324,13 +324,14 @@ class CatalogController extends Controller
 
     public function quick($id)
     {
+        
         $product = Product::findOrFail($id);
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
-
+    
         return view('load.quick', compact('product', 'curr'));
 
     }
