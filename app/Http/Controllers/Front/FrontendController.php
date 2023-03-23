@@ -465,7 +465,7 @@ class FrontendController extends Controller
         if(isset($prod) && $model != NULL) {
             $slug_list["prod"] = $prod ;
         }
-        
+
         if(count($slug_list) == 0) {
             $result_ = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
             foreach($result_ as $key =>$item) {
@@ -513,8 +513,9 @@ class FrontendController extends Controller
                 $this->code_image();
                 
                 $db = strtolower($series);
-                $productt = DB::table($db)->where('slug', '=', $prod)->first();
-
+                $productt = DB::table($db)->where('name', '=', $prod)->first();
+                
+                
                 if (Session::has('currency')) {
                     $curr = Currency::find(Session::get('currency'));
                 } else {
@@ -526,6 +527,7 @@ class FrontendController extends Controller
                 } else {
                     $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
                 }
+                
 
                 $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
                 $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
