@@ -223,7 +223,7 @@ $(function($) {
                             if (type == 'section') {
                                 $.ajax({
                                     method: 'GET',
-                                    url: `${mainurl}/common/parts/${series}/${model}`,
+                                    url: `${mainurl}/common/parts/${category}/${series}/${model}`,
                                     success: (data) => {
                                         cat_elem.prepend(data);
                                     }

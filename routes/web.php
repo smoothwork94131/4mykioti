@@ -1454,7 +1454,7 @@ Route::get('/contact/refresh_code', 'Front\FrontendController@refresh_code');
 
 // PRODCT AUTO SEARCH SECTION
 Route::get('/autosearch/product/{slug}', 'Front\FrontendController@autosearch');
-Route::get('/common/parts/{series}/{model}', 'Front\FrontendController@commonparts');
+Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@commonparts');
 Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables')->name('front.soloproduct.datatables');
 // PRODCT AUTO SEARCH SECTION ENDS
 
@@ -1474,6 +1474,7 @@ Route::get('/product/view/review/{id}', 'Front\CatalogController@reviews')->name
 
 Route::get('/product/{slug}', 'Front\CatalogController@product')->name('front.product');
 /*Only search product table with slug(product name) this for  select product in first page. */
+
 Route::get('/product/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct'); 
 /*Search product and series table with slug1(slug: table name, slug1: search name) this for select product header menu dropdown and search  */
 Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@sub_category')->name('front.sub_category');

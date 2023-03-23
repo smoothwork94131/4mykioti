@@ -539,16 +539,17 @@ class FrontendController extends Controller
         return view('front.commonparts', compact("result", "slug_list"));
     }
 
-    public function commonparts(Request $request, $series, $model)
+    public function commonparts(Request $request, $category, $series, $model)
     {
 
         $db = strtolower($series);
         $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1);
-
+        
         $prods = $prods->get();
+       
         $slug = $model;
 
-        return view('load.suggest', compact('prods', 'slug', 'db'));
+        return view('load.suggest', compact('prods', 'model', 'series','category'));
     }
 
     public function autosearch(Request $request, $slug)
@@ -824,7 +825,7 @@ class FrontendController extends Controller
         return response()->json(array("categories"=>$categories));
 
     }
-    
+
     public function maintenance()
     {
         $gs = Generalsetting::find(1);
