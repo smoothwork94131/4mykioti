@@ -880,7 +880,7 @@ a.sell-btn {
 
 @media (max-width: 768px) {
     #product_table .dropdown-menu.show {
-        left: 0% !important;  
+        left: 5% !important;  
     }
     .sign-form .dropdown-menu.show {
         left: -40px!important;

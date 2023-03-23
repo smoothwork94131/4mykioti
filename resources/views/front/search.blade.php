@@ -43,7 +43,7 @@
                         <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                     </td>
                     <td>
-                        <a href="{{'/product/'.$prod->table.'/'.$prod->name}}">{{ $prod->name }}</a>
+                        <a href="{{'/product/'.$prod->category.'/'.$prod->table.'/'.$prod->subcategory_id.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
                     </td>
                     <td>
                         {{ $prod->subcategory_id }}

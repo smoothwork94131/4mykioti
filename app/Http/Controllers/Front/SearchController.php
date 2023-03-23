@@ -37,17 +37,24 @@ class SearchController extends Controller{
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select *, '$arr_tbl[$k]' as `table`  from $arr_tbl[$k] {$where_clause} " ;
+            $sql .= "select *, '$arr_tbl[$k]' as `table`, '{$key}' as `category`   from $arr_tbl[$k]  {$where_clause} " ;
             $flag = true ;
         }
 
-       
+        
         $sql.=" limit 50" ;
 
-
         $products =DB::select($sql) ;
-        // echo $sql ;
-        
+        $data = array();
+        foreach($products as $key => $item) {
+            $sql = "select * from `{$item->table}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
+            
+            $ret = DB::select($sql) ;
+            $item->group_name = $ret[0]->group_name ;
+            $item->section = $ret[0]->section_name ;
+            $data[$key] = $item ;
+        }
+        $products = $data ;
         return view('front.search', compact('products'));
     }
     
@@ -55,8 +62,6 @@ class SearchController extends Controller{
         $search_word = $_REQUEST['search_word'] ;
         $tbl_name = $_REQUEST['key'] ;
 
-        
-    
         $where_clause = "where 
         `sku` like '%{$search_word}%' or
         `category_id` like '%{$search_word}%' or
@@ -71,7 +76,6 @@ class SearchController extends Controller{
             $category_info =DB::select($sql);
             $parent_id = $category_info[0]->id ;
             $sql = "select * from categories where parent = {$parent_id}" ;
-            
         }   
         
         $tbl_info =DB::select($sql);
