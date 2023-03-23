@@ -5,7 +5,7 @@ $(function($) {
     $(document).ready(function() {
 
         //**************************** CUSTOM JS SECTION ****************************************
-        
+
         // LOADER
         if (gs.is_loader == 1) {
             $(window).on("load", function(e) {
@@ -1424,8 +1424,11 @@ function showDesktopSearchField(obj) {
         $(".desktop-search-field .search-field").css("display", "none") ;
         $(obj).html("<i class = 'fa fa-search'></i>") ;
         $(".search-dropdown").css("display", "none") ;
+        $(".desktop-search-field .search-table").css("display", "none") ;
     } else {
         $(".desktop-search-field .search-field").css("display", "flex") ;
+        $(".desktop-search-field .search-table").css("display", "block") ;
+
         $(obj).html("<i class='icofont-close'></i>") ;
     }
 }
@@ -1436,9 +1439,13 @@ function showMobileSearchField(obj) {
         $(".mobile-search-field .search-field").css("display", "none") ;
         $(obj).html("<i class = 'fa fa-search'></i>") ;
         $(".search-dropdown").css("display", "none") ;
+        $(".mobile-search-field .search-table").css("display", "block") ;
+
     } else {
         $(".mobile-search-field .search-field").css("display", "flex") ;
         $(obj).html("<i class='icofont-close'></i>") ;
+        $(".mobile-search-field .search-table").css("display", "block") ;
+
     }
 }
 
@@ -1447,12 +1454,13 @@ function totalSearch(event) {
         $(".search-dropdown").css("display", "none") ;
         return ;
     }
-    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; 
-    var status = format.test(event.target.value) ;
-    if(status) {
-        $(".search-dropdown").html("Not input special letter!!!") ;
-        return ;
-    }
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|.<>\/?~]/; 
+    // var status = format.test(event.target.value) ;
+    // if(status) {
+    //     $(".search-dropdown").html("Not input special letter!!!") ;
+    //     return ;
+    // }
+    var key = $(".desktop-search-field .search-table .sel-drop .name").html() ;
     
     if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
         window.location.href ="http://"+window.location.host+"/search/"+search_list[0].event.target.value ;
@@ -1462,7 +1470,7 @@ function totalSearch(event) {
     $.ajax({
         method: "POST",
         url:"/search",
-        data: "search_word="+event.target.value,    
+        data: "search_word="+event.target.value+"&key="+key,    
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf- token"]').attr('content')          
         }, 
@@ -1516,4 +1524,20 @@ function totalSearch(event) {
             }
         }
     });
+}
+
+
+function searchSelTableGroup() {
+    $(".search-dropdown").css("display", "none") ;
+    if($(".search-table .dropdown").css("display") == "block") {
+        $(".search-table .dropdown").css("display", "none") ;
+    } else {
+        $(".search-table .dropdown").css("display", "block") ;
+    }
+}
+function selSearchTableItem(name) {
+    $(".search-table .sel-drop .name").html(name) ;
+    $(".search-table .dropdown").css("display", "none") ;
+    $(".search-field .search-input").val("") ;
+    
 }

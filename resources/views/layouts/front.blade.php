@@ -323,13 +323,29 @@
                             <button class='btn' style='background: #F05223'
                                 onclick="showDesktopSearchField(this)"><i class='fa fa-search'></i></button>
                             <div class='desktop-search-field'>
-                                <div class='search-field'>
-                                    <input class='search-input form-control' onkeyup="totalSearch(event)" />
-                                    <div class='icon'><i class='fa fa-search'
-                                            onclick=" event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"></i>
+                                <div class='search-table'>
+                                    <div class='sel-drop' onclick = 'searchSelTableGroup()'>
+                                        <div class='name'>{{$eccategories[0]->name}}</div>
+                                        <div class='icon'>
+                                            <i class = "fa fa-angle-down ml-2 mt-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class='dropdown'>
+                                        @foreach($eccategories as $item)
+                                            <div class='item' onclick="selSearchTableItem('{{$item->name}}')">{{$item->name}}</div>
+                                        @endforeach
                                     </div>
                                 </div>
-                                <div class='search-dropdown'>
+                                
+                                <div style='margin-top: 10px;'>
+                                    <div class='search-field'>
+                                        <input class='search-input form-control' onkeyup="totalSearch(event)" value="{{$eccategories[0]->name}}" />
+                                        <div class='icon'><i class='fa fa-search'
+                                            onclick=" event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"></i>
+                                        </div>
+                                    </div>
+                                    <div class='search-dropdown'>
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -365,14 +381,30 @@
 
     <section class="top-header row bottom-menu" style="margin: 0px; border: none; position: relative;">
         <div class='mobile-search-field'>
-            <div class='search-field'>
-                <input class='search-input form-control' onkeyup="totalSearch(event)" />
-                <div class='icon'
-                    onclick="event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"><i
-                        class='fa fa-search'></i></div>
+            <div class='search-table'>
+                <div class='sel-drop' onclick = 'searchSelTableGroup()'>
+                    <div class='name'>{{$eccategories[0]->name}}</div>
+                    <div class='icon'>
+                        <i class = "fa fa-angle-down ml-2 mt-1"></i>
+                    </div>
+                </div>
+                <div class='dropdown'>
+                    @foreach($eccategories as $item)
+                        <div class='item' onclick="selSearchTableItem('{{$item->name}}')">{{$item->name}}</div>
+                    @endforeach
+                </div>
             </div>
-            <div class='search-dropdown'>
+            <div style='margin-top: 10px;'>
+                <div class='search-field'>
+                    <input class='search-input form-control' onkeyup="totalSearch(event)" />
+                    <div class='icon'
+                        onclick="event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"><i
+                            class='fa fa-search'></i></div>
+                </div>
+                <div class='search-dropdown'>
+                </div>
             </div>
+            
         </div>
         <nav class="navbar navbar-expand-md navbar-light col-md-9 col-sm-9 col-lm-9" style='padding: 0px; '>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

@@ -60,7 +60,7 @@ $(function($) {
                 $(".header-min-tool").css("display", "flex");
                 $(".mobile-search-field").css("display", "block") ;
                 $(".desktop-search-field").css("display", "none") ;
-                $(".search-dropdown").css("top", "40px") ;
+                // $(".search-dropdown").css("top", "40px") ;
                 
                 $("#phone_num_desc").text("CALL:");
             } else {

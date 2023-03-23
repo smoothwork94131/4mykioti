@@ -1639,7 +1639,7 @@ Begin Header Custom Style
     display: flex;
 }
 
-.business-info-socialmedia div{
+.business-info-socialmedia .btn{
     margin-left: 5px;
 }
 .business-info-socialmedia div button {
@@ -1964,7 +1964,41 @@ Begin Footer Custom Style
 .search-field {
     display: flex;
     display: none;
+}
 
+.search-table {
+    background: white ;
+    color: black ;
+    cursor: pointer;
+    text-align: left;
+    width: 400px;
+    margin-right: 50px;
+    border-radius: 5px;
+    display: none;
+  
+}
+.mobile-search-field .search-table {
+    width: 200px;
+
+}
+.search-table .sel-drop {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px 5px 10px;
+    
+}
+
+.search-table .dropdown {
+    border-top: 1px solid #333;
+    display: none;
+}
+.search-table .dropdown .item{
+    padding: 5px 10px 5px 10px;
+    border-top: 1px solid #beb8b8;
+    color: #666
+}
+.search-table .dropdown .item:hover {
+    color: black ;
 }
 
 .desktop-search-field .search-field .search-input {
@@ -1996,7 +2030,7 @@ Begin Footer Custom Style
 }
 .desktop-search-field .search-dropdown {
     position: absolute;
-    top: 110%;
+    top: 100%;
     padding: 10px;
     width: 420px;
     background: white ;
@@ -2015,7 +2049,7 @@ Begin Footer Custom Style
 
 .mobile-search-field .search-dropdown {
     position: absolute;
-    top: 110%;
+    top: 100%;
     padding: 10px;
     width: 250px;
     background: white ;
