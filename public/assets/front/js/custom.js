@@ -1439,13 +1439,12 @@ function showMobileSearchField(obj) {
         $(".mobile-search-field .search-field").css("display", "none") ;
         $(obj).html("<i class = 'fa fa-search'></i>") ;
         $(".search-dropdown").css("display", "none") ;
-        $(".mobile-search-field .search-table").css("display", "block") ;
+        $(".mobile-search-field .search-table").css("display", "none") ;
 
     } else {
         $(".mobile-search-field .search-field").css("display", "flex") ;
         $(obj).html("<i class='icofont-close'></i>") ;
         $(".mobile-search-field .search-table").css("display", "block") ;
-
     }
 }
 
@@ -1539,5 +1538,5 @@ function selSearchTableItem(name) {
     $(".search-table .sel-drop .name").html(name) ;
     $(".search-table .dropdown").css("display", "none") ;
     $(".search-field .search-input").val("") ;
-    
+
 }
