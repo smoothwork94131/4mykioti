@@ -1487,7 +1487,7 @@ function totalSearch(event, type) {
                 var scr = $("body").width() ;
                 for(var k = 0 ; k < data.length ; k++) {
                     var item = data[k] ;
-                    html+="<a  href='/product/"+item.table+"/"+item.name+"'>" ;
+                    html+="<a  href='/product/"+key+'/'+item.table+"/"+item.subcategory_id+'/'+item.section+'/'+item.group_name+'/'+item.name+"'>" ;
                     if(scr > 768) {
                         html+="<div class='item'>"+
                             "<div style='width: 30%'>" ;

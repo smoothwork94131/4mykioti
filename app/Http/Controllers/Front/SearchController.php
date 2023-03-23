@@ -92,15 +92,26 @@ class SearchController extends Controller{
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select subcategory_id, name, photo, price, '$arr_tbl[$k]' as `table`  from $arr_tbl[$k] {$where_clause} " ;
+            $sql .= "select subcategory_id, category_id,name, photo, price, '$arr_tbl[$k]' as `table`  from $arr_tbl[$k] {$where_clause} " ;
             $flag = true ;
         }
 
-       
         $sql.=" limit 50" ;
 
 
         $categoreis =DB::select($sql) ;
+
+        $data = array();
+        foreach($categoreis as $key => $item) {
+            $sql = "select * from `{$item->table}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
+            
+            $ret = DB::select($sql) ;
+            $item->group_name = $ret[0]->group_name ;
+            $item->section = $ret[0]->section_name ;
+            $data[$key] = $item ;
+        }
+        $categoreis = $data ;
+
         echo json_encode($categoreis) ;
     }
 }
