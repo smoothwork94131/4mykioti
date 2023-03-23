@@ -100,7 +100,7 @@
                                         </ul>
                                     </div>
 
-                                    <div><small>Model #: <?php echo $productt->category_id; ?></small></div>
+                                    <div><small>Model #: <?php echo $productt->subcategory_id; ?></small></div>
                                     <div><small>Part #: <?php echo $productt->sku; ?></small></div>
 
                                     <div class="product-price">
