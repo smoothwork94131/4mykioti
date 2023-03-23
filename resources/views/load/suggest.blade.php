@@ -1,7 +1,7 @@
 
 @foreach($prods as $prod)
     <div class="docname">   
-        <a href="{{ route('front.commonparts', ['category' => $category, 'model'=>$model,'series'=>$series, 'prod'=> $prod->slug]) }}">
+        <a href="{{ route('front.commonparts', ['category' => $category, 'model'=>$model,'series'=>$series, 'prod'=> $prod->name]) }}">
             <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}"
  alt="">
             <div class="search-content">

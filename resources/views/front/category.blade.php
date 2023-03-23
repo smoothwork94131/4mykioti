@@ -297,7 +297,7 @@
                 
                 @foreach($prods as $key=>$prod)
                 @php 
-                    $slug_list['prod'] = $prod->slug ;
+                    $slug_list['prod'] = $prod->name ;
                 @endphp
                     <tr>
                         <td class='td-img'>

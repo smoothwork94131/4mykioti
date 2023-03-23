@@ -465,7 +465,7 @@ class FrontendController extends Controller
         if(isset($prod) && $model != NULL) {
             $slug_list["prod"] = $prod ;
         }
-
+        
         if(count($slug_list) == 0) {
             $result_ = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
             foreach($result_ as $key =>$item) {
