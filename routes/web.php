@@ -1054,7 +1054,7 @@ Route::prefix('user')->group(function () {
     // User Review Ends
 
     // User Orders
-
+    
     Route::get('/orders', 'User\OrderController@orders')->name('user-orders');
     Route::get('/order/tracking', 'User\OrderController@ordertrack')->name('user-order-track');
     Route::get('/order/trackings/{id}', 'User\OrderController@trackload')->name('user-order-track-search');
@@ -1460,55 +1460,49 @@ Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables
 
 // CATEGORY SECTION
 
-// *********************
-Route::get('/categories/', 'Front\CatalogController@categories')->name('front.categories');
-// *********************
-
 Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
+/*Category list page */
 
-Route::get('/category/{slug1}/{slug2}', 'Front\CatalogController@subcategory')->name('front.subcat');
-Route::get('/category/{slug1}/{slug2}/{slug3}', 'Front\CatalogController@childcategory')->name('front.childcat');
-Route::get('/childcategories/{slug}', 'Front\CatalogController@childcategories')->name('front.childcategories');
-// CATEGORY SECTION ENDS
+// CATEGORY SELECT DETAIL PAGE
 
-// TAG SECTION
-Route::get('/tag/{slug}', 'Front\CatalogController@tag')->name('front.tag');
-// TAG SECTION ENDS
+Route::get('/product/{slug}', 'Front\CatalogController@product')->name('front.product');
+/*Only search product table with slug(product name) this for  select product in first page. */
+Route::get('/product/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct'); 
+/*Search product and series table with slug1(slug: table name, slug1: search name) this for select product header menu dropdown and search  */
+Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@sub_category')->name('front.sub_category');
+/*route is long~. why? this route pointed by commonparts, partsbymode detail so in latest, it is neccessary page have detail breadcrumb */
 
-// PRODCT SECTION
-Route::get('/item/{slug}', 'Front\CatalogController@product')->name('front.product');
-Route::get('/item/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct');
-Route::get('/item/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@sub_category')->name('front.sub_category');
 
 Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
-Route::get('/item/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
-Route::get('/item/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
-Route::post('/item/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
-Route::get('/item/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
+Route::get('/product/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
+Route::get('/product/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
+Route::post('/product/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
+Route::get('/product/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
 
 // PRODCT SECTION ENDS
 
 // COMMENT SECTION
-Route::post('/item/comment/store', 'Front\CatalogController@comment')->name('product.comment');
-Route::post('/item/comment/edit/{id}', 'Front\CatalogController@commentedit')->name('product.comment.edit');
-Route::get('/item/comment/delete/{id}', 'Front\CatalogController@commentdelete')->name('product.comment.delete');
+Route::post('/product/comment/store', 'Front\CatalogController@comment')->name('product.comment');
+Route::post('/product/comment/edit/{id}', 'Front\CatalogController@commentedit')->name('product.comment.edit');
+Route::get('/product/comment/delete/{id}', 'Front\CatalogController@commentdelete')->name('product.comment.delete');
 // COMMENT SECTION ENDS
 
-// REPORT SECTION
-Route::post('/item/report', 'Front\CatalogController@report')->name('product.report');
+// REPORT SECTION   
+Route::post('/product/report', 'Front\CatalogController@report')->name('product.report');
 // REPORT SECTION ENDS
 
-
 // COMPARE SECTION
-Route::get('/item/compare/view', 'Front\CompareController@compare')->name('product.compare');
-Route::get('/item/compare/add/{id}', 'Front\CompareController@addcompare')->name('product.compare.add');
-Route::get('/item/compare/remove/{id}', 'Front\CompareController@removecompare')->name('product.compare.remove');
+Route::get('/product/compare/view', 'Front\CompareController@compare')->name('product.compare');
+Route::get('/product/compare/add/{id}', 'Front\CompareController@addcompare')->name('product.compare.add');
+Route::get('/product/compare/remove/{id}', 'Front\CompareController@removecompare')->name('product.compare.remove');
 // COMPARE SECTION ENDS
 
 // REPLY SECTION
-Route::post('/item/reply/{id}', 'Front\CatalogController@reply')->name('product.reply');
-Route::post('/item/reply/edit/{id}', 'Front\CatalogController@replyedit')->name('product.reply.edit');
-Route::get('/item/reply/delete/{id}', 'Front\CatalogController@replydelete')->name('product.reply.delete');
+
+Route::post('/product/reply/{id}', 'Front\CatalogController@reply')->name('product.reply');
+Route::post('/product/reply/edit/{id}', 'Front\CatalogController@replyedit')->name('product.reply.edit');
+Route::get('/product/reply/delete/{id}', 'Front\CatalogController@replydelete')->name('product.reply.delete');
+
 // REPLY SECTION ENDS
 
 // CART SECTION

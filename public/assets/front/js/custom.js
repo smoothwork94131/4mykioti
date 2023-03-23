@@ -30,9 +30,8 @@ $(function($) {
             $(this).toggleClass('rx-change');
         });
 
-
         //  FORM SUBMIT SECTION
-
+        
         $(document).on('submit', '#contactform', function(e) {
             e.preventDefault();
             $('.gocover').show();
@@ -225,12 +224,6 @@ $(function($) {
                         if (data == 1) {
                             location.reload();
                         }
-                        // if (data.flag == 1) {
-                        //     window.location = mainurl + "/user/dashboard"; 
-                        // }
-                        // else if(data.flag == 2) {
-                        //     window.location = mainurl + "/vendor/dashboard"; 
-                        // }  
                         else {
                             window.location = data;
                         }
@@ -262,12 +255,6 @@ $(function($) {
                     if (data == 1) {
                         location.reload();
                     }
-                    // if (data.flag == 1) {
-                    //     window.location = mainurl + "/user/dashboard"; 
-                    // }
-                    // else if(data.flag == 2) {
-                    //     window.location = mainurl + "/vendor/dashboard"; 
-                    // }  
                     else {
 
                         if ((data.errors)) {
@@ -318,12 +305,6 @@ $(function($) {
                     if (data == 1) {
                         location.reload();
                     }
-                    // if (data.flag == 1) {
-                    //     window.location = mainurl + "/user/dashboard"; 
-                    // }
-                    // else if(data.flag == 2) {
-                    //     window.location = mainurl + "/vendor/dashboard"; 
-                    // } 
                     else {
                         if ((data.errors)) {
                             $this.find('.alert-success').hide();
@@ -548,25 +529,7 @@ $(function($) {
 
         });
 
-        // Pagination Starts
-
-        // $(document).on('click', '.pagination li', function (event) {
-        //   event.preventDefault();
-        //   if ($(this).find('a').attr('href') != '#') {
-        //     $('#preloader').show();
-        //     $('#ajaxContent').load($(this).find('a').attr('href'), function (response, status, xhr) {
-        //       if (status == "success") {
-        //         $('#preloader').hide();
-        //         $("html,body").animate({
-        //           scrollTop: 0
-        //         }, 1);
-        //       }
-        //     });
-        //   }
-        // });
-
-        // Pagination Ends
-
+        
         // IMAGE UPLOADING :)
 
         $(".upload").on("change", function() {
@@ -604,23 +567,6 @@ $(function($) {
             $("#comment-log-reg").modal("show");
         });
 
-        // MODAL SHOW ENDS
-
-        // Catalog Search Options
-
-        // $('.check-cat').on('change',function(){
-        //   var len = $('input.check-cat').filter(':checked').length;
-        //   if(len == 0){
-        //     $("#catalogform").attr('action','');
-        //     $('.check-cat').removeAttr("name");
-        //   }
-        //   else{
-        //     var search = $("#searchform").val();
-        //     $("#catalogform").attr('action',search);
-        //     $('.check-cat').attr('name','cat_id[]');
-        //   }
-        //
-        // });
 
         $('#category_select').on('change', function() {
             var val = $(this).val();
@@ -1501,11 +1447,11 @@ function totalSearch(event) {
     }
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; 
     var status = format.test(event.target.value) ;
-    if(!status) {
-        $(".search-dropdown").html("Special Letter") ;
-        $(".search-dropdown").css("display", "none") ;
+    if(status) {
+        $(".search-dropdown").html("Not input special letter!!!") ;
         return ;
     }
+    
     if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
         window.location.href ="http://"+window.location.host+"/search/"+search_list[0].event.target.value ;
         return ;
@@ -1525,11 +1471,9 @@ function totalSearch(event) {
                 var html = "" ;
                 search_list = data ;
                 var scr = $("body").width() ;
-                
                 for(var k = 0 ; k < data.length ; k++) {
-                    
                     var item = data[k] ;
-                    html+="<a  href='http://"+window.location.host+"/item/"+item.name+"/"+item.table+"/"+item.subcategory_id+"'>" ;
+                    html+="<a  href='/product/"+item.table+"/"+item.name+"'>" ;
                     if(scr > 768) {
                         html+="<div class='item'>"+
                             "<div style='width: 30%'>" ;

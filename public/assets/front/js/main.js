@@ -634,11 +634,6 @@ $(function($) {
 
     });
 
-
-
-
-
-
     /*-------------------------------
         back to top
     ------------------------------*/
@@ -651,12 +646,6 @@ $(function($) {
     //define variable for store last scrolltop
     var lastScrollTop = '';
     $(window).on('scroll', function() {
-        var $window = $(window);
-        // if ($window.scrollTop() > 300) {
-        //     $(".mainmenu-area").addClass('nav-fixed');
-        // } else {
-        //     $(".mainmenu-area").removeClass('nav-fixed');
-        // }
 
         /*---------------------------
             back to top show / hide

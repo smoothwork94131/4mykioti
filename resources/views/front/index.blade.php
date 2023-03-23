@@ -49,9 +49,6 @@
                     <div class="col-6 remove-padding" >
                         <a href="https://3rdfunction.com/collections">
                             <div class="s-0-block s-block d-flex m-red">
-                                <!-- <div>
-                                    COMING SOON!!
-                                </div> -->
                                 <div>
                                     3RD FUNCTION VALVES
                                 </div>
@@ -83,13 +80,6 @@
     {{-- @if($ps->featured_category == 1) --}}
 
         {{-- Slider buttom Category Start --}}
-        <!-- <section class="view-type">
-            <div class="container text-right">
-                    <br>
-                    <button onclick="listView()" class="list"><i class="fa fa-bars"></i> List</button>
-                    <button onclick="gridView()" class="btn-success grid"><i class="fa fa-th-large"></i> Grid</button>
-            </div>
-        </section> -->
 
         @if($gs->solo_mode != 1)
             <section class="trending slider-buttom-category grid-display">
@@ -225,9 +215,6 @@
     {{-- @endif --}}
 
     {{-- @if($ps->featured == 1) --}}
-        <!-- Trending Item Area Start -->
-        
-
         @if($gs->solo_mode == 1 && !empty($gs->solo_category))
             <section class="sub-categori grid-display">
                 <div class="container">
@@ -245,14 +232,6 @@
                     
                     
                         <div class="col-lg-12 order-first order-lg-last ajax-loader-parent">
-                            <!-- <div class="section-top">
-                                <h2 class="section-title">
-                                    <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                                    <span class="sub">Category</span> 
-                                    <span class="main">{{ $solo_category_info->name }}</span> 
-                                    <span class="title-underline"></span>
-                                </h2>
-                            </div> -->
                             <div class="col-lg-12 remove-padding mb-4">
                                 @include('includes.front-filter')
                             </div>

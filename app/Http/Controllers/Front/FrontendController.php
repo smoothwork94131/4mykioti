@@ -795,24 +795,12 @@ class FrontendController extends Controller
 
     public function groups(Request $request)
     {
-        $type = isset($_REQUEST['type'])?$_REQUEST['type']:"" ;
-        $series = isset($_REQUEST['series'])?$_REQUEST['series']:false ;
-        $model = isset($_REQUEST['model'])?$_REQUEST['model']:false ;
-        $section = isset($_REQUEST['section'])?$_REQUEST['section']:false ;
-        $page = isset($_REQUEST['page'])?$_REQUEST['page']:'partsbymodel' ;
-        $req_type = isset($_REQUEST['req_type'])?$_REQUEST['req_type']:'page' ;
-        $category = isset($_REQUEST['category'])?$_REQUEST['category']:'' ;
-        
-        $categories = array();
-        $table_name = strtolower($request->series) . "_categories";
-        
-        
-        if($request->req_type == "json") {
-            $series = $request->series ;
-            $model = $request->model ;
-            $type = $request->type ;
-            $section = $request->section ;
-        }
+        $series = $request->series ;
+        $model = $request->model ;
+        $type = $request->type ;
+        $section = $request->section ;
+        $category = $request->category ;
+        $table_name = strtolower($series) . "_categories";
 
         if ($type == 'model') {
             if ($request->model_type == "common") {
@@ -820,41 +808,23 @@ class FrontendController extends Controller
                 $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
             } else {
                 $categories = DB::table($table_name)->select('model')->distinct()->distinct()->orderBy('model', 'asc')->get();
-            }
-            $type = "section" ;    
+            }  
         } else if ($type == 'section') {
             $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
-            $type = "group" ;     
+
         } else if ($type == 'group') {
             $categories = DB::table($table_name)->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
-            $type = "detail" ;
+
         } else if($type == "category" ) {
             $series_info = DB::table("categories")->where("name", $category)->get() ;
             $paret_id = $series_info[0]->id ;
             $categories = DB::table("categories")->where("parent", $paret_id)->orderBy("name", "asc")->get() ;
-            $type = "model" ;
-            $series = "" ;
         }
-        
-        $page_categories = $categories ;
-        if($request->req_type != "json") {
-            
-            $cate_list = array(
-                        "category"=>array("name"=>$category, "type"=>"category"),
-                        "series"=>array("name"=>$series, "type"=>"model"), 
-                        "model"=>array("name"=>$model, "type"=>"model"), 
-                        "section"=>array("name"=>$section, "type"=>"section")) ;
 
-            Session::put("breadcrumb", $cate_list) ;
-            Session::put("page_name", $page) ;
+        return response()->json(array("categories"=>$categories));
 
-            return view('front.'.$page, compact("page_categories", "type", "series", "model", "cate_list")) ;
-        } else {
-            return response()->json(array("categories"=>$categories));
-        }
     }
-// Maintenance Mode
-
+    
     public function maintenance()
     {
         $gs = Generalsetting::find(1);

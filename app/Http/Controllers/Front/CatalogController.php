@@ -193,7 +193,9 @@ class CatalogController extends Controller
                 ->take(8)->get();
         $page = "partsbymodel" ;
         $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$section, "group"=>$group, "prod_name"=>$prod_name);
+
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list"));
+    
     }
     public function product(Request $request, $slug)
     {   
@@ -220,7 +222,7 @@ class CatalogController extends Controller
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
         $db="product" ;
-        $page = "product" ; $slug_list = array() ;
+        $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
 
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     
@@ -252,7 +254,9 @@ class CatalogController extends Controller
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
         $db="product" ;
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2'));
+        $page = "" ;
+        $slug_list = array() ;
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     public function iproduct(Request $request, $slug, $slug1)
@@ -327,22 +331,6 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        // $product_click = new ProductClick;
-
-        // if(Auth::user()) {
-        //     $product_click->user_id = Auth::user()->id;
-        // }
-        // else {
-        //     $product_click->user_id = 0;
-        // }
-        
-        // $product_click->category_id = $product->showCategoryID();
-        // $product_click->product_id = $product->id;
-        // $product_click->search_term = '';
-        // $product_click->action = 'quick_view';
-        // $product_click->date = Carbon::now()->format('Y-m-d');
-        // $product_click->save();
-
         return view('load.quick', compact('product', 'curr'));
 
     }
@@ -356,22 +344,6 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        // $product_click = new ProductClick;
-
-        // if(Auth::user()) {
-        //     $product_click->user_id = Auth::user()->id;
-        // }
-        // else {
-        //     $product_click->user_id = 0;
-        // }
-        
-        // $product_click->category_id = $product->showCategoryID();
-        // $product_click->product_id = $product->id;
-        // $product_click->search_term = '';
-        // $product_click->action = 'quick_view';
-        // $product_click->date = Carbon::now()->format('Y-m-d');
-        // $product_click->save();
-
         return view('load.quick', compact('product', 'curr', 'db'));
 
     }
@@ -379,9 +351,6 @@ class CatalogController extends Controller
     public function affProductRedirect($slug)
     {
         $product = Product::where('slug', '=', $slug)->first();
-//        $product->views+=1;
-//        $product->update();
-
 
         return redirect($product->affiliate_link);
 

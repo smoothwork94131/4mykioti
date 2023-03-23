@@ -50,45 +50,6 @@
 </style>
 @endsection
 @section('content')
-    <!-- Breadcrumb Area Start -->
-    <!-- <div class="breadcrumb-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="pages">
-                        <li>
-                            <a href="{{route('front.index')}}">{{ $langg->lang17 }}</a>
-                        </li>
-                        @if (!empty($cat))
-                            <li>
-                                <a href="{{route('front.category', $cat->slug)}}">{{ $cat->name }}</a>
-                            </li>
-                        @endif
-                        @if (!empty($subcat))
-                            <li>
-                                <a href="{{route('front.category', [$cat->slug, $subcat->slug])}}">{{ $subcat->name }}</a>
-                            </li>
-                        @endif
-                        @if (!empty($childcat))
-                            <li>
-                                <a href="{{route('front.category', [$cat->slug, $subcat->slug, $childcat->slug])}}">{{ $childcat->name }}</a>
-                            </li>
-                        @endif
-                        @if (empty($childcat) && empty($subcat) && empty($cat))
-                            <li>
-                                <a href="{{route('front.category')}}">{{ $langg->lang36 }}</a>
-                            </li>
-                        @endif
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Breadcrumb Area End -->
-
-
-    <!-- SubCategori Area Start -->
     @if ($group)
     <section class="sub-categori">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
@@ -426,15 +387,6 @@
             if ($("#sortby").val() != '') {
                 fullUrl += '&sort=' + encodeURI($("#sortby").val());
             }
-
-            // if ($("#min_price").val() != '') {
-            //     fullUrl += '&min=' + encodeURI($("#min_price").val());
-            // }
-
-            // if ($("#max_price").val() != '') {
-            //     fullUrl += '&max=' + encodeURI($("#max_price").val());
-            // }
-
             $(this).attr('href', fullUrl);
         });
     }
