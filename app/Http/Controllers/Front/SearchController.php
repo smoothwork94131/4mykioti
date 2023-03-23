@@ -8,20 +8,46 @@ use App\Models\Category;
 
 class SearchController extends Controller{
     
-    public function index(Request $request, $keyword = "") {
+    public function index(Request $request, $key = "", $keyword = "") {
         $search_word = $keyword;
-        
-        $arr_tbl = array("products");
         $sql = "" ;
         $flag = false ;
-        $products = DB::table("products")
-            ->select("*", DB::raw("'product' as `table`"))
-            ->where('sku', 'like', '%'. $search_word .'%')
-            ->orWhere('category_id', 'like', '%'. $search_word .'%')
-            ->orWhere('subcategory_id', 'like', '%'. $search_word .'%')
-            ->orWhere('name', 'like', '%'. $search_word .'%')
-            ->get();
+        $arr_tbl = [] ;
+        $sql = "select * from categories where `name` = '{$key}' " ;
+        $category_info =DB::select($sql);
+        $parent_id = $category_info[0]->id ;
+        
+        $where_clause = "where 
+        `sku` like '%{$search_word}%' or
+        `category_id` like '%{$search_word}%' or
+        `subcategory_id` like '%{$search_word}%' or
+        `name` like '%{$search_word}%'" ;
 
+        $sql = "select * from categories where parent = {$parent_id}" ;
+        $tbl_info =DB::select($sql);
+
+        $sql = "" ;
+        $flag = false ;
+        
+        
+        foreach($tbl_info as $item) {
+            $arr_tbl[] = strtolower($item->name) ;
+        }
+        for($k = 0 ; $k < count($arr_tbl) ; $k++) {
+            if($flag) {
+                $sql.=" union all " ;
+            } 
+            $sql .= "select *, '$arr_tbl[$k]' as `table`  from $arr_tbl[$k] {$where_clause} " ;
+            $flag = true ;
+        }
+
+       
+        $sql.=" limit 50" ;
+
+
+        $products =DB::select($sql) ;
+        // echo $sql ;
+        
         return view('front.search', compact('products'));
     }
     

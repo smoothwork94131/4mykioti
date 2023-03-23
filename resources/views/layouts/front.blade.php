@@ -339,9 +339,9 @@
                                 
                                 <div style='margin-top: 10px;'>
                                     <div class='search-field'>
-                                        <input class='search-input form-control' onkeyup="totalSearch(event)" value="{{$eccategories[0]->name}}" />
+                                        <input class='search-input form-control' onkeyup="totalSearch(event, 'desktop')" value="{{$eccategories[0]->name}}" />
                                         <div class='icon'><i class='fa fa-search'
-                                            onclick=" event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"></i>
+                                            onclick=" event.keyCode = 1200 ; totalSearch(event, 'desktop')"></i>
                                         </div>
                                     </div>
                                     <div class='search-dropdown'>
@@ -396,9 +396,9 @@
             </div>
             <div style='margin-top: 10px;'>
                 <div class='search-field'>
-                    <input class='search-input form-control' onkeyup="totalSearch(event)" />
+                    <input class='search-input form-control' onkeyup="totalSearch(event, 'mobile')" />
                     <div class='icon'
-                        onclick="event.keyCode = 1221 ; event.target.value = 'search_btn' ; totalSearch(event)"><i
+                        onclick="event.keyCode = 1200 ;  totalSearch(event, 'mobile')"><i
                             class='fa fa-search'></i></div>
                 </div>
                 <div class='search-dropdown'>

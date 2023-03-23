@@ -1481,8 +1481,6 @@ Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_na
 
 
 
-
-
 // COMMENT SECTION
 Route::post('/product/comment/store', 'Front\CatalogController@comment')->name('product.comment');
 Route::post('/product/comment/edit/{id}', 'Front\CatalogController@commentedit')->name('product.comment.edit');
@@ -1597,7 +1595,7 @@ Route::get('finalize', 'Front\FrontendController@finalize');
 
 Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
 
-Route::get('/search/{keyword}', 'Front\SearchController@index')->name('front-search.index');
+Route::get('/search/{key}/{keyword}', 'Front\SearchController@index')->name('front-search.index');
 Route::post('search', 'Front\SearchController@search')->name('front-search');
 
 //Search Route 

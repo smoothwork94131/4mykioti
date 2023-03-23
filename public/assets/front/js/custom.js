@@ -1448,8 +1448,10 @@ function showMobileSearchField(obj) {
     }
 }
 
-function totalSearch(event) {
-    if(event.target.value == "") {
+function totalSearch(event, type) {
+    var search_word = $("."+type+"-search-field .search-field .search-input").val() ;
+    
+    if(search_word== "") {
         $(".search-dropdown").css("display", "none") ;
         return ;
     }
@@ -1459,17 +1461,20 @@ function totalSearch(event) {
     //     $(".search-dropdown").html("Not input special letter!!!") ;
     //     return ;
     // }
+
+    
+    
     var key = $(".desktop-search-field .search-table .sel-drop .name").html() ;
     
-    if( (event.keyCode == 13 || event.keyCode == 1221) && search_list.length != 0) {
-        window.location.href ="http://"+window.location.host+"/search/"+search_list[0].event.target.value ;
+    if( event.keyCode == 13 || event.keyCode == 1200) {
+        window.location.href ="http://"+window.location.host+"/search/"+key+"/"+search_word ;
         return ;
     } 
     
     $.ajax({
         method: "POST",
         url:"/search",
-        data: "search_word="+event.target.value+"&key="+key,    
+        data: "search_word="+search_word+"&key="+key,    
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf- token"]').attr('content')          
         }, 
