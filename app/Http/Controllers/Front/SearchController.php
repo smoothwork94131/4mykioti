@@ -37,7 +37,7 @@ class SearchController extends Controller{
         `subcategory_id` like '%{$search_word}%' or
         `name` like '%{$search_word}%'" ;
         
-        $arr_tbl = array("products") ;
+    
         if($tbl_name == "") {
             $sql = "select * from categories where parent > 0 and `status` = 1 ; " ;
         } else {
@@ -65,8 +65,9 @@ class SearchController extends Controller{
             $sql .= "select subcategory_id, name, photo, price, '$arr_tbl[$k]' as `table`  from $arr_tbl[$k] {$where_clause} " ;
             $flag = true ;
         }
-        
-        
+
+        echo $sql ;
+        exit ;
         $sql.=" limit 50" ;
 
 
