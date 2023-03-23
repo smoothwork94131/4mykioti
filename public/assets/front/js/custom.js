@@ -4,9 +4,8 @@ $(function($) {
 
     $(document).ready(function() {
 
-
         //**************************** CUSTOM JS SECTION ****************************************
-
+        
         // LOADER
         if (gs.is_loader == 1) {
             $(window).on("load", function(e) {
