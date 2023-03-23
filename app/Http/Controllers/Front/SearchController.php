@@ -66,8 +66,7 @@ class SearchController extends Controller{
             $flag = true ;
         }
 
-        echo $sql ;
-        exit ;
+       
         $sql.=" limit 50" ;
 
 
