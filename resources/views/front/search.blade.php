@@ -43,7 +43,7 @@
                         <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                     </td>
                     <td>
-                        <a href="{{route('front.product', $prod->name)}}">{{ $prod->name }}</a>
+                        <a href="{{'/product/'.$prod->table.'/'.$prod->name}}">{{ $prod->name }}</a>
                     </td>
                     <td>
                         {{ $prod->subcategory_id }}
@@ -86,7 +86,19 @@
 </section>
 <!-- SubCategori Area End -->
 @endsection
+<style>
+    @media (max-width: 768px) {
+        #product_table .dropdown-menu.show {
+            left: 0% !important;
+        }
+    }
 
+    
+    span i {
+        margin-top: 15px;
+    }
+
+</style>
 @section('scripts')
 <script type="text/javascript">
     var search_table = $('#product_table').DataTable({
