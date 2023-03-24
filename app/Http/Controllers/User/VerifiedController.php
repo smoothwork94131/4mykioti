@@ -4,12 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+ 
 use App\Classes\GeniusMailer;
 use App\Models\Generalsetting;
-
 use App\Models\VerifiedLicense;
-
 use Validator;
 use Image;
 use DB;

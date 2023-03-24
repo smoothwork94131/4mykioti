@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class CouponController extends Controller
@@ -62,7 +61,7 @@ class CouponController extends Controller
         //--- Validation Section
         $rules = ['code' => 'unique:coupons'];
         $customs = ['code.unique' => 'This code has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -97,7 +96,7 @@ class CouponController extends Controller
 
         $rules = ['code' => 'unique:coupons,code,' . $id];
         $customs = ['code.unique' => 'This code has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

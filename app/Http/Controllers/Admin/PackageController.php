@@ -7,7 +7,6 @@ use App\Models\Currency;
 use App\Models\Package;
 use Datatables;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class PackageController extends Controller
@@ -54,7 +53,7 @@ class PackageController extends Controller
         //--- Validation Section
         $rules = ['title' => 'unique:packages'];
         $customs = ['title.unique' => 'This title has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
@@ -86,7 +85,7 @@ class PackageController extends Controller
         //--- Validation Section
         $rules = ['title' => 'unique:packages,title,' . $id];
         $customs = ['title.unique' => 'This title has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -6,7 +6,6 @@ use Datatables;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class CategoryController extends Controller
@@ -75,7 +74,7 @@ class CategoryController extends Controller
             'slug.unique' => 'This slug has already been taken.',
             'slug.regex' => 'Slug Must Not Have Any Special Characters.'
                    ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
           return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -104,7 +103,7 @@ class CategoryController extends Controller
                     'image.required' => 'Feature Image is required.',
                     'image.mimes' => 'Feature Image Type is Invalid.'
                         ];
-                $validator = Validator::make(Input::all(), $rules, $customs);
+                $validator = Validator::make(  $request->all(), $rules, $customs);
 
                 if ($validator->fails()) {
                 return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -146,7 +145,7 @@ class CategoryController extends Controller
         	'slug.unique' => 'This slug has already been taken.',
             'slug.regex' => 'Slug Must Not Have Any Special Characters.'
         		   ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
           return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -181,7 +180,7 @@ class CategoryController extends Controller
                     $customs = [
                         'image.required' => 'Feature Image is required.'
                             ];
-                    $validator = Validator::make(Input::all(), $rules, $customs);
+                    $validator = Validator::make(  $request->all(), $rules, $customs);
 
                     if ($validator->fails()) {
                     return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

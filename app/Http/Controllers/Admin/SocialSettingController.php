@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Socialsetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class SocialSettingController extends Controller

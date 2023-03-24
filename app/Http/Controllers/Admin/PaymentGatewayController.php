@@ -6,7 +6,6 @@ use Datatables;
 use App\Models\PaymentGateway;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class PaymentGatewayController extends Controller
@@ -57,7 +56,7 @@ class PaymentGatewayController extends Controller
         //--- Validation Section
         $rules = ['title' => 'unique:payment_gateways'];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
@@ -88,7 +87,7 @@ class PaymentGatewayController extends Controller
         //--- Validation Section
         $rules = ['title' => 'unique:payment_gateways,title,' . $id];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

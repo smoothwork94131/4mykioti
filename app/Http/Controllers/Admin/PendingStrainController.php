@@ -11,7 +11,6 @@ use App\Models\StrainTemp;
 use App\Models\StrainGalleryTemp;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 
 use Validator;
@@ -132,7 +131,7 @@ class PendingStrainController extends Controller
             'parent.required' => 'parent field is required'
         );
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -236,7 +235,7 @@ class PendingStrainController extends Controller
             'parent.required' => 'parent field is required'
         );
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -21,7 +21,7 @@ use DB;
 use Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Input;
+ 
 use Image;
 use Session;
 use Validator;
@@ -290,7 +290,7 @@ class ProductController extends Controller
                 'csvfile'      => 'required|mimes:csv,txt',
             ];
 
-            $validator = Validator::make(Input::all(), $rules);
+            $validator = Validator::make(  $request->all(), $rules);
 
             if ($validator->fails()) {
                 return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -539,7 +539,7 @@ class ProductController extends Controller
                 //--- Validation Section
                 $rules = ['sku' => 'min:8|unique:products'];
 
-                $validator = Validator::make(Input::all(), $rules);
+                $validator = Validator::make(  $request->all(), $rules);
 
                 if ($validator->fails()) {
                     return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -981,7 +981,7 @@ class ProductController extends Controller
                'file'       => 'mimes:zip'
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -1074,7 +1074,7 @@ class ProductController extends Controller
             //--- Validation Section
             $rules = ['sku' => 'min:8|unique:products,sku,'.$id];
 
-            $validator = Validator::make(Input::all(), $rules);
+            $validator = Validator::make(  $request->all(), $rules);
 
             if ($validator->fails()) {
                 return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -1453,7 +1453,7 @@ class ProductController extends Controller
             'file'       => 'mimes:zip'
              ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
           return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -1523,7 +1523,7 @@ class ProductController extends Controller
                     //--- Validation Section
                     $rules = ['sku'      => 'min:8|unique:products'];
 
-                    $validator = Validator::make(Input::all(), $rules);
+                    $validator = Validator::make(  $request->all(), $rules);
 
                     if ($validator->fails()) {
                         return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

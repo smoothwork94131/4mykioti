@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Classes\GeniusMailer;
 use App\Models\Notification;
 use Auth;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class RegisterController extends Controller
@@ -44,7 +43,7 @@ class RegisterController extends Controller
             'password' => 'required|confirmed',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -73,7 +72,7 @@ class RegisterController extends Controller
                 'shop_number.max' => 'Shop Number Must Be Less Then 20 Digit.'
             ];
 
-            $validator = Validator::make(Input::all(), $rules, $customs);
+            $validator = Validator::make(  $request->all(), $rules, $customs);
             if ($validator->fails()) {
                 return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
             }

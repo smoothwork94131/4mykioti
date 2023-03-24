@@ -7,7 +7,6 @@ use App\Models\Admin;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 
@@ -57,7 +56,7 @@ class StaffController extends Controller
             'photo' => 'required|mimes:jpeg,jpg,png,svg',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -100,7 +99,7 @@ class StaffController extends Controller
                     'email' => 'unique:admins,email,' . $id
                 ];
 
-            $validator = Validator::make(Input::all(), $rules);
+            $validator = Validator::make(  $request->all(), $rules);
 
             if ($validator->fails()) {
                 return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

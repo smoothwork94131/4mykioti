@@ -21,7 +21,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Session;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -172,7 +171,7 @@ class CatalogController extends Controller
         $customs = [
             'note.max' => 'Note Must Be Less Than 400 Characters.',
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

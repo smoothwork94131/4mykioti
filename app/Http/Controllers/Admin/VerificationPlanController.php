@@ -11,7 +11,6 @@ use App\Models\Generalsetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Classes\GeniusMailer;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use Session;
 

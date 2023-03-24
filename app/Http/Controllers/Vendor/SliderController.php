@@ -6,7 +6,7 @@ use Datatables;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+ 
 use Validator;
 use Auth;
 
@@ -59,7 +59,7 @@ class SliderController extends Controller
             'photo' => 'required|mimes:jpeg,jpg,png,svg',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -106,7 +106,7 @@ class SliderController extends Controller
             'photo' => 'mimes:jpeg,jpg,png,svg',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

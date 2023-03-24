@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderTrack;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class OrderTrackController extends Controller
@@ -71,7 +70,7 @@ class OrderTrackController extends Controller
         // $customs = [
         //        'title.unique' => 'This title has already been taken.',
         //            ];
-        // $validator = Validator::make(Input::all(), $rules, $customs);
+        // $validator = Validator::make(  $request->all(), $rules, $customs);
         // if ($validator->fails()) {
         //   return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         // }
@@ -117,7 +116,7 @@ class OrderTrackController extends Controller
         $customs = [
             'title.unique' => 'This title has already been taken.',
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

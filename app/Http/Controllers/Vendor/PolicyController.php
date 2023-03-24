@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Vendor;
 use Datatables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+ 
 use Auth;
 use Validator;
 use DB;
@@ -90,7 +90,7 @@ class PolicyController extends Controller
             'location_id.required' => 'Please Select Location.',
             'policy_text.required' => 'Please Enter Policy Text.'
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -142,7 +142,7 @@ class PolicyController extends Controller
             'location_id.required' => 'Please Select Location.',
             'policy_text.required' => 'Please Enter Policy Text.'
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

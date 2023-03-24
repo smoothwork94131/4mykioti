@@ -8,7 +8,7 @@ use Auth;
 use Datatables;
 use Illuminate\Http\Request;
 use DB;
-use Illuminate\Support\Facades\Input;
+ 
 use Session;
 use Validator;
 
@@ -75,7 +75,7 @@ class ServiceController extends Controller
             'photo' => 'required|mimes:jpeg,jpg,png,svg',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -119,7 +119,7 @@ class ServiceController extends Controller
             'photo' => 'mimes:jpeg,jpg,png,svg',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

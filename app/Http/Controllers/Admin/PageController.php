@@ -6,7 +6,6 @@ use Datatables;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class PageController extends Controller
@@ -64,7 +63,7 @@ class PageController extends Controller
         }
         $rules = ['slug' => 'unique:pages'];
         $customs = ['slug.unique' => 'This slug has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
@@ -108,7 +107,7 @@ class PageController extends Controller
         }
         $rules = ['slug' => 'unique:pages,slug,' . $id];
         $customs = ['slug.unique' => 'This slug has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

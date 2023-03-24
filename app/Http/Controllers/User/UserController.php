@@ -6,7 +6,6 @@ use App\Classes\GeniusMailer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -46,7 +45,7 @@ class UserController extends Controller
             ];
 
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

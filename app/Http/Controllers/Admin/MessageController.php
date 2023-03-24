@@ -6,7 +6,6 @@ use App\Classes\GeniusMailer;
 use Datatables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Models\AdminUserConversation;
 use App\Models\AdminUserMessage;

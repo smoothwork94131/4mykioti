@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use URL;
 use Session;
@@ -26,6 +25,8 @@ class LoginController extends Controller
     {
         // dd(URL::previous());
 
+        echo 'ok'; exit;
+
         if(!str_contains(URL::previous(), '/admin/login'))
             Session::put('url_intended',URL::previous());
 
@@ -41,7 +42,7 @@ class LoginController extends Controller
             'password' => 'required'
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

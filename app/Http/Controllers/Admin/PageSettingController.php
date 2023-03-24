@@ -6,7 +6,6 @@ use App\Models\Pagesetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 
@@ -42,7 +41,7 @@ class PageSettingController extends Controller
     {
 
         //--- Validation Section
-        $validator = Validator::make(Input::all(), $this->rules, $this->customs);
+        $validator = Validator::make(  $request->all(), $this->rules, $this->customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

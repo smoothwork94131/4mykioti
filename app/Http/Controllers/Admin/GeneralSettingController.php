@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use App\Models\Currency;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class GeneralSettingController extends Controller
@@ -48,7 +47,7 @@ class GeneralSettingController extends Controller
     public function generalupdate(Request $request)
     {
         //--- Validation Section
-        $validator = Validator::make(Input::all(), $this->rules);
+        $validator = Validator::make(  $request->all(), $this->rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -137,7 +136,7 @@ class GeneralSettingController extends Controller
     public function generalupdatepayment(Request $request)
     {
         //--- Validation Section
-        $validator = Validator::make(Input::all(), $this->rules);
+        $validator = Validator::make(  $request->all(), $this->rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -6,7 +6,6 @@ use Datatables;
 use App\Models\Pickup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class PickupController extends Controller
@@ -50,7 +49,7 @@ class PickupController extends Controller
         $customs = [
             'location.unique' => 'This location has already been taken.',
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
@@ -85,7 +84,7 @@ class PickupController extends Controller
         $customs = [
             'location.unique' => 'This location has already been taken.',
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

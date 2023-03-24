@@ -7,7 +7,7 @@ use App\Models\Currency;
 use App\Models\Shipping;
 use Datatables;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+ 
 use Validator;
 use Auth;
 use Session;
@@ -71,7 +71,7 @@ class ShippingController extends Controller
         //--- Validation Section
         $rules = ['title' => 'unique:shippings'];
         $customs = ['title.unique' => 'This title has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
@@ -108,7 +108,7 @@ class ShippingController extends Controller
         //--- Validation Section
         $rules = ['title' => 'unique:shippings,title,' . $id];
         $customs = ['title.unique' => 'This title has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

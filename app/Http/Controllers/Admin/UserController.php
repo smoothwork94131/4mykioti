@@ -11,7 +11,6 @@ use App\Models\ProductClick;
 use App\Models\Category;
 use App\Models\Withdraw;
 use App\Models\Currency;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class UserController extends Controller
@@ -105,7 +104,7 @@ class UserController extends Controller
             'photo' => 'mimes:jpeg,jpg,png,svg',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -8,7 +8,6 @@ use App\Models\Subcategory;
 use App\Models\Childcategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Auth;
 use Validator;
 
@@ -84,7 +83,7 @@ class ChildCategoryController extends Controller
             'slug.unique' => 'This slug has already been taken.',
             'slug.regex' => 'Slug Must Not Have Any Special Characters.'
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -128,7 +127,7 @@ class ChildCategoryController extends Controller
             'slug.unique' => 'This slug has already been taken.',
             'slug.regex' => 'Slug Must Not Have Any Special Characters.'
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

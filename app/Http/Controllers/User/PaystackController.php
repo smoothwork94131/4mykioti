@@ -13,7 +13,6 @@ use Auth;
 use Carbon\Carbon;
 use Config;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 
@@ -31,7 +30,7 @@ class PaystackController extends Controller
         $customs = [
             'shop_name.unique' => 'This shop name has already been taken.'
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

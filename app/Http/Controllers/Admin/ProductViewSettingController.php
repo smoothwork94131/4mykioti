@@ -6,12 +6,9 @@ use App\Models\Generalsetting;
 use Artisan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
 use App\Models\Currency;
 use App\Models\ColorSetting;
-
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class ProductViewSettingController extends Controller
@@ -36,7 +33,7 @@ class ProductViewSettingController extends Controller
     public function generalupdate(Request $request)
     {
         //--- Validation Section
-        $validator = Validator::make(Input::all(), $this->rules);
+        $validator = Validator::make(  $request->all(), $this->rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

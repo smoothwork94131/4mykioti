@@ -19,7 +19,7 @@ use App\Models\AdvertisingPlan;
 use App\Models\AdvertisingProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+ 
 use Validator;
 use Image;
 use DB;
@@ -417,7 +417,7 @@ class ProductController extends Controller
                 //--- Validation Section
                 $rules = ['sku' => 'min:8|unique:products'];
 
-                $validator = Validator::make(Input::all(), $rules);
+                $validator = Validator::make(  $request->all(), $rules);
 
                 if ($validator->fails()) {
                     return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -824,7 +824,7 @@ class ProductController extends Controller
             'csvfile' => 'required|mimes:csv,txt',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -994,7 +994,7 @@ class ProductController extends Controller
             'file'       => 'mimes:zip'
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -1089,7 +1089,7 @@ class ProductController extends Controller
             //--- Validation Section
             $rules = ['sku' => 'min:8|unique:products,sku,'.$id];
 
-            $validator = Validator::make(Input::all(), $rules);
+            $validator = Validator::make(  $request->all(), $rules);
 
             if ($validator->fails()) {
                 return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

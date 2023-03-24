@@ -6,7 +6,6 @@ use Datatables;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class SubscriptionController extends Controller

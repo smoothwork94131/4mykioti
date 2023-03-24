@@ -19,7 +19,7 @@ use App\Models\ReturnPolicy;
 use Auth;
 use Illuminate\Http\Request;
 use DB;
-use Illuminate\Support\Facades\Input;
+ 
 use Session;
 use Validator;
 
@@ -68,7 +68,7 @@ class VendorController extends Controller
             'shop_image' => 'mimes:jpeg,jpg,png,svg',
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -194,7 +194,7 @@ class VendorController extends Controller
             'attachments.*.max' => 'Sorry! Maximum allowed size for an image is 10MB',
         ];
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

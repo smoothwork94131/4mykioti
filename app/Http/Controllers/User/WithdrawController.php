@@ -9,7 +9,6 @@ use App\Models\Currency;
 use App\Models\Generalsetting;
 use App\Models\User;
 use App\Models\Withdraw;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class WithdrawController extends Controller

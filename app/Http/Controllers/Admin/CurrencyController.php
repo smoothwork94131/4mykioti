@@ -6,7 +6,6 @@ use Datatables;
 use App\Models\Currency;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class CurrencyController extends Controller
@@ -49,7 +48,7 @@ class CurrencyController extends Controller
         //--- Validation Section
         $rules = ['name' => 'unique:currencies', 'sign' => 'unique:currencies'];
         $customs = ['name.unique' => 'This name has already been taken.', 'sign.unique' => 'This sign has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
@@ -80,7 +79,7 @@ class CurrencyController extends Controller
         //--- Validation Section
         $rules = ['name' => 'unique:currencies,name,' . $id, 'sign' => 'unique:currencies,sign,' . $id];
         $customs = ['name.unique' => 'This name has already been taken.', 'sign.unique' => 'This sign has already been taken.'];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

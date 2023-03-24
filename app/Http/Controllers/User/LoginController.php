@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use Session;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Models\UserCart;
 
@@ -14,6 +12,7 @@ class LoginController extends Controller
 {
     public function __construct()
     {
+        
         $this->middleware('guest', ['except' => ['logout', 'userLogout']]);
     }
 
@@ -34,7 +33,7 @@ class LoginController extends Controller
             'password' => 'required'
         ];
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make(  $request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -12,7 +12,6 @@ use App\Models\Withdraw;
 use App\Models\Currency;
 use App\Models\UserSubscription;
 use App\Models\StoreLocations;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use Auth;
 
@@ -194,7 +193,7 @@ class VendorController extends Controller
             'shop_name.unique' => 'Shop Name "' . $request->shop_name . '" has already been taken. Please choose another name.'
         ];
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

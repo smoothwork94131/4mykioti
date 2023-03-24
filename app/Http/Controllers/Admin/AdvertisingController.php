@@ -7,10 +7,9 @@ use App\Models\Subscription;
 use App\Models\AdvertisingPlan;
 use App\Models\AdvertisingProduct;
 use App\Models\Category;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+ 
 use Validator;
 
 class AdvertisingController extends Controller

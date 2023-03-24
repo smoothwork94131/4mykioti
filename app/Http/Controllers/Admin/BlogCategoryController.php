@@ -6,7 +6,6 @@ use Datatables;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 
 class BlogCategoryController extends Controller
@@ -52,7 +51,7 @@ class BlogCategoryController extends Controller
             'name.unique' => 'This name has already been taken.',
             'slug.unique' => 'This slug has already been taken.'
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }
@@ -89,7 +88,7 @@ class BlogCategoryController extends Controller
             'name.unique' => 'This name has already been taken.',
             'slug.unique' => 'This slug has already been taken.'
         ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }

@@ -6,7 +6,6 @@ use App\Classes\GeniusMailer;
 use Datatables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Models\User;
 use App\Models\Generalsetting;
@@ -219,7 +218,7 @@ class CampaignController extends Controller
             'price.required' => 'Price field is required.',
         );
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

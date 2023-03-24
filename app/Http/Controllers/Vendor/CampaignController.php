@@ -15,7 +15,7 @@ use App\Models\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+ 
 use Illuminate\Support\Facades\File;
 
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
@@ -102,7 +102,7 @@ class CampaignController extends Controller
             'price.required' => 'Price field is required.',
         );
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

@@ -8,16 +8,12 @@ use App\Models\Strain;
 use App\Models\StrainGallery;
 use App\Models\Category;
 use App\Models\Currency;
-
 use Mtownsend\RemoveBg\RemoveBg;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Classes\TransactionsImport;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
-
 use Validator;
 use Image;
 use Session;
@@ -109,7 +105,7 @@ class StrainController extends Controller
             'parent.required' => 'parent field is required'
         );
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -166,7 +162,7 @@ class StrainController extends Controller
             'parent.required' => 'parent field is required'
         );
 
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
