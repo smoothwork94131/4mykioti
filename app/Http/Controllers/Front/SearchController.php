@@ -37,7 +37,7 @@ class SearchController extends Controller{
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select *, '$arr_tbl[$k]' as `table`, '{$key}' as `category`   from $arr_tbl[$k]  {$where_clause} " ;
+            $sql .= "select subcategory_id, category_id,name, photo, price, thumbnail, parent, sku,id, product_type, '$arr_tbl[$k]' as `table`, '{$key}' as `category`   from $arr_tbl[$k]  {$where_clause} " ;
             $flag = true ;
         }
 
