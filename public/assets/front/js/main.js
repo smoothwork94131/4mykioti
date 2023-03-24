@@ -115,14 +115,15 @@ $(function($) {
             $(this).parent().children('.categories_menu_inner').stop().slideToggle();
             var type = $(this).data('type');
             var series = $(this).data('series')
-            var category = $(this).data('category')
+            var category = replaceDataToPath($(this).data('category')) 
             
-            var model = $(this).data('model');
-            var section = $(this).data('section');
+            var model = replaceDataToPath($(this).data('model'));
+            var section = replaceDataToPath($(this).data('section'));
             var link = $(this).data('url');
             var token = $(this).data('token');
             var elem = $(this);
             var cat_elem = $(this).parent().children('.categories_menu_inner');
+
 
             if (type) {
                 if (type != 'group') {
@@ -209,8 +210,10 @@ $(function($) {
                                 }
                             
                             } else if (type == 'group') {
+
                                 for (var x in data.categories) {
-                                    element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${data.categories[x].group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                    var group_Id = replaceDataToPath(data.categories[x].group_Id) ;
+                                    element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${group_Id}">> ${data.categories[x].group_name}</a></li>`;
                                 }
                                 cat_elem = cat_elem.children('.category-groups');
                                 cat_elem.html(element);
@@ -223,7 +226,8 @@ $(function($) {
                             if (type == 'section') {
                                 $.ajax({
                                     method: 'GET',
-                                    url: `${mainurl}/common/parts/${category}/${series}/${model}`,
+                                    url: `${mainurl}/common/parts/${category}/${series}/${model}
+                                    `,
                                     success: (data) => {
                                         cat_elem.prepend(data);
                                     }
@@ -239,7 +243,13 @@ $(function($) {
 
         });
 
-
+        function replaceDataToPath($path) {
+            if($path == undefined) return $path ;
+            if($path.indexOf("/")) {
+                $path = $path.replace(/[/]/g, ":::") ;
+            }
+            return $path ;
+        }
         /*------addClass/removeClass categories-------*/
         $(".categories_menu_inner > ul > li").on("click", function() {
             $(this).find('.link-area a').toggleClass('open').parent().parent().find('.categories_mega_menu, categorie_sub').addClass('open');

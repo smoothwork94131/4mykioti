@@ -1487,7 +1487,11 @@ function totalSearch(event, type) {
                 var scr = $("body").width() ;
                 for(var k = 0 ; k < data.length ; k++) {
                     var item = data[k] ;
-                    html+="<a  href='/product/"+key+'/'+item.table+"/"+item.subcategory_id+'/'+item.section+'/'+item.group_name+'/'+item.name+"'>" ;
+                    var section = replaceDataToPath(item.section) ;
+                    var group_name = replaceDataToPath(item.group_name) ;
+                    var name = replaceDataToPath(item.name) ;
+
+                    html+="<a  href='/product/"+key+'/'+item.table+"/"+item.subcategory_id+'/'+section+'/'+group_name+'/'+name+"'>" ;
                     if(scr > 768) {
                         html+="<div class='item'>"+
                             "<div style='width: 30%'>" ;
@@ -1530,6 +1534,13 @@ function totalSearch(event, type) {
     });
 }
 
+function replaceDataToPath($path) {
+    if($path == undefined) return $path ;
+    if($path.indexOf("/")) {
+        $path = $path.replace(/[/]/g, ":::") ;
+    }
+    return $path ;
+}
 
 function searchSelTableGroup() {
     $(".search-dropdown").css("display", "none") ;

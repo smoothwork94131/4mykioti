@@ -342,26 +342,29 @@ class FrontendController extends Controller
         $result = array() ;
 
         if(isset($category) && $category != NULL) { 
+            $category = $this->replaceDataToPath($category) ;
             $slug_list["category"] = $category ;
         }
 
         if(isset($series) && $series != NULL) {
+            $series = $this->replaceDataToPath($series) ;
             $slug_list["series"] = $series ;
-
         }
 
         if(isset($model) && $model != NULL) {
+            $model = $this->replaceDataToPath($model) ;
             $slug_list["model"] = $model ;
-
         }
 
         if(isset($section) && $section != NULL) {
+            $section = $this->replaceDataToPath($section) ;
             $slug_list["section"] = $section ;
-
         }
 
         if(isset($group) && $group != NULL) {
             $slug_list["group"] = $group ;
+            $group = $this->replaceDataToPath($group) ;
+
         }   
        
         if(count($slug_list) == 0) {
@@ -381,40 +384,57 @@ class FrontendController extends Controller
             } else if(count($slug_list) == 5) {
                 $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
                 $group_id = $group_info[0]->group_Id ;
+                $section = $this->replacPathToData($section) ;
                 return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
             }
-
             Session::put("slug_list", $slug_list) ;
             Session::put("page_name", "partsbymodel") ;
         }
+        
         return view('front.partsbymodel', compact("result", "slug_list"));
     }
 
+    public function replacPathToData($data) {
+        if(strstr($data, "/")) {
+            $data = str_replace("/", ":::", $data) ;
+        }
+        return $data ;
+    }
+
+    public function replaceDataToPath($path) {
+        if(strstr($path, ":::")) {
+            $path = str_replace(":::", "/", $path) ;
+        }
+        return $path ;
+    }
     public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {   
         $slug_list = array() ;
         $result = array() ;
 
         if(isset($category) && $category != NULL) { 
+            $category = $this->replaceDataToPath($category) ;
             $slug_list["category"] = $category ;
+
         }
 
         if(isset($series) && $series != NULL) {
+            $series = $this->replaceDataToPath($series) ;
             $slug_list["series"] = $series ;
-
         }
 
         if(isset($model) && $model != NULL) {
+            $model = $this->replaceDataToPath($model) ;
             $slug_list["model"] = $model ;
-
         }
 
         if(isset($section) && $section != NULL) {
+            $section = $this->replaceDataToPath($section) ;
             $slug_list["section"] = $section ;
-
         }
 
         if(isset($group) && $group != NULL) {
+            $group = $this->replaceDataToPath($group) ;
             $slug_list["group"] = $group ;
         }   
        
@@ -434,8 +454,6 @@ class FrontendController extends Controller
                 $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
             } else if(count($slug_list) == 5) {
                 $group_info = DB::table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
-                // $group_id = $group_info[0]->group_id ;
-                // return redirect()->route('front.category',["category"=>$series, "subcategory"=>$model, "childcategory"=>$group_id]);
                 $result = $group_info ;
             }
 
@@ -451,18 +469,22 @@ class FrontendController extends Controller
         $result = array() ;
 
         if(isset($category) && $category != NULL) { 
+            $category = $this->replaceDataToPath($category) ;
             $slug_list["category"] = $category ;
+
         }
 
         if(isset($series) && $series != NULL) {
+            $series = $this->replaceDataToPath($series) ;
             $slug_list["series"] = $series ;
-
         }
 
         if(isset($model) && $model != NULL) {
-            $slug_list["model"] = $model ;
+            $model = $this->replaceDataToPath($model) ;
+            $slug_list["model"] = $model ;            
         }
         if(isset($prod) && $model != NULL) {
+            $prod = $this->replaceDataToPath($prod) ;
             $slug_list["prod"] = $prod ;
         }
 
@@ -545,8 +567,9 @@ class FrontendController extends Controller
     {
 
         $db = strtolower($series);
-        $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1);
-        
+        $model = $this->replaceDataToPath($model) ;
+
+        $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1) ;
         $prods = $prods->get();
        
         $slug = $model;
@@ -798,11 +821,12 @@ class FrontendController extends Controller
 
     public function groups(Request $request)
     {
-        $series = $request->series ;
-        $model = $request->model ;
+        $series = $this->replaceDataToPath($request->series) ;
+        $model = $this->replaceDataToPath($request->model) ;
         $type = $request->type ;
-        $section = $request->section ;
-        $category = $request->category ;
+        $section = $this->replaceDataToPath($request->section) ;
+        $category = $this->replaceDataToPath($request->category) ;
+
         $table_name = strtolower($series) . "_categories";
 
         if ($type == 'model') {

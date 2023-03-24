@@ -78,7 +78,16 @@
                                 @endphp
                                 @foreach($slug_list as $key =>$item)
                                     @php
-                                        $route = $route."/".$item
+                                        if(strstr($item, "/")) {    
+                                            $slug_list[$key] = str_replace("/", ":::", $item) ;
+                                        }
+
+                                        $path = $item ;
+                                        if(strstr($path, "/")) {
+                                            $path = str_replace("/", ":::", $path) ;
+                                        }
+                                        $route = $route."/".$path ;
+                                        
                                     @endphp
                                     <li>
                                         @if(count($slug_list) == $index) 
@@ -94,7 +103,10 @@
                                     </li>
                                     @php
                                         $index++ ;
+                                        
                                     @endphp
+
+                                    
                                 @endforeach
                             
                             </ul>
@@ -123,7 +135,11 @@
                             <tbody>
                             @foreach($prods as $key=>$prod)
                                 @php 
-                                    $slug_list['prod_name'] = $prod->name ;
+                                    $path = $prod->name ;
+                                    if(strstr($path, "/")) {
+                                        $path = str_replace("/", ":::", $path) ;
+                                    }
+                                    $slug_list['prod'] = $path ;
                                 @endphp
                                 <tr>
                                     <td>
@@ -259,8 +275,14 @@
                 @endphp
                 @foreach($slug_list as $key =>$item)
                     @php
-                        
-                        $route = $route."/".$item
+                        $path = $item ;
+                        if(strstr($path, "/")) {
+                            $path = str_replace("/", ":::", $path) ;
+                        }
+                        $route = $route."/".$path ;
+                        if(strstr($item, "/")) {    
+                            $slug_list[$key] = str_replace("/", ":::", $item) ;
+                        }
                     @endphp
                     <li>
                         @if(count($slug_list) == $index) 
@@ -297,7 +319,11 @@
                 
                 @foreach($prods as $key=>$prod)
                 @php 
-                    $slug_list['prod'] = $prod->name ;
+                    $path = $prod->name ;
+                    if(strstr($path, "/")) {
+                        $path = str_replace("/", ":::", $path) ;
+                    }
+                    $slug_list['prod'] = $path ;
                 @endphp
                     <tr>
                         <td class='td-img'>

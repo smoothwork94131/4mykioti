@@ -23,8 +23,11 @@
                         @endphp
                         @foreach($slug_list as $key =>$item)
                             @php
-                            
-                                $route = $route."/".$item
+                                $path = $item ;
+                                if(strstr($path, "/")) {
+                                    $path = str_replace("/", ":::", $path) ;
+                                }
+                                $route = $route."/".$path
                             @endphp
                             <li>
                                 @if(count($slug_list) == $index) 
@@ -58,7 +61,13 @@
                 @endif
                 @foreach($result as $item)
                 <div class="col col-md-3 col-sm-4">
-                    <a href="{{$route.'/'.$item->name}}">
+                    @php 
+                        $path = $item->name ;
+                        if(strstr($path, "/")) {
+                            $path = str_replace("/", ":::", $path) ;
+                        }
+                    @endphp
+                    <a href="{{$route.'/'.$path}}">
                         <div class="m-block" >
                             {{$item->name}}
                         </div>

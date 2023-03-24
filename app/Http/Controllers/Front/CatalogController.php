@@ -45,10 +45,31 @@ class CatalogController extends Controller
     // }
 
     // -------------------------------- CATEGORY SECTION ----------------------------------------
-
+    public function replaceDataToPath($path) {
+        if(strstr($path, ":::")) {
+            $path = str_replace(":::", "/", $path) ;
+        }
+        return $path ;
+    }
+    
+    public function replacPathToData($data) {
+        if(strstr($data, "/")) {
+            $data = str_replace("/", ":::", $data) ;
+        }
+        return $data ;
+    }
     public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
     {   
 
+        
+        $category = $this->replaceDataToPath($category) ;
+        $series = $this->replaceDataToPath($series) ;
+        $model = $this->replaceDataToPath($model) ;
+        $section = $this->replaceDataToPath($section) ;
+        $group_id = $this->replaceDataToPath($group_id) ;
+
+        
+        
         $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group_id ) ;
         
         if($section == "common") {
@@ -172,6 +193,14 @@ class CatalogController extends Controller
 
     public function sub_category(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
         
+        $category = $this->replaceDataToPath($category) ;
+        $series = $this->replaceDataToPath($series) ;
+        $model = $this->replaceDataToPath($model) ;
+        $section = $this->replaceDataToPath($section) ;
+        $group = $this->replaceDataToPath($group) ;
+        $prod_name = $this->replaceDataToPath($prod_name) ;
+
+
         $db = strtolower($series);
         $sql = "select * from {$db} where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
        
@@ -192,8 +221,8 @@ class CatalogController extends Controller
                 ->where('name', '!=', $prod_name)
                 ->take(8)->get();
         $page = "partsbymodel" ;
-        $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$section, "group"=>$group, "prod_name"=>$prod_name);
 
+        $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list"));
     
     }

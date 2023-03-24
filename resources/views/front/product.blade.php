@@ -16,7 +16,12 @@
                         @foreach($slug_list as $key =>$item)
                             @php
                             
-                                $route = $route."/".$item
+                                $path = $item ;
+                                if(strstr($path, "/")) {
+                                    $path = str_replace("/", ":::", $path) ;
+                                }
+                                $route = $route."/".$path ;
+                                
                             @endphp
                             <li>
                                 @if(count($slug_list) == $index) 
@@ -116,7 +121,6 @@
 
                                     <div class="info-meta-2">
                                         <ul>
-
                                             @if ($productt->type == 'License')
                                                 @if ($productt->platform != null)
                                                     <li>
