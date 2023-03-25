@@ -19,7 +19,7 @@ class DashboardController extends Controller
 
     public function __construct()
     {
-        echo 'ok'; exit;
+        // echo 'ok'; exit;
         $this->middleware('auth:admin');
     }
 
