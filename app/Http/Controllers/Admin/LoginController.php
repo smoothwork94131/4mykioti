@@ -25,8 +25,6 @@ class LoginController extends Controller
     {
         // dd(URL::previous());
 
-        echo 'ok'; exit;
-
         if(!str_contains(URL::previous(), '/admin/login'))
             Session::put('url_intended',URL::previous());
 
@@ -37,12 +35,13 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         //--- Validation Section
+        
         $rules = [
             'email' => 'required|email',
             'password' => 'required'
         ];
 
-        $validator = Validator::make(  $request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

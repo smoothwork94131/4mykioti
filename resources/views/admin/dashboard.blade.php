@@ -23,7 +23,6 @@
 
         @endif
 
-
         <div class="row row-cards-one">
             <div class="col-md-12 col-lg-6 col-xl-4">
                 <div class="mycard bg1">
@@ -254,23 +253,16 @@
                                             <img src="{{filter_var($data->photo, FILTER_VALIDATE_URL) ?$data->photo:asset('assets/images/products/'.$data->photo)}}">
                                         </td>
                                         <td>{{  mb_strlen(strip_tags($data->name),'utf-8') > 50 ? mb_substr(strip_tags($data->name),0,50,'utf-8').'...' : strip_tags($data->name) }}</td>
-                                        <td>{{ $data->category->name }}
-                                            @if(isset($data->subcategory))
-                                                <br>
-                                                {{ $data->subcategory->name }}
-                                            @endif
-                                            @if(isset($data->childcategory))
-                                                <br>
-                                                {{ $data->childcategory->name }}
-                                            @endif
+                                        <td>
+                                            {{ $data->category->name }}
                                         </td>
                                         <td>{{ $data->type }}</td>
 
                                         <td> {{ $data->showPrice() }} </td>
 
                                         <td>
-                                            <div class="action-list"><a href="{{ route('admin-prod-edit',$data->id) }}"><i
-                                                            class="fas fa-eye"></i> {{ __('Details') }}</a>
+                                            <div class="action-list"><a href="{{ route('admin-prod-edit',$data->id) }}">
+                                                <i class="fas fa-eye"></i> {{ __('Details') }}</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -284,6 +276,10 @@
             </div>
 
         </div>
+
+        {{-- @php
+            echo 'ok'; exit;
+        @endphp --}}
 
         <div class="row row-cards-one">
 
@@ -312,21 +308,14 @@
                                             <img src="{{filter_var($data->photo, FILTER_VALIDATE_URL) ?$data->photo:asset('assets/images/products/'.$data->photo)}}">
                                         </td>
                                         <td>{{  mb_strlen(strip_tags($data->name),'utf-8') > 50 ? mb_substr(strip_tags($data->name),0,50,'utf-8').'...' : strip_tags($data->name) }}</td>
-                                        <td>{{ $data->category->name }}
-                                            @if(isset($data->subcategory))
-                                                <br>
-                                                {{ $data->subcategory->name }}
-                                            @endif
-                                            @if(isset($data->childcategory))
-                                                <br>
-                                                {{ $data->childcategory->name }}
-                                            @endif
+                                        <td>
+                                            {{ $data->category->name }}
                                         </td>
                                         <td>{{ $data->type }}</td>
                                         <td> {{ $data->showPrice() }} </td>
                                         <td>
-                                            <div class="action-list"><a href="{{ route('admin-prod-edit',$data->id) }}"><i
-                                                            class="fas fa-eye"></i> {{ __('Details') }}</a>
+                                            <div class="action-list"><a href="{{ route('admin-prod-edit',$data->id) }}">
+                                                <i class="fas fa-eye"></i> {{ __('Details') }}</a>
                                             </div>
                                         </td>
                                     </tr>

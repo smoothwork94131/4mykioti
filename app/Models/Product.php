@@ -39,27 +39,9 @@ class Product extends Model
         });
     }
 
-    public function subcategory()
-    {
-        return $this->belongsTo('App\Models\Subcategory')->withDefault(function ($data) {
-            foreach ($data->getFillable() as $dt) {
-                $data[$dt] = __('Deleted');
-            }
-        });
-    }
-
     public function location()
     {
         return $this->belongsTo('App\Models\StoreLocations', 'location_id')->withDefault(function ($data) {
-            foreach ($data->getFillable() as $dt) {
-                $data[$dt] = __('Deleted');
-            }
-        });
-    }
-
-    public function childcategory()
-    {
-        return $this->belongsTo('App\Models\Childcategory')->withDefault(function ($data) {
             foreach ($data->getFillable() as $dt) {
                 $data[$dt] = __('Deleted');
             }

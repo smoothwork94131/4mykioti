@@ -19,6 +19,7 @@ class DashboardController extends Controller
 
     public function __construct()
     {
+        echo 'ok'; exit;
         $this->middleware('auth:admin');
     }
 
@@ -51,7 +52,6 @@ class DashboardController extends Controller
                 $activation_notify = "<i class='icofont-warning-alt icofont-4x'></i><br>Please activate your system.<br> If you do not activate your system now, it will be inactive on " . $rooted . "!!<br><a href='" . url('/admin/activation') . "' class='btn btn-success'>Activate Now</a>";
             }
         }
-
 
         return view('admin.dashboard', compact('pending', 'activation_notify', 'processing', 'completed', 'products', 'users', 'blogs', 'days', 'sales', 'pproducts', 'rorders', 'poproducts', 'rusers', 'referrals', 'browsers'));
     }

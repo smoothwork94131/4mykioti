@@ -37,12 +37,10 @@
 
     <!-- stylesheet -->
     @if(DB::table('admin_languages')->where('is_default','=',1)->first()->rtl == 1)
-
         <link href="{{asset('assets/admin/css/rtl/style.css')}}" rel="stylesheet"/>
         <link href="{{asset('assets/admin/css/rtl/custom.css')}}" rel="stylesheet"/>
         <link href="{{asset('assets/admin/css/rtl/responsive.css')}}" rel="stylesheet"/>
         <link href="{{asset('assets/admin/css/common.css')}}" rel="stylesheet"/>
-
     @else
 
         <link href="{{asset('assets/admin/css/style.css')}}" rel="stylesheet"/>
