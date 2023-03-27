@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    # - DEPLOYPATH=/home/n8a20c5/public_html/4mykioti.com/
-    - DEPLOYPATH=/home/nmykio5/public_html/
+    - DEPLOYPATH=/home/colthansen/public_html
+    # - DEPLOYPATH=/home/nmykio5/public_html/
     - /bin/cp -R * $DEPLOYPATH
