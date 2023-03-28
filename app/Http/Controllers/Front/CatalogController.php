@@ -16,6 +16,7 @@ use App\Models\Rating;
 use App\Models\Reply;
 use App\Models\Report;
 use App\Models\Subcategory;
+use App\Models\Generalsetting;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ use Illuminate\Support\Collection;
 use Session;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use App\Classes\GeniusMailer;
 
 class CatalogController extends Controller
 {
@@ -120,6 +122,30 @@ class CatalogController extends Controller
         if($group) {
             $slug_list['group'] = $group->group_name ;
         }
+
+        if(!file_exists(public_path('assets/images/group/'.$group->image)) && !file_exists(public_path('assets/images/group/'.$group->group_Id . '.png'))) {
+            $gs = Generalsetting::findOrFail(1);
+            if ($gs->is_smtp == 1) {
+                // echo 'ok'; exit;
+            
+                $data = [
+                    // 'to' => Pagesetting::find(1)->contact_email,
+                    'to' => 'majesty1994131@outlook.com',
+                    'subject' => "No group image!!",
+                    'body' => "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.",
+                ];
+                $mailer = new GeniusMailer();
+                $mailer->sendCustomMail($data);
+            } else {
+                // $to = Pagesetting::find(1)->contact_email;
+                $to = 'majesty1994131@outlook.com';
+                $subject = "No group image!!!!";
+                $msg = "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.";
+                $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+                mail($to, $subject, $msg, $headers);
+            }
+        }
+
         $data['db'] = $db;
         $data['prods'] = $prods;
         $data['group'] = $group;
