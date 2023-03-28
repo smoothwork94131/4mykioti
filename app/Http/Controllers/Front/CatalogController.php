@@ -193,11 +193,8 @@ class CatalogController extends Controller
         $model = $this->replaceDataToPath($model) ;
         $section = $this->replaceDataToPath($section) ;
         $group = $this->replaceDataToPath($group) ;
-        print_r($prod_name); exit;
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
-        
-        
         $db = strtolower($series);
         $sql = "select * from {$db} where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
         
