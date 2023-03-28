@@ -518,13 +518,31 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="trending-item-slider">
+                        {{-- <div class="trending-item-slider">
                             @foreach($also_fits as $key => $item)
                                 <div class="also-fit-item">
                                     <div class="also-fit-item-series">{{ $item->table }}</div>
                                     <div class="also-fit-item-model">{{ $item->subcategory_id }}</div>
                                 </div>
                             @endforeach
+                        </div> --}}
+                        <div class="also-fit-container">
+                            <table class="table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th width="50%">Series</th>
+                                        <th width="50%">Model</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($also_fits as $key => $item)
+                                    <tr>
+                                        <td style="font-size: 16px; text-transform: uppercase;">{{ $item->table }}</div>
+                                        <td style="font-size: 16px; text-transform: uppercase;">{{ $item->subcategory_id }}</div>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

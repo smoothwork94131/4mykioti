@@ -555,8 +555,30 @@ class FrontendController extends Controller
                 $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
                 
                 $page = "commonparts" ;
-                return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page"));
+                
 
+                $sql = "select * from `categories` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
+                $tbl_info =DB::select($sql);
+
+                $sql = "" ;
+                $flag = false ;
+                $arr_tbl = array();
+                
+                foreach($tbl_info as $item) {
+                    $arr_tbl[] = strtolower($item->name) ;
+                }
+
+                for($k = 0 ; $k < count($arr_tbl) ; $k++) {
+                    if($flag) {
+                        $sql.=" union all " ;
+                    } 
+                    $sql .= "select distinct `subcategory_id`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
+                    $flag = true ;
+                }
+
+                $also_fits =DB::select($sql) ;
+
+                return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
             }
 
         }

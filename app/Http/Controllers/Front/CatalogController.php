@@ -119,11 +119,12 @@ class CatalogController extends Controller
         }
         
         $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
+
         if($group) {
             $slug_list['group'] = $group->group_name ;
         }
 
-        if(!file_exists(public_path('assets/images/group/'.$group->image)) && !file_exists(public_path('assets/images/group/'.$group->group_Id . '.png'))) {
+        if($group && !file_exists(public_path('assets/images/group/'.$group->image)) && !file_exists(public_path('assets/images/group/'.$group->group_Id . '.png'))) {
             $gs = Generalsetting::findOrFail(1);
             if ($gs->is_smtp == 1) {
             
