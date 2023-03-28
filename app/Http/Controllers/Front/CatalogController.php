@@ -234,7 +234,7 @@ class CatalogController extends Controller
 
         // 
 
-        $sql = "select * from categories where parent != 0 and status = 1" ;
+        $sql = "select * from `categories` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
         $tbl_info =DB::select($sql);
 
         $sql = "" ;
@@ -249,7 +249,7 @@ class CatalogController extends Controller
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select distinct `subcategory_id`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where sku = '{$productt->sku}' " ;
+            $sql .= "select distinct `subcategory_id`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
             $flag = true ;
         }
 
