@@ -845,7 +845,7 @@ class FrontendController extends Controller
         } else if($type == "category" ) {
             $series_info = DB::table("categories")->where("name", $category)->get() ;
             $paret_id = $series_info[0]->id ;
-            $categories = DB::table("categories")->where("parent", $paret_id)->orderBy("name", "asc")->get() ;
+            $categories = DB::table("categories")->where("parent", $paret_id)->where("status", "1")->orderBy("name", "asc")->get() ;
         }
 
         return response()->json(array("categories"=>$categories));
