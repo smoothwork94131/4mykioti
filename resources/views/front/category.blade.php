@@ -142,7 +142,7 @@
                                     if(strstr($path, "/")) {
                                         $path = str_replace("/", ":::", $path) ;
                                     }
-                                    $slug_list['prod'] = $path ;
+                                    $slug_list['prod_name'] = $path ;
                                 @endphp
                                 <tr>
                                     <td>
@@ -203,7 +203,6 @@
                                     </td>
                                     <td>
                                         <a href="{{route('front.sub_category', ['prod_name' => $prod->name, 'series'=>$group->series, 'model'=>$group->model])}}">{{ $prod->name }}</a>
-
                                     </td>
                                     <td>
                                         ${{ $prod->price }}
@@ -329,7 +328,7 @@
                     if(strstr($path, "/")) {
                         $path = str_replace("/", ":::", $path) ;
                     }
-                    $slug_list['prod'] = $path ;
+                    $slug_list['prod_name'] = $path ;
                 @endphp
                     <tr>
                         <td class='td-img'>
