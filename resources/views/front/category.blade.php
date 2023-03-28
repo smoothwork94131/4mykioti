@@ -120,7 +120,7 @@
                 </div>
                 <div class="group-table d-desktop">
                     <div class="group-schematics">
-                        <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
+                        <img src="{{asset('assets/images/group/'.$group->image)}}">
                     </div>
                     <div class="parts-table">
                         <table id="product_table" class="table " cellspacing="0" width="100%">
@@ -233,6 +233,7 @@
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="prod_img_modal" role="dialog" >
             <div class="modal-dialog modal-lg" style='width: 100%; top: 10%; left: 0%; margin: 0px;'>
                 <div class="modal-content">
@@ -243,66 +244,64 @@
                             style='right: 15px;top: 15px; background: transparent;z-index:100;'>&times;</button>
                     </div>
                     <div class="modal-body">
-                        <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}" style='width: 100%;'>
+                        <img src="{{asset('assets/images/group/'.$group->image)}}" style='width: 100%;'>
                     </div>
                 </div>
             </div>
         </div>
-
     </section>
     @else
-
     <section class="sub-categori">
         <div class="container">
         @php 
             $route = "front.commonparts" ;
             $index = 1 ;
         @endphp
-        <div class="col-lg-12 breadcrumb-area">
-            <ul class="pages parts-by-model-title">
-                <li>
-                    <a href="{{ route('front.index') }}">
-                        {{ $langg->lang17 }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route($route) }}">
-                        Category
-                    </a>
-                </li>
-                @php
-                    $route = route("$route") ;
-                @endphp
-                @foreach($slug_list as $key =>$item)
-                    @php
-                        $path = $item ;
-                        if(strstr($path, "/")) {
-                            $path = str_replace("/", ":::", $path) ;
-                        }
-                        $route = $route."/".$path ;
-                        if(strstr($item, "/")) {    
-                            $slug_list[$key] = str_replace("/", ":::", $item) ;
-                        }
-                    @endphp
+            <div class="col-lg-12 breadcrumb-area">
+                <ul class="pages parts-by-model-title">
                     <li>
-                        @if(count($slug_list) == $index) 
-                            <a>
-                                {{$item}}
-                            </a>
-                        @else
-                            <a href = "{{$route}}">
-                                {{$item}}
-                            </a>
-                        @endif
-                        
+                        <a href="{{ route('front.index') }}">
+                            {{ $langg->lang17 }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route($route) }}">
+                            Category
+                        </a>
                     </li>
                     @php
-                        $index++ ;
+                        $route = route("$route") ;
                     @endphp
-                @endforeach
-                
-            </ul>
-        </div>
+                    @foreach($slug_list as $key =>$item)
+                        @php
+                            $path = $item ;
+                            if(strstr($path, "/")) {
+                                $path = str_replace("/", ":::", $path) ;
+                            }
+                            $route = $route."/".$path ;
+                            if(strstr($item, "/")) {    
+                                $slug_list[$key] = str_replace("/", ":::", $item) ;
+                            }
+                        @endphp
+                        <li>
+                            @if(count($slug_list) == $index) 
+                                <a>
+                                    {{$item}}
+                                </a>
+                            @else
+                                <a href = "{{$route}}">
+                                    {{$item}}
+                                </a>
+                            @endif
+                            
+                        </li>
+                        @php
+                            $index++ ;
+                        @endphp
+                    @endforeach
+                    
+                </ul>
+            </div>
             <table id="product_table" class="table" cellspacing="0" width="100%">
                 <thead>
                 <tr>

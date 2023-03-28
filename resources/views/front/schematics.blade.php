@@ -62,7 +62,7 @@
                     {{$result[0]->group_name}}
                 </h2>
                 <div class="group-schematics">
-                    <img src="{{asset('assets/images/group/'.$result[0]->group_Id.'.png')}}"/>
+                    <img src="{{asset('assets/images/group/'.$result[0]->image)}}"/>
                 </div>
             @else
                 @foreach($result as $item)

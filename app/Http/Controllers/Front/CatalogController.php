@@ -59,16 +59,12 @@ class CatalogController extends Controller
     }
     public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
     {   
-
-        
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
         $section = $this->replaceDataToPath($section) ;
         $group_id = $this->replaceDataToPath($group_id) ;
 
-        
-        
         $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group_id ) ;
         
         if($section == "common") {
