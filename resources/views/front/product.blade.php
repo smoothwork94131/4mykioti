@@ -537,8 +537,12 @@
                                 <tbody>
                                 @foreach($also_fits as $key => $item)
                                     <tr>
-                                        <td style="font-size: 16px; text-transform: uppercase;">{{ $item->table }}</div>
-                                        <td style="font-size: 16px; text-transform: uppercase;">{{ $item->subcategory_id }}</div>
+                                        <td style="font-size: 16px; text-transform: uppercase;">{{ $key }}</div>
+                                        <td style="font-size: 16px; text-transform: uppercase;">
+                                            @foreach($item as $sub_item)
+                                                <div style="margin-bottom: 5px;">{{ $sub_item }}</div>
+                                            @endforeach
+                                        </div>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -250,14 +250,22 @@ class CatalogController extends Controller
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select distinct `subcategory_id`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
+            $sql .= "select distinct '$arr_tbl[$k]' as `table`, `subcategory_id` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
             $flag = true ;
         }
 
-        $also_fits =DB::select($sql) ;
-
-        // 
-
+        $fits =DB::select($sql) ;
+        $also_fits = array();
+        foreach($fits as $item) {
+            if(array_key_exists($item->table, $also_fits)) {
+                $also_item = $also_fits[$item->table] ;
+                array_push($also_item, $item->subcategory_id) ;
+                $also_fits[$item->table] = $also_item ;
+            } else {
+                $also_fits[$item->table] = array($item->subcategory_id) ;
+            }
+        }
+        
         $vendors = DB::table($db)
                 ->where('subcategory_id', '=', $model)
                 ->where('name', '!=', $prod_name)

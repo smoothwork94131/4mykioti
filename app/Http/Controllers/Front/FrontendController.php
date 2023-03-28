@@ -576,7 +576,17 @@ class FrontendController extends Controller
                     $flag = true ;
                 }
 
-                $also_fits =DB::select($sql) ;
+                $fits =DB::select($sql) ;
+                $also_fits = array();
+                foreach($fits as $item) {
+                    if(array_key_exists($item->table, $also_fits)) {
+                        $also_item = $also_fits[$item->table] ;
+                        array_push($also_item, $item->subcategory_id) ;
+                        $also_fits[$item->table] = $also_item ;
+                    } else {
+                        $also_fits[$item->table] = array($item->subcategory_id) ;
+                    }
+                }
 
                 return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
             }
