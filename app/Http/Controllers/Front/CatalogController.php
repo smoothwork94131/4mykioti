@@ -196,8 +196,8 @@ class CatalogController extends Controller
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
         $db = strtolower($series);
-        $sql = "select * from {$db} where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
-        
+        $sql = "select * from `{$db}` where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
+
         $productt =DB::select($sql);
         $productt = $productt[0] ;
         

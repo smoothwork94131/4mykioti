@@ -197,12 +197,19 @@
                             </thead>
                             <tbody>
                             @foreach($prods as $key=>$prod)
+                                @php 
+                                    $path = $prod->name ;
+                                    if(strstr($path, "/")) {
+                                        $path = str_replace("/", ":::", $path) ;
+                                    }
+                                    $slug_list['prod_name'] = $path ;
+                                @endphp
                                 <tr>
                                     <td>
                                         <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     <td>
-                                        <a href="{{route('front.sub_category', ['prod_name' => $prod->name, 'series'=>$group->series, 'model'=>$group->model])}}">{{ $prod->name }}</a>
+                                        <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
                                     </td>
                                     <td>
                                         ${{ $prod->price }}
@@ -328,7 +335,7 @@
                     if(strstr($path, "/")) {
                         $path = str_replace("/", ":::", $path) ;
                     }
-                    $slug_list['prod_name'] = $path ;
+                    $slug_list['prod'] = $path ;
                 @endphp
                     <tr>
                         <td class='td-img'>
