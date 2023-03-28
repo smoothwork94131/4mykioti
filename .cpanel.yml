@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - DEPLOYPATH=/home/colthansen/public_html
-    # - DEPLOYPATH=/home/nmykio5/public_htmsl/
+    # - DEPLOYPATH=/home/colthansen/public_html
+    - DEPLOYPATH=/home/nmykio5/public_htmsl/
     - /bin/cp -R * $DEPLOYPATH
