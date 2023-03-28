@@ -232,8 +232,31 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
+        // 
+
+        $sql = "select * from categories where parent != 0 and status = 1" ;
+        $tbl_info =DB::select($sql);
+
+        $sql = "" ;
+        $flag = false ;
+        $arr_tbl = array();
         
-        
+        foreach($tbl_info as $item) {
+            $arr_tbl[] = strtolower($item->name) ;
+        }
+
+        for($k = 0 ; $k < count($arr_tbl) ; $k++) {
+            if($flag) {
+                $sql.=" union all " ;
+            } 
+            $sql .= "select distinct `subcategory_id`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where sku = '{$productt->sku}' " ;
+            $flag = true ;
+        }
+
+        $also_fits =DB::select($sql) ;
+
+        // 
+
         $vendors = DB::table($db)
                 ->where('subcategory_id', '=', $model)
                 ->where('name', '!=', $prod_name)
@@ -241,7 +264,7 @@ class CatalogController extends Controller
         $page = "partsbymodel" ;
 
         $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list"));
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
     
     }
     public function product(Request $request, $slug)

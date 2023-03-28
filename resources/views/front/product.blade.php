@@ -519,18 +519,20 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="trending-item-slider">
-
+                            @foreach($also_fits as $key => $item)
+                                <div class="also-fit-item">
+                                    <div class="also-fit-item-series">{{ $item->table }}</div>
+                                    <div class="also-fit-item-model">{{ $item->subcategory_id }}</div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
         <!-- Tranding Item Area End -->
     </section>
     <!-- Product Details Area End -->
-
-
 
     {{-- MESSAGE MODAL --}}
     <div class="message-modal">
