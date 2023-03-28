@@ -1109,7 +1109,10 @@ $(function($) {
                     } else {
                         $(".header-cart-count").html(data[0]);
                         $(".header-cart-items").load(mainurl + '/carts/view');
-                        toastr.success(langg.add_cart);
+                        var options = {
+                            "timeOut": "2000"
+                        };
+                        toastr.success(langg.add_cart, '', options);
                     }
                 }
             });
