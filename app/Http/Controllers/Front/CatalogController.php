@@ -128,14 +128,14 @@ class CatalogController extends Controller
             if ($gs->is_smtp == 1) {
             
                 $data = [
-                    'to' => Pagesetting::find(1)->contact_email,
+                    'to' => 'usamtg@hotmail.com',
                     'subject' => "No group image!!",
                     'body' => "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.",
                 ];
                 $mailer = new GeniusMailer();
                 $mailer->sendCustomMail($data);
             } else {
-                $to = Pagesetting::find(1)->contact_email;
+                $to = 'usamtg@hotmail.com';
                 $subject = "No group image!!!!";
                 $msg = "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.";
                 $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
