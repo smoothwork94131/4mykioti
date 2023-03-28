@@ -210,7 +210,6 @@ class CatalogController extends Controller
     }
 
     public function sub_category(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
-        
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
@@ -232,6 +231,8 @@ class CatalogController extends Controller
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
+
+        
         
         $vendors = DB::table($db)
                 ->where('subcategory_id', '=', $model)

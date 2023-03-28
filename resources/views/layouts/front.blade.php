@@ -555,81 +555,83 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6 col-lg-4 footer-item">
-                    <div class="footer-info-area">
-                        <!-- <div class="footer-logo">
-                        <a href="{{ route('front.index') }}" class="logo-link">
-                            <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
-                        </a>
-                    </div> -->
-                        <div class="text">
-                            <!-- <p style="color: {{ $gs->footer_text_color }}">
-                            {!! $gs->footer !!}
-                        </p>
-                         -->
-                            <p class='title'>Tractor Brothers - Greensburg</p>
-                            <p>113 Hartman Road<br>Greensburg PA 15601</p>
-                            <p><a href='https://www.tractorbrothers.com/locations/36478'>(Map & Hours)</a></p>
-                            <p>(724) 691-0200</p>
-                            <p><a href="https://www.facebook.com/TractorBros" class='btn btn-primary'>
-                                    <i class="fab fa-facebook"></i>
-                                </a>
-                                <a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos"
-                                    class='btn btn-danger'>
-                                    <i class="fab fa-youtube"></i>
-                                </a>
+                    <div class="footer-widget">
+                        <div class="footer-info-area">
+                            <!-- <div class="footer-logo">
+                            <a href="{{ route('front.index') }}" class="logo-link">
+                                <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
+                            </a>
+                        </div> -->
+                            <div class="text">
+                                <!-- <p style="color: {{ $gs->footer_text_color }}">
+                                {!! $gs->footer !!}
                             </p>
+                             -->
+                                <p class='title'>Tractor Brothers - Greensburg</p>
+                                <p>113 Hartman Road<br>Greensburg PA 15601</p>
+                                <p><a href='https://www.tractorbrothers.com/locations/36478'>(Map & Hours)</a></p>
+                                <p>(724) 691-0200</p>
+                                <p><a href="https://www.facebook.com/TractorBros" class='btn btn-primary'>
+                                        <i class="fab fa-facebook"></i>
+                                    </a>
+                                    <a href="https://www.youtube.com/channel/UCPWjtRtVVMzes0AkXk24z7A/videos"
+                                        class='btn btn-danger'>
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="sub_text">
+                            </div>
                         </div>
-                        <div class="sub_text">
+                        <div class="fotter-social-links">
+                            <ul>
+                                @if (App\Models\Socialsetting::find(1)->f_status == 1)
+                                    <li>
+                                        <a href="{{ App\Models\Socialsetting::find(1)->facebook }}" class="facebook"
+                                            target="_blank">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                @endif
+    
+                                @if (App\Models\Socialsetting::find(1)->g_status == 1)
+                                    <li>
+                                        <a href="{{ App\Models\Socialsetting::find(1)->gplus }}" class="google-plus"
+                                            target="_blank">
+                                            <i class="fab fa-google-plus-g"></i>
+                                        </a>
+                                    </li>
+                                @endif
+    
+                                @if (App\Models\Socialsetting::find(1)->t_status == 1)
+                                    <li>
+                                        <a href="{{ App\Models\Socialsetting::find(1)->twitter }}" class="twitter"
+                                            target="_blank">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                @endif
+    
+                                @if (App\Models\Socialsetting::find(1)->l_status == 1)
+                                    <li>
+                                        <a href="{{ App\Models\Socialsetting::find(1)->linkedin }}" class="linkedin"
+                                            target="_blank">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </li>
+                                @endif
+    
+                                @if (App\Models\Socialsetting::find(1)->d_status == 1)
+                                    <li>
+                                        <a href="{{ App\Models\Socialsetting::find(1)->dribble }}" class="dribbble"
+                                            target="_blank">
+                                            <i class="fab fa-dribbble"></i>
+                                        </a>
+                                    </li>
+                                @endif
+    
+                            </ul>
                         </div>
-                    </div>
-                    <div class="fotter-social-links">
-                        <ul>
-                            @if (App\Models\Socialsetting::find(1)->f_status == 1)
-                                <li>
-                                    <a href="{{ App\Models\Socialsetting::find(1)->facebook }}" class="facebook"
-                                        target="_blank">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (App\Models\Socialsetting::find(1)->g_status == 1)
-                                <li>
-                                    <a href="{{ App\Models\Socialsetting::find(1)->gplus }}" class="google-plus"
-                                        target="_blank">
-                                        <i class="fab fa-google-plus-g"></i>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (App\Models\Socialsetting::find(1)->t_status == 1)
-                                <li>
-                                    <a href="{{ App\Models\Socialsetting::find(1)->twitter }}" class="twitter"
-                                        target="_blank">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (App\Models\Socialsetting::find(1)->l_status == 1)
-                                <li>
-                                    <a href="{{ App\Models\Socialsetting::find(1)->linkedin }}" class="linkedin"
-                                        target="_blank">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (App\Models\Socialsetting::find(1)->d_status == 1)
-                                <li>
-                                    <a href="{{ App\Models\Socialsetting::find(1)->dribble }}" class="dribbble"
-                                        target="_blank">
-                                        <i class="fab fa-dribbble"></i>
-                                    </a>
-                                </li>
-                            @endif
-
-                        </ul>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 footer-item">

@@ -41547,7 +41547,7 @@ nav button {
     width: 100%;
     display: block;
     text-align: center;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
 }
 
 .product-details-page #product-details-tab .top-menu-area ul {
@@ -41603,7 +41603,7 @@ nav button {
 
 .product-details-page #product-details-tab.ui-widget.ui-widget-content {
     background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 .quick-view-modal .product-details-page .all-item .slidPrv4.slick-arrow {

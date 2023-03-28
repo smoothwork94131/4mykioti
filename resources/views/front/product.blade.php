@@ -372,7 +372,7 @@
                                 </div>
                                 <div class="tab-content-wrapper">
                                     <div id="tabs-1" class="tab-content-area">
-                                        <p>{!! $productt->details !!}</p>
+                                        <p>{!! $productt->description !!}</p>
                                     </div>
                                     <div id="tabs-2" class="tab-content-area">
                                         <p>{!! $productt->policy !!}</p>
@@ -494,14 +494,9 @@
                                     </ul>
                                 </div>
                             @endforeach
-
                         </div>
-
                     </div>
-
-
                 </div>
-
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -513,7 +508,7 @@
         <div class="trending">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 remove-padding">
+                    <div class="col-lg-12">
                         <div class="section-top">
                             <h2 class="section-title">
                                 {{ $langg->lang216 }}
@@ -522,7 +517,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12 remove-padding">
+                    <div class="col-lg-12">
                         <div class="trending-item-slider">
 
                         </div>
