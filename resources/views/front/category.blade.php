@@ -56,7 +56,6 @@
             <div class="row breadcrumb-area" >
                 <div class="col-12">
                     <div class="section-top" style="display: block; padding-left: 0px;">
-                        
                         @php 
                             $route = "front.partsbymodel" ;
                             $index = 1 ;
@@ -120,7 +119,11 @@
                 </div>
                 <div class="group-table d-desktop">
                     <div class="group-schematics">
-                        <img src="{{asset('assets/images/group/'.$group->image)}}">
+                        @if(file_exists(public_path('assets/images/group/'.$group->image)))
+                            <img src="{{asset('assets/images/group/'.$group->image)}}">
+                        @else
+                            <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
+                        @endif
                     </div>
                     <div class="parts-table">
                         <table id="product_table" class="table " cellspacing="0" width="100%">
@@ -244,7 +247,11 @@
                             style='right: 15px;top: 15px; background: transparent;z-index:100;'>&times;</button>
                     </div>
                     <div class="modal-body">
+                        @if(file_exists(public_path('assets/images/group/'.$group->image)))
                         <img src="{{asset('assets/images/group/'.$group->image)}}" style='width: 100%;'>
+                        @else
+                        <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}" style='width: 100%;'>
+                        @endif
                     </div>
                 </div>
             </div>

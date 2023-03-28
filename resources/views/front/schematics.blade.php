@@ -62,7 +62,11 @@
                     {{$result[0]->group_name}}
                 </h2>
                 <div class="group-schematics">
+                    @if(file_exists(public_path('assets/images/group/'.$result[0]->image)))
                     <img src="{{asset('assets/images/group/'.$result[0]->image)}}"/>
+                    @else
+                    <img src="{{asset('assets/images/group/'.$result[0]->group_Id.'.png')}}"/>
+                    @endif
                 </div>
             @else
                 @foreach($result as $item)
