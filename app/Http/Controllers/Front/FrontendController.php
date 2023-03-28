@@ -374,7 +374,7 @@ class FrontendController extends Controller
             if(count($slug_list) == 1) {
                 $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
-                $result = DB::table("categories")->select("*")->where("parent", $category_id)->orderBy("name", "asc")->get() ;
+                $result = DB::table("categories")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
             } else if(count($slug_list) == 2) {
                 $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
             } else if(count($slug_list) == 3) {
