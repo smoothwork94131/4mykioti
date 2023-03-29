@@ -404,9 +404,9 @@
             "ordering": false,
             "info": false,
             "searching": false,
-            "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]],
+            "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
             rowReorder: {
-                selector: 'td:nth-child(2)'
+                selector: 'td:nth-child(0)'
             }
             // responsive: true
         });
