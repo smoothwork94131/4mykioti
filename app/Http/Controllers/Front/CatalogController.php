@@ -75,7 +75,6 @@ class CatalogController extends Controller
 
         $minprice = $request->min;
         $maxprice = $request->max;
-        $sort = $request->sort;
         $search = $request->search;
         $db = strtolower($series);
 
@@ -85,22 +84,7 @@ class CatalogController extends Controller
         })
         ->when($maxprice, function ($query, $maxprice) {
             return $query->where('price', '<=', $maxprice);
-        })
-        // ->when($sort, function ($query, $sort) {
-        //     if ($sort == 'date_desc') {
-        //         return $query->orderBy('id', 'DESC');
-        //     } elseif ($sort == 'date_asc') {
-        //         return $query->orderBy('id', 'ASC');
-        //     } elseif ($sort == 'price_desc') {
-        //         return $query->orderBy('price', 'DESC');
-        //     } elseif ($sort == 'price_asc') {
-        //         return $query->orderBy('price', 'ASC');
-        //     }
-        // })
-        // ->when(empty($sort), function ($query, $sort) {
-        //     return $query->orderBy('id', 'DESC');
-        // })
-        ;
+        });
     
         if ($search) {
             $search1 = ' ' . $search;

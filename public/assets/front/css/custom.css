@@ -879,8 +879,8 @@ a.sell-btn {
 }
 
 @media (max-width: 768px) {
-    #product_table .dropdown-menu.show {
-        left: 5% !important;  
+    .product_table .dropdown-menu.show {
+        left: -50px !important;  
     }
     .sign-form .dropdown-menu.show {
         left: -40px!important;

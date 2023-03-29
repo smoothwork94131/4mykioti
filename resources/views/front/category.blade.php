@@ -126,13 +126,16 @@
                         @endif
                     </div>
                     <div class="parts-table">
+                        <p style="text-align: center; margin-bottom: 0px;">
+                            Parts not listed are not available at this time
+                        </p>
                         <table id="product_table" class="table product_table" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>NO</th>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Price</th>
+                                <th style="text-align:center;">NO</th>
+                                <th style="text-align:center;"></th>
+                                <th style="text-align:center;">Name</th>
+                                <th style="text-align:center;">Price</th>
                                 <th style="text-align:center;">Action</th>
                             </tr>
                             </thead>
@@ -146,16 +149,16 @@
                                     $slug_list['prod_name'] = $path ;
                                 @endphp
                                 <tr>
-                                    <td>
+                                    <td style="text-align:center;">
                                         {{ $prod->top }}
                                     </td>
-                                    <td>
-                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                                    <td style="text-align:center;">
+                                        <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
-                                    <td>
+                                    <td style="text-align:center;">
                                         <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
                                     </td>
-                                    <td>
+                                    <td style="text-align:center;">
                                         ${{ $prod->price }}
                                     </td>
                                     <td style="text-align:center;">
@@ -187,16 +190,19 @@
                 </div>
 
                 <div class="group-table d-mobile">
-                    <div style='margin-bottom: 15px' align='center'>
+                    <div style='margin-bottom: 15px; text-align: center;'>
                         <button type="button" class="btn btn-primary" style="background: #F05223; border: 1px solid #F05223" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
                     </div>
-                    <table id="product_table" class="table product_table" cellspacing="0" width="100%">
+                    <p style="text-align: center; margin-bottom: 0px;">
+                        Parts not listed are not available at this time
+                    </p>
+                    <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="font-size: 12px;">
                             <thead>
                             <tr>
-                                <th>NO</th>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Price</th>
+                                <th style="text-align:center;">NO</th>
+                                <th style="text-align:center;"></th>
+                                <th style="text-align:center;">Name</th>
+                                <th style="text-align:center;">Price</th>
                                 <th style="text-align:center;">Action</th>
                             </tr>
                             </thead>
@@ -210,16 +216,16 @@
                                     $slug_list['prod_name'] = $path ;
                                 @endphp
                                 <tr>
-                                    <td>
+                                    <td style="text-align:center;">
                                         {{ $prod->top }}
                                     </td>
-                                    <td>
-                                        <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                                    <td style="text-align:center;">
+                                        <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
-                                    <td>
+                                    <td style="text-align:center;">
                                         <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
                                     </td>
-                                    <td>
+                                    <td style="text-align:center;">
                                         ${{ $prod->price }}
                                     </td>
                                     <td style="text-align:center;">
@@ -326,13 +332,13 @@
             <table id="product_table" class="table product_table" cellspacing="0" width="100%">
                 <thead>
                 <tr>
-                    <th width='10%' class='th-img'></th>
-                    <th>Name</th>
-                    <th>Model</th>
-                    <th class='th-group'>Group</th>
-                    <th class='th-part'>Part</th>
-                    <th class='th-price'>Price</th>
-                    <th style="text-align:center;" class='th-action'>Action</th>
+                    <th width='10%' class='th-img' style="text-align:center;"></th>
+                    <th style="text-align:center;">Name</th>
+                    <th style="text-align:center;">Model</th>
+                    <th class='th-group' style="text-align:center;">Group</th>
+                    <th class='th-part' style="text-align:center;">Part</th>
+                    <th class='th-price' style="text-align:center;">Price</th>
+                    <th class='th-action' style="text-align:center;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -346,25 +352,25 @@
                     $slug_list['prod'] = $path ;
                 @endphp
                     <tr>
-                        <td class='td-img'>
+                        <td class='td-img' style="text-align:center;">
                             <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                         </td>
-                        <td>
+                        <td style="text-align:center;">
                             <a href="{{route('front.commonparts', $slug_list)}}">{{ $prod->name }}</a>
                         </td>
-                        <td>
+                        <td style="text-align:center;">
                             {{ $prod->subcategory_id }}
                         </td>
-                        <td class='td-group'>
+                        <td class='td-group' style="text-align:center;">
                             {{ $prod->parent }}
                         </td>
-                        <td class='td-part'>
+                        <td class='td-part' style="text-align:center;">
                             {{ $prod->sku }}
                         </td>
-                        <td class='td-price'>
+                        <td class='td-price' style="text-align:center;">
                             ${{ $prod->price }}
                         </td >  
-                        <td style="text-align:center;" class='td-action'>
+                        <td class='td-action' style="text-align:center;">
                             <div class="dropdown">
                                 <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
@@ -405,54 +411,7 @@
             "info": false,
             "searching": false,
             "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
-            // rowReorder: {
-            //     selector: 'td:nth-child(0)'
-            // }
-            // responsive: true
         });
     });
-
-    // append parameters to pagination links
-    function addToPagination() {
-        // add to attributes in pagination links
-        $('ul.pagination li a').each(function () {
-            let url = $(this).attr('href');
-            let queryString = '?' + url.split('?')[1]; // "?page=1234...."
-
-            let urlParams = new URLSearchParams(queryString);
-            let page = urlParams.get('page'); // value of 'page' parameter
-
-            let fullUrl = '{{route('front.category', [Request::route('category'),Request::route('subcategory'),Request::route('childcategory')])}}?page=' + page + '&search=' + '{{request()->input('search')}}';
-
-            $(".attribute-input").each(function () {
-                if ($(this).is(':checked')) {
-                    fullUrl += '&' + encodeURI($(this).attr('name')) + '=' + encodeURI($(this).val());
-                }
-            });
-
-            if ($("#sortby").val() != '') {
-                fullUrl += '&sort=' + encodeURI($("#sortby").val());
-            }
-            $(this).attr('href', fullUrl);
-        });
-    }
-
-    $(document).on('click', '.categori-item-area .pagination li a', function (event) {
-        event.preventDefault();
-        if ($(this).attr('href') != '#' && $(this).attr('href')) {
-            $('#preloader').show();
-            $('#ajaxContent').load($(this).attr('href'), function (response, status, xhr) {
-                if (status == "success") {
-                    $('#preloader').fadeOut();
-                    $("html,body").animate({
-                        scrollTop: 0
-                    }, 1);
-
-                    addToPagination();
-                }
-            });
-        }
-    });
-
 </script>
 @endsection

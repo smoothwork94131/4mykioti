@@ -38069,7 +38069,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: #143250;
+    color: #000;
     font-family: "Open Sans", sans-serif;
 }
 
@@ -38084,7 +38084,7 @@ p {
 }
 
 a {
-    color: #143250;
+    color: #000;
     text-decoration: none;
 }
 
@@ -38364,7 +38364,7 @@ select:focus {
     font-size: 18px;
     line-height: 38px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     display: inline-block;
     position: relative;
     margin-bottom: 0px;
@@ -38780,7 +38780,7 @@ Logo Header Area Start
 }
 
 .search-box .categori-container .categoris option {
-    background: #143250;
+    background: #000;
 }
 
 .search-box .categori-container .categoris option:hover {
@@ -38872,7 +38872,7 @@ Logo Header Area Start
 
 .helpful-links ul li.my-dropdown .cart .icon i {
     font-size: 19px;
-    color: #143250;
+    color: #000;
     width: 30px;
     height: 30px;
     background: #f3f3f3;
@@ -38941,7 +38941,7 @@ Logo Header Area Start
 .helpful-links ul li.my-dropdown .cart p {
     font-size: 12px;
     line-height: 22px;
-    color: #143250;
+    color: #000;
     margin-top: 4px;
     margin-bottom: 0px;
     color: #333;
@@ -38986,13 +38986,13 @@ Logo Header Area Start
 .helpful-links ul li.my-dropdown .my-dropdown-menu .dropdownmenu-wrapper .dropdown-cart-header .item-no {
     font-size: 13px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
 }
 
 .helpful-links ul li.my-dropdown .my-dropdown-menu .dropdownmenu-wrapper .dropdown-cart-header .view-cart {
     font-size: 12px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
 }
 
 .helpful-links ul li.my-dropdown .my-dropdown-menu .dropdownmenu-wrapper .dropdown-cart-header .view-cart:hover {
@@ -39039,7 +39039,7 @@ Logo Header Area Start
     text-transform: capitalize;
     margin-bottom: 0px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
 }
 
 .helpful-links ul li.my-dropdown .my-dropdown-menu .dropdownmenu-wrapper .dropdown-cart-products .product .product-details .content .cart-product-info {
@@ -39096,7 +39096,7 @@ Logo Header Area Start
 
 .helpful-links ul li .wish i {
     font-size: 14px;
-    color: #143250;
+    color: #000;
     width: 30px;
     height: 30px;
     background: #f3f3f3;
@@ -39109,7 +39109,7 @@ Logo Header Area Start
 .helpful-links ul li .wish p {
     font-size: 12px;
     line-height: 22px;
-    color: #143250;
+    color: #000;
     margin-top: 4px;
     margin-bottom: 0px;
     color: #333;
@@ -39117,7 +39117,7 @@ Logo Header Area Start
 
 .helpful-links ul li .sign-log i {
     font-size: 18px;
-    color: #143250;
+    color: #000;
     width: 30px;
     height: 30px;
     background: #f3f3f3;
@@ -39130,7 +39130,7 @@ Logo Header Area Start
 .helpful-links ul li .sign-log .links a {
     font-size: 12px;
     line-height: 22px;
-    color: #143250;
+    color: #000;
     margin-bottom: 0px;
     color: #fff;
 }
@@ -39582,7 +39582,7 @@ nav button {
 .hero-area .hero-area-slider .intro-carousel .intro-content .slider-content .layer-1 .subtitle {
     font-size: 24px;
     font-weight: 700;
-    color: #143250;
+    color: #000;
 }
 
 .hero-area .hero-area-slider .intro-carousel .intro-content .slider-content .layer-1 .title {
@@ -39594,7 +39594,7 @@ nav button {
 .hero-area .hero-area-slider .intro-carousel .intro-content .slider-content .layer-2 .text {
     font-size: 16px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     max-width: 400px;
     display: inline-block;
 }
@@ -40065,7 +40065,7 @@ nav button {
 }
 
 .flash-deals .flas-deal-slider .item .price .old-price {
-    color: #143250;
+    color: #000;
     font-size: 14px;
     font-weight: 600;
     display: inline-block;
@@ -40083,7 +40083,7 @@ nav button {
     left: 0;
     width: 100%;
     height: 1px;
-    background: #143250;
+    background: #000;
 }
 
 .flash-deals .flas-deal-slider .item .price .new-price {
@@ -40119,7 +40119,7 @@ nav button {
     display: block;
     font-weight: 400;
     font-size: 14px;
-    color: #143250;
+    color: #000;
 }
 
 .flash-deals .owl-carousel .owl-controls .owl-nav .owl-prev,
@@ -40256,7 +40256,7 @@ nav button {
 .hot-and-new-item .categori .item-list li .single-box .right-area .price {
     font-size: 16px;
     line-height: 26px;
-    color: #143250;
+    color: #000;
     font-weight: 700;
     margin: 3px 0px 3px;
 }
@@ -40625,7 +40625,7 @@ nav button {
 .footer {
     overflow: hidden;
     position: relative;
-    background: #143250;
+    background: #000;
     padding: 56px 0px 0px;
 }
 
@@ -40953,7 +40953,7 @@ nav button {
 }
 
 .product-details-page .right-area .product-info .info-meta-1 ul li p {
-    color: #143250;
+    color: #000;
     font-size: 14px;
     margin-bottom: 7px;
 }
@@ -41538,7 +41538,7 @@ nav button {
 .product-details-page #product-details-tab.ui-tabs .ui-tabs-panel .heading-area .reating-area .reting-and-review {
     display: inline-block;
     font-size: 14px;
-    color: #143250;
+    color: #000;
     margin-left: 10px;
 }
 
@@ -41569,7 +41569,7 @@ nav button {
     font-size: 16px;
     line-height: 26px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     display: block;
     font-family: "Open Sans", sans-serif;
     -webkit-transition: 0.3s ease-in;
@@ -41586,7 +41586,7 @@ nav button {
     left: 0px;
     width: 100%;
     height: 2px;
-    background: #143250;
+    background: #000;
     opacity: 0;
 }
 
@@ -41678,14 +41678,14 @@ nav button {
 #product-details-tab #replay-area .all-replay li .single-review .left-area .name {
     margin-top: 15px;
     font-size: 14px;
-    color: #143250;
+    color: #000;
     font-weight: 600;
     margin-bottom: 0px;
 }
 
 #product-details-tab #replay-area .all-replay li .single-review .left-area .date {
     font-size: 12px;
-    color: #143250;
+    color: #000;
     margin-bottom: 0px;
 }
 
@@ -41717,7 +41717,7 @@ nav button {
 #product-details-tab #replay-area .all-replay li .single-review .right-area .header-area .title {
     font-size: 16px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     margin-top: 0px;
 }
 
@@ -41908,14 +41908,14 @@ nav button {
 #product-details-tab #comment-area .all-comment li .single-comment .left-area .name {
     margin-top: 15px;
     font-size: 14px;
-    color: #143250;
+    color: #000;
     font-weight: 600;
     margin-bottom: 0px;
 }
 
 #product-details-tab #comment-area .all-comment li .single-comment .left-area .date {
     font-size: 12px;
-    color: #143250;
+    color: #000;
     margin-bottom: 0px;
 }
 
@@ -41947,7 +41947,7 @@ nav button {
 #product-details-tab #comment-area .all-comment li .single-comment .right-area .header-area .title {
     font-size: 16px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     margin-top: 0px;
 }
 
@@ -41999,7 +41999,7 @@ nav button {
     width: 120px;
     height: 40px;
     border: 0px;
-    background: #143250;
+    background: #000;
     color: #fff;
     font-weight: 600;
     border-radius: 50px;
@@ -42175,7 +42175,7 @@ nav button {
 .product-details-page .categori .item-list li .single-box .right-area .price {
     font-size: 16px;
     line-height: 26px;
-    color: #143250;
+    color: #000;
     font-weight: 700;
     margin: 3px 0px 3px;
 }
@@ -42653,7 +42653,7 @@ nav button {
     font-size: 13px;
     border-radius: 50px;
     text-transform: uppercase;
-    color: #143250;
+    color: #000;
     -webkit-transition: all 0.3s ease-in;
     -o-transition: all 0.3s ease-in;
     transition: all 0.3s ease-in;
@@ -42729,7 +42729,7 @@ nav button {
 
 .sub-categori .left-area .all-categories-area .body-area .cat-list li a {
     font-size: 14px;
-    color: #143250;
+    color: #000;
     -webkit-transition: all 0.3s ease-in;
     -o-transition: all 0.3s ease-in;
     transition: all 0.3s ease-in;
@@ -42855,7 +42855,7 @@ nav button {
     border-radius: 50%;
     font-weight: 600;
     background: #fcfcfc;
-    color: #143250;
+    color: #000;
     -webkit-transition: 0.3s ease-in;
     -moz-transition: 0.3s ease-in;
     -o-transition: 0.3s ease-in;
@@ -43128,7 +43128,7 @@ nav button {
     font-size: 16px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #143250;
+    color: #000;
     line-height: 28px;
     margin-bottom: 15px;
 }
@@ -43268,7 +43268,7 @@ nav button {
 }
 
 .order-box .order-btn:hover {
-    background: #143250;
+    background: #000;
 }
 
 
@@ -43994,7 +43994,7 @@ nav button {
 }
 
 .contact-us .contact-section-title .subtitle {
-    color: #143250;
+    color: #000;
     font-size: 28px;
     line-height: 28px;
     font-weight: 600;
@@ -44128,7 +44128,7 @@ nav button {
 .contact-us .right-area .top-content .title {
     font-size: 28px;
     line-height: 28px;
-    color: #143250;
+    color: #000;
     font-weight: 600;
     margin-bottom: 10px;
 }
@@ -44200,7 +44200,7 @@ nav button {
     font-size: 18px;
     line-height: 28px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     margin-top: -5px;
     margin-bottom: 18px;
 }
@@ -44327,7 +44327,7 @@ select {
 }
 
 .login-area .submit-btn:hover {
-    background: #143250;
+    background: #000;
 }
 
 .login-area .social-area {
@@ -44374,7 +44374,7 @@ select {
 .login-area .social-area .text {
     font-size: 20px;
     font-weight: 300;
-    color: #143250;
+    color: #000;
 }
 
 .login-area .social-area .social-links {
@@ -44431,7 +44431,7 @@ select {
 }
 
 .comment-log-reg-tabmenu .nav-tabs .nav-link.active {
-    background: #143250;
+    background: #000;
 }
 
 
@@ -44521,7 +44521,7 @@ select {
 }
 
 .login-area .submit-btn:hover {
-    background: #143250;
+    background: #000;
 }
 
 .login-area .social-area {
@@ -44568,7 +44568,7 @@ select {
 .login-area .social-area .text {
     font-size: 20px;
     font-weight: 300;
-    color: #143250;
+    color: #000;
 }
 
 .login-area .social-area .social-links {
@@ -44625,7 +44625,7 @@ select {
 }
 
 .comment-log-reg-tabmenu .nav-tabs .nav-link.active {
-    background: #143250;
+    background: #000;
 }
 
 
@@ -44719,7 +44719,7 @@ select {
 }
 
 .login-area .submit-btn:hover {
-    background: #143250;
+    background: #000;
 }
 
 .login-area .social-area {
@@ -44767,7 +44767,7 @@ select {
 .login-area .social-area .text {
     font-size: 20px;
     font-weight: 300;
-    color: #143250;
+    color: #000;
 }
 
 .login-area .social-area .social-links {
@@ -44824,7 +44824,7 @@ select {
 }
 
 .comment-log-reg-tabmenu .nav-tabs .nav-link.active {
-    background: #143250;
+    background: #000;
 }
 
 
@@ -44969,7 +44969,7 @@ Faq Page Start
 .compare-page .com-heading .title {
     font-size: 28px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     margin-bottom: 30px;
 }
 
@@ -44988,7 +44988,7 @@ Faq Page Start
 .compare-page-content-wrap .first-column {
     font-size: 16px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
     vertical-align: middle;
 }
 
@@ -45170,7 +45170,7 @@ Faq Page Start
     -webkit-transform: rotate(28deg);
     -ms-transform: rotate(28deg);
     transform: rotate(28deg);
-    background: #143250;
+    background: #000;
 }
 
 .user-dashbord .user-profile-details .account-info {
@@ -45187,7 +45187,7 @@ Faq Page Start
     font-size: 24px;
     line-height: 34px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
 }
 
 .user-dashbord .user-profile-details .account-info .edit-info-area {
@@ -45239,7 +45239,7 @@ Faq Page Start
 .user-dashbord .user-profile-details .account-info .edit-info-area .edit-info-area-form .back {
     width: 120px;
     height: 50px;
-    background: #143250;
+    background: #000;
     color: #fff;
     font-size: 14px;
     line-height: 50px;
@@ -45279,7 +45279,7 @@ Faq Page Start
 }
 
 .user-dashbord .user-profile-details .account-info .edit-info-area .edit-info-area-form .submit-btn:hover {
-    background: #143250;
+    background: #000;
 }
 
 .user-dashbord .user-profile-details .account-info .main-info {
@@ -45319,7 +45319,7 @@ Faq Page Start
 .user-dashbord .user-profile-details .order-history .header-area .title {
     font-size: 20px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
 }
 
 .user-dashbord .user-profile-details .order-history .table th {
@@ -45354,7 +45354,7 @@ Faq Page Start
 .user-dashbord .user-profile-details .order-details .header-area .title {
     font-size: 20px;
     font-weight: 600;
-    color: #143250;
+    color: #000;
 }
 
 .user-dashbord .user-profile-details .order-details .view-order-page .order-code {
@@ -45390,7 +45390,7 @@ Faq Page Start
 }
 
 .user-dashbord .user-profile-details .order-details .back-btn {
-    background: #143250;
+    background: #000;
     color: #fff;
     padding: 8px 25px;
     margin-top: 15px;
@@ -45559,7 +45559,7 @@ Faq Page Start
 }
 
 .thankyou .content {
-    background: #143250;
+    background: #000;
     padding: 20px 30px 50px;
     text-align: center;
 }
@@ -45690,7 +45690,7 @@ Faq Page Start
 .single-wish .right .price {
     font-size: 25px;
     font-weight: 700;
-    color: #143250;
+    color: #000;
     margin-bottom: 10px;
     margin-top: 10px;
 }
@@ -47376,12 +47376,12 @@ span.discount {
 .elegant-pricing-tables.active .price,
 .elegant-pricing-tables.style-2 .price,
 .elegant-pricing-tables .btn {
-    background: #143250
+    background: #000
 }
 
 .elegant-pricing-tables .price {
-    color: #143250;
-    border-color: #143250
+    color: #000;
+    border-color: #000
 }
 
 .user-profile-details .elegant-pricing-tables {
@@ -47394,7 +47394,7 @@ span.discount {
 .elegant-pricing-tables.active .btn,
 .elegant-pricing-tables.style-2:hover .price,
 .elegant-pricing-tables.style-2.active .price {
-    color: #143250
+    color: #000
 }
 
 .elegant-pricing-tables:hover li:nth-child(odd),
@@ -50003,7 +50003,7 @@ p.product-unit-price {
     position: absolute;
     width: 225px;
     height: 3px;
-    background-color: green;
+    background-color: #F05223;
     bottom: -6px;
     left: 0px;
 }
