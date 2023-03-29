@@ -110,13 +110,14 @@ class CatalogController extends Controller
 
         if ($section) {
             if ($section == 'common') {
-                $prods = $prods->where('best', 1)->where('subcategory_id', $model)->get();
+                $prods = $prods->where('best', 1)->where('subcategory_id', $model);
             } else {
-                $prods = $prods->where('category_id', $group_id)->where('subcategory_id', $model)->get();
+                $prods = $prods->where('category_id', $group_id)->where('subcategory_id', $model);
             }
-        } else {
-            $prods = $prods->get();
         }
+
+        $prod = $prod->orderBy("top", 'asc');
+        $prods = $prods->get();
         
         $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
 
