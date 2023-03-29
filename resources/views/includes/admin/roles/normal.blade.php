@@ -1,42 +1,36 @@
-@if(Auth::guard('admin')->user()->role_id != 0)
+@if (Auth::guard('admin')->user()->role_id != 0)
 
-    @if(Auth::guard('admin')->user()->sectionCheck('orders'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('orders'))
         <li>
             <a href="#order" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false"><i
-                        class="fas fa-hand-holding-usd"></i>{{ __('Orders') }}</a>
+                    class="fas fa-hand-holding-usd"></i>{{ __('Orders') }}</a>
             <ul class="collapse list-unstyled" id="order" data-parent="#accordion">
                 <li>
-                    <a href="{{route('admin-order-index')}}"> {{ __('All Orders') }}</a>
+                    <a href="{{ route('admin-order-index') }}"> {{ __('All Orders') }}</a>
                 </li>
                 <li>
-                    <a href="{{route('admin-order-pending')}}"> {{ __('Pending Orders') }}</a>
+                    <a href="{{ route('admin-order-pending') }}"> {{ __('Pending Orders') }}</a>
                 </li>
                 <li>
-                    <a href="{{route('admin-order-processing')}}"> {{ __('Processing Orders') }}</a>
+                    <a href="{{ route('admin-order-processing') }}"> {{ __('Processing Orders') }}</a>
                 </li>
                 <li>
-                    <a href="{{route('admin-order-completed')}}"> {{ __('Completed Orders') }}</a>
+                    <a href="{{ route('admin-order-completed') }}"> {{ __('Completed Orders') }}</a>
                 </li>
                 <li>
-                    <a href="{{route('admin-order-declined')}}"> {{ __('Declined Orders') }}</a>
+                    <a href="{{ route('admin-order-declined') }}"> {{ __('Declined Orders') }}</a>
                 </li>
 
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('products'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('products'))
         <li>
             <a href="#menu2" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="icofont-cart"></i>{{ __('Products') }}
             </a>
             <ul class="collapse list-unstyled" id="menu2" data-parent="#accordion">
-                <li>
-                    <a href="{{ route('admin-prod-types') }}"><span>{{ __('Add New Product') }}</span></a>
-                </li>
                 <li>
                     <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Products') }}</span></a>
                 </li>
@@ -48,12 +42,10 @@
                 </li>
             </ul>
         </li>
-
     @endif
 
 
-    @if(Auth::guard('admin')->user()->sectionCheck('affilate_products'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('affilate_products'))
         <li>
             <a href="#affiliateprod" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="icofont-cart"></i>{{ __('Affiliate Products') }}
@@ -67,7 +59,6 @@
                 </li>
             </ul>
         </li>
-
     @endif
 
     <li>
@@ -88,8 +79,7 @@
         </ul>
     </li>
 
-    @if(Auth::guard('admin')->user()->sectionCheck('customers'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('customers'))
         <li>
             <a href="#menu3" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="icofont-user"></i>{{ __('Customers') }}
@@ -106,11 +96,9 @@
                 </li>
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('vendors'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('vendors'))
         <li>
             <a href="#vendor" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="icofont-ui-user-group"></i>{{ __('Vendors') }}
@@ -131,13 +119,9 @@
 
             </ul>
         </li>
-
-        
-
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('vendor_subscription_plans'))
+    @if (Auth::guard('admin')->user()->sectionCheck('vendor_subscription_plans'))
         <li>
             <a href="#verification" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="icofont-verification-check"></i>{{ __('Verifications') }}
@@ -153,48 +137,42 @@
         </li>
         <li>
             <a href="{{ route('admin-subscription-index') }}" class=" wave-effect"><i
-                        class="fas fa-dollar-sign"></i>{{ __('Vendor Subscription Plans') }}</a>
+                    class="fas fa-dollar-sign"></i>{{ __('Vendor Subscription Plans') }}</a>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('categories'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('categories'))
         <li>
-            <a href="#menu5" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false"><i
-                        class="fas fa-sitemap"></i>{{ __('Manage Categories') }}</a>
+            <a href="#menu5" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+                <i class="fas fa-sitemap"></i>{{ __('Manage Categories') }}
+            </a>
             <ul class="collapse list-unstyled
-        @if(request()->is('admin/attribute/*/manage') && request()->input('type')=='category')
-                    show
-@elseif(request()->is('admin/attribute/*/manage') && request()->input('type')=='subcategory')
-                    show
-@elseif(request()->is('admin/attribute/*/manage') && request()->input('type')=='childcategory')
-                    show
-@endif" id="menu5" data-parent="#accordion">
-                <li class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='category') active @endif">
-                    <a href="{{ route('admin-cat-index') }}"><span>{{ __('Main Category') }}</span></a>
+            @if (request()->is('admin/attribute/*/manage') && request()->input('type') == 'category') show
+            @elseif(request()->is('admin/attribute/*/manage') && request()->input('type') == 'subcategory') show
+            @elseif(request()->is('admin/attribute/*/manage') && request()->input('type') == 'childcategory') show 
+            @endif"
+                id="menu5" data-parent="#accordion">
+                <li class="@if (request()->is('admin/attribute/*/manage') && request()->input('type') == 'category') active @endif">
+                    <a href="{{ route('admin-cat-index') }}"><span>{{ __('Category') }}</span></a>
                 </li>
-                <li class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='subcategory') active @endif">
+                {{-- <li class="@if (request()->is('admin/attribute/*/manage') && request()->input('type') == 'subcategory') active @endif">
                     <a href="{{ route('admin-subcat-index') }}"><span>{{ __('Sub Category') }}</span></a>
                 </li>
-                <li class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='childcategory') active @endif">
+                <li class="@if (request()->is('admin/attribute/*/manage') && request()->input('type') == 'childcategory') active @endif">
                     <a href="{{ route('admin-childcat-index') }}"><span>{{ __('Child Category') }}</span></a>
-                </li>
+                </li> --}}
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('bulk_product_upload'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('bulk_product_upload'))
         <li>
-            <a href="{{ route('admin-prod-import') }}"><i class="fas fa-upload"></i>{{ __('Bulk Product Upload') }}</a>
+            <a href="{{ route('admin-prod-import') }}"><i
+                    class="fas fa-upload"></i>{{ __('Bulk Product Upload') }}</a>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('product_discussion'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('product_discussion'))
         <li>
             <a href="#menu4" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="icofont-speech-comments"></i>{{ __('Product Discussion') }}
@@ -211,20 +189,17 @@
                 </li>
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('set_coupons'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('set_coupons'))
         <li>
             <a href="{{ route('admin-coupon-index') }}" class=" wave-effect"><i
-                        class="fas fa-percentage"></i>{{ __('Set Coupons') }}</a>
+                    class="fas fa-percentage"></i>{{ __('Set
+                            Coupons') }}</a>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('blog'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('blog'))
         <li>
             <a href="#blog" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-fw fa-newspaper"></i>{{ __('Blog') }}
@@ -238,12 +213,10 @@
                 </li>
             </ul>
         </li>
-
     @endif
 
 
-    @if(Auth::guard('admin')->user()->sectionCheck('messages'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('messages'))
         <li>
             <a href="#msg" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-fw fa-newspaper"></i>{{ __('Messages') }}
@@ -257,12 +230,10 @@
                 </li>
             </ul>
         </li>
-
     @endif
 
 
-    @if(Auth::guard('admin')->user()->sectionCheck('general_settings'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('general_settings'))
         <li>
             <a href="#general" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-cogs"></i>{{ __('General Settings') }}
@@ -293,7 +264,7 @@
                     <a href="{{ route('admin-gs-footer') }}"><span>{{ __('Footer') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ route('admin-gs-affilate') }}"><span>{{__('Affiliate Information')}}</span></a>
+                    <a href="{{ route('admin-gs-affilate') }}"><span>{{ __('Affiliate Information') }}</span></a>
                 </li>
 
                 <li>
@@ -312,11 +283,9 @@
 
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('home_page_settings'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('home_page_settings'))
         <li>
             <a href="#homepage" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-edit"></i>{{ __('Home Page Settings') }}
@@ -354,16 +323,15 @@
 
 
                 <li>
-                    <a href="{{ route('admin-ps-customize') }}"><span>{{ __('Home Page Customization') }}</span></a>
+                    <a
+                        href="{{ route('admin-ps-customize') }}"><span>{{ __('Home Page Customization') }}</span></a>
                 </li>
             </ul>
         </li>
-
     @endif
 
 
-    @if(Auth::guard('admin')->user()->sectionCheck('menu_page_settings'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('menu_page_settings'))
         <li>
             <a href="#menu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-file-code"></i>{{ __('Menu Page Settings') }}
@@ -380,111 +348,99 @@
                 </li>
             </ul>
         </li>
-
     @endif
 
 
-    @if(Auth::guard('admin')->user()->sectionCheck('emails_settings'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('emails_settings'))
         <li>
             <a href="#emails" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-at"></i>{{ __('Email Settings') }}
             </a>
             <ul class="collapse list-unstyled" id="emails" data-parent="#accordion">
-                <li><a href="{{route('admin-mail-index')}}"><span>{{ __('Email Template') }}</span></a></li>
-                <li><a href="{{route('admin-mail-config')}}"><span>{{ __('Email Configurations') }}</span></a></li>
-                <li><a href="{{route('admin-group-show')}}"><span>{{ __('Group Email') }}</span></a></li>
+                <li><a href="{{ route('admin-mail-index') }}"><span>{{ __('Email Template') }}</span></a></li>
+                <li><a href="{{ route('admin-mail-config') }}"><span>{{ __('Email Configurations') }}</span></a>
+                </li>
+                <li><a href="{{ route('admin-group-show') }}"><span>{{ __('Group Email') }}</span></a></li>
             </ul>
         </li>
-
     @endif
 
 
-    @if(Auth::guard('admin')->user()->sectionCheck('payment_settings'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('payment_settings'))
         <li>
             <a href="#payments" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-file-code"></i>{{ __('Payment Settings') }}
             </a>
             <ul class="collapse list-unstyled" id="payments" data-parent="#accordion">
-                <li><a href="{{route('admin-gs-payments')}}"><span>{{__('Payment Information')}}</span></a></li>
-                <li><a href="{{route('admin-payment-index')}}"><span>{{ __('Payment Gateways') }}</span></a></li>
-                <li><a href="{{route('admin-currency-index')}}"><span>{{ __('Currencies') }}</span></a></li>
+                <li><a href="{{ route('admin-gs-payments') }}"><span>{{ __('Payment Information') }}</span></a>
+                </li>
+                <li><a href="{{ route('admin-payment-index') }}"><span>{{ __('Payment Gateways') }}</span></a></li>
+                <li><a href="{{ route('admin-currency-index') }}"><span>{{ __('Currencies') }}</span></a></li>
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('social_settings'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('social_settings'))
         <li>
             <a href="#socials" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-paper-plane"></i>{{ __('Social Settings') }}
             </a>
             <ul class="collapse list-unstyled" id="socials" data-parent="#accordion">
-                <li><a href="{{route('admin-social-index')}}"><span>{{ __('Social Links') }}</span></a></li>
-                <li><a href="{{route('admin-social-facebook')}}"><span>{{ __('Facebook Login') }}</span></a></li>
-                <li><a href="{{route('admin-social-google')}}"><span>{{ __('Google Login') }}</span></a></li>
+                <li><a href="{{ route('admin-social-index') }}"><span>{{ __('Social Links') }}</span></a></li>
+                <li><a href="{{ route('admin-social-facebook') }}"><span>{{ __('Facebook Login') }}</span></a></li>
+                <li><a href="{{ route('admin-social-google') }}"><span>{{ __('Google Login') }}</span></a></li>
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('language_settings'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('language_settings'))
         <li>
             <a href="#langs" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-language"></i>{{ __('Language Settings') }}
             </a>
             <ul class="collapse list-unstyled" id="langs" data-parent="#accordion">
-                <li><a href="{{route('admin-lang-index')}}"><span>{{ __('Website Language') }}</span></a></li>
-                <li><a href="{{route('admin-tlang-index')}}"><span>{{ __('Admin Panel Language') }}</span></a></li>
+                <li><a href="{{ route('admin-lang-index') }}"><span>{{ __('Website Language') }}</span></a></li>
+                <li><a href="{{ route('admin-tlang-index') }}"><span>{{ __('Admin Panel Language') }}</span></a>
+                </li>
 
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('seo_tools'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('seo_tools'))
         <li>
             <a href="#seoTools" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
                 <i class="fas fa-wrench"></i>{{ __('SEO Tools') }}
             </a>
             <ul class="collapse list-unstyled" id="seoTools" data-parent="#accordion">
                 <li>
-                    <a href="{{ route('admin-prod-popular',30) }}"><span>{{ __('Popular Products') }}</span></a>
+                    <a href="{{ route('admin-prod-popular', 30) }}"><span>{{ __('Popular Products') }}</span></a>
                 </li>
                 <li>
                     <a href="{{ route('admin-seotool-analytics') }}"><span>{{ __('Google Analytics') }}</span></a>
-                </li
-                >
+                </li>
                 <li>
-                    <a href="{{ route('admin-seotool-keywords') }}"><span>{{ __('Website Meta Keywords') }}</span></a>
+                    <a
+                        href="{{ route('admin-seotool-keywords') }}"><span>{{ __('Website Meta Keywords') }}</span></a>
                 </li>
             </ul>
         </li>
-
     @endif
 
-    @if(Auth::guard('admin')->user()->sectionCheck('manage_staffs'))
-
-
+    @if (Auth::guard('admin')->user()->sectionCheck('manage_staffs'))
         <li>
             <a href="{{ route('admin-staff-index') }}" class=" wave-effect"><i
-                        class="fas fa-user-secret"></i>{{ __('Manage Staffs') }}</a>
+                    class="fas fa-user-secret"></i>{{ __('Manage
+                            Staffs') }}</a>
         </li>
-
     @endif
 
 
-    @if(Auth::guard('admin')->user()->sectionCheck('subscribers'))
-
+    @if (Auth::guard('admin')->user()->sectionCheck('subscribers'))
         <li>
             <a href="{{ route('admin-subs-index') }}" class=" wave-effect"><i
-                        class="fas fa-users-cog mr-2"></i>{{ __('Subscribers') }}</a>
+                    class="fas fa-users-cog mr-2"></i>{{ __('Subscribers') }}</a>
         </li>
-
     @endif
 
 @endif

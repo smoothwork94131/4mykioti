@@ -3,21 +3,23 @@
         <i class="icofont-cart"></i>{{ __('Categories') }}
     </a>
     <ul class="collapse list-unstyled" id="categories" data-parent="#accordion">
-        
-        <li class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='category') active @endif">
-            <a href="{{ route('admin-cat-index') }}"><span>{{ __('Main Category') }}</span></a>
+        <li
+            class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='category') active @endif">
+            <a href="{{ route('admin-cat-index') }}"><span>{{ __('Category') }}</span></a>
         </li>
-        <li class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='subcategory') active @endif">
+        {{-- <li
+            class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='subcategory') active @endif">
             <a href="{{ route('admin-subcat-index') }}"><span>{{ __('Sub Category') }}</span></a>
         </li>
-        <li class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='childcategory') active @endif">
+        <li
+            class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='childcategory') active @endif">
             <a href="{{ route('admin-childcat-index') }}"><span>{{ __('Child Category') }}</span></a>
-        </li>
+        </li> --}}
     </ul>
 </li>
 <li>
     <a href="#order" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false"><i
-                class="fas fa-hand-holding-usd"></i>{{ __('Orders') }}</a>
+            class="fas fa-hand-holding-usd"></i>{{ __('Orders') }}</a>
     <ul class="collapse list-unstyled" id="order" data-parent="#accordion">
         <li>
             <a href="{{route('admin-order-index')}}"> {{ __('All Orders') }}</a>
@@ -42,28 +44,25 @@
     </a>
     <ul class="collapse list-unstyled" id="menu2" data-parent="#accordion">
         <li>
-            <a href="{{ route('admin-prod-types') }}"><span>{{ __('Add New Product') }}</span></a>
-        </li>
-        <li>
             <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Products') }}</span></a>
         </li>
         <li>
             <a href="{{ route('admin-prod-deactive') }}"><span>{{ __('Deactivated Product') }}</span></a>
         </li>
         <li>
-            <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>
+            <a href="{{ route('admin-prod-hot') }}"><span>{{ __('Hot Product') }}</span></a>
         </li>
         <li>
-            <a href="{{ route('admin-prod-hot') }}"><span>{{ __('Hot Product') }}</span></a>
+            <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>
         </li>
         <li>
             <a href="{{ route('admin-prod-import') }}"><span>{{ __('Bulk Product Upload') }}</span></a>
         </li>
 
-        
+
     </ul>
 </li>
- 
+
 
 <!-- <li>
     <a href="#strain" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
@@ -212,8 +211,8 @@
 </li>
 
 <li>
-    <a href="{{ route('admin-coupon-index') }}" class=" wave-effect"><i
-                class="fas fa-percentage"></i>{{ __('Set Coupons') }}</a>
+    <a href="{{ route('admin-coupon-index') }}" class=" wave-effect"><i class="fas fa-percentage"></i>{{ __('Set
+        Coupons') }}</a>
 </li>
 
 <hr>
@@ -229,7 +228,7 @@
         <li>
             <a href="{{ route('admin-gs-fav') }}"><span>{{ __('Favicon') }}</span></a>
         </li>
-        
+
         <li>
             <a href="{{ route('admin-gs-load') }}"><span>{{ __('Loader') }}</span></a>
         </li>
@@ -255,7 +254,7 @@
         <i class="fas fa-edit"></i>{{ __('Website Contents') }}
     </a>
     <ul class="collapse list-unstyled" id="homepage" data-parent="#accordion">
-    <li>
+        <li>
             <a href="{{ route('admin-gs-footer') }}"><span>{{ __('Footer') }}</span></a>
         </li>
 
@@ -407,8 +406,7 @@
         </li>
         <li>
             <a href="{{ route('admin-seotool-analytics') }}"><span>{{ __('Google Analytics') }}</span></a>
-        </li
-        >
+        </li>
         <li>
             <a href="{{ route('admin-seotool-keywords') }}"><span>{{ __('Website Meta Keywords') }}</span></a>
         </li>
@@ -454,18 +452,18 @@
 
 
 <li>
-    <a href="{{ route('admin-staff-index') }}" class=" wave-effect"><i
-                class="fas fa-user-secret"></i>{{ __('Manage Staff') }}</a>
+    <a href="{{ route('admin-staff-index') }}" class=" wave-effect"><i class="fas fa-user-secret"></i>{{ __('Manage
+        Staff') }}</a>
 </li>
 
 <li>
-    <a href="{{ route('admin-subs-index') }}" class=" wave-effect"><i
-                class="fas fa-users-cog mr-2"></i>{{ __('Subscribers') }}</a>
+    <a href="{{ route('admin-subs-index') }}" class=" wave-effect"><i class="fas fa-users-cog mr-2"></i>{{
+        __('Subscribers') }}</a>
 </li>
 
 <li>
-    <a href="{{ route('admin-role-index') }}" class=" wave-effect"><i
-                class="fas fa-user-tag"></i>{{ __('Manage Roles') }}</a>
+    <a href="{{ route('admin-role-index') }}" class=" wave-effect"><i class="fas fa-user-tag"></i>{{ __('Manage Roles')
+        }}</a>
 </li>
 <li>
     <a href="{{ route('admin-cache-clear') }}" class=" wave-effect"><i class="fas fa-sync"></i>{{ __('Clear Cache') }}
