@@ -405,9 +405,9 @@
             "info": false,
             "searching": false,
             "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
-            rowReorder: {
-                selector: 'td:nth-child(0)'
-            }
+            // rowReorder: {
+            //     selector: 'td:nth-child(0)'
+            // }
             // responsive: true
         });
     });
