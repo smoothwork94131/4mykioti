@@ -116,7 +116,7 @@ class CatalogController extends Controller
             }
         }
 
-        $prods = $prods->orderBy("top", 'asc');
+        $prods = $prods->orderBy('top', 'desc');
         $prods = $prods->get();
         
         $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
