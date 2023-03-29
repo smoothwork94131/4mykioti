@@ -126,9 +126,10 @@
                         @endif
                     </div>
                     <div class="parts-table">
-                        <table id="product_table" class="table " cellspacing="0" width="100%">
+                        <table id="product_table" class="table product_table" cellspacing="0" width="100%">
                             <thead>
                             <tr>
+                                <th>NO</th>
                                 <th></th>
                                 <th>Name</th>
                                 <th>Price</th>
@@ -145,6 +146,9 @@
                                     $slug_list['prod_name'] = $path ;
                                 @endphp
                                 <tr>
+                                    <td>
+                                        {{ $prod->top }}
+                                    </td>
                                     <td>
                                         <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
@@ -186,9 +190,10 @@
                     <div style='margin-bottom: 15px' align='center'>
                         <button type="button" class="btn btn-primary" style="background: #F05223; border: 1px solid #F05223" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
                     </div>
-                    <table id="product_table" class="table " cellspacing="0" width="100%">
+                    <table id="product_table" class="table product_table" cellspacing="0" width="100%">
                             <thead>
                             <tr>
+                                <th>NO</th>
                                 <th></th>
                                 <th>Name</th>
                                 <th>Price</th>
@@ -205,6 +210,9 @@
                                     $slug_list['prod_name'] = $path ;
                                 @endphp
                                 <tr>
+                                    <td>
+                                        {{ $prod->top }}
+                                    </td>
                                     <td>
                                         <img style="width:73px; height: 59px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
@@ -315,7 +323,7 @@
                     
                 </ul>
             </div>
-            <table id="product_table" class="table" cellspacing="0" width="100%">
+            <table id="product_table" class="table product_table" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th width='10%' class='th-img'></th>
@@ -391,7 +399,7 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
-        $('#product_table').DataTable({
+        $('.product_table').DataTable({
             "paging": false,
             "ordering": false,
             "info": false,
