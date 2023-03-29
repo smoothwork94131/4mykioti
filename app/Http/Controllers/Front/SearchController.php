@@ -23,7 +23,7 @@ class SearchController extends Controller{
         `subcategory_id` like '%{$search_word}%' or
         `name` like '%{$search_word}%'" ;
 
-        $sql = "select * from categories where parent = {$parent_id}" ;
+        $sql = "select * from `categories` where `parent` = {$parent_id}" ;
         $tbl_info =DB::select($sql);
 
         $sql = "" ;
@@ -37,12 +37,14 @@ class SearchController extends Controller{
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select subcategory_id, category_id,name, photo, price, thumbnail, parent, sku,id, product_type, '$arr_tbl[$k]' as `table`, '{$key}' as `category`   from $arr_tbl[$k]  {$where_clause} " ;
+            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, `thumbnail`, `parent`, `sku`, `id`, `product_type`, '$arr_tbl[$k]' as `table`, '{$key}' as `category`  from `{$arr_tbl[$k]}` {$where_clause} " ;
             $flag = true ;
         }
 
         
         $sql.=" limit 50" ;
+
+        echo $sql; exit;
 
         $products =DB::select($sql) ;
         $data = array();
@@ -92,7 +94,7 @@ class SearchController extends Controller{
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select subcategory_id, category_id,name, photo, price, '$arr_tbl[$k]' as `table`  from $arr_tbl[$k] {$where_clause} " ;
+            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$arr_tbl[$k]' as `table`  from `{$arr_tbl[$k]}` {$where_clause} " ;
             $flag = true ;
         }
 
@@ -104,11 +106,12 @@ class SearchController extends Controller{
         $data = array();
         foreach($categoreis as $key => $item) {
             $sql = "select * from `{$item->table}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
-            
             $ret = DB::select($sql) ;
-            $item->group_name = $ret[0]->group_name ;
-            $item->section = $ret[0]->section_name ;
-            $data[$key] = $item ;
+            if($ret) {
+                $item->group_name = $ret[0]->group_name ;
+                $item->section = $ret[0]->section_name ;
+                $data[$key] = $item ;
+            }
         }
         $categoreis = $data ;
 

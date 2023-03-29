@@ -879,6 +879,19 @@ a.sell-btn {
 }
 
 @media (max-width: 768px) {
+    .product_table {
+        font-size: 12px;
+    }
+
+    .product_table .td-img img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .product_table .th-group, .product_table .td-group, .product_table .th-part, .product_table .td-part {
+        display: none;
+    }
+
     .product_table .dropdown-menu.show {
         left: -50px !important;  
     }

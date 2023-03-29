@@ -53,70 +53,63 @@
     @if ($group)
     <section class="sub-categori">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
-            <div class="row breadcrumb-area" >
-                <div class="col-12">
-                    <div class="section-top" style="display: block; padding-left: 0px;">
-                        @php 
-                            $route = "front.partsbymodel" ;
-                            $index = 1 ;
-                        @endphp
-                        <div class="col-lg-12">
-                            <ul class="pages parts-by-model-title">
+            <div class="breadcrumb-area">
+                <div class="section-top" style="display: block; padding-left: 0px;">
+                    @php 
+                        $route = "front.partsbymodel" ;
+                        $index = 1 ;
+                    @endphp
+                    <div>
+                        <ul class="pages parts-by-model-title">
+                            <li>
+                                <a href="{{ route('front.index') }}">
+                                    {{ $langg->lang17 }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route($route) }}">
+                                    Category
+                                </a>
+                            </li>
+                            @php
+                                $route = route("$route") ;
+                            @endphp
+                            @foreach($slug_list as $key =>$item)
+                                @php
+                                    if(strstr($item, "/")) {    
+                                        $slug_list[$key] = str_replace("/", ":::", $item) ;
+                                    }
+
+                                    $path = $item ;
+                                    if(strstr($path, "/")) {
+                                        $path = str_replace("/", ":::", $path) ;
+                                    }
+                                    $route = $route."/".$path ;  
+                                @endphp
                                 <li>
-                                    <a href="{{ route('front.index') }}">
-                                        {{ $langg->lang17 }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route($route) }}">
-                                        Category
-                                    </a>
+                                    @if(count($slug_list) == $index) 
+                                        <a>
+                                            {{$item}}
+                                        </a>
+                                    @else
+                                        <a href = "{{$route}}">
+                                            {{$item}}
+                                        </a>
+                                    @endif
                                 </li>
                                 @php
-                                    $route = route("$route") ;
+                                    $index++ ;
                                 @endphp
-                                @foreach($slug_list as $key =>$item)
-                                    @php
-                                        if(strstr($item, "/")) {    
-                                            $slug_list[$key] = str_replace("/", ":::", $item) ;
-                                        }
-
-                                        $path = $item ;
-                                        if(strstr($path, "/")) {
-                                            $path = str_replace("/", ":::", $path) ;
-                                        }
-                                        $route = $route."/".$path ;
-                                        
-                                    @endphp
-                                    <li>
-                                        @if(count($slug_list) == $index) 
-                                            <a>
-                                                {{$item}}
-                                            </a>
-                                        @else
-                                            <a href = "{{$route}}">
-                                                {{$item}}
-                                            </a>
-                                        @endif
-                                        
-                                    </li>
-                                    @php
-                                        $index++ ;
-                                        
-                                    @endphp
-
-                                    
-                                @endforeach
-                            
-                            </ul>
-                        </div>
-
-                        <h2 class="section-title remove-padding">
-                            {{$group->group_name }}
-                            <span class="title-underline"></span>
-                        </h2>
+                            @endforeach
+                        </ul>
                     </div>
+                    <h2 class="section-title remove-padding">
+                        {{$group->group_name }}
+                        <span class="title-underline"></span>
+                    </h2>
                 </div>
+            </div>
+            <div class="parts-container">
                 <div class="group-table d-desktop">
                     <div class="group-schematics">
                         @if(file_exists(public_path('assets/images/group/'.$group->image)))
@@ -188,7 +181,7 @@
                         </table>
                     </div>
                 </div>
-
+    
                 <div class="group-table d-mobile">
                     <div style='margin-bottom: 15px; text-align: center;'>
                         <button type="button" class="btn btn-primary" style="background: #F05223; border: 1px solid #F05223" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
@@ -197,7 +190,7 @@
                         Parts not listed are not available at this time
                     </p>
                     <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="font-size: 12px;">
-                            <thead>
+                        <thead>
                             <tr>
                                 <th style="text-align:center;">NO</th>
                                 <th style="text-align:center;"></th>
@@ -205,54 +198,54 @@
                                 <th style="text-align:center;">Price</th>
                                 <th style="text-align:center;">Action</th>
                             </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($prods as $key=>$prod)
-                                @php 
-                                    $path = $prod->name ;
-                                    if(strstr($path, "/")) {
-                                        $path = str_replace("/", ":::", $path) ;
-                                    }
-                                    $slug_list['prod_name'] = $path ;
-                                @endphp
-                                <tr>
-                                    <td style="text-align:center;">
-                                        {{ $prod->top }}
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        ${{ $prod->price }}
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <div class="dropdown">
-                                            <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-primary">
-                                                @if(Auth::guard('web')->check())
-                                                    <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
-                                                @else
-                                                    <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
-                                                @endif
-                                                <span class="dropdown-item quick-view" data-href="{{ route('product.iquick',['db' => $db, 'id' => $prod->id]) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
-                                                @if($prod->product_type == "affiliate")
-                                                    <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
-                                                @else
-                                                <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
-                                                        <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
-                                                @endif
-                                            </div>
+                        </thead>
+                        <tbody>
+                        @foreach($prods as $key=>$prod)
+                            @php 
+                                $path = $prod->name ;
+                                if(strstr($path, "/")) {
+                                    $path = str_replace("/", ":::", $path) ;
+                                }
+                                $slug_list['prod_name'] = $path ;
+                            @endphp
+                            <tr>
+                                <td style="text-align:center;">
+                                    {{ $prod->top }}
+                                </td>
+                                <td style="text-align:center;">
+                                    <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                                </td>
+                                <td style="text-align:center;">
+                                    <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
+                                </td>
+                                <td style="text-align:center;">
+                                    ${{ $prod->price }}
+                                </td>
+                                <td style="text-align:center;">
+                                    <div class="dropdown">
+                                        <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-primary">
+                                            @if(Auth::guard('web')->check())
+                                                <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                            @else
+                                                <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                            @endif
+                                            <span class="dropdown-item quick-view" data-href="{{ route('product.iquick',['db' => $db, 'id' => $prod->id]) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
+                                            @if($prod->product_type == "affiliate")
+                                                <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                            @else
+                                            <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
+                                                    <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',['db' => $db, 'id' => $prod->id]) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                            @endif
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
