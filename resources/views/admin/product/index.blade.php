@@ -240,7 +240,6 @@
                 {data: 'price', name: 'price'},
                 {data: 'status', searchable: false, orderable: false},
                 {data: 'action', searchable: false, orderable: false}
-
             ],
             language: {
                 processing: '<img src="{{asset('assets/images/'.$gs->admin_loader)}}">'

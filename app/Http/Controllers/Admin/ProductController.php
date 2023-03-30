@@ -35,7 +35,7 @@ class ProductController extends Controller
     //*** JSON Request
     public function datatables()
     {
-        $datas = Product::where('product_type', '=', 'normal')->orderBy('id', 'desc')->get();
+        $datas = Product::orderBy('id', 'desc')->get();
 
         //--- Integrating This Collection Into Datatables
         return Datatables::of($datas)
@@ -287,11 +287,9 @@ class ProductController extends Controller
             }
             //--- Validation Section Ends
 
-            if ($request->file('photo') || $input['strain-feature-photo'])
+            if ($request->file('photo'))
             {      
                 $category_name = "+";
-                $subcategory_name = "+";
-                $childcategory_name = "+";
                 $product_name = $input['name'];
 
                 if($input['category_id']){
@@ -301,24 +299,23 @@ class ProductController extends Controller
                 $name = $category_name."-".$product_name.".png";
                 $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
-                if($input['strain-feature-photo']) {
-                    // Store the path of source file 
-                    $source = public_path().'/'.$input['strain-feature-photo'];  
-                    
-                    // Store the path of destination file 
-                    $destination = public_path().'/assets/images/products/admin/'.$name;
-                    if(!file_exists(public_path().'/assets/images/products/admin'))
-                        mkdir(public_path().'/assets/images/products/admin', 0777, true);
-                    
-                    copy($source, $destination);
-                } else {
-                    $file = $request->file('photo');
-                    $file->move('public/assets/images/products/admin/',$name);
-                }
+                $file = $request->file('photo');
+                $file->move('assets/images/products/admin/',$name);
+
+                $img = Image::make(public_path().'/assets/images/products/admin'.$name)->resize(285, 285);
+            
+                $thumbnail = str_replace('.png', '-tn.png', 'admin/'.$name);
+                $thumbnail_array = explode('/', $thumbnail);
+                $thumbnail = end($thumbnail_array);
+                $thumbnail = "product-vendor-".$thumbnail;
+
+                $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
 
                 $input['photo'] = 'admin/'.$name;
+                $input['thumbnail'] = $thumbnail;
             } else {
                 $input['photo'] = "";
+                $input['thumbnail'] = "";
             }
 
             //--- Validation Section
@@ -330,6 +327,8 @@ class ProductController extends Controller
                 return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
             }
             //--- Validation Section Ends
+
+            $input["slug"] = str_slug($input["name"], '-') . '-' . strtolower($input["sku"]);
 
             // Check Condition
             if ($request->product_condition_check == ""){
@@ -474,64 +473,6 @@ class ProductController extends Controller
             $prod = Product::find($data->id);
             $prod->slug = str_slug($data->name,'-').'-'.strtolower($data->sku);
 
-
-            if($prod->photo) {   
-                if(!$input['strain-feature-photo']){
-                    // Set Photo
-                    $newimg = Image::make(public_path().'/assets/images/products/'.$prod->photo)->resize(800, 800);
-                    $newimg->save(public_path().'/assets/images/products/'.$prod->photo);
-                }
-
-                $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-                $removebg = new RemoveBg($apiKey);
-                
-                $newimg_path = public_path().'/assets/images/products/'.$prod->photo;
-
-                // Set Thumbnail
-                $img = Image::make(public_path().'/assets/images/products/'.$prod->photo)->resize(285, 285);
-                
-                $thumbnail = str_replace('.png', '-tn.png', $prod->photo);
-                $thumbnail_array = explode('/', $thumbnail);
-                $thumbnail = end($thumbnail_array);
-                $thumbnail = "product-admin-".$thumbnail;
-
-                $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
-
-                try {
-                    $removebg->file($newimg_path)
-                        ->headers([
-                            'X-Width' => 600,
-                            'X-Height' => 600,
-                        ])
-                        ->body([
-                            'size' => '4k', // regular, medium, hd, 4k, auto
-                            'channels' => 'rgba', // rgba, alpha
-                        ])
-                        ->save($newimg_path);
-                        
-                    $removebg->file(public_path() . '/assets/images/thumbnails/' . $thumbnail)
-                        ->headers([
-                            'X-Width' => 600,
-                            'X-Height' => 600,
-                        ])
-                        ->body([
-                            'size' => '4k', // regular, medium, hd, 4k, auto
-                            'channels' => 'rgba', // rgba, alpha
-                        ])
-                        ->save(public_path() . '/assets/images/thumbnails/' . $thumbnail);
-                } catch (\Exception $e) {
-                    if(Session::has('error')){
-                        Session::forget('error');
-                    }
-
-                    $message = $e->getMessage();
-                    Session::put('error', $message);
-                }
-
-                $prod->thumbnail  = $thumbnail;
-                $prod->update();
-            }
-
             // Add To Gallery If any
             $lastid = $data->id;
             if ($files = $request->file('gallery')){
@@ -542,48 +483,8 @@ class ProductController extends Controller
                         $name = str_replace(' ', '-', $file->getClientOriginalName());
                         $name = time().$name;
                         $img = Image::make($file->getRealPath())->resize(800, 800);
-                        $thumbnail = time().str_random(8).'.png';
                         $img->save(public_path().'/assets/images/galleries/'.$name);
 
-                        $gallery_path = public_path() . '/assets/images/galleries/'.$name;
-
-                        try {
-                            $removebg->file($gallery_path)
-                                ->headers([
-                                    'X-Width' => 600,
-                                    'X-Height' => 600,
-                                ])
-                                ->body([
-                                    'size' => '4k', // regular, medium, hd, 4k, auto
-                                    'channels' => 'rgba', // rgba, alpha
-                                ])
-                                ->save($gallery_path);
-                        } catch (\Exception $e) {
-                            if(Session::has('error')){
-                                Session::forget('error');
-                            }
-            
-                            $message = $e->getMessage();
-                            Session::put('error', $message);
-                        }
-
-                        $gallery['photo'] = $name;
-                        $gallery['product_id'] = $lastid;
-                        $gallery->save();
-                    }
-                }
-            }
-
-            if($strain_galleries = $request['strain-feature-gallery']) {
-                $strain_galleries_array = explode(',', $strain_galleries);
-                foreach ($strain_galleries_array as $gallery_item) {
-                    if($gallery_item){
-                        $source = public_path().'/'.$gallery_item;  
-                        $name = time().str_random(8).'.png';
-                        // Store the path of destination file 
-                        $destination = public_path().'/assets/images/galleries/'.$name;
-                        copy($source, $destination);
-                        $gallery = new Gallery;
                         $gallery['photo'] = $name;
                         $gallery['product_id'] = $lastid;
                         $gallery->save();
@@ -619,7 +520,6 @@ class ProductController extends Controller
     public function importSubmit(Request $request)
     {
         $log = "";
-        //--- Validation Section
         $rules = [
             'csvfile' => 'required|mimes:csv,txt',
         ];
@@ -636,8 +536,6 @@ class ProductController extends Controller
             $file->move('assets/temp_files', $filename);
         }
 
-        //$filename = $request->file('csvfile')->getClientOriginalName();
-        //return response()->json($filename);
         $datas = "";
 
         $file = fopen(public_path('assets/temp_files/' . $filename), "r");
@@ -648,9 +546,6 @@ class ProductController extends Controller
 
                 if (!Product::where('sku', $line[0])->exists()) {
 
-                    //--- Validation Section Ends
-
-                    //--- Logic Section
                     $data = new Product;
                     $sign = Currency::where('is_default', '=', 1)->first();
 
@@ -686,9 +581,7 @@ class ProductController extends Controller
                         $input['photo'] = $line[5];
                         $input['name'] = $line[4];
                         $input['details'] = $line[6];
-//                $input['category_id'] = $request->category_id;
-//                $input['subcategory_id'] = $request->subcategory_id;
-//                $input['childcategory_id'] = $request->childcategory_id;
+                        $input['category_id'] = $request->category_id;
                         $input['color'] = $line[13];
                         $input['price'] = $line[7];
                         $input['previous_price'] = $line[8];
@@ -788,7 +681,7 @@ class ProductController extends Controller
             'file'       => 'mimes:zip'
         ];
 
-        $validator = Validator::make(  $request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -800,7 +693,6 @@ class ProductController extends Controller
         $sign = Currency::where('is_default','=',1)->first();
 
         $input = $request->all();
-
 
         if($input['effects'] == '<br>') {
             $input['effects'] = NULL;
@@ -817,7 +709,6 @@ class ProductController extends Controller
         if (strpos($input['effects'], '</div>')) {
             $input['effects'] = str_replace("</div>","",$input['effects']);
         }
-    
 
         if ($file = $request->file('photo')) 
         {              
@@ -829,23 +720,13 @@ class ProductController extends Controller
             }   
 
             $category_name = "+";
-            $subcategory_name = "+";
-            $childcategory_name = "+";
             $product_name = $input['name'];
 
             if($input['category_id']){
-                $category_name = Category::findOrFail($input['category_id'])->name;
+                $category_name = CategoryHome::findOrFail($input['category_id'])->name;
             }
 
-            if($input['subcategory_id']){
-                $subcategory_name = Subcategory::findOrFail($input['subcategory_id'])->name;
-            }
-
-            if(isset($input['childcategory_id'])){
-                $childcategory_name = Childcategory::findOrFail($input['childcategory_id'])->name;
-            }
-
-            $name = $category_name."-".$subcategory_name."-".$childcategory_name."-".$product_name.".png";
+            $name = $category_name."-".$product_name.".png";
 
             $name = str_replace(" ", "-", $name);
             $name = str_replace("+-", "", $name);
@@ -854,10 +735,9 @@ class ProductController extends Controller
 
             $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
-            $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-            $removebg = new RemoveBg($apiKey);
+            // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
+            // $removebg = new RemoveBg($apiKey);
             $file->move('assets/images/products/admin/',$name);
-
             $input['photo'] = 'admin/'.$name;
         } 
         //Check Types
@@ -876,95 +756,89 @@ class ProductController extends Controller
         }
 
 
-        // Check Physical
-        if($data->type == "Physical")
+        //--- Validation Section
+        $rules = ['sku' => 'min:8|unique:products,sku,'.$id];
+
+        $validator = Validator::make(  $request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
+        }
+        //--- Validation Section Ends
+
+        // Check Condition
+        if ($request->product_condition_check == ""){
+            $input['product_condition'] = 0;
+        }
+
+        // Check Shipping Time
+        if ($request->shipping_time_check == ""){
+            $input['ship'] = null;
+        }
+
+        // Check Size
+
+        if(empty($request->size_check ))
         {
-
-            //--- Validation Section
-            $rules = ['sku' => 'min:8|unique:products,sku,'.$id];
-
-            $validator = Validator::make(  $request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
-            }
-            //--- Validation Section Ends
-
-            // Check Condition
-            if ($request->product_condition_check == ""){
-                $input['product_condition'] = 0;
-            }
-
-            // Check Shipping Time
-            if ($request->shipping_time_check == ""){
-                $input['ship'] = null;
-            }
-
-            // Check Size
-
-            if(empty($request->size_check ))
+            $input['size'] = null;
+            $input['size_qty'] = null;
+            $input['size_price'] = null;
+        }
+        else{
+            if(in_array(null, $request->size) || in_array(null, $request->size_qty) || in_array(null, $request->size_price))
             {
                 $input['size'] = null;
                 $input['size_qty'] = null;
                 $input['size_price'] = null;
             }
-            else{
-                if(in_array(null, $request->size) || in_array(null, $request->size_qty) || in_array(null, $request->size_price))
-                {
-                    $input['size'] = null;
-                    $input['size_qty'] = null;
-                    $input['size_price'] = null;
-                }
-                else
-                {
-                    $input['size'] = implode(',', $request->size);
-                    $input['size_qty'] = implode(',', $request->size_qty);
-                    $input['size_price'] = implode(',', $request->size_price);
-                }
+            else
+            {
+                $input['size'] = implode(',', $request->size);
+                $input['size_qty'] = implode(',', $request->size_qty);
+                $input['size_price'] = implode(',', $request->size_price);
             }
+        }
 
-                    // Check Whole Sale
-            if(empty($request->whole_check ))
+                // Check Whole Sale
+        if(empty($request->whole_check ))
+        {
+            $input['whole_sell_qty'] = null;
+            $input['whole_sell_discount'] = null;
+        }
+        else{
+            if(in_array(null, $request->whole_sell_qty) || in_array(null, $request->whole_sell_discount))
             {
                 $input['whole_sell_qty'] = null;
                 $input['whole_sell_discount'] = null;
             }
-            else{
-                if(in_array(null, $request->whole_sell_qty) || in_array(null, $request->whole_sell_discount))
-                {
-                    $input['whole_sell_qty'] = null;
-                    $input['whole_sell_discount'] = null;
-                }
-                else
-                {
-                    $input['whole_sell_qty'] = implode(',', $request->whole_sell_qty);
-                    $input['whole_sell_discount'] = implode(',', $request->whole_sell_discount);
-                }
-            }
-
-            // Check Color
-            if(empty($request->color_check ))
+            else
             {
-                $input['color'] = null;
-            }
-            else{
-                if (!empty($request->color))
-                    {
-                    $input['color'] = implode(',', $request->color);
-                    }
-                if (empty($request->color))
-                    {
-                    $input['color'] = null;
-                    }
-            }
-
-                // Check Measure
-            if ($request->measure_check == "")
-            {
-                $input['measure'] = null;
+                $input['whole_sell_qty'] = implode(',', $request->whole_sell_qty);
+                $input['whole_sell_discount'] = implode(',', $request->whole_sell_discount);
             }
         }
 
+        // Check Color
+        if(empty($request->color_check ))
+        {
+            $input['color'] = null;
+        }
+        else{
+            if (!empty($request->color))
+                {
+                $input['color'] = implode(',', $request->color);
+                }
+            if (empty($request->color))
+                {
+                $input['color'] = null;
+                }
+        }
+
+            // Check Measure
+        if ($request->measure_check == "")
+        {
+            $input['measure'] = null;
+        }
 
         // Check Seo
         if (empty($request->seo_check))
@@ -984,30 +858,6 @@ class ProductController extends Controller
             $input['is_verified'] = 0;
         }
 
-        // Check License
-        if($data->type == "License")
-        {
-
-            if(!in_array(null, $request->license) && !in_array(null, $request->license_qty))
-            {
-                $input['license'] = implode(',,', $request->license);
-                $input['license_qty'] = implode(',', $request->license_qty);
-            }
-            else {
-                if(in_array(null, $request->license) || in_array(null, $request->license_qty))
-                {
-                    $input['license'] = null;
-                    $input['license_qty'] = null;
-                }
-                else
-                {
-                    $license = explode(',,', $prod->license);
-                    $license_qty = explode(',', $prod->license_qty);
-                    $input['license'] = implode(',,', $license);
-                    $input['license_qty'] = implode(',', $license_qty);
-                }
-            }
-        }
         // Check Features
         if(!in_array(null, $request->features) && !in_array(null, $request->colors))
         {
@@ -1064,44 +914,6 @@ class ProductController extends Controller
             }
         }
 
-        if (!empty($request->subcategory_id)) {
-            $subAttrs = Attribute::where('attributable_id', $request->subcategory_id)->where('attributable_type', 'App\Models\Subcategory')->get();
-            if (!empty($subAttrs)) {
-                foreach ($subAttrs as $key => $subAttr) {
-                $in_name = $subAttr->input_name;
-                if($request->has("$in_name"."_check"))
-                    if ($request->has("$in_name")) {
-                        $attrArr["$in_name"]["values"] = $request["$in_name"];
-                        $attrArr["$in_name"]["prices"] = $request["$in_name"."_price"];
-
-                        if ($subAttr->details_status) {
-                            $attrArr["$in_name"]["details_status"] = 1;
-                        } else {
-                            $attrArr["$in_name"]["details_status"] = 0;
-                        }
-                    }
-                }
-            }
-        }
-        if (!empty($request->childcategory_id)) {
-            $childAttrs = Attribute::where('attributable_id', $request->childcategory_id)->where('attributable_type', 'App\Models\Childcategory')->get();
-            if (!empty($childAttrs)) {
-            foreach ($childAttrs as $key => $childAttr) {
-                $in_name = $childAttr->input_name;
-                if($request->has("$in_name"."_check"))
-                if ($request->has("$in_name")) {
-                $attrArr["$in_name"]["values"] = $request["$in_name"];
-                $attrArr["$in_name"]["prices"] = $request["$in_name"."_price"];
-                if ($childAttr->details_status) {
-                    $attrArr["$in_name"]["details_status"] = 1;
-                } else {
-                    $attrArr["$in_name"]["details_status"] = 0;
-                }
-                }
-            }
-            }
-        }
-
         if (empty($attrArr)) {
             $input['attributes'] = NULL;
         } else {
@@ -1109,12 +921,7 @@ class ProductController extends Controller
             $input['attributes'] = $jsonAttr;
         }
 
-        if($data->type != 'Physical'){
-            $data->slug = str_slug($data->name,'-').'-'.strtolower(str_random(3).$data->id.str_random(3));
-        }
-        else {
-            $data->slug = str_slug($data->name,'-').'-'.strtolower($data->sku);
-        }
+        $data->slug = str_slug($data->name,'-').'-'.strtolower($data->sku);
 
         if  (!empty($request->effects)) {
             $input['effects'] = strtolower($input['effects']);
@@ -1136,68 +943,61 @@ class ProductController extends Controller
         if ($file = $request->file('photo')) {
             $prod = Product::find($data->id);
 
-            $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-            $removebg = new RemoveBg($apiKey);
+            // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
+            // $removebg = new RemoveBg($apiKey);
 
             $newimg = Image::make(public_path().'/assets/images/products/'.$prod->photo)->resize(800, 800);
             $newimg->save(public_path().'/assets/images/products/'.$prod->photo);
             $newimg_path = public_path().'/assets/images/products/'.$prod->photo;
 
-        
             // Set Thumbnail
             $img = Image::make(public_path().'/assets/images/products/'.$prod->photo)->resize(285, 285);
             
             $thumbnail = str_replace('.png', '-tn.png', $prod->photo);
             $thumbnail_array = explode('/', $thumbnail);
             $thumbnail = end($thumbnail_array);
-            $thumbnail = "product-vendor-".$prod->user_id."-".$thumbnail;
+            $thumbnail = "product-vendor-".$thumbnail;
 
             $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
      
-            $hasTransparency = $this->hasTransparency(imagecreatefrompng($newimg_path));
-
-            if($hasTransparency){
-                $message = 'Product Updated Successfully.<a href="'.route('vendor-prod-index').'">View Product Lists.</a>';
-            }
-            else {
-                try {
-                    $removebg->file($newimg_path)
-                        ->headers([
-                            'X-Width' => 600,
-                            'X-Height' => 600,
-                        ])
-                        ->body([
-                            'size' => '4k', // regular, medium, hd, 4k, auto
-                            'channels' => 'rgba', // rgba, alpha
-                        ])
-                        ->save($newimg_path);
+            //     try {
+            //         $removebg->file($newimg_path)
+            //             ->headers([
+            //                 'X-Width' => 600,
+            //                 'X-Height' => 600,
+            //             ])
+            //             ->body([
+            //                 'size' => '4k', // regular, medium, hd, 4k, auto
+            //                 'channels' => 'rgba', // rgba, alpha
+            //             ])
+            //             ->save($newimg_path);
                 
                 
                 
-                    $removebg->file(public_path() . '/assets/images/thumbnails/' . $thumbnail)
-                        ->headers([
-                            'X-Width' => 600,
-                            'X-Height' => 600,
-                        ])
-                        ->body([
-                            'size' => '4k', // regular, medium, hd, 4k, auto
-                            'channels' => 'rgba', // rgba, alpha
-                        ])
-                        ->save(public_path() . '/assets/images/thumbnails/' . $thumbnail);
+            //         $removebg->file(public_path() . '/assets/images/thumbnails/' . $thumbnail)
+            //             ->headers([
+            //                 'X-Width' => 600,
+            //                 'X-Height' => 600,
+            //             ])
+            //             ->body([
+            //                 'size' => '4k', // regular, medium, hd, 4k, auto
+            //                 'channels' => 'rgba', // rgba, alpha
+            //             ])
+            //             ->save(public_path() . '/assets/images/thumbnails/' . $thumbnail);
         
-                    $message = 'Product Updated Successfully.<a href="'.route('vendor-prod-index').'">View Product Lists.</a>';    
-                } catch (\Exception $e) {
-                    $message = $e->getMessage();
-                }
-            } 
-     
+            //         $message = 'Product Updated Successfully.<a href="'.route('vendor-prod-index').'">View Product Lists.</a>';    
+            //     } catch (\Exception $e) {
+            //         $message = $e->getMessage();
+            //     }
+            
             $prod->thumbnail  = $thumbnail;
             $prod->update();
-        } else {
-            $message = 'Product Updated Successfully.<a href="'.route('vendor-prod-index').'">View Product Lists.</a>';  
         }
-     //--- Redirect Section
-     return response()->json($message);
+
+        
+        $message = 'Product Updated Successfully.';  
+        //--- Redirect Section
+        return response()->json($message);
         //--- Redirect Section Ends
     }
 

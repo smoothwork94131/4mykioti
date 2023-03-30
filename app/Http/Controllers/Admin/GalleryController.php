@@ -35,8 +35,8 @@ class GalleryController extends Controller
         $data = null;
         $lastid = $request->product_id;
 
-        $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-        $removebg = new RemoveBg($apiKey);
+        // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
+        // $removebg = new RemoveBg($apiKey);
 
         if ($files = $request->file('gallery')) {
             foreach ($files as $key => $file) {
@@ -49,16 +49,16 @@ class GalleryController extends Controller
                     $img->save(public_path() . '/assets/images/galleries/' . $thumbnail);
 
                     $gallery_path = public_path() . '/assets/images/galleries/'.$thumbnail;
-                    $removebg->file($gallery_path)
-                    ->headers([
-                        'X-Width' => 600,
-                        'X-Height' => 600,
-                    ])
-                    ->body([
-                        'size' => '4k', // regular, medium, hd, 4k, auto
-                        'channels' => 'rgba', // rgba, alpha
-                    ])
-                    ->save($gallery_path);
+                    // $removebg->file($gallery_path)
+                    // ->headers([
+                    //     'X-Width' => 600,
+                    //     'X-Height' => 600,
+                    // ])
+                    // ->body([
+                    //     'size' => '4k', // regular, medium, hd, 4k, auto
+                    //     'channels' => 'rgba', // rgba, alpha
+                    // ])
+                    // ->save($gallery_path);
 
                     $gallery['photo'] = $thumbnail;
                     $gallery['product_id'] = $lastid;

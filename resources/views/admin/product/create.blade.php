@@ -69,12 +69,6 @@
 
                                 <div class="col-lg-7 prod-name">
                                     <input type="text" class="input-field" placeholder="{{ __('Enter Product Name') }}" name="name" required="">
-                                    {{-- <div class="strain-search d-none">
-
-                                        <input type="text" data-href="{{ route('admin-strain-search') }}" id="strain-search-field" class="input-field" placeholder="{{ __('Enter Product Name') }}" name="name-d" required="">
-                                        <div class="strain-search-list">
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
 
@@ -134,10 +128,9 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="img-upload">
-                                        <div id="image-preview" class="img-preview" style="background: url({{ asset('assets/vendor/images/upload.png') }});">
+                                        <div id="image-preview" class="img-preview" style="background: url({{ asset('assets/admin/images/upload.png') }});">
                                             <label for="image-upload" class="img-label" id="image-label"><i class="icofont-upload-alt"></i>{{ $langg->lang512 }}</label>
                                             <input type="file" name="photo" class="img-upload" id="image-upload">
-                                            <input type="hidden" name="strain-feature-photo" value="">
                                         </div>
                                         <p class="img-alert mt-2 text-danger d-none"></p>
                                         <p class="text">Prefered Size: (800x800) or Square Size.</p>
@@ -146,10 +139,7 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" id="feature_photo" name="photo" value="">
-
                             <input type="file" name="gallery[]" class="hidden" id="uploadgallery" accept="image/*" multiple>
-                            <input type="hidden" name="strain-feature-gallery">
 
                             <div class="row">
                                 <div class="col-lg-4">
@@ -166,12 +156,9 @@
                                 </div>
                             </div>
 
-
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <div class="left-area">
-
-                                    </div>
+                                    <div class="left-area"></div>
                                 </div>
                                 <div class="col-lg-7">
                                     <ul class="list">
@@ -679,91 +666,73 @@
                 <div class="strain-gallery-images">
                     <div class="row">
 
-                        <div>
-                        </div>
-                    </div>
+                    <div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        @endsection
+@endsection
 
-        @section('scripts')
+@section('scripts')
 
-        <script src="{{asset('assets/admin/js/jquery.Jcrop.js')}}"></script>
-        <script src="{{asset('assets/admin/js/jquery.SimpleCropper.js')}}"></script>
+<script src="{{asset('assets/admin/js/jquery.Jcrop.js')}}"></script>
+<script src="{{asset('assets/admin/js/jquery.SimpleCropper.js')}}"></script>
 
-        <script type="text/javascript">
-            // Gallery Section Insert
+<script type="text/javascript">
+    // Gallery Section Insert
 
-            $(document).on('click', '.remove-img', function() {
-                var id = $(this).find('input[type=hidden]').val();
-                $('#galval' + id).remove();
-                $(this).parent().parent().remove();
-            });
+    $(document).on('click', '.remove-img', function() {
+        var id = $(this).find('input[type=hidden]').val();
+        $('#galval' + id).remove();
+        $(this).parent().parent().remove();
+    });
 
-            $(document).on('click', '#prod_gallery', function() {
-                $('#uploadgallery').click();
-                $('.selected-image .row').html('');
-                $('#geniusform').find('.removegal').val(0);
-            });
-
-
-            $("#uploadgallery").change(function() {
-                var total_file = document.getElementById("uploadgallery").files.length;
-                for (var i = 0; i < total_file; i++) {
-                    $('.selected-image .row').append('<div class="col-sm-6">' +
-                        '<div class="img gallery-img">' +
-                        '<span class="remove-img"><i class="fas fa-times"></i>' +
-                        '<input type="hidden" value="' + i + '">' +
-                        '</span>' +
-                        '<a href="' + URL.createObjectURL(event.target.files[i]) + '" target="_blank">' +
-                        '<img src="' + URL.createObjectURL(event.target.files[i]) + '" alt="gallery image">' +
-                        '</a>' +
-                        '</div>' +
-                        '</div> '
-                    );
-                    $('#geniusform').append('<input type="hidden" name="galval[]" id="galval' + i + '" class="removegal" value="' + i + '">')
-                }
-
-            });
-
-            // Gallery Section Insert Ends
-
-        </script>
-
-        <script type="text/javascript">
-            $('.cropme').simpleCropper();
-            $('#crop-image').on('click', function() {
-                $('.cropme').click();
-            });
-
-            $("#catAttributes").on("change", ".checkclick2", function() {
-                if (this.checked) {
-                    $(this).parent().parent().parent().parent().next().removeClass('showbox');
-                } else {
-                    $(this).parent().parent().parent().parent().next().addClass('showbox');
-                }
-            });
-
-            $("#subcatAttributes").on("change", ".checkclick2", function() {
-                if (this.checked) {
-                    $(this).parent().parent().parent().parent().next().removeClass('showbox');
-                } else {
-                    $(this).parent().parent().parent().parent().next().addClass('showbox');
-                }
-            });
-
-            $("#childcatAttributes").on("change", ".checkclick2", function() {
-                if (this.checked) {
-                    $(this).parent().parent().parent().parent().next().removeClass('showbox');
-                } else {
-                    $(this).parent().parent().parent().parent().next().addClass('showbox');
-                }
-            });
-
-        </script>
+    $(document).on('click', '#prod_gallery', function() {
+        $('#uploadgallery').click();
+        $('.selected-image .row').html('');
+        $('#geniusform').find('.removegal').val(0);
+    });
 
 
-        <script src="{{asset('assets/admin/js/product.js')}}"></script>
-        @endsection
+    $("#uploadgallery").change(function() {
+        var total_file = document.getElementById("uploadgallery").files.length;
+        for (var i = 0; i < total_file; i++) {
+            $('.selected-image .row').append('<div class="col-sm-6">' +
+                '<div class="img gallery-img">' +
+                '<span class="remove-img"><i class="fas fa-times"></i>' +
+                '<input type="hidden" value="' + i + '">' +
+                '</span>' +
+                '<a href="' + URL.createObjectURL(event.target.files[i]) + '" target="_blank">' +
+                '<img src="' + URL.createObjectURL(event.target.files[i]) + '" alt="gallery image">' +
+                '</a>' +
+                '</div>' +
+                '</div> '
+            );
+            $('#geniusform').append('<input type="hidden" name="galval[]" id="galval' + i + '" class="removegal" value="' + i + '">')
+        }
+
+    });
+
+    // Gallery Section Insert Ends
+
+</script>
+
+<script type="text/javascript">
+    $('.cropme').simpleCropper();
+    $('#crop-image').on('click', function() {
+        $('.cropme').click();
+    });
+
+    $("#catAttributes").on("change", ".checkclick2", function() {
+        if (this.checked) {
+            $(this).parent().parent().parent().parent().next().removeClass('showbox');
+        } else {
+            $(this).parent().parent().parent().parent().next().addClass('showbox');
+        }
+    });
+</script>
+
+<script src="{{asset('assets/admin/js/product.js')}}"></script>
+@endsection

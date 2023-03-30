@@ -2,8 +2,6 @@
     "use strict";
 
     $(document).ready(function() {
-
-
         // Drop Down Section
 
         $('.dropdown-toggle-1').on('click', function() {
@@ -22,54 +20,11 @@
 
     });
 
-    // Drop Down Section Ends 
-    $("#cat").on('change', function() {
-        updateFeature();
-    });
-
-    $(document).on('change input', '[name=name]', function() {
-        updateFeature();
-    });
-
-    $("#subcat").on('input', function() {
-        updateFeature();
-    });
-
-    $("#childcat").on('input', function() {
-        updateFeature();
-    });
-
-    function updateFeature() {
-
-        var name = $("input[name=name]").val();
-
-        if (name) {
-            var cat = $("#cat option:selected").text();
-            var subcat = $("#subcat option:selected").text();
-            var childcat = $("#childcat option:selected").text();
-            var feature = ""
-            if ($("#cat").val()) {
-                feature = name + " " + cat;
-            }
-
-            if ($("#subcat").val()) {
-                feature = name + " " + subcat;
-            }
-
-            if ($("#childcat").val()) {
-                feature = name + " " + childcat;
-            }
-
-            $("#feature").val(feature);
-        }
-
-
-    }
-
     // Side Bar Area Js
     $('#sidebarCollapse').on('click', function() {
         $('#sidebar').toggleClass('active');
     });
+    
     Waves.init();
     Waves.attach('.wave-effect', ['waves-button']);
     Waves.attach('.wave-effect-float', ['waves-button', 'waves-float']);
