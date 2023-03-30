@@ -193,15 +193,12 @@ class FrontendController extends Controller
                     return $query->orderBy('price', 'ASC');
                 }
             })
-                ->when(empty($sort), function ($query, $sort) {
-                    return $query->orderBy('id', 'DESC');
-                })
-                ->paginate(24);
-
-            // $settings->with('solo_products', $solo_products);
+            ->when(empty($sort), function ($query, $sort) {
+                return $query->orderBy('id', 'DESC');
+            })
+            ->paginate(24);
         }
 
-        
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
