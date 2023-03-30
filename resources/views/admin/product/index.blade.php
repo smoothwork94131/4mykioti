@@ -49,13 +49,9 @@
         </div>
     </div>
 
-
-
     {{-- HIGHLIGHT MODAL --}}
 
     <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2" aria-hidden="true">
-
-
         <div class="modal-dialog highlight" role="document">
             <div class="modal-content">
                 <div class="submit-loader">
@@ -91,7 +87,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
 
                 <!-- Modal body -->
                 <div class="modal-body">
@@ -229,8 +224,6 @@
 
 
 @section('scripts')
-
-
     {{-- DATA TABLE --}}
 
     <script type="text/javascript">
@@ -259,23 +252,18 @@
 
         $(function () {
             $(".btn-area").append('<div class="col-sm-4 table-contents">' +
-                '<a class="add-btn" href="{{route('admin-prod-types')}}">' +
+                '<a class="add-btn" href="{{route('admin-prod-create')}}">' +
                 '<i class="fas fa-plus"></i> <span class="remove-mobile">{{ __("Add New Product") }}<span>' +
                 '</a>' +
                 '</div>');
         });
 
-
-
         {{-- DATA TABLE ENDS--}}
-
 
     </script>
 
 
     <script type="text/javascript">
-
-
         // Gallery Section Update
 
         $(document).on("click", ".set-gallery", function () {
@@ -374,10 +362,5 @@
 
         // Gallery Section Update Ends
 
-
     </script>
-
-
-
-
 @endsection   

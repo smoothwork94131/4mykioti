@@ -7,14 +7,6 @@
             class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='category') active @endif">
             <a href="{{ route('admin-cat-index') }}"><span>{{ __('Category') }}</span></a>
         </li>
-        {{-- <li
-            class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='subcategory') active @endif">
-            <a href="{{ route('admin-subcat-index') }}"><span>{{ __('Sub Category') }}</span></a>
-        </li>
-        <li
-            class="@if(request()->is('admin/attribute/*/manage') && request()->input('type')=='childcategory') active @endif">
-            <a href="{{ route('admin-childcat-index') }}"><span>{{ __('Child Category') }}</span></a>
-        </li> --}}
     </ul>
 </li>
 <li>
@@ -47,39 +39,13 @@
             <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Products') }}</span></a>
         </li>
         <li>
-            <a href="{{ route('admin-prod-deactive') }}"><span>{{ __('Deactivated Product') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-prod-hot') }}"><span>{{ __('Hot Product') }}</span></a>
-        </li>
-        <li>
             <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>
         </li>
         <li>
             <a href="{{ route('admin-prod-import') }}"><span>{{ __('Bulk Product Upload') }}</span></a>
         </li>
-
-
     </ul>
 </li>
-
-
-<!-- <li>
-    <a href="#strain" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-        <i class="icofont-cart"></i>{{ __('Strains') }}
-    </a>
-    <ul class="collapse list-unstyled" id="strain" data-parent="#accordion">
-        <li>
-            <a href="{{ route('admin-strain-create') }}"><span>{{ __('Add Strain') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-strain-index') }}"><span>{{ __('All Strains') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-pendingstrain-index') }}"><span>{{ __('Pending Strains') }}</span></a>
-        </li>
-    </ul>
-</li> -->
 
 <li>
     <a href="#menu3" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
@@ -100,65 +66,6 @@
         </li>
     </ul>
 </li>
-<hr>
-
-<!-- <li>
-    <a href="#vendor" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-        <i class="icofont-ui-user-group"></i>{{ __('Vendors') }}
-    </a>
-    <ul class="collapse list-unstyled" id="vendor" data-parent="#accordion">
-        <li>
-            <a href="{{ route('admin-vendor-index') }}"><span>{{ __('Vendors List') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-vendor-locations') }}"><span>{{ __('Locations') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-vendor-withdraw-index') }}"><span>{{ __('Withdraws') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-vendor-subs') }}"><span>{{ __('Vendor Subscriptions') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-vendor-color') }}"><span>{{ __('Default Background') }}</span></a>
-        </li>
-
-    </ul>
-</li> -->
-
-<!-- <li>
-    <a href="#advertising-menu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-        <i class="fa fa-ad"></i>{{ __('Vendor Advertising') }}
-    </a>
-    <ul class="collapse list-unstyled" id="advertising-menu" data-parent="#accordion">
-        <li>
-            <a href="{{ route('admin-advertising-index') }}"><span>{{ __('Advertising Plans') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-advertising-products', 'current')}}"><span>Current Advertised Products</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-advertising-products', 'future')}}"><span>Future Advertising Orders</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-advertising-products', 'past')}}"><span>Order History</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-campaign-detail') }}"><span>{{ __('Text Campaign Plans') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-campaign') }}"><span>{{ __('Pending Text Campaigns') }}</span></a>
-        </li>
-        <li>
-            <a href="{{ route('admin-campaign-history') }}"><span>{{ __('Text Campaign History') }}</span></a>
-        </li>
-    </ul>
-</li> -->
-
-<!-- <li>
-    <a href="{{ route('admin-subscription-index') }}" class=" wave-effect"><i
-                class="fas fa-dollar-sign"></i>{{ __('Vendor Subscription Plans') }}</a>
-</li> -->
 
 <li>
     <a href="#verification" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">

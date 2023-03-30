@@ -35,9 +35,6 @@
                     <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Products') }}</span></a>
                 </li>
                 <li>
-                    <a href="{{ route('admin-prod-deactive') }}"><span>{{ __('Deactivated Product') }}</span></a>
-                </li>
-                <li>
                     <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>
                 </li>
             </ul>
@@ -155,12 +152,6 @@
                 <li class="@if (request()->is('admin/attribute/*/manage') && request()->input('type') == 'category') active @endif">
                     <a href="{{ route('admin-cat-index') }}"><span>{{ __('Category') }}</span></a>
                 </li>
-                {{-- <li class="@if (request()->is('admin/attribute/*/manage') && request()->input('type') == 'subcategory') active @endif">
-                    <a href="{{ route('admin-subcat-index') }}"><span>{{ __('Sub Category') }}</span></a>
-                </li>
-                <li class="@if (request()->is('admin/attribute/*/manage') && request()->input('type') == 'childcategory') active @endif">
-                    <a href="{{ route('admin-childcat-index') }}"><span>{{ __('Child Category') }}</span></a>
-                </li> --}}
             </ul>
         </li>
     @endif

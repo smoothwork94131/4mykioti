@@ -32,7 +32,6 @@
 
     <link href="{{asset('assets/admin/css/jquery.tagit.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-coloroicker.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-datepicker.css') }}">
     <!-- Main Css -->
 
     <!-- stylesheet -->
@@ -218,7 +217,6 @@
     <script src="{{asset('assets/admin/js/tag-it.js')}}"></script>
     <script src="{{asset('assets/admin/js/nicEdit.js')}}"></script>
     <script src="{{asset('assets/admin/js/bootstrap-colorpicker.min.js') }}"></script>
-    <script src="{{asset('assets/admin/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{asset('assets/admin/js/notify.js') }}"></script>
 
     <script src="{{asset('assets/admin/js/jquery.canvasjs.min.js')}}"></script>

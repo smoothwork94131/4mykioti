@@ -104,23 +104,11 @@ Route::prefix('admin')->group(function () {
 
         Route::post('/products/upload/update/{id}', 'Admin\ProductController@uploadUpdate')->name('admin-prod-upload-update');
 
-        Route::get('/products/deactive/datatables', 'Admin\ProductController@deactivedatatables')->name('admin-prod-deactive-datatables'); //JSON REQUEST
-        Route::get('/products/deactive', 'Admin\ProductController@deactive')->name('admin-prod-deactive');
-
-
         Route::get('/products/catalogs/datatables', 'Admin\ProductController@catalogdatatables')->name('admin-prod-catalog-datatables'); //JSON REQUEST
         Route::get('/products/catalogs/', 'Admin\ProductController@catalogs')->name('admin-prod-catalog-index');
 
-        Route::get('/products/hot/', 'Admin\ProductController@hot')->name('admin-prod-hot');
-        Route::get('/products/hot_datatables', 'Admin\ProductController@hot_datatables')->name('admin-prod-hot-datatables'); //JSON REQUEST
-        Route::get('/products/hot/add/{id}', 'Admin\ProductController@hot_add')->name('admin-prod-hot-add');
-        Route::get('/products/hot/remove/{id}', 'Admin\ProductController@hot_remove')->name('admin-prod-hot-remove');
-
         // CREATE SECTION
-        Route::get('/products/types', 'Admin\ProductController@types')->name('admin-prod-types');
-        Route::get('/products/physical/create', 'Admin\ProductController@createPhysical')->name('admin-prod-physical-create');
-        Route::get('/products/digital/create', 'Admin\ProductController@createDigital')->name('admin-prod-digital-create');
-        Route::get('/products/license/create', 'Admin\ProductController@createLicense')->name('admin-prod-license-create');
+        Route::get('/products/create', 'Admin\ProductController@create')->name('admin-prod-create');
         Route::post('/products/store', 'Admin\ProductController@store')->name('admin-prod-store');
         Route::get('/getattributes', 'Admin\ProductController@getAttributes')->name('admin-prod-getattributes');
         // CREATE SECTION
@@ -133,7 +121,6 @@ Route::prefix('admin')->group(function () {
         // DELETE SECTION
         Route::get('/products/delete/{id}', 'Admin\ProductController@destroy')->name('admin-prod-delete');
         // DELETE SECTION ENDS
-
 
         Route::get('/products/catalog/{id1}/{id2}', 'Admin\ProductController@catalog')->name('admin-prod-catalog');
         //------------ ADMIN PRODUCT SECTION ENDS------------
@@ -278,21 +265,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/subscription/edit/{id}', 'Admin\SubscriptionController@update')->name('admin-subscription-update');
         Route::get('/subscription/delete/{id}', 'Admin\SubscriptionController@destroy')->name('admin-subscription-delete');
 
-
-        Route::get('/advertising/datatables', 'Admin\AdvertisingController@datatables')->name('admin-advertising-datatables');
-        Route::get('/advertising', 'Admin\AdvertisingController@index')->name('admin-advertising-index');
-        Route::get('/advertising/create', 'Admin\AdvertisingController@create')->name('admin-advertising-create');
-        Route::post('/advertising/create', 'Admin\AdvertisingController@store')->name('admin-advertising-store');
-        Route::get('/advertising/edit/{id}', 'Admin\AdvertisingController@edit')->name('admin-advertising-edit');
-        Route::post('/advertising/edit/{id}', 'Admin\AdvertisingController@update')->name('admin-advertising-update');
-        Route::get('/advertising/delete/{id}', 'Admin\AdvertisingController@destroy')->name('admin-advertising-delete');
-        
-        Route::get('/advertising/product-current-datatables', 'Admin\AdvertisingController@product_current_datatables')->name('admin-ad-current-product-datatables');
-        Route::get('/advertising/product-future-datatables', 'Admin\AdvertisingController@product_future_datatables')->name('admin-ad-future-product-datatables');
-        Route::get('/advertising/product-past-datatables', 'Admin\AdvertisingController@product_past_datatables')->name('admin-ad-past-product-datatables');
-
-        Route::get('/advertising/products/{status}', 'Admin\AdvertisingController@products')->name('admin-advertising-products');
-
         ////////////////
         Route::get('/text_campaign/detail', 'Admin\CampaignController@text_campaign_detail')->name('admin-campaign-detail');
         Route::get('/text_campaign/detail_datatables', 'Admin\CampaignController@campaign_detail_datatables')->name('admin-campaign-detail-datatables'); //JSON REQUEST
@@ -388,36 +360,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/attribute/{id}/options', 'Admin\AttributeController@options')->name('admin-attr-options');
         Route::get('/attribute/delete/{id}', 'Admin\AttributeController@destroy')->name('admin-attr-delete');
 
-
-        // SUBCATEGORY SECTION ------------
-
-        Route::get('/subcategory/datatables', 'Admin\SubCategoryController@datatables')->name('admin-subcat-datatables'); //JSON REQUEST
-        Route::get('/subcategory', 'Admin\SubCategoryController@index')->name('admin-subcat-index');
-        Route::get('/subcategory/create', 'Admin\SubCategoryController@create')->name('admin-subcat-create');
-        Route::post('/subcategory/create', 'Admin\SubCategoryController@store')->name('admin-subcat-store');
-        Route::get('/subcategory/edit/{id}', 'Admin\SubCategoryController@edit')->name('admin-subcat-edit');
-        Route::post('/subcategory/edit/{id}', 'Admin\SubCategoryController@update')->name('admin-subcat-update');
-        Route::get('/subcategory/delete/{id}', 'Admin\SubCategoryController@destroy')->name('admin-subcat-delete');
-        Route::get('/subcategory/status/{id1}/{id2}', 'Admin\SubCategoryController@status')->name('admin-subcat-status');
-        Route::get('/subcategory/cod/{id1}/{id2}', 'Admin\SubCategoryController@cod')->name('admin-subcat-cod');
-        Route::get('/load/subcategories/{id}/', 'Admin\SubCategoryController@load')->name('admin-subcat-load'); //JSON REQUEST
-
-        // SUBCATEGORY SECTION ENDS------------
-
-        // CHILDCATEGORY SECTION ------------
-
-        Route::get('/childcategory/datatables', 'Admin\ChildCategoryController@datatables')->name('admin-childcat-datatables'); //JSON REQUEST
-        Route::get('/childcategory', 'Admin\ChildCategoryController@index')->name('admin-childcat-index');
-        Route::get('/childcategory/create', 'Admin\ChildCategoryController@create')->name('admin-childcat-create');
-        Route::post('/childcategory/create', 'Admin\ChildCategoryController@store')->name('admin-childcat-store');
-        Route::get('/childcategory/edit/{id}', 'Admin\ChildCategoryController@edit')->name('admin-childcat-edit');
-        Route::post('/childcategory/edit/{id}', 'Admin\ChildCategoryController@update')->name('admin-childcat-update');
-        Route::get('/childcategory/delete/{id}', 'Admin\ChildCategoryController@destroy')->name('admin-childcat-delete');
-        Route::get('/childcategory/status/{id1}/{id2}', 'Admin\ChildCategoryController@status')->name('admin-childcat-status');
-        Route::get('/childcategory/cod/{id1}/{id2}', 'Admin\ChildCategoryController@cod')->name('admin-childcat-cod');
-        Route::get('/load/childcategories/{id}/', 'Admin\ChildCategoryController@load')->name('admin-childcat-load'); //JSON REQUEST
-
-        // CHILDCATEGORY SECTION ENDS------------
     });
 
     //------------ ADMIN CATEGORY SECTION ENDS------------
@@ -1171,30 +1113,7 @@ Route::group(['middleware' => 'maintenance'], function () {
             Route::get('/locations/create', 'Vendor\LocationController@create')->name('vendor-location-create');
             Route::get('/return_policy/create', 'Vendor\PolicyController@create')->name('vendor-return-policy-create');
 
-            //------------ VENDOR SUBCATEGORY SECTION ------------
-            Route::get('/subcategory/datatables', 'Vendor\SubCategoryController@datatables')->name('vendor-subcat-datatables'); //JSON REQUEST
-            Route::get('/subcategory', 'Vendor\SubCategoryController@index')->name('vendor-subcategory-index');
-            Route::get('/subcategory/create', 'Vendor\SubCategoryController@create')->name('vendor-subcat-create');
-            Route::post('/subcategory/create', 'Vendor\SubCategoryController@store')->name('vendor-subcat-store');
-            Route::get('/subcategory/edit/{id}', 'Vendor\SubCategoryController@edit')->name('vendor-subcat-edit');
-            Route::post('/subcategory/edit/{id}', 'Vendor\SubCategoryController@update')->name('vendor-subcat-update');
-            Route::get('/subcategory/delete/{id}', 'Vendor\SubCategoryController@destroy')->name('vendor-subcat-delete');
-            Route::get('/subcategory/status/{id1}/{id2}', 'Vendor\SubCategoryController@status')->name('vendor-subcat-status');
-            Route::get('/load/subcategories/{id}/', 'Vendor\VendorController@subcatload')->name('vendor-subcat-load'); //JSON REQUEST
-
             //------------ VENDOR SUBCATEGORY SECTION ENDS------------
-            
-            //------------ VENDOR CHILDCATEGORY SECTION ------------
-
-            Route::get('/childcategory/datatables', 'Vendor\ChildCategoryController@datatables')->name('vendor-childcat-datatables'); //JSON REQUEST
-            Route::get('/childcategory', 'Vendor\ChildCategoryController@index')->name('vendor-childcat-index');
-            Route::post('/childcategory/create', 'Vendor\ChildCategoryController@store')->name('vendor-childcat-store');
-            Route::get('/childcategory/create', 'Vendor\ChildCategoryController@create')->name('vendor-childcat-create');
-            Route::get('/childcategory/edit/{id}', 'Vendor\ChildCategoryController@edit')->name('vendor-childcat-edit');
-            Route::post('/childcategory/edit/{id}', 'Vendor\ChildCategoryController@update')->name('vendor-childcat-update');
-            Route::get('/childcategory/delete/{id}', 'Vendor\ChildCategoryController@destroy')->name('vendor-childcat-delete');
-            Route::get('/childcategory/status/{id1}/{id2}', 'Vendor\ChildCategoryController@status')->name('vendor-childcat-status');
-            Route::get('/load/childcategories/{id}/', 'Vendor\VendorController@childcatload')->name('vendor-childcat-load'); //JSON REQUEST
 
             //------------ VENDOR CHILDCATEGORY SECTION ENDS------------
             Route::post('/locations/create', 'Vendor\LocationController@store')->name('vendor-location-store');
@@ -1373,24 +1292,6 @@ Route::group(['middleware' => 'maintenance'], function () {
                 Route::get('/service/edit/{id}', 'Vendor\ServiceController@edit')->name('vendor-service-edit');
                 Route::post('/service/edit/{id}', 'Vendor\ServiceController@update')->name('vendor-service-update');
                 Route::get('/service/delete/{id}', 'Vendor\ServiceController@destroy')->name('vendor-service-delete');
-
-
-                // VENDOR ADVERTISING SECTION START
-                
-                Route::get('/advertising/datatables', 'Vendor\AdvertisingController@datatables')->name('vendor-advertising-datatables');
-                Route::get('/advertising/product-datatables/{id}', 'Vendor\AdvertisingController@product_datatables')->name('vendor-advertising-product-datatables');
-                Route::get('/advertising/product-current-datatables', 'Vendor\AdvertisingController@product_current_datatables')->name('vendor-ad-current-product-datatables');
-                Route::get('/advertising/product-future-datatables', 'Vendor\AdvertisingController@product_future_datatables')->name('vendor-ad-future-product-datatables');
-                Route::get('/advertising/product-past-datatables', 'Vendor\AdvertisingController@product_past_datatables')->name('vendor-ad-past-product-datatables');
-
-                Route::get('/advertising', 'Vendor\AdvertisingController@index')->name('vendor-advertising-index');
-        
-                Route::get('/advertising/purchase/{id}', 'Vendor\AdvertisingController@purchase')->name('vendor-advertising-purchase');
-                Route::get('/advertising/products/{status}', 'Vendor\AdvertisingController@products')->name('vendor-advertising-products');
-
-                Route::post('/advertising/purchase', 'Vendor\AdvertisingController@store')->name('vendor-advertising-store');
-
-                // VENDOR ADVERTISING SECTION END
 
                 // VENDOR Campaign SECTION START
 

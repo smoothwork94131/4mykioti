@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Front;
 
 use App\Classes\GeniusMailer;
 use App\Http\Controllers\Controller;
-use App\Models\AdvertisingPlan;
-use App\Models\AdvertisingProduct;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\ColorSetting;

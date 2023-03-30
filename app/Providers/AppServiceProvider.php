@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Models\Category;
-use App\Models\EcCategory;
 use App\Models\Product;
 use Carbon\Carbon;
 use Session;

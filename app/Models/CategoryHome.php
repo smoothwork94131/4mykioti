@@ -20,11 +20,6 @@ class CategoryHome extends Model
         return $this->hasMany('App\Models\Product');
     }
 
-    public function adplans()
-    {
-        return $this->hasOne('App\Models\AdvertisingPlan');
-    }
-
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = str_replace(' ', '-', $value);
