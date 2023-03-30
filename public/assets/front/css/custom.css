@@ -1332,7 +1332,7 @@ a.sell-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px black solid;
+    border: 1px solid rgba(17, 17, 17, 0.2);
     width: 200%;
     background-color: white;
     overflow: auto;
@@ -1344,13 +1344,18 @@ a.sell-btn {
 .fix-height-85-50 {
     width: 50%;
 }
+
 .parts-table {
     width: 100%;
-    border-right: 1px black solid;
-    border-top: 1px black solid;
-    border-bottom: 1px black solid;
+    border-right: 1px solid rgba(17, 17, 17, 0.2);
+    border-top: 1px solid rgba(17, 17, 17, 0.2);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.2);
     max-height: 800px;
     overflow: auto;
+}
+
+.parts-table .product_table thead th, .parts-table .product_table  tbody td {
+    border-bottom: 1px solid rgba(17, 17, 17, 0.2) !important;
 }
 
 .m-block {

@@ -119,7 +119,7 @@
                         @endif
                     </div>
                     <div class="parts-table">
-                        <p style="text-align: center; margin-bottom: 0px;">
+                        <p style="text-align: center; margin-bottom: 0px; font-size: 12px;">
                             Parts not listed are not available at this time
                         </p>
                         <table id="product_table" class="table product_table" cellspacing="0" width="100%">
@@ -186,7 +186,7 @@
                     <div style='margin-bottom: 15px; text-align: center;'>
                         <button type="button" class="btn btn-primary" style="background: #F05223; border: 1px solid #F05223" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
                     </div>
-                    <p style="text-align: center; margin-bottom: 0px;">
+                    <p style="text-align: center; margin-bottom: 0px; font-size: 12px;">
                         Parts not listed are not available at this time
                     </p>
                     <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="font-size: 12px;">
