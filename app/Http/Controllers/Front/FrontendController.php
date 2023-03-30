@@ -136,13 +136,12 @@ class FrontendController extends Controller
             }
 
         }
-        $selectable = ['id', 'user_id', 'name', 'slug', 'features', 'colors', 'thumbnail', 'price', 'previous_price', 'attributes', 'size', 'size_price', 'discount_date'];
+        $selectable = ['id', 'name', 'slug', 'features', 'colors', 'thumbnail', 'price', 'previous_price', 'attributes', 'size', 'size_price', 'discount_date'];
         $sliders = DB::table('sliders')->get();
         $top_small_banners = DB::table('banners')->where('type', '=', 'TopSmall')->get();
         $ps = DB::table('pagesettings')->find(1);
 
-        $genetics_products = Product::where('featured', '=', 1)
-            ->where('status', '=', 1);
+        $genetics_products = Product::where('featured', '=', 1)->where('status', '=', 1);
 
         if (!Auth::guard('web')->check()) {
             $genetics_products = $genetics_products->where('is_verified', 0);
