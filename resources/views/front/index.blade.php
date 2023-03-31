@@ -88,86 +88,33 @@
 
     {{-- Slider buttom Category Start --}}
     @if($gs->solo_mode != 1)
-    <section class="trending slider-buttom-category grid-display">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 remove-padding">
-                    <div class="section-top">
-                        <h2 class="section-title">
-                            <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                            <span class="sub">products</span> 
-                            <span class="main">{{ $langg->lang14 }}</span> 
-                            <span class="title-underline"></span>
-                        </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 remove-padding">
-                    <div class="trending-item-slider">
-                        @foreach($home_categories as $cat)
-                        <div class="sc-common-padding">
-                            <a href="{{ route('front.category',$cat->slug) }}" class="single-category">
-                                <div class="left">
-                                    <h5 class="title">
-                                        {{ $cat->name }}
-                                    </h5>
-                                    <p class="count">
-                                        {{ count($cat->products) }} {{ $langg->lang4 }}
-                                    </p>
-                                </div>
-                                <div class="right">
-                                    <img src="{{asset('assets/images/categories/'.$cat->image) }}" class="category-img" alt="">
-                                </div>
-                            </a>
+        @foreach($products as $product)
+        <section class="trending slider-buttom-category grid-display">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 remove-padding">
+                        <div class="section-top">
+                            <h2 class="section-title">
+                                <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
+                                <span class="sub">{{ $product["category_name"] }}</span> 
+                                <span class="main">{{ $langg->lang14 }}</span> 
+                                <span class="title-underline"></span>
+                            </h2>
                         </div>
-                        @endforeach
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="trending slider-buttom-category list-display d-none">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 remove-padding">
-                    <div class="section-top">
-                        <h2 class="section-title">
-                            <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                            <span class="sub">products</span> 
-                            <span class="main">{{ $langg->lang14 }}</span> 
-                            <span class="title-underline"></span>
-                        </h2>
-                        {{-- <a href="#" class="link">View All</a> --}}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 remove-padding">
-                    <div class="trending-item-slider">
-                        @foreach($home_categories as $cat)
-                        <div class="sc-common-padding">
-                            <a href="{{ route('front.category',$cat->slug) }}" class="single-category">
-                                <div class="left">
-                                    <h5 class="title">
-                                        {{ $cat->name }}
-                                    </h5>
-                                    <p class="count">
-                                        {{-- {{ count($cat->products) }} {{ $langg->lang4 }} --}}
-                                    </p>
-                                </div>
-                                <div class="right">
-                                    <img src="{{asset('assets/images/categories/'.$cat->image) }}" class="category-img" alt="">
-                                </div>
-                            </a>
+                <div class="row">
+                    <div class="col-lg-12 remove-padding">
+                        <div class="trending-item-slider">
+                            @foreach($product['products'] as $prod)
+                            @include('includes.product.slider-product', ['prod' => $prod])
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        @endforeach
     @else
     <section class="sub-categori grid-display">
         <div class="container">
@@ -179,40 +126,10 @@
                     <div class="right-area" id="app">
                         <div class="categori-item-area">
                             <div class="row" id="ajaxContent">
-                                @include('includes.product.solo-products')
+                                @include('includes.product.solo-products', ['solo_products' => $products])
                             </div>
                             <div id="ajaxLoader" class="ajax-loader" style="background: url({{asset('assets/images/'.$gs->loader)}}) no-repeat scroll center center rgba(0,0,0,.6);"></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="sub-categori list-display d-none">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 order-first order-lg-last ajax-loader-parent">
-                    <div class="section-top">
-                        <h2 class="section-title">
-                            <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                            <span class="sub">Category</span> 
-                            <span class="main">{{ $solo_category_info->name }}</span> 
-                            <span class="title-underline"></span>
-                        </h2>
-                    </div>
-
-                    <div class="table-responsiv">
-                        <table id="geniustable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
-                                <th>{{ __("Name") }}</th>
-                                <th>{{ __("Stock") }}</th>
-                                <th>{{ __("Price") }}</th>
-                                <th>{{ __("Actions") }}</th>
-                            </tr>
-                            </thead>
-                        </table>
                     </div>
                 </div>
             </div>

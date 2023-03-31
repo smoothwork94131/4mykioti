@@ -6,7 +6,6 @@
             $color = $colors[$key % 4]
             @endphp
 
-
             <div class="col-lg-3 col-md-6 col-12">
                 <a href="{{ route('front.product', $solo_prod->slug) }}" class="item {{$color}}">
                     <div class="item-img">

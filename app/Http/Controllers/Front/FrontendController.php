@@ -11,6 +11,7 @@ use App\Models\Counter;
 use App\Models\Generalsetting;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\CategoryHome;
 use App\Models\Subscriber;
 use App\Models\User;
 use Auth;
@@ -132,57 +133,32 @@ class FrontendController extends Controller
                     Session::put('affilate', $affilate_user->id);
                     return redirect()->route('front.index');
                 }
-
             }
-
         }
-        $selectable = ['id', 'name', 'slug', 'features', 'colors', 'thumbnail', 'price', 'previous_price', 'attributes', 'size', 'size_price', 'discount_date'];
+        
+        
         $sliders = DB::table('sliders')->get();
         $top_small_banners = DB::table('banners')->where('type', '=', 'TopSmall')->get();
         $ps = DB::table('pagesettings')->find(1);
 
-        $genetics_products = Product::where('featured', '=', 1)->where('status', '=', 1);
+        $products = Product::where('status', '=', 1);
 
-        if (!Auth::guard('web')->check()) {
-            $genetics_products = $genetics_products->where('is_verified', 0);
-        } else {
-            if (!Auth::user()->is_verified) {
-                $genetics_products = $genetics_products->where('is_verified', 0);
-            }
-        }
-
-        $genetics_products = $genetics_products
-            ->select($selectable)
-            ->orderBy('id', 'desc')
-            ->take(8)
-            ->get();
-
-        // $main_slider_products = Product::where('status', '=', 1);
-
-        // if(!Auth::guard('web')->check()) {
-        //     $main_slider_products = $main_slider_products->where('is_verified', 0);
+        // if (!Auth::guard('web')->check()) {
+        //     $products = $products->where('is_verified', 0);
         // } else {
-        //     if(!Auth::user()->is_verified) {
-        //         $main_slider_products = $main_slider_products->where('is_verified', 0);
+        //     if (!Auth::user()->is_verified) {
+        //         $products = $products->where('is_verified', 0);
         //     }
         // }
-
-        // $main_slider_products = $main_slider_products
-        //     ->select($selectable)
-        //     ->orderBy('id', 'desc')
-        //     ->take(9)
-        //     ->get();
 
         $gs = Generalsetting::findOrFail(1);
 
         $solo_mode = $gs->solo_mode;
-        $solo_category = $gs->solo_category;
-
-        $solo_products = array();
-
+        
         if ($solo_mode == 1) {
             $sort = $request->sort;
-            $solo_products = Product::when($sort, function ($query, $sort) {
+            $products = $products->select('*');
+            $products = $products->when($sort, function ($query, $sort) {
                 if ($sort == 'date_desc') {
                     return $query->orderBy('id', 'DESC');
                 } elseif ($sort == 'date_asc') {
@@ -198,11 +174,37 @@ class FrontendController extends Controller
             })
             ->paginate(24);
         }
+        else {
+            $home_categories = CategoryHome::where('status', '=', 1)->orderBy('id', 'asc')->get();
+
+            $results = array();
+            foreach($home_categories as $category) {
+                $category_id = $category->id;
+                $category_name = $category->name;
+
+                $products = Product::where('status', '=', 1)
+                    ->where('category_id', $category_id)
+                    ->orderBy('id', 'desc')
+                    ->take(9)
+                    ->get();
+
+                $product_item = array(
+                    'category_id' => $category_id,
+                    'category_name' => $category_name,
+                    'products' => $products
+                );
+
+                $result[] = $product_item;
+            }
+
+
+            $products = $result;
+        }
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
-        return view('front.index', compact('ps', 'sliders', 'solo_products', 'top_small_banners', 'genetics_products', 'colorsetting_style1', 'colorsetting_style2'));
+        return view('front.index', compact('ps', 'sliders', 'products', 'top_small_banners', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
     public function extraIndex()

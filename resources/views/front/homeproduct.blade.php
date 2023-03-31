@@ -45,8 +45,6 @@
     </div>
 </div>
 
-
-
 <!-- Product Details Area Start -->
 <section class="product-details-page">
     <div class="container">
@@ -246,20 +244,26 @@
                                         <div class="product-attributes my-4">
                                             <div class="row">
                                                 @foreach ($attrArr as $attrKey => $attrVal)
-                                                @if (array_key_exists('details_status', $attrVal) && $attrVal['details_status'] == 1)
+                                                @if (array_key_exists('details_status', $attrVal) &&
+                                                $attrVal['details_status'] == 1)
                                                 <div class="col-lg-6">
                                                     <div class="form-group mb-2">
-                                                        <strong for="" class="text-capitalize">{{ str_replace('_', ' ', $attrKey) }}
+                                                        <strong for="" class="text-capitalize">{{ str_replace('_', ' ',
+                                                            $attrKey) }}
                                                             :</strong>
                                                         <div class="">
                                                             @foreach ($attrVal['values'] as $optionKey => $optionVal)
                                                             <div class="custom-control custom-radio">
                                                                 <input type="hidden" class="keys" value="">
                                                                 <input type="hidden" class="values" value="">
-                                                                <input type="radio" id="{{ $attrKey }}{{ $optionKey }}" name="{{ $attrKey }}" class="custom-control-input product-attr" data-key="{{ $attrKey }}" data-price="{{ round($attrVal['prices'][$optionKey] * $curr->value, 2) }}" value="{{ $optionVal }}" {{ $loop->first ? 'checked' : '' }}>
-                                                                <label class="custom-control-label" for="{{ $attrKey }}{{ $optionKey }}">{{ $optionVal }}
+                                                                <input type="radio" id="{{ $attrKey }}{{ $optionKey }}" name="{{ $attrKey }}" class="custom-control-input product-attr" data-key="{{ $attrKey }}" data-price="{{ round($attrVal['prices'][$optionKey] * $curr->value, 2) }}" value="{{ $optionVal }}" {{ $loop->first ? 'checked'
+                                                                : '' }}>
+                                                                <label class="custom-control-label" for="{{ $attrKey }}{{ $optionKey }}">{{ $optionVal
+                                                                    }}
                                                                     : {{ $curr->sign }}
-                                                                    {{ number_format($productt->showRealPrice() + $attrVal['prices'][$optionKey] * $curr->value, '2', '.', '') }}
+                                                                    {{ number_format($productt->showRealPrice() +
+                                                                    $attrVal['prices'][$optionKey] * $curr->value, '2',
+                                                                    '.', '') }}
                                                                 </label>
                                                             </div>
                                                             @endforeach
@@ -279,7 +283,8 @@
                                         </li>
                                         @else
                                         <li class="addtocart">
-                                            <a href="javascript:;" id="addcrt"><i class="icofont-cart"></i>{{ $langg->lang90 }}</a>
+                                            <a href="javascript:;" id="addcrt"><i class="icofont-cart"></i>{{
+                                                $langg->lang90 }}</a>
                                         </li>
 
                                         <li class="addtocart">
@@ -321,8 +326,6 @@
 
                                 {{-- PRODUCT REPORT SECTION ENDS --}}
                                 @endif
-
-
                             </div>
                         </div>
                     </div>
@@ -352,7 +355,8 @@
                                             {{ $langg->lang96 }}
                                         </h4>
                                         <div class="reating-area">
-                                            <div class="stars"><span id="star-rating">{{ App\Models\Rating::rating($productt->id) }}</span>
+                                            <div class="stars"><span id="star-rating">{{
+                                                    App\Models\Rating::rating($productt->id) }}</span>
                                                 <i class="fas fa-star"></i>
                                             </div>
                                         </div>
@@ -411,7 +415,8 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <button class="submit-btn" type="submit">{{ $langg->lang100 }}</button>
+                                                        <button class="submit-btn" type="submit">{{ $langg->lang100
+                                                            }}</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -420,7 +425,8 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <br>
-                                                <h5 class="text-center"><a href="javascript:;" data-toggle="modal" data-target="#comment-log-reg" class="btn login-btn mr-1">{{ $langg->lang101 }}</a>
+                                                <h5 class="text-center"><a href="javascript:;" data-toggle="modal" data-target="#comment-log-reg" class="btn login-btn mr-1">{{
+                                                        $langg->lang101 }}</a>
                                                     {{ $langg->lang102 }}
                                                 </h5>
                                                 <br>
@@ -457,60 +463,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-
-            </div>
-        </div>
-    </div>
-    <!-- Trending Item Area Start -->
-    <div class="trending">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-top">
-                        <h2 class="section-title">
-                            {{ $langg->lang216 }}
-                        </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    {{-- <div class="trending-item-slider">
-                        @foreach ($also_fits as $key => $item)
-                        <div class="also-fit-item">
-                            <div class="also-fit-item-series">{{ $item->table }}</div>
-                <div class="also-fit-item-model">{{ $item->subcategory_id }}</div>
-            </div>
-            @endforeach
-        </div> --}}
-        <div class="also-fit-container">
-            <table class="table" style="text-align: center;">
-                <thead>
-                    <tr>
-                        <th width="50%">Series</th>
-                        <th width="50%">Model</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($also_fits as $key => $item)
-                    <tr>
-                        <td style="font-size: 16px; text-transform: uppercase;">{{ $key }}
-        </div>
-        <td style="font-size: 16px; text-transform: uppercase;">
-            @foreach ($item as $sub_item)
-            <div style="margin-bottom: 5px;">{{ $sub_item }}</div>
-            @endforeach
-    </div>
-    </tr>
-    @endforeach
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-    </div>
     </div>
     <!-- Tranding Item Area End -->
 </section>
@@ -543,7 +495,8 @@
                                             </li>
                                             <input type="hidden" name="type" value="Ticket">
                                         </ul>
-                                        <button class="submit-btn" id="emlsub" type="submit">{{ $langg->lang118 }}</button>
+                                        <button class="submit-btn" id="emlsub" type="submit">{{ $langg->lang118
+                                            }}</button>
                                     </form>
                                 </div>
                             </div>
@@ -598,7 +551,8 @@
                                             <input type="hidden" name="vendor_id" value="{{ $productt->user_id }}">
 
                                         </ul>
-                                        <button class="submit-btn" id="emlsub1" type="submit">{{ $langg->lang118 }}</button>
+                                        <button class="submit-btn" id="emlsub1" type="submit">{{ $langg->lang118
+                                            }}</button>
                                     </form>
                                 </div>
                             </div>
