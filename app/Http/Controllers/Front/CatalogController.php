@@ -117,14 +117,14 @@ class CatalogController extends Controller
                 $data = [
                     'to' => 'usamtg@hotmail.com',
                     'subject' => "No group image!!",
-                    'body' => "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.",
+                    'body' => "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.",
                 ];
                 $mailer = new GeniusMailer();
                 $mailer->sendCustomMail($data);
             } else {
                 $to = 'usamtg@hotmail.com';
                 $subject = "No group image!!!!";
-                $msg = "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.";
+                $msg = "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.";
                 $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
                 mail($to, $subject, $msg, $headers);
             }
