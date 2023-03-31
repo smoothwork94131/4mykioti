@@ -118,7 +118,7 @@
                             @if(file_exists(public_path('assets/images/group/'.$group->group_Id.'.png')))
                             <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
                             @else
-                            <img src="{{asset('assets/images/noimage.png')}}">
+                            <img src="{{asset('assets/images/noimage.png')}}" style="min-width: 100px;">
                             @endif
                         @endif
                     </div>
