@@ -9,9 +9,7 @@
 
 
         if (w > 575) {
-            $('.xzoom5, .xzoom-gallery5').xzoom({tint: '#006699', Xoffset: 15});
-
-
+            // $('.xzoom5, .xzoom-gallery5').xzoom({tint: '#006699', Xoffset: 15});
             //Integration with hammer.js
             var isTouchSupported = 'ontouchstart' in window;
 

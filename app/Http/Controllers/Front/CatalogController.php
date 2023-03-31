@@ -117,14 +117,14 @@ class CatalogController extends Controller
                 $data = [
                     'to' => 'usamtg@hotmail.com',
                     'subject' => "No group image!!",
-                    'body' => "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.",
+                    'body' => "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.",
                 ];
                 $mailer = new GeniusMailer();
                 $mailer->sendCustomMail($data);
             } else {
                 $to = 'usamtg@hotmail.com';
                 $subject = "No group image!!!!";
-                $msg = "Hello Admin!<br> There is group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to the dashboard to check. <br>Thank you.";
+                $msg = "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.";
                 $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
                 mail($to, $subject, $msg, $headers);
             }
@@ -169,7 +169,6 @@ class CatalogController extends Controller
 
     public function report(Request $request)
     {
-
         //--- Validation Section
         $rules = [
             'note' => 'max:400',
@@ -193,7 +192,6 @@ class CatalogController extends Controller
         $msg = 'New Data Added Successfully.';
         return response()->json($msg);
         //--- Redirect Section Ends
-
     }
 
     public function sub_category(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
@@ -262,9 +260,9 @@ class CatalogController extends Controller
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
     
     }
+
     public function product(Request $request, $slug)
     {   
-        
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
         $productt->views += 1;
@@ -276,12 +274,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-     
-        if ($productt->user_id != 0) {
-            $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
-        } else {
-            $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
-        }
+        $vendors = Product::where('status', '=', 1)->take(8)->get();
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
@@ -289,8 +282,7 @@ class CatalogController extends Controller
         $db="product" ;
         $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
 
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
-    
+        return view('front.homeproduct', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     public function searchProdDetail() {

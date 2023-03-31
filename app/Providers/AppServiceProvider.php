@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Models\Category;
+use App\Models\CategoryHome;
 use App\Models\Product;
 use Carbon\Carbon;
 use Session;
@@ -23,7 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         $admin_lang = DB::table('admin_languages')->where('is_default', '=', 1)->first();
         
         App::setlocale($admin_lang->name);
@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
             $gs = DB::table('generalsettings')->find(1);
             $settings->with('gs', $gs);
             $settings->with('seo', DB::table('seotools')->find(1));
+            $settings->with('home_categories', CategoryHome::where('status', '=', 1)->orderBy('id', 'asc')->get());
             $settings->with('categories', Category::where('status', '=', 1)->orderBy('id', 'asc')->get());
             $settings->with('eccategories', DB::table("categories")->where("parent","0")->where("status", "1")->orderBy('name', 'asc')->get());
             
@@ -51,21 +52,6 @@ class AppServiceProvider extends ServiceProvider
                 $settings->with('visited', 1);
             }
             Session::put('popup', 1);
-
-            if ($gs->age_checker) {
-                if (!Session::has('age')) {
-                    $settings->with('age_no_setted', 1);
-                    $settings->with('myage', 15);
-
-                } else {
-                    $settings->with('myage', Session::get('age'));
-                }
-
-                // $settings->with('age_no_setted', 1);
-            } else {
-                Session::forget('age');
-                $settings->with('myage', 21);
-            }
 
             $solo_mode = $gs->solo_mode;
             $solo_category = $gs->solo_category;

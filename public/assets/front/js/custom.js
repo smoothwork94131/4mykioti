@@ -29,6 +29,11 @@ $(function($) {
             $(this).toggleClass('rx-change');
         });
 
+        $(".dropdown-menu .dropdown-item").on('click', function() {
+            $(this).parent().removeClass('show');
+            $(this).parent().parent().removeClass('show');
+        }) ;
+
         //  FORM SUBMIT SECTION
 
         $(document).on('submit', '#contactform', function(e) {

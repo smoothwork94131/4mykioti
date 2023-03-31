@@ -1958,7 +1958,7 @@ Begin Footer Custom Style
 }
 
 .promotions {
-    margin-bottom: 30px;
+    margin: 30px 0;
 }
 .promotions img{
     width: 100%;
@@ -2160,7 +2160,7 @@ End Footer Custom Style
 */
 
 .also-fit-item {
-    /* height: 100px; */
+    height: 100px;
 }
 
 .also-fit-item-series {
