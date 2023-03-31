@@ -112,10 +112,14 @@
             <div class="parts-container">
                 <div class="group-table d-desktop">
                     <div class="group-schematics">
-                        @if(file_exists(public_path('assets/images/group/'.$group->image)))
+                        @if($group->image && file_exists(public_path('assets/images/group/'.$group->image)))
                             <img src="{{asset('assets/images/group/'.$group->image)}}">
                         @else
+                            @if(file_exists(public_path('assets/images/group/'.$group->group_Id.'.png')))
                             <img src="{{asset('assets/images/group/'.$group->group_Id.'.png')}}">
+                            @else
+                            <img src="{{asset('assets/images/noimage.png')}}">
+                            @endif
                         @endif
                     </div>
                     <div class="parts-table">
