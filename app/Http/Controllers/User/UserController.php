@@ -39,10 +39,10 @@ class UserController extends Controller
         //--- Validation Section
 
         $rules =
-            [
-                'photo' => 'mimes:jpeg,jpg,png,svg',
-                'email' => 'unique:users,email,' . Auth::user()->id
-            ];
+        [
+            'photo' => 'mimes:jpeg,jpg,png,svg',
+            'email' => 'unique:users,email,' . Auth::user()->id
+        ];
 
 
         $validator = Validator::make(  $request->all(), $rules);
@@ -55,7 +55,8 @@ class UserController extends Controller
         $data = Auth::user();
         if ($file = $request->file('photo')) {
             $name = time() . $file->getClientOriginalName();
-            $file->move('assets/images/users/', $name);
+            // $file->move('public/assets/images/users/', $name);
+            move_uploaded_file($file, public_path() . '/assets/images/users/' . $name);
             if ($data->photo != null) {
                 if (file_exists(public_path() . '/assets/images/users/' . $data->photo)) {
                     unlink(public_path() . '/assets/images/users/' . $data->photo);
