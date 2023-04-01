@@ -268,7 +268,7 @@
                                                         </div>
                                                         <div class="product-content">
                                                             <p class="name"><a
-                                                                    href="{{ route('front.product', $product['item']->slug) }}"
+                                                                    href="{{ route('front.homeproduct', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                             </p>
                                                             <div class="unit-price">
@@ -333,7 +333,7 @@
                                                         </div>
                                                         <div class="product-content">
                                                             <p class="name"><a
-                                                                    href="{{ route('front.product', $product['item']->slug) }}"
+                                                                    href="{{ route('front.homeproduct', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                             </p>
                                                             <div class="unit-price">

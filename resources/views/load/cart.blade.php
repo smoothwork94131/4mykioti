@@ -12,10 +12,10 @@
         <ul class="dropdown-cart-products">
             @foreach(Session::get('cart')->items as $product)
                 <li class="product cremove{{ ($product['db']??'products').$product['item']->id.$product['size'].$product['color'].str_replace(str_split(' ,'),'',$product['values']) }}">
-                    <a href="{{ route('front.product',$product['item']->slug) }}">
+                    <a href="{{ route('front.homeproduct',$product['item']->slug) }}">
                         <div class="product-details">
                             <div class='img'>
-                                <a href="{{ route('front.product', $product['item']->slug) }}" class="product-image">
+                                <a href="{{ route('front.homeproduct', $product['item']->slug) }}" class="product-image">
                                     <img src="{{ $product['item']->photo ? filter_var($product['item']->photo, FILTER_VALIDATE_URL) ?$product['item']->photo:asset('assets/images/products/'.$product['item']->photo):asset('assets/images/noimage.png') }}"
                                         alt="product">
                                 </a>
@@ -42,7 +42,7 @@
                     </div><!-- End .product-details -->
 
                     <!-- <figure class="product-image-container">
-                        <a href="{{ route('front.product', $product['item']->slug) }}" class="product-image">
+                        <a href="{{ route('front.homeproduct', $product['item']->slug) }}" class="product-image">
                             <img src="{{ $product['item']->photo ? filter_var($product['item']->photo, FILTER_VALIDATE_URL) ?$product['item']->photo:asset('assets/images/products/'.$product['item']->photo):asset('assets/images/noimage.png') }}"
                                  alt="product">
                         </a>

@@ -9,7 +9,7 @@
 @if ($prod->vendorPrice() <= $_GET['max']) <div class="col-lg-4 col-md-4 col-6 remove-padding">
 
 
-    <a href="{{ route('front.product', $prod->slug) }}" class="item">
+    <a href="{{ route('front.homeproduct', $prod->slug) }}" class="item">
         <div class="item-img">
             @if (!empty($prod->features))
             <div class="sell-area">
@@ -77,7 +77,7 @@
     @endif
     @else
     <div class="col-lg-4 col-md-4 col-6 remove-padding">
-        <a href="{{ route('front.product', $prod->slug) }}" class="item">
+        <a href="{{ route('front.homeproduct', $prod->slug) }}" class="item">
             <div class="item-img">
                 @if (!empty($prod->features))
                 <div class="sell-area">
@@ -153,7 +153,7 @@
     @else
     <div class="col-lg-4 col-md-4 col-6 remove-padding">
 
-        <a href="{{ route('front.product', $prod->slug) }}" class="item">
+        <a href="{{ route('front.homeproduct', $prod->slug) }}" class="item">
             <div class="item-img">
                 @if (!empty($prod->features))
                 <div class="sell-area">

@@ -155,26 +155,26 @@ class FrontendController extends Controller
 
         $solo_mode = $gs->solo_mode;
         
-        if ($solo_mode == 1) {
-            $sort = $request->sort;
-            $products = $products->select('*');
-            $products = $products->when($sort, function ($query, $sort) {
-                if ($sort == 'date_desc') {
-                    return $query->orderBy('id', 'DESC');
-                } elseif ($sort == 'date_asc') {
-                    return $query->orderBy('id', 'ASC');
-                } elseif ($sort == 'price_desc') {
-                    return $query->orderBy('price', 'DESC');
-                } elseif ($sort == 'price_asc') {
-                    return $query->orderBy('price', 'ASC');
-                }
-            })
-            ->when(empty($sort), function ($query, $sort) {
-                return $query->orderBy('id', 'DESC');
-            })
-            ->paginate(24);
-        }
-        else {
+        // if ($solo_mode == 1) {
+        //     $sort = $request->sort;
+        //     $products = $products->select('*');
+        //     $products = $products->when($sort, function ($query, $sort) {
+        //         if ($sort == 'date_desc') {
+        //             return $query->orderBy('id', 'DESC');
+        //         } elseif ($sort == 'date_asc') {
+        //             return $query->orderBy('id', 'ASC');
+        //         } elseif ($sort == 'price_desc') {
+        //             return $query->orderBy('price', 'DESC');
+        //         } elseif ($sort == 'price_asc') {
+        //             return $query->orderBy('price', 'ASC');
+        //         }
+        //     })
+        //     ->when(empty($sort), function ($query, $sort) {
+        //         return $query->orderBy('id', 'DESC');
+        //     })
+        //     ->paginate(24);
+        // }
+        // else {
             $home_categories = CategoryHome::where('status', '=', 1)->orderBy('id', 'asc')->get();
 
             $results = array();
@@ -199,7 +199,7 @@ class FrontendController extends Controller
 
 
             $products = $result;
-        }
+        // }
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
@@ -231,7 +231,6 @@ class FrontendController extends Controller
 
     public function solo_datatables()
     {
-
         $gs = Generalsetting::findOrFail(1);
 
         $solo_category = $gs->solo_category;
@@ -245,7 +244,7 @@ class FrontendController extends Controller
 
                 $thumbnail = $data->thumbnail ? asset('assets/images/thumbnails/' . $data->thumbnail) : asset('assets/images/products/' . $gs->prod_image);
 
-                return '<a href="' . route('front.product', $data->slug) . '"><img src = "' . $thumbnail . '" alt="" width="50" height="50"> ' . $name . '</a>';
+                return '<a href="' . route('front.homeproduct', $data->slug) . '"><img src = "' . $thumbnail . '" alt="" width="50" height="50"> ' . $name . '</a>';
             })
             ->editColumn('price', function (Product $data) {
                 $price = $data->showPrice();

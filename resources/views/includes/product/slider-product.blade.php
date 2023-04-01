@@ -1,5 +1,5 @@
 @if (json_decode($gs->product_view)->home == 0 && !empty($prod))
-<a href="{{ route('front.product', $prod->slug) }}" class="item">
+<a href="{{ route('front.homeproduct', $prod->slug) }}" class="item">
 	<div class="item-img">
 		@if (!empty($prod->features))
 		<div class="sell-area">
@@ -87,7 +87,7 @@
 @endif
 
 @if (json_decode($gs->product_view)->home == 1 && !empty($prod))
-<a href="{{ route('front.product', $prod->slug) }}" class="prod-item item">
+<a href="{{ route('front.homeproduct', $prod->slug) }}" class="prod-item item">
 	<div class="prod-init">
 		<div class="prod-top">
 			<h2 class="prod-name"

@@ -53,7 +53,7 @@
                                                          src="{{ $product['item']['thumbnail'] ? asset('assets/images/thumbnails/'.$product['item']['thumbnail']):asset('assets/images/noimage.png') }}"
                                                          alt="Compare product['item']">
 
-                                                    <a href="{{ route('front.product', $product['item']['slug']) }}">
+                                                    <a href="{{ route('front.homeproduct', $product['item']['slug']) }}">
                                                         <h4 class="title">
                                                             {{ $product['item']['name'] }}
                                                         </h4>

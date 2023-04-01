@@ -1,6 +1,6 @@
 <div class="col-lg-3 col-md-4 col-6 remove-padding">
 
-    <a class="item" href="{{ route('front.product', $prod->slug) }}">
+    <a class="item" href="{{ route('front.homeproduct', $prod->slug) }}">
         <div class="item-img">
             @if(!empty($prod->features))
                 <div class="sell-area">

@@ -2,7 +2,7 @@
     @if (count($prods) > 0)
         @foreach ($prods as $key => $prod)
             <div class="col-lg-3 col-md-6 col-12 remove-padding">
-                <a href="{{ route('front.product', $prod->slug) }}" class="item">
+                <a href="{{ route('front.homeproduct', $prod->slug) }}" class="item">
                     <div class="item-img">
                         @if(!empty($prod->features))
                         <div class="sell-area">
@@ -94,7 +94,7 @@
             <div class="col-lg-4 col-md-6 col-12  margin-custome-0">
 
 
-            <a href="{{ route('front.product', $prod->slug) }}" class="prod-item item">            
+            <a href="{{ route('front.homeproduct', $prod->slug) }}" class="prod-item item">            
                 <div class="prod-init">
                     <div class="prod-top">
                         

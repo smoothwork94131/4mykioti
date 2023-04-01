@@ -153,7 +153,7 @@
                                         <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     <td style="text-align:center;">
-                                        <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
+                                        <a href="{{route('front.product', $slug_list)}}">{{ $prod->name }}</a>
                                     </td>
                                     <td style="text-align:center;">
                                         ${{ $prod->price }}
@@ -220,7 +220,7 @@
                                     <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                 </td>
                                 <td style="text-align:center;">
-                                    <a href="{{route('front.sub_category', $slug_list)}}">{{ $prod->name }}</a>
+                                    <a href="{{route('front.product', $slug_list)}}">{{ $prod->name }}</a>
                                 </td>
                                 <td style="text-align:center;">
                                     ${{ $prod->price }}

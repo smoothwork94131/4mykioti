@@ -454,7 +454,7 @@
                         <div class="item-slide">
                             <ul class="item-list">
                                 @foreach ($chunk as $prod)
-                                @include('includes.product.list-product')
+                                @include('includes.product.list-product', ['flag'=>'homeprod', 'slug_list' => $slug_list])
                                 @endforeach
                             </ul>
                         </div>

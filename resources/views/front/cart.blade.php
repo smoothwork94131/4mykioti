@@ -53,7 +53,7 @@
                                                          alt="">
                                                         
                                                          <p class="name"><a
-                                                                href="{{ route('front.product', $product['item']->slug) }}">{{mb_strlen($product['item']->name,'utf-8') > 35 ? mb_substr($product['item']->name,0,35,'utf-8').'...' : $product['item']->name}}</a>
+                                                                href="{{ route('front.homeproduct', $product['item']->slug) }}">{{mb_strlen($product['item']->name,'utf-8') > 35 ? mb_substr($product['item']->name,0,35,'utf-8').'...' : $product['item']->name}}</a>
                                                     </p>
                                                 </div>
                                             </td>

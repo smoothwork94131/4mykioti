@@ -87,7 +87,7 @@
     </section>
 
     {{-- Slider buttom Category Start --}}
-    @if($gs->solo_mode != 1)
+    {{-- @if($gs->solo_mode != 1) --}}
         @foreach($products as $product)
         <section class="trending slider-buttom-category grid-display">
             <div class="container">
@@ -115,8 +115,8 @@
             </div>
         </section>
         @endforeach
-    @else
-    <section class="sub-categori grid-display">
+    {{-- @else --}}
+    {{-- <section class="sub-categori grid-display">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 order-first order-lg-last ajax-loader-parent">
@@ -135,7 +135,7 @@
             </div>
         </div>
     </section>
-    @endif
+    @endif --}}
     {{-- Slider buttom banner End --}}
 
     @if($ps->small_banner == 1)

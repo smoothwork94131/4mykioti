@@ -18,7 +18,7 @@
                         <del>{{ $prod->showPreviousPrice() }}</del>
                     </h4>
                     <p class="text">
-                        <a href="{{ route('front.product',$prod->slug) }}">{{ mb_strlen($prod->name,'utf-8') > 35 ? mb_substr($prod->name,0,35,'utf-8').'...' : $prod->name }}</a>
+                        <a href="{{ route('front.homeproduct',$prod->slug) }}">{{ mb_strlen($prod->name,'utf-8') > 35 ? mb_substr($prod->name,0,35,'utf-8').'...' : $prod->name }}</a>
                     </p>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     <del>{{ $prod->showPreviousPrice() }}</del>
                 </h4>
                 <p class="text"><a
-                            href="{{ route('front.product',$prod->slug) }}">{{ mb_strlen($prod->name,'utf-8') > 35 ? mb_substr($prod->name,0,35,'utf-8').'...' : $prod->name }}</a>
+                            href="{{ route('front.homeproduct',$prod->slug) }}">{{ mb_strlen($prod->name,'utf-8') > 35 ? mb_substr($prod->name,0,35,'utf-8').'...' : $prod->name }}</a>
                 </p>
             </div>
         </div>

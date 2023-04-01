@@ -194,7 +194,7 @@ class CatalogController extends Controller
         //--- Redirect Section Ends
     }
 
-    public function sub_category(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
+    public function product(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
@@ -261,7 +261,7 @@ class CatalogController extends Controller
     
     }
 
-    public function product(Request $request, $slug)
+    public function homeproduct(Request $request, $slug)
     {   
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
@@ -314,34 +314,6 @@ class CatalogController extends Controller
         $page = "" ;
         $slug_list = array() ;
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
-    }
-
-    public function iproduct(Request $request, $slug, $slug1)
-    {
-        $this->code_image();
-        $db = strtolower($slug);
-
-
-        $productt = DB::table($db)->where('slug', '=', $slug1)->first();
-
-        if (Session::has('currency')) {
-            $curr = Currency::find(Session::get('currency'));
-        } else {
-            $curr = Currency::where('is_default', '=', 1)->first();
-        }
-
-        if ($productt->user_id != 0) {
-            $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
-        } else {
-            $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
-        }
-
-        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
-        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
-        $page = "product" ;
-        $slug_list = array("prod_name"=>$slug1) ;
-        return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
-
     }
 
     // Capcha Code Image

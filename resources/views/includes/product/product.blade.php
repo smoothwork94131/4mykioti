@@ -1,6 +1,6 @@
 @if(json_decode($gs->product_view)->product == 0)
 <div class="col-lg-4 col-md-6 col-12 remove-padding">
-	<a href="{{ route('front.product', $prod->slug) }}" class="item">
+	<a href="{{ route('front.homeproduct', $prod->slug) }}" class="item">
 		<div class="item-img">
 			@if(!empty($prod->features))
 				<div class="sell-area">
@@ -74,7 +74,7 @@
 @if(json_decode($gs->product_view)->product == 1)
 
 <div class="col-lg-4 col-md-6 col-12 margin-custome-0">
-	<a href="{{ route('front.product', $prod->slug) }}" class="prod-item item">            
+	<a href="{{ route('front.homeproduct', $prod->slug) }}" class="prod-item item">            
 		<div class="prod-init">
 			<div class="prod-top">
 				<h2 class="prod-name"  style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color? $colorsetting_style2->title_color: '#333333' }}">

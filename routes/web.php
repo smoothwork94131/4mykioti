@@ -1157,15 +1157,10 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     // CATEGORY SELECT DETAIL PAGE
 
-    Route::get('/product/{slug}', 'Front\CatalogController@product')->name('front.product');
+    Route::get('/product/{slug}', 'Front\CatalogController@homeproduct')->name('front.homeproduct');
     /*Only search product table with slug(product name) this for  select product in first page. */
-
-    Route::get('/product/{slug}/{slug1}', 'Front\CatalogController@iproduct')->name('front.iproduct'); 
-    /*Search product and series table with slug1(slug: table name, slug1: search name) this for select product header menu dropdown and search  */
-    Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@sub_category')->name('front.sub_category');
+    Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@product')->name('front.product');
     /*route is long~. why? this route pointed by commonparts, partsbymode detail so in latest, it is neccessary page have detail breadcrumb */
-
-
 
     // COMMENT SECTION
     Route::post('/product/comment/store', 'Front\CatalogController@comment')->name('product.comment');
