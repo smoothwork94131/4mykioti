@@ -540,12 +540,7 @@ class FrontendController extends Controller
                     $curr = Currency::where('is_default', '=', 1)->first();
                 }
 
-                if ($productt->user_id != 0) {
-                    $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
-                } else {
-                    $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
-                }
-                
+                $vendors = Product::where('status', '=', 1)->take(8)->get();
 
                 $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
                 $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
