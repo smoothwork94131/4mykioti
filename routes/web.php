@@ -953,10 +953,8 @@ Route::prefix('user')->group(function () {
     Route::get('/dashboard', 'User\UserController@index')->name('user-dashboard');
 
     Route::get('/my_tractor', 'User\UserController@my_tractor')->name('user-my-tractor');
-    Route::post('/add_my_tractor', 'User\UserController@add_my_tractor')->name('user-add-my-tractor');
-    Route::post('/remove_my_tractor', 'User\UserController@remove_my_tractor')->name('user-remove-my-tractor');
-
-    
+    Route::post('/save_my_tractor', 'User\UserController@save_my_tractor')->name('user-save-my-tractor');
+    Route::get('/remove_my_tractor/{id}', 'User\UserController@remove_my_tractor')->name('user-remove-my-tractor');
     Route::post('/get_my_tractor_model', 'User\UserController@get_my_tractor_model')->name('user-get-my-tractor-model');
 
     // User Login

@@ -13,6 +13,7 @@ use App\Models\Subscription;
 use App\Models\Generalsetting;
 use App\Models\UserSubscription;
 use App\Models\FavoriteSeller;
+use App\Models\MyTractor;
 use DB ;
 
 class UserController extends Controller
@@ -182,87 +183,85 @@ class UserController extends Controller
         return view('user.favorite', compact('user', 'favorites'));
     }
 
-
     public function favdelete($id)
     {
         $wish = FavoriteSeller::findOrFail($id);
         $wish->delete();
         return redirect()->route('user-favorites')->with('success', 'Successfully Removed The Seller.');
     }
+
     public function my_tractor() {
-        $part_id = isset($_REQUEST['part_id'])?$_REQUEST['part_id']:false ;
-
-        $user_data = Auth::user();
-        $user_id = $user_data['id'] ;
-        $cate_tractor = DB::table("users-tractor")->where('user_id', '=', $user_id)->orderBy('updatetime', 'desc')->get()->toArray();
-        $sel_part = false ;
+        $user_id = Auth::id();
+        $tractors = DB::table("users-tractor")->where('user_id', $user_id)->orderBy('updatetime', 'desc')->get();
         $series = DB::table("categories")->select("name as series")->where("parent", ">", "0")->get()->toArray();
-        $model = array() ;
-        if(count($cate_tractor) > 0) {
-            $sel_part = false ;
-            if($part_id) {
-                foreach($cate_tractor as $key => $item) {
-                    if($part_id == $item->id) {
-                        $sel_part = $item ;
-                    }
-                } 
-            } else {
-                $sel_part = $cate_tractor[0] ;
-            }
-            $model = $this->getTractorModel($sel_part->series) ;
+        $model = $this->getTractorModel($series[0]->series) ;
+
+        return view('user.myTractor', compact('tractors', 'series', 'model'));
+    }
+    public function save_my_tractor(Request $request) {
+        
+        $rules = [
+            'hours' => 'required|integer|min:1',
+            'hour_per_week' => 'required|integer|min:1',
+            'start_date' => 'required|date_format:m/d/Y',
+            'start_date' => 'required|date_format:m/d/Y'
+        ];
+
+        $messages = [
+            'hours.required' => 'This Hours is required.',
+            'hour_per_week.required' => 'This Hours per Week is required.',
+            'start_date.required' => 'This start_date is required.',
+            'start_date.required' => 'This start_date is required.',
+            'hours.digits' => 'This Hours must be Digit.',
+            'hour_per_week.digits' => 'This Hours per Week must be Digit.',
+            'hours.start_date' => 'This start_date must be Date.',
+            'hours.start_date' => 'This start_date must be Date.',
+        ];
+        
+        // $validator = Validator::make($request->all(), $rules, $messages);
+
+        $request->validate($rules);
+
+        // if ($validator->fails()) {
+        //     return redirect()->route('user-my-tractor')>with('error', $validator->getMessageBag()->toArray());
+        // }
+        
+        $input = $request->all();
+        
+        $tractor_id = $request->tractor_id ;
+
+        if($tractor_id) {
+            $model = MyTractor::findOrFail($tractor_id);
+            $model->update($input);
+            return redirect()->route('user-my-tractor')->with('success', 'Data Saved Successfully.') ;
         } else {
-            $model = $this->getTractorModel($series[0]->series) ;
+            $input["user_id"] = Auth::user()->id;
+            $input["updatetime"] = date("Y-m-d h:i:s");            
+            $model = new MyTractor;
+            $model->fill($input)->save();
+            
+            return redirect()->route('user-my-tractor')->with('success', 'Data Saved Successfully.') ;
         }
-        
-        $msg = "" ;
-        
-        
-        return view('user.myTractor', compact('cate_tractor', 'msg','series', 'model', "sel_part"));
     }
-    public function add_my_tractor(Request $request) {
-        $series = $request->series ;
-        $model = $request->model ;
-        $user_id = $user = Auth::user()->id;
-        $series = strtolower($series) ;
-        $sel_part_id = $request->sel_part_id ;
 
-        $type = $request->type ;
-        if($type == "edit") {
-            DB::table("users-tractor")
-            ->where("id", $sel_part_id)
-            ->update(array(
-                "updatetime"=>date("Y-m-d H:i:s"),
-                "series"=>$series,
-                "model"=>$model,
-                "user_id"=>$user_id
-            )) ;
-            return response()->json(array("msg"=>"Succssfully Edit")) ;
-        } else {
-            DB::table("users-tractor")->insert(array(
-                "updatetime"=>date("Y-m-d H:i:s"),
-                "series"=>$series,
-                "model"=>$model,
-                "user_id"=>$user_id,
-            )) ;
-            return response()->json(array("msg"=>"Succssfully Add")) ;
+    public function remove_my_tractor(Request $request, $id) {
+        if(DB::table("users-tractor")->where('id', '=', $id)->delete()) {
+            return redirect()->route('user-my-tractor')->with('success', 'Data Deleted Successfully.') ;
         }
-        
+        else {
+            return redirect()->route('user-my-tractor')->with('error', 'Some Went Wrong during delete.') ;
+        }
     }
 
-    public function remove_my_tractor(Request $request) {
-        $sel_part_id = $request->sel_part_id ;
-        DB::table("users-tractor")->where('id', '=', $sel_part_id)->delete() ;
-        return response()->json(array("msg"=>"Succssfully Remove")) ;
-    }
-
-    public function getTractorModel($series) {
-        $series = strtolower($series) ;
-        $model =  DB::table("{$series}_categories")->select("*")->get()->groupBy("model")->toArray() ;
-        return $model ;
-    }
     public function get_my_tractor_model(Request $request) {
         $series = $request->series ;
         $model = $this->getTractorModel($series) ;
         return response()->json($model) ;
+    }
+
+    public function getTractorModel($series) {
+        $series = strtolower($series) ;
+        $model =  DB::table("{$series}_categories")->select("model")->get()->groupBy("model")->toArray() ;
+        return $model ;
     }
 }

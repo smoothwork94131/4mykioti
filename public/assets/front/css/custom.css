@@ -334,38 +334,36 @@ textarea.affilate {
 }
 .my-tractor-content .add-btn {
     text-align: right;
-    padding: 15px;
 }
 
-.my-tractor-content button {
+.my-tractor-content .add-btn button {
     background: #333 ;
     border: none ;
 
 }
 
-.my-tractor-content button:hover {
+.my-tractor-content .add-btn button:hover {
     background: #143250 ;
 }
 
-#add_my_tractor_modal button {
+#my_tractor_modal button {
     background: #333 ;
     border: none ;
 }
 
-#add_my_tractor_modal button:hover {
+#my_tractor_modal button:hover {
     background: #143250 ;
 }
 
 .my-tractor-content .my-tractor-list {
-    padding: 5px;
     border: 1px solid rgba(0, 0, 0, 0.342) ;
-    padding: 10px;
+    margin-top: 10px;
+    background-color: #fff;
 }
 
-.my-tractor-content .my-tractor-list .list-item {
-    padding: 8px 0px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.342);
-    cursor: pointer;
+.my-tractor-content .my-tractor-list .product_table {
+    margin-top: 0px!important;
+    margin-bottom: 0px!important;
 }
 
 .my-tractor-content .my-tractor-list .sel-list {
