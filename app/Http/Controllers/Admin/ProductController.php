@@ -301,7 +301,7 @@ class ProductController extends Controller
                 $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
                 $file = $request->file('photo');
-                $file->move('assets/images/products_home/',$name);
+                $file->move('public/assets/images/products_home/',$name);
                 // move_uploaded_file($file, public_path() . '/assets/images/products_home/' . $name);
 
                 $img = Image::make(public_path().'/assets/images/products_home/'.$name)->resize(285, 285);
@@ -737,7 +737,7 @@ class ProductController extends Controller
 
             // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
             // $removebg = new RemoveBg($apiKey);
-            $file->move('assets/images/products_home/', $name);
+            $file->move('public/assets/images/products_home/', $name);
             // move_uploaded_file($file, public_path() . '/assets/images/products_home/' . $name);
             $input['photo'] = $name;
         } 
