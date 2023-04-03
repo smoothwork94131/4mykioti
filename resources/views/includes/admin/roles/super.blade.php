@@ -38,9 +38,9 @@
         <li>
             <a href="{{ route('admin-prod-index') }}"><span>{{ __('All Home Products') }}</span></a>
         </li>
-        <li>
+        {{-- <li>
             <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>
-        </li>
+        </li> --}}
         <li>
             <a href="{{ route('admin-prod-import') }}"><span>{{ __('Bulk Product Upload') }}</span></a>
         </li>
