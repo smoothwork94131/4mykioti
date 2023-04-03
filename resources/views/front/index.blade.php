@@ -96,8 +96,8 @@
                         <div class="section-top">
                             <h2 class="section-title">
                                 <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                                <span class="sub">{{ $product["category_name"] }}</span> 
-                                <span class="main">{{ $langg->lang14 }}</span> 
+                                {{-- <span class="sub">{{ $product["category_name"] }}</span>  --}}
+                                <span class="main">{{ $product["category_name"] }}</span> 
                                 <span class="title-underline"></span>
                             </h2>
                         </div>
