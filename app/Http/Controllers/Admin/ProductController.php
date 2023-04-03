@@ -282,7 +282,8 @@ class ProductController extends Controller
             {
                 $name = str_replace(' ', '-', $file->getClientOriginalName());
                 $name = time().$name;
-                $file->move('public/assets/files',$name);
+                // $file->move('public/assets/files',$name);
+                move_uploaded_file($file, public_path() . '/assets/files/' . $name);
                 $input['file'] = $name;
             }
             //--- Validation Section Ends
@@ -300,9 +301,10 @@ class ProductController extends Controller
                 $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
                 $file = $request->file('photo');
-                $file->move('assets/images/products/admin/',$name);
+                // $file->move('assets/images/products/admin/',$name);
+                move_uploaded_file($file, public_path() . '/assets/images/products/admin/' . $name);
 
-                $img = Image::make(public_path().'/assets/images/products/admin'.$name)->resize(285, 285);
+                $img = Image::make(public_path().'/assets/images/products/admin/'.$name)->resize(285, 285);
             
                 $thumbnail = str_replace('.png', '-tn.png', 'admin/'.$name);
                 $thumbnail_array = explode('/', $thumbnail);
@@ -737,7 +739,8 @@ class ProductController extends Controller
 
             // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
             // $removebg = new RemoveBg($apiKey);
-            $file->move('assets/images/products/admin/',$name);
+            // $file->move('assets/images/products/admin/',$name);
+            move_uploaded_file($file, public_path() . '/assets/images/products/admin/' . $name);
             $input['photo'] = 'admin/'.$name;
         } 
         //Check Types
