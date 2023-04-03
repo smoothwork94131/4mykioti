@@ -1,4 +1,4 @@
-@if (json_decode($gs->product_view)->home == 0 && !empty($prod))
+{{-- @if (json_decode($gs->product_view)->home == 0 && !empty($prod))
 <a href="{{ route('front.homeproduct', $prod->slug) }}" class="item">
 	<div class="item-img">
 		@if (!empty($prod->features))
@@ -84,9 +84,9 @@
 		</div>
 	</div>
 </a>
-@endif
+@endif --}}
 
-@if (json_decode($gs->product_view)->home == 1 && !empty($prod))
+{{-- @if (json_decode($gs->product_view)->home == 1 && !empty($prod)) --}}
 <a href="{{ route('front.homeproduct', $prod->slug) }}" class="prod-item item">
 	<div class="prod-init">
 		<div class="prod-top">
@@ -250,7 +250,7 @@
 	</div>
 
 	<img class="prod-image"
-		src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/' . $prod->thumbnail) : asset('assets/images/products/' . $gs->prod_image) }}"
+		src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/' . $prod->thumbnail) : asset('assets/images/products/' . $gs->prod_image) }}"
 		alt="">
 </a>
-@endif
+{{-- @endif --}}
