@@ -175,7 +175,7 @@ class FrontendController extends Controller
         //     ->paginate(24);
         // }
         // else {
-            $home_categories = CategoryHome::where('status', '=', 1)->orderBy('id', 'asc')->get();
+            $home_categories = CategoryHome::where('status', '=', 1)->orderBy('order', 'asc')->get();
 
             $results = array();
             foreach($home_categories as $category) {

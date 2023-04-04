@@ -18,35 +18,35 @@ class CategoryController extends Controller
     //*** JSON Request
     public function datatables()
     {
-         $datas = CategoryHome::orderBy('id','desc')->get();
+         $datas = CategoryHome::orderBy('order','desc')->get();
          //--- Integrating This Collection Into Datatables
          return Datatables::of($datas)
-                            ->addColumn('status', function(CategoryHome $data) {
-                                $class = $data->status == 1 ? 'drop-success' : 'drop-danger';
-                                $s = $data->status == 1 ? 'selected' : '';
-                                $ns = $data->status == 0 ? 'selected' : '';
-                                return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-cat-status',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><option data-val="0" value="'. route('admin-cat-status',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
-                            })
-                            ->addColumn('cod', function(CategoryHome $data) {
-                                $class = $data->cod == 1 ? 'drop-success' : 'drop-danger';
-                                $s = $data->cod == 1 ? 'selected' : '';
-                                $ns = !$data->cod ? 'selected' : '';
-                                return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-cat-cod',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><option data-val="0" value="'. route('admin-cat-cod',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
-                            })
-                            ->addColumn('attributes', function(CategoryHome $data) {
-                                $buttons = '<div class="action-list"><a data-href="' . route('admin-attr-createForCategory', $data->id) . '" class="attribute" data-toggle="modal" data-target="#attribute"> <i class="fas fa-edit"></i>Create</a>';
-                                if ($data->attributes()->count() > 0) {
-                                  $buttons .= '<a href="' . route('admin-attr-manage', $data->id) .'?type=category' . '" class="edit"> <i class="fas fa-edit"></i>Manage</a>';
-                                }
-                                $buttons .= '</div>';
+                ->addColumn('status', function(CategoryHome $data) {
+                    $class = $data->status == 1 ? 'drop-success' : 'drop-danger';
+                    $s = $data->status == 1 ? 'selected' : '';
+                    $ns = $data->status == 0 ? 'selected' : '';
+                    return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-cat-status',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><option data-val="0" value="'. route('admin-cat-status',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
+                })
+                ->addColumn('cod', function(CategoryHome $data) {
+                    $class = $data->cod == 1 ? 'drop-success' : 'drop-danger';
+                    $s = $data->cod == 1 ? 'selected' : '';
+                    $ns = !$data->cod ? 'selected' : '';
+                    return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-cat-cod',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><option data-val="0" value="'. route('admin-cat-cod',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
+                })
+                ->addColumn('attributes', function(CategoryHome $data) {
+                    $buttons = '<div class="action-list"><a data-href="' . route('admin-attr-createForCategory', $data->id) . '" class="attribute" data-toggle="modal" data-target="#attribute"> <i class="fas fa-edit"></i>Create</a>';
+                    if ($data->attributes()->count() > 0) {
+                        $buttons .= '<a href="' . route('admin-attr-manage', $data->id) .'?type=category' . '" class="edit"> <i class="fas fa-edit"></i>Manage</a>';
+                    }
+                    $buttons .= '</div>';
 
-                                return $buttons;
-                            })
-                            ->addColumn('action', function(CategoryHome $data) {
-                                return '<div class="action-list"><a data-href="' . route('admin-cat-edit',$data->id) . '" class="edit" data-toggle="modal" data-target="#modal1"> <i class="fas fa-edit"></i>Edit</a><a href="javascript:;" data-href="' . route('admin-cat-delete',$data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i></a></div>';
-                            })
-                            ->rawColumns(['status','attributes','action', 'cod'])
-                            ->toJson(); //--- Returning Json Data To Client Side
+                    return $buttons;
+                })
+                ->addColumn('action', function(CategoryHome $data) {
+                    return '<div class="action-list"><a data-href="' . route('admin-cat-edit',$data->id) . '" class="edit" data-toggle="modal" data-target="#modal1"> <i class="fas fa-edit"></i>Edit</a><a href="javascript:;" data-href="' . route('admin-cat-delete',$data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i></a></div>';
+                })
+                ->rawColumns(['status','attributes','action', 'cod'])
+                ->toJson(); //--- Returning Json Data To Client Side
     }
 
     //*** GET Request
@@ -67,13 +67,16 @@ class CategoryController extends Controller
         //--- Validation Section
         $rules = [
             'photo' => 'mimes:jpeg,jpg,png,svg',
-            'slug' => 'unique:categories|regex:/^[a-zA-Z0-9\s-]+$/'
-                 ];
+            'slug' => 'unique:categories|regex:/^[a-zA-Z0-9\s-]+$/',
+            'order' => 'unique:categories_home|integer|min:0'
+        ];
+
         $customs = [
             'photo.mimes' => 'Icon Type is Invalid.',
             'slug.unique' => 'This slug has already been taken.',
             'slug.regex' => 'Slug Must Not Have Any Special Characters.'
-                   ];
+        ];
+
         $validator = Validator::make(  $request->all(), $rules, $customs);
 
         if ($validator->fails()) {
@@ -138,14 +141,16 @@ class CategoryController extends Controller
         //--- Validation Section
         $rules = [
         	'photo' => 'mimes:jpeg,jpg,png,svg',
-        	'slug' => 'unique:categories,slug,'.$id.'|regex:/^[a-zA-Z0-9\s-]+$/'
-        		 ];
+        	'slug' => 'unique:categories_home,slug,'.$id.'|regex:/^[a-zA-Z0-9\s-]+$/',
+            'order' => 'unique:categories_home|integer|min:0'
+        ];
+
         $customs = [
         	'photo.mimes' => 'Icon Type is Invalid.',
         	'slug.unique' => 'This slug has already been taken.',
             'slug.regex' => 'Slug Must Not Have Any Special Characters.'
-        		   ];
-        $validator = Validator::make(  $request->all(), $rules, $customs);
+        ];
+        $validator = Validator::make($request->all(), $rules, $customs);
 
         if ($validator->fails()) {
           return response()->json(array('errors' => $validator->getMessageBag()->toArray()));

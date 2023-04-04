@@ -119,6 +119,17 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="left-area">
+                                            <h4 class="heading">{{ __('Order') }} *</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="input-field" name="order"
+                                               placeholder="{{ __('Enter Order') }}" required="" value="{{$data->order}}">
+                                    </div>
+                                </div>
 
                                 <br>
                                 <div class="row">

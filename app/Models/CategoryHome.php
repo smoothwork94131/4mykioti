@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryHome extends Model
 {
     protected $table = "categories_home";
-    protected $fillable = ['name', 'slug', 'photo', 'is_featured', 'image', 'skip_license', 'cod'];
+    protected $fillable = ['name', 'slug', 'photo', 'is_featured', 'image', 'skip_license', 'cod', 'order'];
     public $timestamps = false;
 
     public function subs()
