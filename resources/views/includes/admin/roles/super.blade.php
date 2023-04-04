@@ -81,7 +81,7 @@
     </ul>
 </li>
 
-<li>
+{{-- <li>
     <a href="#license" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-check-circle"></i>{{ __('Verified License') }}
     </a>
@@ -96,7 +96,7 @@
             <a href="{{ route('admin-verification-approved') }}"><span>{{ __('Approved') }}</span></a>
         </li>
     </ul>
-</li>
+</li> --}}
 
 <hr>
 
@@ -173,12 +173,9 @@
             <a href="{{ route('admin-gs-agepopup') }}"><span>{{ __('Age Popup') }}</span></a>
         </li>
 
-
-
         <li>
             <a href="{{ route('admin-gs-error-banner') }}"><span>{{ __('Error Banner') }}</span></a>
         </li>
-
 
         <li>
             <a href="{{ route('admin-gs-maintenance') }}"><span>{{ __('Website Maintenance') }}</span></a>
@@ -272,7 +269,7 @@
         <li><a href="{{route('admin-group-show')}}"><span>{{ __('Group Email') }}</span></a></li>
     </ul>
 </li>
-<li>
+{{-- <li>
     <a href="#payments" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-file-code"></i>{{ __('Payment Settings') }}
     </a>
@@ -292,7 +289,7 @@
         <li><a href="{{route('admin-social-facebook')}}"><span>{{ __('Facebook Login') }}</span></a></li>
         <li><a href="{{route('admin-social-google')}}"><span>{{ __('Google Login') }}</span></a></li>
     </ul>
-</li>
+</li> --}}
 <li>
     <a href="#langs" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-language"></i>{{ __('Language Settings') }}

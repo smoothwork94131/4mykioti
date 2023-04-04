@@ -70,7 +70,6 @@ class ProductController extends Controller
                 return '<div class="action-list"><select class="process select droplinks ' . $class . '"><option data-val="1" value="' . route('admin-prod-status', ['id1' => $data->id, 'id2' => 1]) . '" ' . $s . '>Activated</option><<option data-val="0" value="' . route('admin-prod-status', ['id1' => $data->id, 'id2' => 0]) . '" ' . $ns . '>Deactivated</option>/select></div>';
             })
             ->addColumn('action', function (Product $data) {
-                $catalog = $data->type == 'Physical' ? ($data->is_catalog == 1 ? '<a href="javascript:;" data-href="' . route('admin-prod-catalog', ['id1' => $data->id, 'id2' => 0]) . '" data-toggle="modal" data-target="#catalog-modal" class="delete"><i class="fas fa-trash-alt"></i> Remove Catalog</a>' : '<a href="javascript:;" data-href="' . route('admin-prod-catalog', ['id1' => $data->id, 'id2' => 1]) . '" data-toggle="modal" data-target="#catalog-modal"> <i class="fas fa-plus"></i> Add To Catalog</a>') : '';
                 return '<div class="godropdown">
                     <button class="go-dropdown-toggle"> Actions<i class="fas fa-chevron-down"></i></button>
                     <div class="action-list">
@@ -78,9 +77,8 @@ class ProductController extends Controller
                         <a href="javascript" class="set-gallery" data-toggle="modal" data-target="#setgallery">
                             <input type="hidden" value="' . $data->id . '">
                             <i class="fas fa-eye"></i> View Gallery
-                        </a>' . $catalog . 
-                        '<a data-href="' . route('admin-prod-feature', $data->id) . '" class="feature" data-toggle="modal" data-target="#modal2"> <i class="fas fa-star"></i> Highlight</a>
-                        <a href="javascript:;" data-href="' . route('admin-prod-delete', $data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </a>'. 
+                        '<a href="javascript:;" data-href="' . route('admin-prod-delete', $data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i> Delete</a>
                     </div>
                 </div>';
             })
@@ -125,7 +123,13 @@ class ProductController extends Controller
                 return '<div class="action-list"><select class="process select droplinks ' . $class . '"><option data-val="1" value="' . route('admin-prod-status', ['id1' => $data->id, 'id2' => 1]) . '" ' . $s . '>Activated</option><<option data-val="0" value="' . route('admin-prod-status', ['id1' => $data->id, 'id2' => 0]) . '" ' . $ns . '>Deactivated</option>/select></div>';
             })
             ->addColumn('action', function (Product $data) {
-                return '<div class="godropdown"><button class="go-dropdown-toggle"> Actions<i class="fas fa-chevron-down"></i></button><div class="action-list"><a href="' . route('admin-prod-edit', $data->id) . '"> <i class="fas fa-edit"></i> Edit</a><a href="javascript" class="set-gallery" data-toggle="modal" data-target="#setgallery"><input type="hidden" value="' . $data->id . '"><i class="fas fa-eye"></i> View Gallery</a><a data-href="' . route('admin-prod-feature', $data->id) . '" class="feature" data-toggle="modal" data-target="#modal2"> <i class="fas fa-star"></i> Highlight</a><a href="javascript:;" data-href="' . route('admin-prod-catalog', ['id1' => $data->id, 'id2' => 0]) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i> Remove Catalog</a></div></div>';
+                return '<div class="godropdown">
+                    <button class="go-dropdown-toggle"> Actions<i class="fas fa-chevron-down"></i></button>
+                    <div class="action-list">
+                        <a href="' . route('admin-prod-edit', $data->id) . '"> <i class="fas fa-edit"></i> Edit</a>
+                        <a href="javascript" class="set-gallery" data-toggle="modal" data-target="#setgallery"><input type="hidden" value="' . $data->id . '"><i class="fas fa-eye"></i> View Gallery</a>
+                        <a data-href="' . route('admin-prod-feature', $data->id) . '" class="feature" data-toggle="modal" data-target="#modal2"> <i class="fas fa-star"></i> Highlight</a>
+                        <a href="javascript:;" data-href="' . route('admin-prod-catalog', ['id1' => $data->id, 'id2' => 0]) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i> Remove Catalog</a></div></div>';
             })
             ->rawColumns(['name', 'status', 'action'])
             ->toJson(); //--- Returning Json Data To Client Side
@@ -283,11 +287,33 @@ class ProductController extends Controller
     public function attach(Request $request) {
         $category_id = $request->category_id;
         $data = $request->data;
+        $data["category_id"] = $category_id;
+        unset($data["description"]);
 
-        $result = array(
-            'result' => true
-        );
+        $model = new Product;
         
+        if($model->fill($data)->save()) {
+
+            if ($data["photo"]!="" && file_exists(public_path() . '/assets/images/products/' . $data["photo"])) {
+                $img = Image::make(public_path().'/assets/images/products/' . $data["photo"])->resize(800, 800);
+                $img->save(public_path().'/assets/images/products_home/' . $data["photo"]); 
+            }
+
+            if ($data["thumbnail"]!="" && file_exists(public_path() . '/assets/images/thumbnails/' . $data["thumbnail"])) {
+                $img = Image::make(public_path().'/assets/images/thumbnails/' . $data["thumbnail"])->resize(250, 250);
+                $img->save(public_path().'/assets/images/thumbnails_home/' . $data["thumbnail"]);
+            }
+            
+            $result = array(
+                'result' => true
+            );
+        }
+        else {
+            $result = array(
+                'result' => false
+            );
+        }
+
         return json_encode($result);
     }
 
