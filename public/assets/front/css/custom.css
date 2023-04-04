@@ -2172,3 +2172,15 @@ End Footer Custom Style
     font-size: 16px;
     font-weight: 100;
 }
+
+.pagination .paginate_button .page-link {
+    color: #F05223;
+}
+
+
+
+.pagination .paginate_button.active .page-link{
+    background-color: #F05223;
+    border-color: #F05223;
+    color: #fff;
+}

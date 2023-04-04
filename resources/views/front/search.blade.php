@@ -23,7 +23,7 @@
 <!-- SubCategori Area Start -->
 <section class="sub-categori">
     <div class="container">
-        <table id="product_table" class="table" cellspacing="0" width="100%">
+        <table id="product_table" class="product_table table" cellspacing="0" width="100%">
             <thead>
             <tr>
                 <th width='10%' class='th-img'></th>
@@ -94,14 +94,7 @@
 <!-- SubCategori Area End -->
 @endsection
 <style>
-    @media (max-width: 768px) {
-        #product_table .dropdown-menu.show {
-            left: 0% !important;
-        }
-    }
-
-    
-    span i {
+    .cart span i {
         margin-top: 15px;
     }
 
@@ -114,10 +107,6 @@
         info: false,
         searching: false,
         lengthMenu: [[20, 100, 150, 200, -1], [20, 100, 150, 200, "All"]],
-        rowReorder: {
-            selector: 'td:nth-child(2)'
-        },
-        responsive: true
     });
 </script>
 
