@@ -172,6 +172,7 @@ class ProductController extends Controller
             $categories = DB::table('categories')
                 ->select('id', 'name')
                 ->where('parent', 0)
+                ->where('status', 1)
                 ->orderBy('name', 'asc')
                 ->get();
 
@@ -188,6 +189,7 @@ class ProductController extends Controller
                 $series = DB::table('categories')
                     ->select('id', 'name')
                     ->where('parent', $parent)
+                    ->where('status', 1)
                     ->orderBy('name', 'asc')
                     ->get();
 
