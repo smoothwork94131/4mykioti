@@ -44,8 +44,6 @@ class SearchController extends Controller{
         
         $sql.=" limit 50" ;
 
-        echo $sql; exit;
-
         $products =DB::select($sql) ;
         $data = array();
         foreach($products as $key => $item) {
