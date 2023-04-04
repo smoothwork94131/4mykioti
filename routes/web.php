@@ -111,6 +111,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/create', 'Admin\ProductController@create')->name('admin-prod-create');
         Route::post('/products/store', 'Admin\ProductController@store')->name('admin-prod-store');
         Route::get('/getattributes', 'Admin\ProductController@getAttributes')->name('admin-prod-getattributes');
+
+        // Attach Existing Product Section
+        Route::get('/products/existing', 'Admin\ProductController@existing')->name('admin-prod-existing');
+        Route::post('/products/existing_category_data', 'Admin\ProductController@existing_category')->name('admin-prod-existing_category');
+        Route::post('/products/attach', 'Admin\ProductController@attach')->name('admin-prod-attach');
         // CREATE SECTION
 
         // EDIT SECTION

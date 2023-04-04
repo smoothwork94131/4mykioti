@@ -222,6 +222,7 @@
     <script src="{{asset('assets/admin/js/jquery.canvasjs.min.js')}}"></script>
 
     <script src="{{asset('assets/admin/js/load.js')}}"></script>
+    <script src="{{ asset('assets/front/js/toastr.js') }}"></script>
     <!-- Custom Js-->
     <script src="{{asset('assets/admin/js/custom.js')}}"></script>
     <!-- AJAX Js-->

@@ -34,3 +34,44 @@ button.upload-image {
 .upload-image {
     width: 160px;
 }
+
+.tree_container {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #aaa;
+}
+
+.tree_title {
+    font-size: 24px;
+    font-weight: bolder;
+    color: #000;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #777;
+    border-bottom-style: dashed;
+    width: 120px;
+}
+
+.table_container {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #aaa;
+}
+
+.table_container .table_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table_title {
+    font-size: 24px;
+    font-weight: bolder;
+    color: #000;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #777;
+    border-bottom-style: dashed;
+}
+
+#homecategory_list {
+    width: 250px;
+}

@@ -152,6 +152,134 @@ class ProductController extends Controller
         return view('admin.product.create', compact('cats', 'sign', 'locs'));
     }
 
+    public function existing() {
+        $homecategories = CategoryHome::all();
+        
+        return view('admin.product.existing', array('homecategories' => $homecategories));
+    }
+
+    public function existing_category(Request $request) {
+        $parent = $request->parent;
+        $param = $request->param;
+
+        $data = array();
+
+        if ($parent == "#") {
+            $categories = DB::table('categories')
+                ->select('id', 'name')
+                ->where('parent', 0)
+                ->orderBy('name', 'asc')
+                ->get();
+
+            foreach($categories as $item) {
+                $data[] = array(
+                    "id" => $item->id,
+                    "param" => "category",
+                    "text" => $item->name,
+                    "children" => true
+                );
+            }
+        } else {
+            if($param == "category") {
+                $series = DB::table('categories')
+                    ->select('id', 'name')
+                    ->where('parent', $parent)
+                    ->orderBy('name', 'asc')
+                    ->get();
+
+                foreach($series as $item) {
+                    $data[] = array(
+                        "id" => strtolower($item->name),
+                        "param" => "series",
+                        "text" => $item->name,
+                        "children" => true
+                    );
+                }
+            }
+            else if($param == "series") {
+                $model = DB::table($parent.'_categories')
+                    ->select('model as model_name')
+                    ->orderBy('model', 'asc')
+                    ->get()
+                    ->groupBy('model_name');
+
+                foreach($model as $key => $item) {
+                    $data[] = array(
+                        "id" => $parent.'_'.$key,
+                        "param" => "model",
+                        "text" => $key,
+                        "children" => true
+                    );
+                }
+            }
+            else if($param == "model") {
+                $series_model = explode('_', $parent);
+                $series = $series_model[0];
+                $model = $series_model[1];
+
+                $section = DB::table($series . '_categories')
+                    ->select('section_name')
+                    ->orderBy('section_name', 'asc')
+                    ->where('model', $model)
+                    ->get()
+                    ->groupBy('section_name');
+
+                foreach($section as $key => $item) {
+                    $data[] = array(
+                        "id" => $parent.'_'.$key,
+                        "param" => "section",
+                        "text" => $key,
+                        "children" => true
+                    );
+                }
+            }
+            else if($param == "section") {
+                $series_model_section = explode('_', $parent);
+                $series = $series_model_section[0];
+                $model = $series_model_section[1];
+                $section = $series_model_section[2];
+
+                $group = DB::table($series . '_categories')
+                    ->select('group_Id', 'group_name', 'image')
+                    ->where('model', $model)
+                    ->where('section_name', $section)
+                    ->orderBy('group_Id', 'asc')
+                    ->get();
+
+                foreach($group as $item) {
+                    $image = $item->image? public_path() . '/assets/images/group' . $item->image:public_path() . '/assets/images/group' . $item->group_Id . '.png';
+
+                    $data[] = array(
+                        "id" => $parent.'_'.$item->group_Id,
+                        "param" => "group",
+                        "text" => $item->group_name,
+                        "children" => false
+                    );
+                }
+            }
+            else if($param == "group") {
+                $series_model_section_group = explode('_', $parent);
+                $series = $series_model_section_group[0];
+                $model = $series_model_section_group[1];
+                $section = $series_model_section_group[2];
+                $group = $series_model_section_group[3];
+
+                $data = DB::table($series)
+                    ->select('*')
+                    ->where('subcategory_id', $model)
+                    ->where('category_id', $group)
+                    ->orderBy('name', 'asc')
+                    ->get()
+                    ->toArray();
+            }
+        }
+
+        header('Content-type: text/json');
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        echo json_encode($data);
+    }
+
     //*** GET Request
     public function status($id1, $id2)
     {
