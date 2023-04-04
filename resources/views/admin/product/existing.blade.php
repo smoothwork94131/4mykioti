@@ -74,7 +74,7 @@
 
 @section('scripts')
 
-<script src="{{asset('assets/admin/js/jsTree.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/jstree.min.js')}}"></script>
 <script type="text/javascript">
     $("#jstree").jstree({
         "core": {
