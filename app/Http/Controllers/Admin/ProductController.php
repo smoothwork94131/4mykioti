@@ -280,6 +280,17 @@ class ProductController extends Controller
         echo json_encode($data);
     }
 
+    public function attach(Request $request) {
+        $category_id = $request->category_id;
+        $data = $request->data;
+
+        $result = array(
+            'result' => true
+        );
+        
+        return json_encode($result);
+    }
+
     //*** GET Request
     public function status($id1, $id2)
     {

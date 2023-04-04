@@ -44,7 +44,7 @@
                     <div class="table_header">
                         <div class="table_title">Parts List</div>
                         <select class="form-control" id="homecategory_list">
-                            <option>----</option>
+                            <option></option>
                             @foreach ($homecategories as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
@@ -115,48 +115,6 @@
                     'param': type
                 },
                 'success': function(response) {
-                    // response = JSON.parse(response);
-                    // var html = '';
-                    // for(var i=0; i<response.length; i++) {
-                    //     var img = response[i].thumbnail ? "{{ asset('assets/images/thumbnails/') }}" + response[i].thumbnail : "{{ asset('assets/images/noimage.png') }}";
-                    //     html +=`<tr>
-                    //         <td style="text-align:center;">
-                    //             ${response[i].top}
-                    //         </td>
-                    //         <td style="text-align:center;">
-                    //             <img style="width:30px; height: 30px;" src="${img}" alt="">
-                    //         </td>
-                    //         <td style="text-align:center;">
-                    //             ${response[i].name}
-                    //         </td>
-                    //         <td style="text-align:center;">
-                    //             ${response[i].name}
-                    //         </td>
-                    //         <td style="text-align:center;">
-                    //             <div class="dropdown">
-                    //                 <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    //                     <i class="fas fa-ellipsis-v"></i>
-                    //                 </a>
-                    //                 <div class="dropdown-menu dropdown-primary">
-                    //                     <span class="dropdown-item add-to-wish" onclick="attachProduct()">
-                    //                         <i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish
-                    //                     </span>
-                    //                 </div>
-                    //             </div>
-                    //         </td>
-                    //     </tr>`;
-                    // }
-
-                    // $("#product_table tbody").html("");
-                    // $("#product_table tbody").html(html);
-                    // var product_table = $('.product_table').DataTable({
-                    //     "paging": false,
-                    //     "ordering": false,
-                    //     "info": false,
-                    //     "searching": false,
-                    //     "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
-                    // });
-
                     product_table.clear();
                     product_table.rows.add(response);
                     product_table.draw();
@@ -196,10 +154,35 @@
     var attachProduct = (data) => {
         var category_id = $("#homecategory_list").val();
         console.log(category_id);
-        if(!category_id || category_id == "----") {
-            console.log('aaaa');
-            toastr.success("Please select the home category.");
+        if(!category_id || category_id == "") {
+            toastr.warning("Please select the home category.");
+            return;
         }
+
+        if(data.photo == "" || data.thumbnail == "") {
+            toastr.warning("No Image for this product.");
+            return
+        }
+
+        $.ajax({
+            'type': 'POST',
+            'dataType': 'json',
+            'url': "{{ route('admin-prod-attach') }}",
+            'data' : {
+                '_token': '{{ csrf_token() }}',
+                'data': data,
+                'category_id': category_id
+            },
+            'success': function(response) {
+                console.log(response);
+                if(response.result == true) {
+                    toastr.success("Saved Successfully.");
+                }
+                else {
+                    toastr.error("Some Went Wrong during Save.");   
+                }
+            }
+        })
     }
 
 </script>

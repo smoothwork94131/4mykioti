@@ -29,6 +29,7 @@
     <link href="{{asset('assets/admin/plugins/fullside-menu/waves.min.css')}}" rel="stylesheet" />
 
     <link href="{{asset('assets/admin/css/plugin.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/admin/css/toastr.css')}}" rel="stylesheet" />
 
     <link href="{{asset('assets/admin/css/jquery.tagit.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-coloroicker.css') }}">
@@ -222,7 +223,7 @@
     <script src="{{asset('assets/admin/js/jquery.canvasjs.min.js')}}"></script>
 
     <script src="{{asset('assets/admin/js/load.js')}}"></script>
-    <script src="{{ asset('assets/front/js/toastr.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/toastr.js') }}"></script>
     <!-- Custom Js-->
     <script src="{{asset('assets/admin/js/custom.js')}}"></script>
     <!-- AJAX Js-->

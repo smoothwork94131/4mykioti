@@ -214,14 +214,8 @@
             </div>
         </div>
     </div>
-
-
     {{-- GALLERY MODAL ENDS --}}
-
 @endsection
-
-
-
 @section('scripts')
     {{-- DATA TABLE --}}
 
