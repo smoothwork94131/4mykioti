@@ -63,6 +63,21 @@ button.upload-image {
     justify-content: space-between;
 }
 
+.category_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category_container label {
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+
+.category_container select {
+    margin-bottom: 0;
+}
+
 .table_title {
     font-size: 24px;
     font-weight: bolder;

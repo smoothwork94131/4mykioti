@@ -43,12 +43,15 @@
                 <div class="table_container">
                     <div class="table_header">
                         <div class="table_title">Parts List</div>
-                        <select class="form-control" id="homecategory_list">
-                            <option></option>
-                            @foreach ($homecategories as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="category_container">
+                            <label>Select Home Category: </label>
+                            <select class="form-control" id="homecategory_list">
+                                <option></option>
+                                @foreach ($homecategories as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="table_content">
                         <table id="product_table" class="table product_table" cellspacing="0" width="100%">
