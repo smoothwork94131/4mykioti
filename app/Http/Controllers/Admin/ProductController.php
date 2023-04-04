@@ -157,7 +157,7 @@ class ProductController extends Controller
     }
 
     public function existing() {
-        $homecategories = CategoryHome::all();
+        $homecategories = CategoryHome::orderBy('name', 'asc')->get();
         
         return view('admin.product.existing', array('homecategories' => $homecategories));
     }
