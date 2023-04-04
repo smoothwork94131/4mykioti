@@ -820,7 +820,7 @@
                                     {{ csrf_field() }}
                                     <input type="hidden" id="pid" name="product_id" value="">
                                     <input type="file" name="gallery[]" class="hidden" id="uploadgallery" accept="image/*" multiple>
-                                    <label for="image-upload" id="prod_gallery"><i class="icofont-upload-alt"></i>{{ __('Upload File') }}</label>
+                                    <label id="prod_gallery"><i class="icofont-upload-alt"></i>{{ __('Upload File') }}</label>
                                 </form>
                             </div>
                         </div>
@@ -914,6 +914,7 @@
     });
 
     $(document).on('submit', '#form-gallery', function() {
+        
         $.ajax({
             url: "{{ route('admin-gallery-store') }}"
             , method: "POST"

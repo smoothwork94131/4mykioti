@@ -254,6 +254,7 @@ class ProductController extends Controller
     //*** POST Request
     public function store(Request $request)
     {
+        
         $gs = Generalsetting::findOrFail(1);   
         if(1)
         {
@@ -469,26 +470,26 @@ class ProductController extends Controller
             // Set SLug
 
             $prod = Product::find($data->id);
-            $prod->slug = str_slug($data->name,'-').'-'.strtolower($data->sku);
-
+            
             // Add To Gallery If any
             $lastid = $data->id;
-            if ($files = $request->file('gallery')){
-                foreach ($files as  $key => $file){
-                    if(in_array($key, $request->galval))
-                    {
-                        $gallery = new Gallery;
-                        $name = str_replace(' ', '-', $file->getClientOriginalName());
-                        $name = time().$name;
-                        $img = Image::make($file->getRealPath())->resize(800, 800);
-                        $img->save(public_path().'/assets/images/galleries/'.$name);
+            
+            // if ($files = $request->file('gallery')){
+            //     foreach ($files as  $key => $file){
+            //         if(in_array($key, $request->galval))
+            //         {
+            //             $gallery = new Gallery;
+            //             $name = str_replace(' ', '-', $file->getClientOriginalName());
+            //             $name = time().$name;
+            //             $img = Image::make($file->getRealPath())->resize(800, 800);
+            //             $img->save(public_path().'/assets/images/galleries/'.$name);
 
-                        $gallery['photo'] = $name;
-                        $gallery['product_id'] = $lastid;
-                        $gallery->save();
-                    }
-                }
-            }
+            //             $gallery['photo'] = $name;
+            //             $gallery['product_id'] = $lastid;
+            //             $gallery->save();
+            //         }
+            //     }
+            // }
 
             //--- Redirect Section
             if(Session::has('error')){

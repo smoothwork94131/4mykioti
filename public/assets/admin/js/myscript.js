@@ -641,7 +641,6 @@
         }
 
         var fd = new FormData(this);
-
         if ($('.attr-checkbox').length > 0) {
             $('.attr-checkbox').each(function() {
 
@@ -663,6 +662,7 @@
 
         var geniusform = $(this);
         $('button.addProductSubmit-btn').prop('disabled', true);
+        
         $.ajax({
             method: "POST",
             url: $(this).prop('action'),

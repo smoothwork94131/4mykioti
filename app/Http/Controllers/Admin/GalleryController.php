@@ -32,6 +32,9 @@ class GalleryController extends Controller
 
     public function store(Request $request)
     {
+
+
+    
         $data = null;
         $lastid = $request->product_id;
 
@@ -39,9 +42,12 @@ class GalleryController extends Controller
         // $removebg = new RemoveBg($apiKey);
 
         if ($files = $request->file('gallery')) {
+          
             foreach ($files as $key => $file) {
+                
                 $val = $file->getClientOriginalExtension();
-                if ($val == 'jpeg' || $val == 'jpg' || $val == 'png' || $val == 'svg') {
+              
+                if ($val == 'jpeg' || $val == 'jpg' || $val == 'png' || $val == 'svg' || $val =="webp") {
                     $gallery = new Gallery;
 
                     $img = Image::make($file->getRealPath())->resize(800, 800);
