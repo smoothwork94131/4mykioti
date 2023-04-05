@@ -44,11 +44,12 @@
                     </td>
                     <td>
                         @php 
-                            foreach($prod as $sub_key => $item) {
-                                if(strstr($item, "/")) {
-                                    $prod[$sub_key] = str_replace("/", ":::", $item) ;
-                                }
-                            }
+                            // $param_list=array();
+                            // foreach($prod as $sub_key => $item) {
+                            //     if(strstr($item, "/")) {
+                            //         $prod[$sub_key] = str_replace("/", ":::", $item) ;
+                            //     }
+                            // }
                         @endphp
                         <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->subcategory_id.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
                     </td>
