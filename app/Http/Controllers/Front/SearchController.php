@@ -156,6 +156,21 @@ class SearchController extends Controller{
             }
 
             if($categories_match) {
+                foreach($categories as $key => $item) {
+                    $flag = false;
+                    foreach($categories_match as $sub_item) {
+                        if($item->id == $sub_item->id) {
+                            $flag = true;
+                            break;
+                        }
+                    }
+
+                    if($flag == true) {
+                        unset($categories[$key]);
+                        $categories = array_values($categories);
+                    }
+                }              
+
                 $result = array_merge($categories_match, $categories);
             }
             else {
@@ -312,8 +327,8 @@ class SearchController extends Controller{
 
             $table_name = strtolower($search_key);
             
-            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
-            $sql_match .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+            $sql .= "select `id`, `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
+            $sql_match .= "select `id`, `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
 
             $flag = true ;
         }
@@ -328,6 +343,22 @@ class SearchController extends Controller{
             }
 
             if($categories_match) {
+                
+                foreach($categories as $key => $item) {
+                    $flag = false;
+                    foreach($categories_match as $sub_item) {
+                        if($item->id == $sub_item->id) {
+                            $flag = true;
+                            break;
+                        }
+                    }
+
+                    if($flag == true) {
+                        unset($categories[$key]);
+                        $categories = array_values($categories);
+                    }
+                }
+
                 $result = array_merge($categories_match, $categories);
             }
             else {
