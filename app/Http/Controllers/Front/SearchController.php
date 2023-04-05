@@ -91,21 +91,30 @@ class SearchController extends Controller{
         }
 
         $like_clause = "";
+        $like_match_clause = "";
 
         if(count($search_word_array) != 0) {
-            $like_clause = " and ( ";
+            $start_clause = " and ( ";
             $flag = 0;
+            $search_sum = "";
             foreach($search_word_array as $like_item) {
                 if($flag == 1) {
                     $like_clause .= ' or ';
+                    $search_sum .= ' ';
                 }
                 $like_clause .= "`sku` like '%{$like_item}%' or `name` like '%{$like_item}%'" ;
+                $search_sum .= $like_item;
                 $flag = 1;
             }
+
+            $like_clause = $start_clause . $like_clause;
             $like_clause .= ')';
+
+            $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
         }
 
         $sql = "" ;
+        $sql_match = "" ; 
         $flag = false ;
 
         foreach($search_model as $search_key => $search_item) {
@@ -115,6 +124,7 @@ class SearchController extends Controller{
             
             $sub_flag = false;
             $sub_sql = "( ";
+            $sub_sql_match = "";
 
             foreach($search_item as $sub_key => $sub_item) {
                 if($sub_flag) {
@@ -125,21 +135,35 @@ class SearchController extends Controller{
                 $sub_flag = true;
             }
 
+            $sub_sql_match = $sub_sql . ')' . $like_match_clause;
             $sub_sql .= ')' . $like_clause;
 
             $table_name = strtolower($search_key);
             
-            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, `thumbnail`, `parent`, `sku`, `id`, `product_type`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql} " ;
+            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
+            $sql_match .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+
             $flag = true ;
         }
 
-        // echo $sql; exit;
-
-        $products = array();
+        $categories = array();
+        $categories_match = false;
+        $result = array();
         if($sql != "") {
-            $products =DB::select($sql) ;
+            $categories =DB::select($sql) ;
+            if(count($search_word_array) > 1) {
+                $categories_match = DB::select($sql_match);
+            }
+
+            if($categories_match) {
+                $result = array_merge($categories_match, $categories);
+            }
+            else {
+                $result = $categories;
+            }
+
             $data = array();
-            foreach($products as $key => $item) {
+            foreach($result as $key => $item) {
                 $table_name = strtolower($item->table);
                 $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
                 $ret = DB::select($sql) ;
@@ -149,10 +173,10 @@ class SearchController extends Controller{
                     $data[$key] = $item ;
                 }
             }
-            $products = $data ;
+            $result = $data ;
         }
 
-        $products = $data ;
+        $products = $result ;
         return view('front.search', compact('products', 'tbl_name'));
     }
     
@@ -239,21 +263,30 @@ class SearchController extends Controller{
         }
 
         $like_clause = "";
+        $like_match_clause = "";
 
         if(count($search_word_array) != 0) {
-            $like_clause = " and ( ";
+            $start_clause = " and ( ";
             $flag = 0;
+            $search_sum = "";
             foreach($search_word_array as $like_item) {
                 if($flag == 1) {
                     $like_clause .= ' or ';
+                    $search_sum .= ' ';
                 }
                 $like_clause .= "`sku` like '%{$like_item}%' or `name` like '%{$like_item}%'" ;
+                $search_sum .= $like_item;
                 $flag = 1;
             }
+
+            $like_clause = $start_clause . $like_clause;
             $like_clause .= ')';
+
+            $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
         }
 
         $sql = "" ;
+        $sql_match = "" ; 
         $flag = false ;
 
         foreach($search_model as $search_key => $search_item) {
@@ -263,6 +296,7 @@ class SearchController extends Controller{
             
             $sub_flag = false;
             $sub_sql = "( ";
+            $sub_sql_match = "";
 
             foreach($search_item as $sub_key => $sub_item) {
                 if($sub_flag) {
@@ -273,19 +307,35 @@ class SearchController extends Controller{
                 $sub_flag = true;
             }
 
+            $sub_sql_match = $sub_sql . ')' . $like_match_clause;
             $sub_sql .= ')' . $like_clause;
 
             $table_name = strtolower($search_key);
             
             $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
+            $sql_match .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+
             $flag = true ;
         }
 
-        $categoreis = array();
+        $categories = array();
+        $categories_match = false;
+        $result = array();
         if($sql != "") {
-            $categoreis =DB::select($sql) ;
+            $categories =DB::select($sql) ;
+            if(count($search_word_array) > 1) {
+                $categories_match = DB::select($sql_match);
+            }
+
+            if($categories_match) {
+                $result = array_merge($categories_match, $categories);
+            }
+            else {
+                $result = $categories;
+            }
+
             $data = array();
-            foreach($categoreis as $key => $item) {
+            foreach($result as $key => $item) {
                 $table_name = strtolower($item->table);
                 $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
                 $ret = DB::select($sql) ;
@@ -295,10 +345,10 @@ class SearchController extends Controller{
                     $data[$key] = $item ;
                 }
             }
-            $categoreis = $data ;
+            $result = $data ;
         }
 
-        echo json_encode($categoreis) ;
+        echo json_encode($result) ;
     }
 }
 
