@@ -126,8 +126,10 @@ class SearchController extends Controller{
             }
 
             $sub_sql .= ')' . $like_clause;
+
+            $table_name = strtolower($search_key);
             
-            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, `thumbnail`, `parent`, `sku`, `id`, `product_type`, '{$search_key}' as `table` from `{$search_key}` where {$sub_sql} " ;
+            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, `thumbnail`, `parent`, `sku`, `id`, `product_type`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql} " ;
             $flag = true ;
         }
 
@@ -271,8 +273,10 @@ class SearchController extends Controller{
             }
 
             $sub_sql .= ')' . $like_clause;
+
+            $table_name = strtolower($search_key);
             
-            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$search_key}` where {$sub_sql} " ;
+            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
             $flag = true ;
         }
 

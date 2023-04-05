@@ -1456,6 +1456,10 @@ function showMobileSearchField(obj) {
     }
 }
 
+var timer;
+var delay = 400; 
+
+
 function totalSearch(event, type) {
     var search_word = $("."+type+"-search-field .search-field .search-input").val() ;
     
@@ -1464,82 +1468,79 @@ function totalSearch(event, type) {
         return ;
     }
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|.<>\/?~]/; 
-    // var status = format.test(event.target.value) ;
-    // if(status) {
-    //     $(".search-dropdown").html("Not input special letter!!!") ;
-    //     return ;
-    // }
+    
 
-    
-    
     var key = $(".desktop-search-field .search-table .sel-drop .name").html() ;
     
     if( event.keyCode == 13 || event.keyCode == 1200) {
         window.location.href ="http://"+window.location.host+"/search/"+key+"/"+search_word ;
         return ;
-    } 
+    }
     
-    $.ajax({
-        method: "POST",
-        url:"/search",
-        data: "search_word="+search_word+"&key="+key,    
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf- token"]').attr('content')          
-        }, 
-        dataType:'json',
-        beforeSend:function(){$(".search-dropdown").css("display", "block") ; $(".search-dropdown").html("<div align='center'>loading data...</div>")},
-        success: function(data) {
-            if(data.length !=0 ) {
-                var html = "" ;
-                search_list = data ;
-                var scr = $("body").width() ;
-                for(var k = 0 ; k < data.length ; k++) {
-                    var item = data[k] ;
-                    var section = replaceDataToPath(item.section) ;
-                    var group_name = replaceDataToPath(item.group_name) ;
-                    var name = replaceDataToPath(item.name) ;
-
-                    html+="<a  href='/product/"+key+'/'+item.table+"/"+item.subcategory_id+'/'+section+'/'+group_name+'/'+name+"'>" ;
-                    if(scr > 768) {
-                        html+="<div class='item'>"+
-                            "<div style='width: 30%'>" ;
-                                    if(item.photo == "") {
-                                        html+="<img src='/assets/images/noimage.png' style='width: 100%'/>" ;
-                                    } else {
-                                        html+="<img src='/assets/images/products/"+item['photo']+"' style='width: 100% ;height: 114px'/>" ;
-                                    }
-                                html+="</div>"+
-                                "<div style='width: 55% ;padding-top: 30px;'>"+
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+        $.ajax({
+            method: "POST",
+            url:"/search",
+            data: "search_word="+search_word+"&key="+key,    
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf- token"]').attr('content')          
+            }, 
+            dataType:'json',
+            beforeSend:function(){$(".search-dropdown").css("display", "block") ; $(".search-dropdown").html("<div align='center'>loading data...</div>")},
+            success: function(data) {
+                if(data.length !=0 ) {
+                    var html = "" ;
+                    search_list = data ;
+                    var scr = $("body").width() ;
+                    for(var k = 0 ; k < data.length ; k++) {
+                        var item = data[k] ;
+                        var section = replaceDataToPath(item.section) ;
+                        var group_name = replaceDataToPath(item.group_name) ;
+                        var name = replaceDataToPath(item.name) ;
+    
+                        html+="<a  href='/product/"+key+'/'+item.table+"/"+item.subcategory_id+'/'+section+'/'+group_name+'/'+name+"'>" ;
+                        if(scr > 768) {
+                            html+="<div class='item'>"+
+                                "<div style='width: 30%'>" ;
+                                        if(item.photo == "") {
+                                            html+="<img src='/assets/images/noimage.png' style='width: 100%'/>" ;
+                                        } else {
+                                            html+="<img src='/assets/images/products/"+item['photo']+"' style='width: 100% ;height: 114px'/>" ;
+                                        }
+                                    html+="</div>"+
+                                    "<div style='width: 55% ;padding-top: 30px;'>"+
+                                        "<div>"+item['subcategory_id']+"</div>"+
+                                        "<div>"+item['name']+"</div>"+
+                                    "</div>"+
+                                    "<div style='width: 15%; padding-top: 30px;'>"+
+                                        item['price']+"$"+
+                                    "</div>"+
+                            "</div>" ;
+                            
+                        }  else {
+                            html+="<div class='item'>"+
+                                "<div style='width: 78% ;'>"+
                                     "<div>"+item['subcategory_id']+"</div>"+
                                     "<div>"+item['name']+"</div>"+
                                 "</div>"+
-                                "<div style='width: 15%; padding-top: 30px;'>"+
+                                "<div style='width: 20%;'>"+
                                     item['price']+"$"+
                                 "</div>"+
-                        "</div>" ;
-                        
-                    }  else {
-                        html+="<div class='item'>"+
-                            "<div style='width: 78% ;'>"+
-                                "<div>"+item['subcategory_id']+"</div>"+
-                                "<div>"+item['name']+"</div>"+
-                            "</div>"+
-                            "<div style='width: 20%;'>"+
-                                item['price']+"$"+
-                            "</div>"+
-                        "</div>" ;
-                    } 
+                            "</div>" ;
+                        } 
+                    }
+                    html+="</a>" ;
+    
+                    $(".search-dropdown").html(html) ;
+                    $(".search-dropdown").css("display", "block") ;
+                } else {
+                    $(".search-dropdown").html("No Products") ;
+                    $(".search-dropdown").css("display", "none") ;
                 }
-                html+="</a>" ;
-
-                $(".search-dropdown").html(html) ;
-                $(".search-dropdown").css("display", "block") ;
-            } else {
-                $(".search-dropdown").html("No Products") ;
-                $(".search-dropdown").css("display", "none") ;
             }
-        }
-    });
+        });
+    }, delay);
 }
 
 function replaceDataToPath($path) {
