@@ -50,7 +50,7 @@
                                 }
                             }
                         @endphp
-                        <a href="{{'/product/'.$prod->category.'/'.$prod->table.'/'.$prod->subcategory_id.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
+                        <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->subcategory_id.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
                     </td>
                     <td>
                         {{ $prod->subcategory_id }}
