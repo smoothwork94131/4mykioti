@@ -140,7 +140,8 @@ class SearchController extends Controller{
             $products =DB::select($sql) ;
             $data = array();
             foreach($products as $key => $item) {
-                $sql = "select * from `{$item->table}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
+                $table_name = strtolower($item->table);
+                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
                 $ret = DB::select($sql) ;
                 if($ret) {
                     $item->group_name = $ret[0]->group_name ;
