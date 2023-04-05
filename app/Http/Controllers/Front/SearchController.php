@@ -51,7 +51,7 @@ class SearchController extends Controller{
         $model_array = array();
 
         foreach($series as $ser) {
-            $model = DB::table($ser->name.'_categories')
+            $model = DB::table(strtolower($ser->name).'_categories')
                     ->select('model as model_name')
                     ->orderBy('model', 'asc')
                     ->get()
@@ -196,7 +196,7 @@ class SearchController extends Controller{
         $model_array = array();
 
         foreach($series as $ser) {
-            $model = DB::table($ser->name.'_categories')
+            $model = DB::table(strtolower($ser->name).'_categories')
                     ->select('model as model_name')
                     ->orderBy('model', 'asc')
                     ->get()
