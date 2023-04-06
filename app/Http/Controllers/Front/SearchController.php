@@ -110,6 +110,17 @@ class SearchController extends Controller{
             $like_clause = $start_clause . $like_clause;
             $like_clause .= ')';
 
+            $replacements = [
+                "oil filter" => "filter, oil",
+                "gas filter" => "filter, gas"
+            ];
+            
+            foreach ($replacements as $needle => $replacement) {
+                if (strpos($search_sum, $needle) !== false) {
+                    $search_sum = str_replace($needle, $replacement, $search_sum);
+                }
+            }
+
             $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
         }
 
@@ -198,9 +209,8 @@ class SearchController extends Controller{
     public function search(Request $request) {
         $search_word = $_REQUEST['search_word'] ;
         $tbl_name = $_REQUEST['key'] ;
-
+        
         $small_words_array = array('a', 'the', 'an', 'kioti', 'need', 'i', 'want', 'get', 'as', 'for');
-
         $search_word_array = preg_split("/[\s,]+/", $search_word);
 
         $unset_keys_array = [];
@@ -297,7 +307,20 @@ class SearchController extends Controller{
             $like_clause = $start_clause . $like_clause;
             $like_clause .= ')';
 
+            $replacements = [
+                "oil filter" => "filter, oil",
+                "gas filter" => "filter, gas"
+            ];
+            
+            foreach ($replacements as $needle => $replacement) {
+                if (strpos($search_sum, $needle) !== false) {
+                    $search_sum = str_replace($needle, $replacement, $search_sum);
+                }
+            }
+
             $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
+
+            // echo $like_match_clause; exit;
         }
 
         $sql = "" ;
