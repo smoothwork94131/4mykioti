@@ -32,10 +32,10 @@ class AppServiceProvider extends ServiceProvider
         if($domain == 'localhost' || $domain == '127.0.0.1') {
             $domain  = 'kioti';
         }
-        else if($domain == 'www.4mykioti.com') {
+        else if($domain == 'www.4mykioti.com' || $domain == 'www.colthansen.com') {
             $domain  = 'kioti';
         }
-        else if($domain == 'www.4mymahindra.com') {
+        else if($domain == 'www.4mymahindra.com' || $domain == 'www.kubernetesai.com') {
             $domain  = 'mahindra';
         }
         else if($domain == 'www.4mytractor.com') {

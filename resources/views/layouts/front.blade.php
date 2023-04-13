@@ -516,7 +516,12 @@
         <div class='content'>
             <div style="width: 10%;"></div>
             <div class="site-info">
-                <span class="site_url">4myKIOTI.com</span>
+                @if($domain_name == 'mahindra')
+                <span class="site_url">4myMahindra.com</span>
+                @elseif($domain_name == 'kioti')
+                <span class="site_url">4myKioti.com</span>
+                @endif
+
                 <span class="phone_num"><span id="phone_num_desc">FOR ASSISTANCE CALL:</span> <a
                         href="tel:+1(724) 691-0200">(724) 691-0200</a> </span>
             </div>
