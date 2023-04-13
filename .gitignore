@@ -3,5 +3,5 @@
 /.vscode
 /node_modules
 /public/storage
-/public/assets/images/capcha_code.png
+/public/assets/images
 /vendor
