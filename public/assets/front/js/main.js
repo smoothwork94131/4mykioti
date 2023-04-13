@@ -250,6 +250,7 @@ $(function($) {
         });
 
         function replaceDataToPath($path) {
+            $path = $path + "";
             if($path == undefined) return $path ;
             if($path.indexOf("/")) {
                 $path = $path.replace(/[/]/g, ":::") ;
