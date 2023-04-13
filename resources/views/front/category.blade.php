@@ -129,8 +129,12 @@
                         <table id="product_table" class="table product_table" cellspacing="0" width="100%">
                             <thead>
                             <tr>
+                                @if($refno_flag)
                                 <th style="text-align:center;">NO</th>
+                                @endif
+                                @if($thumbnail_flag)
                                 <th style="text-align:center;"></th>
+                                @endif
                                 <th style="text-align:center;">Name</th>
                                 <th style="text-align:center;">Price</th>
                                 <th style="text-align:center;">Action</th>
@@ -146,12 +150,16 @@
                                     $slug_list['prod_name'] = $path ;
                                 @endphp
                                 <tr>
+                                    @if($refno_flag)
                                     <td style="text-align:center;">
                                         {{ $prod->top }}
                                     </td>
+                                    @endif
+                                    @if($thumbnail_flag)
                                     <td style="text-align:center;">
                                         <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
+                                    @endif
                                     <td style="text-align:center;">
                                         <a href="{{route('front.product', $slug_list)}}">{{ $prod->name }}</a>
                                     </td>
@@ -196,8 +204,12 @@
                     <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="font-size: 12px;">
                         <thead>
                             <tr>
+                                @if($refno_flag)
                                 <th style="text-align:center;">NO</th>
+                                @endif
+                                @if($thumbnail_flag)
                                 <th style="text-align:center;"></th>
+                                @endif
                                 <th style="text-align:center;">Name</th>
                                 <th style="text-align:center;">Price</th>
                                 <th style="text-align:center;">Action</th>
@@ -213,12 +225,16 @@
                                 $slug_list['prod_name'] = $path ;
                             @endphp
                             <tr>
+                                @if($refno_flag)
                                 <td style="text-align:center;">
                                     {{ $prod->top }}
                                 </td>
+                                @endif
+                                @if($thumbnail_flag)
                                 <td style="text-align:center;">
                                     <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                 </td>
+                                @endif
                                 <td style="text-align:center;">
                                     <a href="{{route('front.product', $slug_list)}}">{{ $prod->name }}</a>
                                 </td>

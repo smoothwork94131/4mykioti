@@ -62,6 +62,7 @@ class CatalogController extends Controller
         $db = strtolower($series);
 
         $prods = DB::table($db)
+        ->select('top', 'sku', 'price', 'name', 'thumbnail', 'id', 'product_type')
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
         })
@@ -84,8 +85,21 @@ class CatalogController extends Controller
             }
         }
 
+        $prods = $prods->distinct();
         $prods = $prods->orderBy('top', 'asc');
         $prods = $prods->get();
+
+        $refno_flag = 0;
+        $thumbnail_flag = 0;
+        foreach($prods as $prod) {
+            if($prod->top != 0) {
+                $refno_flag = true;
+            }
+
+            if($prod->thumbnail != "") {
+                $thumbnail_flag = true;
+            }
+        }
         
         $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
 
@@ -119,9 +133,10 @@ class CatalogController extends Controller
         
         $data['model'] = $model ;
         $data['slug_list'] = $slug_list ;
-        
-        
 
+        $data['refno_flag'] = $refno_flag;
+        $data['thumbnail_flag'] = $thumbnail_flag;
+        
         $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
 
@@ -160,6 +175,7 @@ class CatalogController extends Controller
         $db = strtolower($series);
 
         $prods = DB::table($db)
+        ->select('top', 'sku', 'price', 'name', 'thumbnail', 'id', 'product_type')
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
         })
@@ -182,8 +198,21 @@ class CatalogController extends Controller
             }
         }
 
+        $prods = $prods->distinct();
         $prods = $prods->orderBy('top', 'asc');
         $prods = $prods->get();
+
+        $refno_flag = 0;
+        $thumbnail_flag = 0;
+        foreach($prods as $prod) {
+            if($prod->top != 0) {
+                $refno_flag = true;
+            }
+
+            if($prod->thumbnail != "") {
+                $thumbnail_flag = true;
+            }
+        }
         
         $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
 
@@ -217,8 +246,9 @@ class CatalogController extends Controller
         
         $data['model'] = $model ;
         $data['slug_list'] = $slug_list ;
-        
-        
+
+        $data['refno_flag'] = $refno_flag;
+        $data['thumbnail_flag'] = $thumbnail_flag;
 
         $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
@@ -234,8 +264,8 @@ class CatalogController extends Controller
             
             return view('includes.product.filtered-products', $data);
         }
+
         return view('front.category', $data);
-        
     }
 
     public function getsubs(Request $request)
