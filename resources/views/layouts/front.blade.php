@@ -158,8 +158,11 @@
                                 <div class="categories_menu_inner products">
                                     @foreach ($eccategories as $product)
                                     <div class="categories_menu">
-                                        <div class="categories_title" data-type="category"
-                                            data-category="{{ $product->name }}" data-url="{{ route('front.groups') }}"
+                                        <div class="categories_title" 
+                                            data-type="category"
+                                            data-category="{{ $product->name }}" 
+                                            data-url="{{ route('front.groups') }}"
+                                            data-domain="{{ $domain_name }}" 
                                             data-status="0" data-token="{{ csrf_token() }}">
                                             <h2 class="categori_toggle"> {{ $product->name }}
                                                 <i class="fa fa-angle-down arrow-down" style='margin-left: 5px'></i>

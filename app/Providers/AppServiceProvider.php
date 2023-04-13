@@ -28,6 +28,25 @@ class AppServiceProvider extends ServiceProvider
         
         App::setlocale($admin_lang->name);
 
+        $domain = parse_url(request()->root())['host']; 
+        if($domain == 'localhost' || $domain == '127.0.0.1') {
+            $domain  = 'kioti';
+        }
+        else if($domain == 'www.4mykioti.com') {
+            $domain  = 'kioti';
+        }
+        else if($domain == 'www.4mymahindra.com') {
+            $domain  = 'mahindra';
+        }
+        else if($domain == 'www.4mytractor.com') {
+            $domain  = 'tractor';
+        }
+        else {
+            $domain  = 'kioti';
+        }
+
+        Config::set('session.domain_name', $domain);
+
         view()->composer('*', function ($settings) {
             $gs = DB::table('generalsettings')->find(1);
             $settings->with('gs', $gs);
@@ -67,6 +86,9 @@ class AppServiceProvider extends ServiceProvider
                 $settings->with('solo_category', $solo_category);
                 $settings->with('solo_category_info', $solo_category_info);
             }
+
+            $domain = Config::get('session.domain_name');
+            $settings->with('domain_name', $domain);
         });
     }
 

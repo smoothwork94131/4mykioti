@@ -195,4 +195,6 @@ return [
 
     'same_site' => null,
 
+    'domain_name' => ''
+
 ];

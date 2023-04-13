@@ -28,23 +28,6 @@ use App\Classes\GeniusMailer;
 
 class CatalogController extends Controller
 {
-
-    // CATEGORIES SECTOPN
-
-    public function categories()
-    {
-        return view('front.categories');
-    }
-
-    // -------------------------------- CATEGORY SECTION ----------------------------------------
-    //
-    // public function filteredProducts(Request $request, $slug=null, $slug1=null, $slug2=null)
-    // {
-    //
-    //
-    //   return $products;
-    // }
-
     // -------------------------------- CATEGORY SECTION ----------------------------------------
     public function replaceDataToPath($path) {
         if(strstr($path, ":::")) {
@@ -60,6 +43,104 @@ class CatalogController extends Controller
         return $data ;
     }
     public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
+    {   
+        $category = $this->replaceDataToPath($category) ;
+        $series = $this->replaceDataToPath($series) ;
+        $model = $this->replaceDataToPath($model) ;
+        $section = $this->replaceDataToPath($section) ;
+        $group_id = $this->replaceDataToPath($group_id) ;
+
+        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group_id ) ;
+        
+        if($section == "common") {
+            $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model) ;
+        }
+
+        $minprice = $request->min;
+        $maxprice = $request->max;
+        $search = $request->search;
+        $db = strtolower($series);
+
+        $prods = DB::table($db)
+        ->when($minprice, function ($query, $minprice) {
+            return $query->where('price', '>=', $minprice);
+        })
+        ->when($maxprice, function ($query, $maxprice) {
+            return $query->where('price', '<=', $maxprice);
+        });
+    
+        if ($search) {
+            $search1 = ' ' . $search;
+            $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
+        }
+
+        $prods = $prods->where('status', 1);
+
+        if ($section) {
+            if ($section == 'common') {
+                $prods = $prods->where('best', 1)->where('subcategory_id', $model);
+            } else {
+                $prods = $prods->where('category_id', $group_id)->where('subcategory_id', $model);
+            }
+        }
+
+        $prods = $prods->orderBy('top', 'asc');
+        $prods = $prods->get();
+        
+        $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
+
+        if($group) {
+            $slug_list['group'] = $group->group_name ;
+        }
+
+        if($group && !file_exists(public_path('assets/images/group/'.$group->image)) && !file_exists(public_path('assets/images/group/'.$group->group_Id . '.png'))) {
+            $gs = Generalsetting::findOrFail(1);
+            if ($gs->is_smtp == 1) {
+            
+                $data = [
+                    'to' => 'usamtg@hotmail.com',
+                    'subject' => "No group image!!",
+                    'body' => "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.",
+                ];
+                $mailer = new GeniusMailer();
+                $mailer->sendCustomMail($data);
+            } else {
+                $to = 'usamtg@hotmail.com';
+                $subject = "No group image!!!!";
+                $msg = "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.";
+                $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+                mail($to, $subject, $msg, $headers);
+            }
+        }
+
+        $data['db'] = $db;
+        $data['prods'] = $prods;
+        $data['group'] = $group;
+        
+        $data['model'] = $model ;
+        $data['slug_list'] = $slug_list ;
+        
+        
+
+        $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
+        $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
+
+        $data['colorsetting_style1'] = $colorsetting_style1;
+        $data['colorsetting_style2'] = $colorsetting_style2;
+        
+        $data['db'] = $db;
+
+        if ($request->ajax()) {
+
+            $data['ajax_check'] = 1;
+            
+            return view('includes.product.filtered-products', $data);
+        }
+        return view('front.category', $data);
+        
+    }
+
+    public function collection(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
     {   
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;

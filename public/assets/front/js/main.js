@@ -108,7 +108,7 @@ $(function($) {
         var w = window.innerWidth;
 
         $('.categories_menu_inner').stop().slideUp();
-
+        
         $(document).on("click", ".categories_title", function() {
             $(this).addClass('active');
             $(this).parent().siblings('.categories_menu').children('.categories_menu_inner').stop().slideUp();
@@ -121,7 +121,7 @@ $(function($) {
             var section = replaceDataToPath($(this).data('section'));
             var link = $(this).data('url');
             var token = $(this).data('token');
-            var elem = $(this);
+            var domain = $(this).data("domain_name");
             var cat_elem = $(this).parent().children('.categories_menu_inner');
 
 
@@ -130,7 +130,6 @@ $(function($) {
                     cat_elem.html('');
                 }
 
-                    
                 $.ajax({
                     method: "get",
                     url: link,
@@ -145,17 +144,18 @@ $(function($) {
                     },
                     dataType: 'JSON',
                     success: function(data) {
-                        // elem.data('status', 1);
-
+                        
                         if (data.categories.length > 0) {
                             var element = ``;
                             if (type == 'model') {
                                 for (var x in data.categories) {
                                     element += `<div class="categories_menu">
-                                    <div class="categories_title" data-type="section"
+                                    <div class="categories_title" 
+                                    data-type="section"
                                     data-model="${data.categories[x].model}"
                                     data-series="${series}"
                                     data-url="${link}" 
+                                    data-domain="${domain}" 
                                     data-category="${category}"
                                     data-status="0" data-token="${token}">
                                         <h2 class="categori_toggle"> ${data.categories[x].model} <i class="fa fa-angle-down arrow-down"></i>
@@ -177,7 +177,8 @@ $(function($) {
                                         data-model="${model}"
                                         data-category="${category}"
                                         data-series="${data.categories[x].name}"
-                                        data-url="${link}" 
+                                        data-url="${link}"
+                                        data-domain="${domain}" 
                                         data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].name} <i
                                                         class="fa fa-angle-down arrow-down"></i></h2>
                                         </div>
@@ -197,6 +198,7 @@ $(function($) {
                                         data-model="${model}"
                                         data-series="${series}"
                                         data-url="${link}" 
+                                        data-domain="${domain}" 
                                         data-category="${category}"
                                         data-status="0" data-token="${token}"><h2 class="categori_toggle"> ${data.categories[x].section_name} <i
                                                         class="fa fa-angle-down arrow-down"></i></h2>
@@ -210,10 +212,14 @@ $(function($) {
                                 }
                             
                             } else if (type == 'group') {
-
                                 for (var x in data.categories) {
                                     var group_Id = replaceDataToPath(data.categories[x].group_Id) ;
-                                    element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                    if(domain == 'mahindra') {
+                                        element += `<li><a href="${mainurl}/collection/${category}/${series}/${model}/${section}/${group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                    }
+                                    else {
+                                        element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                    }
                                 }
                                 cat_elem = cat_elem.children('.category-groups');
                                 cat_elem.html(element);

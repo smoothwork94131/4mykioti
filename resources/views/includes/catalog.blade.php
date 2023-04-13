@@ -3,13 +3,13 @@
         <div class="filter-result-area">
             <div class="header-area">
                 <h4 class="title">
-                    {{$langg->lang61}}
+                    {{ $langg->lang61 }}
                 </h4>
             </div>
             <div class="body-area">
                 <form id="catalogForm"
-                      action="{{ route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')]) }}"
-                      method="GET">
+                    action="{{ $domain_name == 'mahindra' ? route('front.collection', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')]) : route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')]) }}"
+                    method="GET">
                     @if (!empty(request()->input('search')))
                         <input type="hidden" name="search" value="{{ request()->input('search') }}">
                     @endif
@@ -20,54 +20,42 @@
                         @foreach ($categories as $element)
                             <li>
                                 <div class="content">
-                                    <a href="{{route('front.category', $element->slug)}}{{!empty(request()->input('search')) ? '?search='.request()->input('search') : ''}}"
-                                       class="category-link"> <i
-                                                class="fas fa-angle-double-right"></i> {{$element->name}}</a>
-                                    @if(!empty($cat) && $cat->id == $element->id && !empty($cat->subs))
+                                    <a href="{{ route('front.category', $element->slug) }}{{ !empty(request()->input('search')) ? '?search=' . request()->input('search') : '' }}"
+                                        class="category-link"> <i class="fas fa-angle-double-right"></i>
+                                        {{ $element->name }}</a>
+                                    @if (!empty($cat) && $cat->id == $element->id && !empty($cat->subs))
                                         @foreach ($cat->subs as $key => $subelement)
                                             <div class="sub-content open">
-                                                <a href="{{route('front.category', [$cat->slug, $subelement->slug])}}{{!empty(request()->input('search')) ? '?search='.request()->input('search') : ''}}"
-                                                   class="subcategory-link"><i
-                                                            class="fas fa-angle-right"></i>{{$subelement->name}}</a>
-                                                @if(!empty($subcat) && $subcat->id == $subelement->id && !empty($subcat->childs))
+                                                <a href="{{ route('front.category', [$cat->slug, $subelement->slug]) }}{{ !empty(request()->input('search')) ? '?search=' . request()->input('search') : '' }}"
+                                                    class="subcategory-link"><i
+                                                        class="fas fa-angle-right"></i>{{ $subelement->name }}</a>
+                                                @if (!empty($subcat) && $subcat->id == $subelement->id && !empty($subcat->childs))
                                                     @foreach ($subcat->childs as $key => $childcat)
                                                         <div class="child-content open">
-                                                            <a href="{{route('front.category', [$cat->slug, $subcat->slug, $childcat->slug])}}{{!empty(request()->input('search')) ? '?search='.request()->input('search') : ''}}"
-                                                               class="subcategory-link"><i
-                                                                        class="fas fa-caret-right"></i> {{$childcat->name}}
+                                                            <a href="{{ route('front.category', [$cat->slug, $subcat->slug, $childcat->slug]) }}{{ !empty(request()->input('search')) ? '?search=' . request()->input('search') : '' }}"
+                                                                class="subcategory-link"><i
+                                                                    class="fas fa-caret-right"></i>
+                                                                {{ $childcat->name }}
                                                             </a>
                                                         </div>
                                                     @endforeach
                                                 @endif
                                             </div>
                                         @endforeach
-
                                 </div>
-                                @endif
-
-
-                            </li>
+                        @endif
+                        </li>
                         @endforeach
-
                     </ul>
-
-
-                    <!-- <div class="price-range-block">
-                        <div id="slider-range" class="price-filter-range" name="rangeInput"></div>
-                        <div class="livecount">
-                            <input type="number" min=0 name="min" id="min_price" class="price-range-field"/>
-                            <span>{{$langg->lang62}}</span>
-                            <input type="number" min=0 name="max" id="max_price" class="price-range-field"/>
-                        </div>
-                    </div>
-
-                    <button class="filter-btn" type="submit">{{$langg->lang58}}</button> -->
                 </form>
             </div>
         </div>
 
 
-        @if ((!empty($cat) && !empty(json_decode($cat->attributes, true))) || (!empty($subcat) && !empty(json_decode($subcat->attributes, true))) || (!empty($childcat) && !empty(json_decode($childcat->attributes, true))))
+        @if (
+            (!empty($cat) && !empty(json_decode($cat->attributes, true))) ||
+                (!empty($subcat) && !empty(json_decode($subcat->attributes, true))) ||
+                (!empty($childcat) && !empty(json_decode($childcat->attributes, true))))
 
             <div class="tags-area">
                 <div class="header-area">
@@ -77,24 +65,25 @@
                 </div>
                 <div class="body-area">
                     <form id="attrForm"
-                          action="{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}"
-                          method="post">
+                        action="{{ route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')]) }}"
+                        method="post">
                         <ul class="filter">
                             <div class="single-filter">
                                 @if (!empty($cat) && !empty(json_decode($cat->attributes, true)))
                                     @foreach ($cat->attributes as $key => $attr)
                                         <div class="my-2 sub-title">
-                                            <span><i class="fas fa-arrow-alt-circle-right"></i> {{$attr->name}}</span>
+                                            <span><i class="fas fa-arrow-alt-circle-right"></i>
+                                                {{ $attr->name }}</span>
                                         </div>
                                         @if (!empty($attr->attribute_options))
                                             @foreach ($attr->attribute_options as $key => $option)
                                                 <div class="form-check ml-0 pl-0">
-                                                    <input name="{{$attr->input_name}}[]"
-                                                           class="form-check-input attribute-input" type="checkbox"
-                                                           id="{{$attr->input_name}}{{$option->id}}"
-                                                           value="{{$option->name}}">
+                                                    <input name="{{ $attr->input_name }}[]"
+                                                        class="form-check-input attribute-input" type="checkbox"
+                                                        id="{{ $attr->input_name }}{{ $option->id }}"
+                                                        value="{{ $option->name }}">
                                                     <label class="form-check-label"
-                                                           for="{{$attr->input_name}}{{$option->id}}">{{$option->name}}</label>
+                                                        for="{{ $attr->input_name }}{{ $option->id }}">{{ $option->name }}</label>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -104,17 +93,18 @@
                                 @if (!empty($subcat) && !empty(json_decode($subcat->attributes, true)))
                                     @foreach ($subcat->attributes as $key => $attr)
                                         <div class="my-2 sub-title">
-                                            <span><i class="fas fa-arrow-alt-circle-right"></i> {{$attr->name}}</span>
+                                            <span><i class="fas fa-arrow-alt-circle-right"></i>
+                                                {{ $attr->name }}</span>
                                         </div>
                                         @if (!empty($attr->attribute_options))
                                             @foreach ($attr->attribute_options as $key => $option)
                                                 <div class="form-check  ml-0 pl-0">
-                                                    <input name="{{$attr->input_name}}[]"
-                                                           class="form-check-input attribute-input" type="checkbox"
-                                                           id="{{$attr->input_name}}{{$option->id}}"
-                                                           value="{{$option->name}}">
+                                                    <input name="{{ $attr->input_name }}[]"
+                                                        class="form-check-input attribute-input" type="checkbox"
+                                                        id="{{ $attr->input_name }}{{ $option->id }}"
+                                                        value="{{ $option->name }}">
                                                     <label class="form-check-label"
-                                                           for="{{$attr->input_name}}{{$option->id}}">{{$option->name}}</label>
+                                                        for="{{ $attr->input_name }}{{ $option->id }}">{{ $option->name }}</label>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -124,17 +114,18 @@
                                 @if (!empty($childcat) && !empty(json_decode($childcat->attributes, true)))
                                     @foreach ($childcat->attributes as $key => $attr)
                                         <div class="my-2 sub-title">
-                                            <span><i class="fas fa-arrow-alt-circle-right"></i> {{$attr->name}}</span>
+                                            <span><i class="fas fa-arrow-alt-circle-right"></i>
+                                                {{ $attr->name }}</span>
                                         </div>
                                         @if (!empty($attr->attribute_options))
                                             @foreach ($attr->attribute_options as $key => $option)
                                                 <div class="form-check  ml-0 pl-0">
-                                                    <input name="{{$attr->input_name}}[]"
-                                                           class="form-check-input attribute-input" type="checkbox"
-                                                           id="{{$attr->input_name}}{{$option->id}}"
-                                                           value="{{$option->name}}">
+                                                    <input name="{{ $attr->input_name }}[]"
+                                                        class="form-check-input attribute-input" type="checkbox"
+                                                        id="{{ $attr->input_name }}{{ $option->id }}"
+                                                        value="{{ $option->name }}">
                                                     <label class="form-check-label"
-                                                           for="{{$attr->input_name}}{{$option->id}}">{{$option->name}}</label>
+                                                        for="{{ $attr->input_name }}{{ $option->id }}">{{ $option->name }}</label>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -148,7 +139,7 @@
         @endif
 
 
-        @if(!isset($vendor))
+        @if (!isset($vendor))
 
             {{-- <div class="tags-area">
                 <div class="header-area">
@@ -158,8 +149,8 @@
                   </div>
                   <div class="body-area">
                     <ul class="taglist">
-                      @foreach(App\Models\Product::showTags() as $tag)
-                      @if(!empty($tag))
+                      @foreach (App\Models\Product::showTags() as $tag)
+                      @if (!empty($tag))
                       <li>
                         <a class="{{ isset($tags) ? ($tag == $tags ? 'active' : '') : ''}}" href="{{ route('front.tag',$tag) }}">
                             {{ $tag }}
@@ -170,10 +161,7 @@
                     </ul>
                   </div>
             </div> --}}
-
-
         @else
-
             <div class="service-center">
                 <div class="header-area">
                     <h4 class="title">
@@ -184,13 +172,14 @@
                     <ul class="list">
                         <li>
                             <a href="javascript:;" data-toggle="modal"
-                               data-target="{{ Auth::guard('web')->check() ? '#vendorform1' : '#comment-log-reg' }}">
+                                data-target="{{ Auth::guard('web')->check() ? '#vendorform1' : '#comment-log-reg' }}">
                                 <i class="icofont-email"></i> <span class="service-text">{{ $langg->lang228 }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="tel:+{{$vendor->shop_number}}">
-                                <i class="icofont-phone"></i> <span class="service-text">{{$vendor->shop_number}}</span>
+                            <a href="tel:+{{ $vendor->shop_number }}">
+                                <i class="icofont-phone"></i> <span
+                                    class="service-text">{{ $vendor->shop_number }}</span>
                             </a>
                         </li>
                     </ul>
@@ -204,17 +193,19 @@
                     <ul class="list">
 
 
-                        @if($vendor->f_check != 0)
-                            <li><a href="{{$vendor->f_url}}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                        @if ($vendor->f_check != 0)
+                            <li><a href="{{ $vendor->f_url }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            </li>
                         @endif
-                        @if($vendor->g_check != 0)
-                            <li><a href="{{$vendor->g_url}}" target="_blank"><i class="fab fa-google"></i></a></li>
+                        @if ($vendor->g_check != 0)
+                            <li><a href="{{ $vendor->g_url }}" target="_blank"><i class="fab fa-google"></i></a></li>
                         @endif
-                        @if($vendor->t_check != 0)
-                            <li><a href="{{$vendor->t_url}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        @if ($vendor->t_check != 0)
+                            <li><a href="{{ $vendor->t_url }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
                         @endif
-                        @if($vendor->l_check != 0)
-                            <li><a href="{{$vendor->l_url}}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                        @if ($vendor->l_check != 0)
+                            <li><a href="{{ $vendor->l_url }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            </li>
                         @endif
 
 

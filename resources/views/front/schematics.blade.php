@@ -62,10 +62,14 @@
                     {{$result[0]->group_name}}
                 </h2>
                 <div class="group-schematics">
-                    @if(file_exists(public_path('assets/images/group/'.$result[0]->image)))
-                    <img src="{{asset('assets/images/group/'.$result[0]->image)}}"/>
+                    @if($result[0]->image && file_exists(public_path('assets/images/group/'.$result[0]->image)))
+                        <img src="{{asset('assets/images/group/'.$result[0]->image)}}">
                     @else
-                    <img src="{{asset('assets/images/group/'.$result[0]->group_Id.'.png')}}"/>
+                        @if(file_exists(public_path('assets/images/group/'.$result[0]->group_Id.'.png')))
+                        <img src="{{asset('assets/images/group/'.$result[0]->group_Id.'.png')}}">
+                        @else
+                        <img src="{{asset('assets/images/noimage.png')}}" style="min-width: 100px;">
+                        @endif
                     @endif
                 </div>
             @else

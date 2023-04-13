@@ -24,12 +24,12 @@ use InvalidArgumentException;
 use Markury\MarkuryPost;
 use PHPShopify\ShopifySDK;
 use App\Models\Currency;
+use Config;
 
 class FrontendController extends Controller
 {
     public function __construct()
     {
-
         //$this->auth_guests();
         if (isset($_SERVER['HTTP_REFERER'])) {
             $referral = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
@@ -380,7 +380,13 @@ class FrontendController extends Controller
                 $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
                 $group_id = $group_info[0]->group_Id ;
                 $section = $this->replacPathToData($section) ;
-                return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
+
+                if(Config::get('session.domain_name') == 'mahindra') {
+                    return redirect()->route('front.collection',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
+                }
+                else {
+                    return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
+                }
             }
             Session::put("slug_list", $slug_list) ;
             Session::put("page_name", "partsbymodel") ;
