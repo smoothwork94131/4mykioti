@@ -2173,11 +2173,32 @@ End Footer Custom Style
     font-weight: 100;
 }
 
+.part-block-container {
+    margin-bottom: 20px;
+}
+
+.parts-title {
+    margin: 10px 0;
+    color: #ff5500;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.parts-price {
+    font-size: 14px;
+    text-align: right;
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center;   
+    justify-content: right;
+}
+
 .pagination .paginate_button .page-link {
     color: #F05223;
 }
-
-
 
 .pagination .paginate_button.active .page-link{
     background-color: #F05223;

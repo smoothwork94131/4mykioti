@@ -370,11 +370,74 @@ class CatalogController extends Controller
     
     }
 
+    public function homeproduct(Request $request, $slug)
+    {   
+        $this->code_image();
+        $productt = Product::where('slug', '=', $slug)->firstOrFail();
+        $productt->views += 1;
+        $productt->update();
+        
+        if (Session::has('currency')) {
+            $curr = Currency::find(Session::get('currency'));
+        } else {
+            $curr = Currency::where('is_default', '=', 1)->first();
+        }
+
+        $vendors = Product::where('status', '=', 1)->take(8)->get();
+
+        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
+        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
+
+        $db="product" ;
+        $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
+
+        return view('front.homeproduct', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+    }
+
+    public function old_parts(Request $request, $query = null)
+    {   
+        $result = array();  
+        $model = $this->replaceDataToPath($query) ;
+        $model_path_arr = explode('-', $model);
+        unset($model_path_arr[0]);
+        $model = implode('-', $model_path_arr);
+        $model = trim($model);
+
+        $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
+        $tbl_info =DB::select($sql);
+
+        $sql = "" ;
+        $flag = false ;
+        $arr_tbl = array();
+        
+        foreach($tbl_info as $item) {
+            $arr_tbl[] = strtolower($item->name) ;
+        }
+
+        for($k = 0 ; $k < count($arr_tbl) ; $k++) {
+            if($flag) {
+                $sql.=" union all " ;
+            } 
+            $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}'" ;
+            $flag = true ;
+        }
+
+        $result =collect(DB::select($sql))->paginate(20);
+        // dd($result);
+        $slug_list = array("model"=>$model);
+        return view('front.oldparts', compact('result', "slug_list"));
+    }
+
     public function old_collection(Request $request, $model = null, $prod_name = null)
     {   
         $productt = false;  
         $model = $this->replaceDataToPath($model) ;
         $prod_name = $this->replaceDataToPath($prod_name) ;
+
+        $model_path_arr = explode('-', $model);
+        unset($model_path_arr[0]);
+        $model = implode('-', $model_path_arr);
+        $model = trim($model);
 
         $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
         $tbl_info =DB::select($sql);
@@ -421,37 +484,11 @@ class CatalogController extends Controller
         return view('front.oldproduct', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
-    public function homeproduct(Request $request, $slug)
-    {   
-        $this->code_image();
-        $productt = Product::where('slug', '=', $slug)->firstOrFail();
-        $productt->views += 1;
-        $productt->update();
-        
-        if (Session::has('currency')) {
-            $curr = Currency::find(Session::get('currency'));
-        } else {
-            $curr = Currency::where('is_default', '=', 1)->first();
-        }
-
-        $vendors = Product::where('status', '=', 1)->take(8)->get();
-
-        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
-        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
-
-        $db="product" ;
-        $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
-
-        return view('front.homeproduct', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
-    }
-
     public function searchProdDetail() {
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
         $productt->views += 1;
         $productt->update();
-        
-      
         
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));

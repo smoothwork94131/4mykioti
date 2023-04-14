@@ -1150,7 +1150,9 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
     Route::get('/collection/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@collection')->name('front.collection');
+    
     Route::get('/collections/{series?}/products/{parts?}', 'Front\CatalogController@old_collection')->name('front.old_collection');
+    Route::get('/collections/{query?}', 'Front\CatalogController@old_parts')->name('front.old_parts');
     /*Category list page */
 
     // PRODCT SECTION ENDS
