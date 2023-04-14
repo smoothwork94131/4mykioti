@@ -328,8 +328,6 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        // 
-
         $sql = "select * from `categories` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
         $tbl_info =DB::select($sql);
 
@@ -370,6 +368,51 @@ class CatalogController extends Controller
         $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
     
+    }
+
+    public function old_collection(Request $request, $model = null, $prod_name = null)
+    {   
+        $model = $this->replaceDataToPath($model) ;
+        $prod_name = $this->replaceDataToPath($prod_name) ;
+
+        $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
+        $tbl_info =DB::select($sql);
+
+        $sql = "" ;
+        $flag = false ;
+        $arr_tbl = array();
+        
+        foreach($tbl_info as $item) {
+            $arr_tbl[] = strtolower($item->name) ;
+        }
+
+        for($k = 0 ; $k < count($arr_tbl) ; $k++) {
+            if($flag) {
+                $sql.=" union all " ;
+            } 
+            $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}' and `name`='{$prod_name}'" ;
+            $flag = true ;
+        }
+
+        $productt =DB::select($sql);
+        $productt = $productt[0] ;
+
+        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
+        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
+
+        if (Session::has('currency')) {
+            $curr = Currency::find(Session::get('currency'));
+        } else {
+            $curr = Currency::where('is_default', '=', 1)->first();
+        }
+
+        $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
+        $tbl_info =DB::select($sql);
+
+        $page = "partsbymodel" ;
+
+        $slug_list = array("model"=>$model, "prod_name"=>$this->replacPathToData($prod_name));
+        return view('front.oldproduct', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     public function homeproduct(Request $request, $slug)
