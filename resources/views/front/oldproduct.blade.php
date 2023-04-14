@@ -33,7 +33,6 @@
                             {{ $item }}
                         </a>
                         @endif
-
                     </li>
                     @php
                     $index++;
@@ -49,6 +48,7 @@
 <section class="product-details-page">
     <div class="container">
         <div class="row">
+            @if($productt)
             <div class="col-lg-9">
                 <div class="row">
                     <div class="col-lg-5 col-md-12">
@@ -441,6 +441,9 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="col-lg-9">No product</div>
+            @endif
         </div>
     </div>
     <!-- Tranding Item Area End -->

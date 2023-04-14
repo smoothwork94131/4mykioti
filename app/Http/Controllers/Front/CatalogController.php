@@ -372,6 +372,7 @@ class CatalogController extends Controller
 
     public function old_collection(Request $request, $model = null, $prod_name = null)
     {   
+        $productt = false;  
         $model = $this->replaceDataToPath($model) ;
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
@@ -395,7 +396,12 @@ class CatalogController extends Controller
         }
 
         $productt =DB::select($sql);
-        $productt = $productt[0] ;
+        if($productt && $productt->count() > 0) {
+            $productt = $productt[0] ;
+        }
+        else {
+            $productt = null;
+        }
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
