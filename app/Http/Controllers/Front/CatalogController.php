@@ -451,7 +451,7 @@ class CatalogController extends Controller
             $prod_name_arr = explode('-', $prod_name);
             $sku = $prod_name_arr[0];
 
-            $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+            $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
 
             $productt =DB::select($sql2);
             if($productt && count($productt) > 0) {
@@ -461,7 +461,10 @@ class CatalogController extends Controller
                 $cnt = count($prod_name_arr);
                 $sku = $prod_name_arr[$cnt-1];
 
-                $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+                $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`,  `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+
+                // echo $sql2; exit;
+
 
                 $productt =DB::select($sql2);
                 if($productt && count($productt) > 0) {
