@@ -42,6 +42,7 @@ class CatalogController extends Controller
         }
         return $data ;
     }
+
     public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
     {   
         $category = $this->replaceDataToPath($category) ;
@@ -434,10 +435,8 @@ class CatalogController extends Controller
         $model = $this->replaceDataToPath($model) ;
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
-        $model_path_arr = explode('-', $model);
-        unset($model_path_arr[0]);
-        $model = implode('-', $model_path_arr);
-        $model = trim($model);
+        $prod_name_arr = explode('-', $prod_name);
+        $sku = $prod_name_arr[0];
 
         $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
         $tbl_info =DB::select($sql);
@@ -454,12 +453,12 @@ class CatalogController extends Controller
             if($flag) {
                 $sql.=" union all " ;
             } 
-            $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}' and `name`='{$prod_name}'" ;
+            $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'" ;
             $flag = true ;
         }
 
         $productt =DB::select($sql);
-        if($productt && $productt->count() > 0) {
+        if($productt && count($productt) > 0) {
             $productt = $productt[0] ;
         }
         else {
