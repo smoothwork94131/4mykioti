@@ -432,54 +432,48 @@ class CatalogController extends Controller
     public function old_collection(Request $request, $model = null, $prod_name = null)
     {   
         $productt = false;  
-        $model = $this->replaceDataToPath($model) ;
-        $prod_name = $this->replaceDataToPath($prod_name) ;
-
-        $prod_name_arr = explode('-', $prod_name);
-        $sku = $prod_name_arr[0];
-
-        $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
-        $tbl_info =DB::select($sql);
-
-        $sql = "" ;
-        $flag = false ;
-        $arr_tbl = array();
         
-        foreach($tbl_info as $item) {
-            $arr_tbl[] = strtolower($item->name) ;
+        if(strstr($model, "mahindra")) {
+            $model = str_replace("mahindra-", "", $model) ;
+        }
+        
+        if(strstr($model, "-")) {
+            $model = str_replace("-", " ", $model) ;
         }
 
-        for($k = 0 ; $k < count($arr_tbl) ; $k++) {
-            if($flag) {
-                $sql.=" union all " ;
-            } 
-            $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'" ;
-            $flag = true ;
-        }
+        $sql = "select * from `models` where model_name like '%". $model ."%'";
+        $model_info =DB::select($sql);
 
-        $productt =DB::select($sql);
-        if($productt && count($productt) > 0) {
-            $productt = $productt[0] ;
-        }
-        else {
-            $cnt = count($prod_name_arr);
-            $sku = $prod_name_arr[$cnt-1];
+        if($model_info && count($model_info) > 0) {
+            $table_name = $model_info[0]->table_name;
+            $model = $model_info[0]->model_name;
 
-            for($k = 0 ; $k < count($arr_tbl) ; $k++) {
-                if($flag) {
-                    $sql.=" union all " ;
-                } 
-                $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'" ;
-                $flag = true ;
-            }
+            $prod_name_arr = explode('-', $prod_name);
+            $sku = $prod_name_arr[0];
 
-            $productt =DB::select($sql);
+            $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+
+            $productt =DB::select($sql2);
             if($productt && count($productt) > 0) {
                 $productt = $productt[0] ;
             }
             else {
-                $productt = null;
+                $cnt = count($prod_name_arr);
+                $sku = $prod_name_arr[$cnt-1];
+
+                $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+
+                $productt =DB::select($sql2);
+                if($productt && count($productt) > 0) {
+                    $productt = $productt[0] ;
+                }
+                else {
+                    $productt = null;
+                }
             }
+        }
+        else {
+            $productt = null;
         }
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
