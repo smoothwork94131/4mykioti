@@ -41,8 +41,8 @@
                             $route = route("front.old_collection", ["model" => "mahindra-" . $model, "prod_name" => $item->sku. "-" .$prod_name]) ;
                         @endphp
                         <a href="{{$route}}">
-                            <div class="m-block" >
-                                <img src="{{ $item->thumbnail ? asset('assets/images/thumbnails/'.$item->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                            <div class="m-block" style="padding: 0px;">
+                                <img style="width: 300px; height: 300px;" src="{{ $item->thumbnail ? asset('assets/images/thumbnails/'.$item->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                             </div>
                             <div class="parts-title">
                                 {{$item->name}}
