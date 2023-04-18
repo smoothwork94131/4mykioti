@@ -401,24 +401,64 @@ class CatalogController extends Controller
         $model = $this->replaceDataToPath($query) ;
 
         if(strstr($model, "5-finish")) {
-            $sql = "select * from `implements` where `featured` = 1" ;
-            $result =collect(DB::select($sql))->paginate(20);
+            $sql = "select `sku` from `implements` where `featured` = 1 group by sku" ;
+            $skus =collect(DB::select($sql));
+            foreach($skus as $sku) {
+                $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
+                $sku_record = DB::select($sql1);
+                if($sku_record && count($sku_record) > 0) {
+                    $result[] = $sku_record[0];
+                }
+            }
+            $result = collect($result)->paginate(20);
         }
         else if(strstr($model, "6-finish")) {
-            $sql .= "select * from `implements` where `latest` = 1" ;
-            $result =collect(DB::select($sql))->paginate(20);
+            $sql = "select `sku` from `implements` where `latest` = 1 group by sku" ;
+            $skus =collect(DB::select($sql));
+            foreach($skus as $sku) {
+                $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
+                $sku_record = DB::select($sql1);
+                if($sku_record && count($sku_record) > 0) {
+                    $result[] = $sku_record[0];
+                }
+            }
+            $result = collect($result)->paginate(20);
         }
         else if(strstr($model, "7-finish")) {
-            $sql .= "select * from `implements` where `big` = 1" ;
-            $result =collect(DB::select($sql))->paginate(20);
+            $sql = "select `sku` from `implements` where `big` = 1 group by sku" ;
+            $skus =collect(DB::select($sql));
+            foreach($skus as $sku) {
+                $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
+                $sku_record = DB::select($sql1);
+                if($sku_record && count($sku_record) > 0) {
+                    $result[] = $sku_record[0];
+                }
+            }
+            $result = collect($result)->paginate(20);
         }
         else if(strstr($model, "5-md")) {
-            $sql .= "select * from `implements` where `trending` = 1" ;
-            $result =collect(DB::select($sql))->paginate(20);
+            $sql = "select `sku` from `implements` where `trending` = 1 group by sku" ;
+            $skus =collect(DB::select($sql));
+            foreach($skus as $sku) {
+                $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
+                $sku_record = DB::select($sql1);
+                if($sku_record && count($sku_record) > 0) {
+                    $result[] = $sku_record[0];
+                }
+            }
+            $result = collect($result)->paginate(20);
         }
         else if(strstr($model, "6-md")) {
-            $sql .= "select * from `implements` where `sale` = 1" ;
-            $result =collect(DB::select($sql))->paginate(20);
+            $sql = "select `sku` from `implements` where `sale` = 1 group by sku" ;
+            $skus =collect(DB::select($sql));
+            foreach($skus as $sku) {
+                $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
+                $sku_record = DB::select($sql1);
+                if($sku_record && count($sku_record) > 0) {
+                    $result[] = $sku_record[0];
+                }
+            }
+            $result = collect($result)->paginate(20);
         }
         else {
             if(strstr($model, "mahindra")) {

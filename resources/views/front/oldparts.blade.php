@@ -35,8 +35,10 @@
                 @else
                     @foreach($result as $item)
                     <div class="col col-md-3 col-sm-4 part-block-container">
-                        @php 
-                            $route = route("front.old_collection", ["series" => "mahindra-" . $item->subcategory_id, "parts" => $item->name]) ;
+                        @php
+                            $model = str_replace(" ", "-", $item->subcategory_id);
+                            $prod_name = str_replace(" ", "-", $item->name);
+                            $route = route("front.old_collection", ["model" => "mahindra-" . $model, "prod_name" => $item->sku. "-" .$prod_name]) ;
                         @endphp
                         <a href="{{$route}}">
                             <div class="m-block" >
