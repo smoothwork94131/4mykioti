@@ -399,31 +399,52 @@ class CatalogController extends Controller
     {   
         $result = array();  
         $model = $this->replaceDataToPath($query) ;
-        $model_path_arr = explode('-', $model);
-        unset($model_path_arr[0]);
-        $model = implode('-', $model_path_arr);
-        $model = trim($model);
 
-        $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
-        $tbl_info =DB::select($sql);
+        if(strstr($model, "finish-mower")) {
+            $sql = "select * from `models` where model_name like '%finishing mower%'";
+            $model_info =DB::select($sql);
+            if($model_info && count($model_info) > 0) {
+                $sql = "" ;
+                $flag = false ;
+                foreach($model_info as $model_rec) {
+                    if($flag) {
+                        $sql.=" union all " ;
+                    } 
+                    $sql .= "select distinct '$model_rec->table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$model_rec->table_name}` where `subcategory_id` = '{$model_rec->model_name}' and `sku` != '‡'" ;
+                    $flag = true ;
+                }
 
-        $sql = "" ;
-        $flag = false ;
-        $arr_tbl = array();
+                $result =collect(DB::select($sql))->paginate(20);
+            }
+        }
+        else {
+            $model_path_arr = explode('-', $model);
+            unset($model_path_arr[0]);
+            $model = implode('-', $model_path_arr);
+            $model = trim($model);
+
+            $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
+            $tbl_info =DB::select($sql);
+
+            $sql = "" ;
+            $flag = false ;
+            $arr_tbl = array();
+            
+            foreach($tbl_info as $item) {
+                $arr_tbl[] = strtolower($item->name) ;
+            }
+
+            for($k = 0 ; $k < count($arr_tbl) ; $k++) {
+                if($flag) {
+                    $sql.=" union all " ;
+                } 
+                $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}'" ;
+                $flag = true ;
+            }
+
+            $result =collect(DB::select($sql))->paginate(20);
+        }
         
-        foreach($tbl_info as $item) {
-            $arr_tbl[] = strtolower($item->name) ;
-        }
-
-        for($k = 0 ; $k < count($arr_tbl) ; $k++) {
-            if($flag) {
-                $sql.=" union all " ;
-            } 
-            $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}'" ;
-            $flag = true ;
-        }
-
-        $result =collect(DB::select($sql))->paginate(20);
         // dd($result);
         $slug_list = array("model"=>$model);
         return view('front.oldparts', compact('result', "slug_list"));
