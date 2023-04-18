@@ -55,8 +55,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="pagination-container">
-                        {{ $result->links() }}
+                    <div class="page-center">
+                        {{ $result->links('front.pagination.oldparts', ['paginator' => $result, 'maxLinks' => 10]) }}
                     </div>
                 </div>
             </div>

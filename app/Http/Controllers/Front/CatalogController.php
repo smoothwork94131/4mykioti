@@ -400,45 +400,45 @@ class CatalogController extends Controller
         $result = array();  
         $model = $this->replaceDataToPath($query) ;
 
-        if(strstr($model, "finish-mower")) {
-            $sql = "select * from `models` where model_name like '%finishing mower%'";
-            $model_info =DB::select($sql);
-            if($model_info && count($model_info) > 0) {
-                $sql = "" ;
-                $flag = false ;
-                foreach($model_info as $model_rec) {
-                    if($flag) {
-                        $sql.=" union all " ;
-                    } 
-                    $sql .= "select distinct '$model_rec->table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$model_rec->table_name}` where `subcategory_id` = '{$model_rec->model_name}' and `sku` != '‡'" ;
-                    $flag = true ;
-                }
-
-                $result =collect(DB::select($sql))->paginate(20);
-            }
+        if(strstr($model, "5-finish")) {
+            $sql = "select * from `implements` where `featured` = 1" ;
+            $result =collect(DB::select($sql))->paginate(20);
+        }
+        else if(strstr($model, "6-finish")) {
+            $sql .= "select * from `implements` where `latest` = 1" ;
+            $result =collect(DB::select($sql))->paginate(20);
+        }
+        else if(strstr($model, "7-finish")) {
+            $sql .= "select * from `implements` where `big` = 1" ;
+            $result =collect(DB::select($sql))->paginate(20);
+        }
+        else if(strstr($model, "5-md")) {
+            $sql .= "select * from `implements` where `trending` = 1" ;
+            $result =collect(DB::select($sql))->paginate(20);
+        }
+        else if(strstr($model, "6-md")) {
+            $sql .= "select * from `implements` where `sale` = 1" ;
+            $result =collect(DB::select($sql))->paginate(20);
         }
         else {
-            $model_path_arr = explode('-', $model);
-            unset($model_path_arr[0]);
-            $model = implode('-', $model_path_arr);
-            $model = trim($model);
-
-            $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
-            $tbl_info =DB::select($sql);
-
-            $sql = "" ;
-            $flag = false ;
-            $arr_tbl = array();
-            
-            foreach($tbl_info as $item) {
-                $arr_tbl[] = strtolower($item->name) ;
+            if(strstr($model, "mahindra")) {
+                $model = str_replace("mahindra-", "", $model) ;
             }
-
-            for($k = 0 ; $k < count($arr_tbl) ; $k++) {
+            
+            if(strstr($model, "-")) {
+                $model = str_replace("-", " ", $model) ;
+            }
+    
+            $sql = "select * from `models` where model_name like '%". $model ."%'";
+            $model_info =DB::select($sql);
+            $flag = false;
+            $sql = "";
+            
+            foreach($model_info as $model_record) {
                 if($flag) {
                     $sql.=" union all " ;
                 } 
-                $sql .= "select distinct '$arr_tbl[$k]' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$arr_tbl[$k]}` where `subcategory_id` = '{$model}'" ;
+                $sql .= "select distinct '$model_record->table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$model_record->table_name}` where `subcategory_id` = '{$model_record->model_name}'" ;
                 $flag = true ;
             }
 
