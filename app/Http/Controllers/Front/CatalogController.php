@@ -318,8 +318,13 @@ class CatalogController extends Controller
         $sql = "select * from `{$db}` where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
 
         $productt =DB::select($sql);
-        $productt = $productt[0] ;
-        
+        if($productt && count($productt) > 0) {
+            $productt = $productt[0] ;
+        }
+        else {
+            $productt = null;
+        }
+
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
@@ -368,7 +373,6 @@ class CatalogController extends Controller
 
         $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
-    
     }
 
     public function homeproduct(Request $request, $slug)
