@@ -1533,7 +1533,7 @@ Begin Header Custom Style
     font-style: normal;
     padding: 0px calc(12px + 30 * ((100vw - 768px) / (1920 - 768)));
     margin: 0px;
-    height: 46px;
+    height: 50px;
     display: flex;
     align-items: center;
     background-color: black;
@@ -1548,7 +1548,7 @@ Begin Header Custom Style
     font-style: normal;
     padding: 0px calc(12px + 30 * ((100vw - 768px) / (1920 - 768)));
     margin: 0px;
-    height: 46px;
+    height: 50px;
     display: flex;
     align-items: center;
     background-color: white;
