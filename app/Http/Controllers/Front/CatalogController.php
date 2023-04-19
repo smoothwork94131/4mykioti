@@ -460,6 +460,10 @@ class CatalogController extends Controller
             }
             $result = collect($result)->paginate(20);
         }
+        else if(strstr($model, "additonal-products")) {
+            $sql = "select * from products_additional";
+            $result = collect(DB::select($sql))->paginate(20);
+        }
         else {
             if(strstr($model, "mahindra")) {
                 $model = str_replace("mahindra-", "", $model) ;
@@ -502,42 +506,57 @@ class CatalogController extends Controller
             $model = str_replace("-", " ", $model) ;
         }
 
-        $sql = "select * from `models` where model_name like '%". $model ."%'";
-        $model_info =DB::select($sql);
-
-        if($model_info && count($model_info) > 0) {
-            $table_name = $model_info[0]->table_name;
-            $model = $model_info[0]->model_name;
-
+        if($model == "Additional Products") {
+            
             $prod_name_arr = explode('-', $prod_name);
             $sku = $prod_name_arr[0];
+            unset($prod_name_arr[0]);
+            $prod_name = implode(' ', $prod_name_arr);
 
-            $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
-
-            $productt =DB::select($sql2);
+            $sql = "select * from `products_additional` where `sku`='{$sku}' and `name`='{$prod_name}'";
+            $productt =DB::select($sql);
             if($productt && count($productt) > 0) {
                 $productt = $productt[0] ;
             }
             else {
-                $cnt = count($prod_name_arr);
-                $sku = $prod_name_arr[$cnt-1];
+                $productt = null;
+            }
+        }
+        else {
+            $sql = "select * from `models` where model_name like '%". $model ."%'";
+            $model_info =DB::select($sql);
 
-                $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`,  `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+            if($model_info && count($model_info) > 0) {
+                $table_name = $model_info[0]->table_name;
+                $model = $model_info[0]->model_name;
 
-                // echo $sql2; exit;
+                $prod_name_arr = explode('-', $prod_name);
+                $sku = $prod_name_arr[0];
 
+                $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
 
                 $productt =DB::select($sql2);
                 if($productt && count($productt) > 0) {
                     $productt = $productt[0] ;
                 }
                 else {
-                    $productt = null;
+                    $cnt = count($prod_name_arr);
+                    $sku = $prod_name_arr[$cnt-1];
+
+                    $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`,  `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+
+                    $productt =DB::select($sql2);
+                    if($productt && count($productt) > 0) {
+                        $productt = $productt[0] ;
+                    }
+                    else {
+                        $productt = null;
+                    }
                 }
             }
-        }
-        else {
-            $productt = null;
+            else {
+                $productt = null;
+            }
         }
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
@@ -548,9 +567,6 @@ class CatalogController extends Controller
         } else {
             $curr = Currency::where('is_default', '=', 1)->first();
         }
-
-        $sql = "select * from `categories` where `parent` != 0 and `status` = 1" ;
-        $tbl_info =DB::select($sql);
 
         $page = "partsbymodel" ;
 
