@@ -1227,7 +1227,7 @@
         <div class="modal-dialog quickview-modal modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="submit-loader">
-                    <img src="{{ asset('assets/images/spinner.gif') }}" alt="">
+                    <img src="{{ asset('assets/images/' . $gs->loader) }}" alt="">
                 </div>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1287,7 +1287,7 @@
 
                     <div>
                         <div class="submit-loader d-none">
-                            <img src="{{ asset('assets/images/spinner.gif') }}" alt="">
+                            <img src="{{ asset('assets/images/' . $gs->loader) }}" alt="">
                         </div>
                         <div id="track-order">
 
