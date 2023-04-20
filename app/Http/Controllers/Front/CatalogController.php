@@ -317,6 +317,8 @@ class CatalogController extends Controller
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
         $db = strtolower($series);
+        $group_record = DB::table($db.'_categories')->where('group_name', $group)->first();
+        
         $sql = "select * from `{$db}` where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
 
         $productt =DB::select($sql);
@@ -371,15 +373,11 @@ class CatalogController extends Controller
                 $also_fits[$item->table] = array($item->subcategory_id) ;
             }
         }
-        
-        $vendors = DB::table($db)
-                ->where('subcategory_id', '=', $model)
-                ->where('name', '!=', $prod_name)
-                ->take(8)->get();
+
         $page = "partsbymodel" ;
 
         $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
+        return view('front.product', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
     }
 
     public function homeproduct(Request $request, $slug)
@@ -597,13 +595,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-   
-
-        if ($productt->user_id != 0) {
-            $vendors = Product::where('status', '=', 1)->where('user_id', '=', $productt->user_id)->take(8)->get();
-        } else {
-            $vendors = Product::where('status', '=', 1)->where('user_id', '=', 0)->take(8)->get();
-        }
+        $group_record->image = "";
 
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
@@ -611,7 +603,7 @@ class CatalogController extends Controller
         $db="product" ;
         $page = "" ;
         $slug_list = array() ;
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+        return view('front.product', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     // Capcha Code Image

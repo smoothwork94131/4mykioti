@@ -45,8 +45,6 @@
         </div>
     </div>
 
-
-
     <!-- Product Details Area Start -->
     <section class="product-details-page">
         <div class="container">
@@ -56,15 +54,25 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="xzoom-container">
+                                @php
+                                    $group_image = $group_record->image;
+                                    $instead_image = "";
+                                    if($group_image != "" && file_exists(public_path('assets/images/group/'.$group_image))) {
+                                        $instead_image = asset('assets/images/group/'.$group_image);
+                                    }
+                                    else {
+                                        $instead_image = asset('assets/images/noimage.png');
+                                    }
+                                @endphp
                                 <img class="xzoom5" id="xzoom-magnific" style="width: 100%;"
-                                    src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}"
-                                    xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}" />
+                                    src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}"
+                                    xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}" />
                                 <div class="xzoom-thumbs">
                                     <div class="all-slider">
                                         <a
-                                            href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}">
+                                            href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}">
                                             <img class="xzoom-gallery5" width="80"
-                                                src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}"
+                                                src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}"
                                                 title="The description goes here">
                                         </a>
                                     </div>
