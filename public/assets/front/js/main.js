@@ -519,43 +519,43 @@ $(function($) {
 
         // trending item  slider
         var $trending_slider = $('.trending-item-slider');
-        $trending_slider.owlCarousel({
-            items: 4,
-            autoplay: true,
-            margin: 0,
-            loop: true,
-            dots: true,
-            nav: true,
-            center: false,
-            autoplayHoverPause: true,
-            navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
-            smartSpeed: 800,
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                414: {
-                    items: 1,
-                },
-                768: {
-                    items: 2,
-                },
-                992: {
-                    items: 3
-                },
-                1200: {
-                    items: 4
+
+        if ($trending_slider.children().length > 1) {
+            $trending_slider.owlCarousel({
+                items: 4,
+                autoplay: true,
+                margin: 0,
+                loop: true,
+                dots: true,
+                nav: true,
+                center: false,
+                autoplayHoverPause: true,
+                navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+                smartSpeed: 800,
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    414: {
+                        items: 1,
+                    },
+                    768: {
+                        items: 2,
+                    },
+                    992: {
+                        items: 3
+                    },
+                    1200: {
+                        items: 4
+                    }
                 }
-            }
-        });
-
-
-
+            });
+        }
+        
         // trending item  slider
         var $hot_new_slider = $('.hot-and-new-item-slider');
 
         if ($hot_new_slider.children().length > 1) {
-
             $hot_new_slider.owlCarousel({
                 items: 1,
                 autoplay: true,
@@ -615,9 +615,7 @@ $(function($) {
         });
 
         if (w <= 991)
-
         {
-
             $(document).on('mouseover', function(e) {
                 var container = $(".xzoom-preview");
 

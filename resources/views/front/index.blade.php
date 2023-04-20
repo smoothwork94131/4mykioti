@@ -102,58 +102,33 @@
         </div>
     </section>
 
-    {{-- Slider buttom Category Start --}}
-    {{-- @if($gs->solo_mode != 1) --}}
-        @foreach($products as $product)
-        <section class="trending slider-buttom-category grid-display">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 remove-padding">
-                        <div class="section-top">
-                            <h2 class="section-title">
-                                <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                                {{-- <span class="sub">{{ $product["category_name"] }}</span>  --}}
-                                <span class="main">{{ $product["category_name"] }}</span> 
-                                <span class="title-underline"></span>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 remove-padding">
-                        <div class="trending-item-slider">
-                            @foreach($product['products'] as $prod)
-                            @include('includes.product.slider-product', ['prod' => $prod])
-                            @endforeach
-                        </div>
+    @foreach($products as $product)
+    <section class="trending slider-buttom-category grid-display">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 remove-padding">
+                    <div class="section-top">
+                        <h2 class="section-title">
+                            <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
+                            <span class="main">{{ $product["category_name"] }}</span> 
+                            <span class="title-underline"></span>
+                        </h2>
                     </div>
                 </div>
             </div>
-        </section>
-        @endforeach
-    {{-- @else --}}
-    {{-- <section class="sub-categori grid-display">
-        <div class="container">
             <div class="row">
-                <div class="col-lg-12 order-first order-lg-last ajax-loader-parent">
-                    <div class="col-lg-12 remove-padding mb-4">
-                        @include('includes.front-filter')
-                    </div>
-                    <div class="right-area" id="app">
-                        <div class="categori-item-area">
-                            <div class="row" id="ajaxContent">
-                                @include('includes.product.solo-products', ['solo_products' => $products])
-                            </div>
-                            <div id="ajaxLoader" class="ajax-loader" style="background: url({{asset('assets/images/'.$gs->loader)}}) no-repeat scroll center center rgba(0,0,0,.6);"></div>
-                        </div>
+                <div class="col-lg-12 remove-padding">
+                    <div class="trending-item-slider">
+                        @foreach($product['products'] as $prod)
+                        @include('includes.product.slider-product', ['prod' => $prod])
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    @endif --}}
-    {{-- Slider buttom banner End --}}
-
+    @endforeach
+    
     @if($ps->small_banner == 1)
         <!-- Banner Area One Start -->
         <section class="banner-section">
