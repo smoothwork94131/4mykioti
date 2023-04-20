@@ -1019,4 +1019,8 @@ class FrontendController extends Controller
     {
         return view('front.terms_condition');
     }
+
+    public function location(Request $request, $location_id = null) {
+        
+    }
 }

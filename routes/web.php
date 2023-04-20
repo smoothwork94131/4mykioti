@@ -1286,6 +1286,8 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/search/{key}/{keyword}', 'Front\SearchController@index')->name('front-search.index');
     Route::post('search', 'Front\SearchController@search')->name('front-search');
 
+    Route::get('/location/{location_id}', 'Front\FrontendController@location')->name('front.location');
+
     //Search Route 
 
     // ************************************ FRONT SECTION ENDS**********************************************
