@@ -40943,10 +40943,14 @@ nav button {
 }
 
 .product-details-page .right-area .product-info .product-name {
-    font-size: 22px;
+    font-size: 26px;
     line-height: 31px;
     font-weight: 600;
     margin-bottom: 3px;
+}
+
+.product-details-page .right-area .product-info .info-meta-1 {
+    margin-top: 10px;
 }
 
 .product-details-page .right-area .product-info .info-meta-1 ul li {
@@ -40956,7 +40960,7 @@ nav button {
 
 .product-details-page .right-area .product-info .info-meta-1 ul li p {
     color: #000;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 7px;
 }
 
@@ -40990,6 +40994,18 @@ nav button {
 
 .product-details-page .right-area .product-info .info-meta-1 ul li:last-child {
     margin-right: 0px;
+}
+
+.product-details-page .right-area .product-info .product-model {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.product-details-page .right-area .product-info .product-part {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
 }
 
 .product-details-page .right-area .product-info .contact-seller {
@@ -41050,6 +41066,7 @@ nav button {
 }
 
 .product-details-page .right-area .product-info .product-price {
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 

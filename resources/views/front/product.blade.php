@@ -52,11 +52,11 @@
         <div class="container">
             <div class="row">
             @if($productt)
-                <div class="col-lg-9">
+                <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-lg-5 col-md-12">
+                        <div class="col-lg-6 col-md-12">
                             <div class="xzoom-container">
-                                <img class="xzoom5" id="xzoom-magnific"
+                                <img class="xzoom5" id="xzoom-magnific" style="width: 100%;"
                                     src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}"
                                     xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}" />
                                 <div class="xzoom-thumbs">
@@ -71,13 +71,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-6">
                             <div class="right-area">
                                 <div class="product-info">
                                     <h4 class="product-name">{{ $productt->name }}</h4>
                                     <div class="info-meta-1">
                                         <ul>
-
                                             <li class="product-isstook">
                                                 <p>
                                                     <i class="icofont-check-circled"></i>
@@ -104,17 +103,15 @@
                                             @endif
                                         </ul>
                                     </div>
-
-                                    <div><small>Model #:
-                                            <?php echo $productt->subcategory_id; ?>
-                                        </small></div>
-                                    <div><small>Part #:
-                                            <?php echo $productt->sku; ?>
-                                        </small></div>
-
+                                    <div class="product-model">
+                                        <small>Model #:  <?php echo $productt->subcategory_id; ?></small>
+                                    </div>
+                                    <div class="product-part">
+                                        <small>Part #:  <?php echo $productt->sku; ?></small>
+                                    </div>
                                     <div class="product-price">
                                         <p class="title">{{ $langg->lang87 }} :</p>
-                                        <p class="price"><span id="sizeprice">{{ $productt->price }}</span>
+                                        <p class="price"><span id="sizeprice">${{ $productt->price }}</span>
                                         </p>
                                         @if ($productt->youtube != null)
                                             <a href="{{ $productt->youtube }}" class="video-play-btn mfp-iframe">
@@ -480,32 +477,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="categori  mt-30">
-                        <div class="section-top">
-                            <h2 class="section-title">
-                                Popular Products
-                            </h2>
-                        </div>
-                        <div class="hot-and-new-item-slider">
-
-                            @foreach ($vendors->chunk(3) as $chunk)
-                                <div class="item-slide">
-                                    <ul class="item-list">
-                                        @foreach ($chunk as $prod)
-                                            @include('includes.product.list-product', [
-                                                'flag' => 'prod',
-                                                'slug_list' => $slug_list,
-                                            ])
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
             @else
-                <div class="col-lg-9">No product</div>
+                <div class="col-lg-12">No product</div>
             @endif
             </div>
         </div>

@@ -63,7 +63,7 @@ class CatalogController extends Controller
         $db = strtolower($series);
 
         $prods = DB::table($db)
-        ->select('top', 'sku', 'price', 'name', 'thumbnail', 'id', 'product_type')
+        ->select('*')
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
         })
@@ -89,6 +89,8 @@ class CatalogController extends Controller
         $prods = $prods->distinct();
         $prods = $prods->orderBy('top', 'asc');
         $prods = $prods->get();
+
+        // dd($prods);
 
         $refno_flag = 0;
         $thumbnail_flag = 0;
