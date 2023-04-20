@@ -50153,6 +50153,10 @@ a.prod-item:hover .info {
     width: 100%;
 }
 
+.trending-item-slider > a.prod-item {
+    width: 25%;
+}
+
 .trending .view-all {
     text-align: center;
     padding-top: 40px;
