@@ -38,7 +38,11 @@
                         @php
                             $model = str_replace(" ", "-", $item->subcategory_id);
                             $prod_name = str_replace(" ", "-", $item->name);
-                            $route = route("front.old_collection", ["model" => "mahindra-" . $model, "prod_name" => $item->sku. "-" .$prod_name]) ;
+
+                            if($model != "additonal-products") {
+                                $model = "mahindra-" . $model;
+                            }
+                            $route = route("front.old_collection", ["model" => $model, "prod_name" => $item->sku. "-" .$prod_name]) ;
                         @endphp
                         <a href="{{$route}}">
                             <div class="m-block" style="padding: 0px;">

@@ -510,7 +510,7 @@ class CatalogController extends Controller
             $model = str_replace("-", " ", $model) ;
         }
 
-        if($model == "Additional Products") {
+        if($model == "additonal products") {
             
             $prod_name_arr = explode('-', $prod_name);
             $sku = $prod_name_arr[0];
