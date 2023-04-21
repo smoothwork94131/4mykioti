@@ -265,7 +265,7 @@
                                     aria-hidden="true" tabindex="-1">Map</span></i>
                             <ul class="header-links">
                                 <li>
-                                    <a href="https://www.tractorbrothers.com/locations/36478"
+                                    <a href="{{ route('front.location', '36478') }}"
                                         title="View Map &amp; Hours for Greensburg">
                                         <span class="city">Greensburg</span>, <span class="region">PA</span>
                                     </a>
@@ -283,7 +283,7 @@
                                     aria-hidden="true" tabindex="-1">Map</span></i>
                             <ul class="header-links">
                                 <li>
-                                    <a href="/locations/37100" title="View Map &amp; Hours for Butler">
+                                    <a href="{{ route('front.location', '37100') }}" title="View Map &amp; Hours for Butler">
                                         <span class="city">Butler</span>, <span class="region">PA</span>
                                     </a>
                                 </li>
@@ -300,7 +300,7 @@
                                     aria-hidden="true" tabindex="-1">Map</span></i>
                             <ul class="header-links">
                                 <li>
-                                    <a href="https://www.tractorbrothers.com/locations/37101"
+                                    <a href="{{ route('front.location', '37101') }}"
                                         title="View Map &amp; Hours for Stoneboro">
                                         <span class="city">Stoneboro</span>, <span class="region">PA</span>
                                     </a>

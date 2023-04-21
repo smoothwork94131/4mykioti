@@ -14,6 +14,7 @@ use App\Models\Product;
 use App\Models\CategoryHome;
 use App\Models\Subscriber;
 use App\Models\User;
+use App\Models\Location;
 use Auth;
 use Carbon\Carbon;
 use Datatables;
@@ -1021,6 +1022,7 @@ class FrontendController extends Controller
     }
 
     public function location(Request $request, $location_id = null) {
-        
+        $locations = Location::find($location_id);
+        return view('front.location', compact('locations', 'location_id'));
     }
 }
