@@ -1,6 +1,6 @@
 @extends('layouts.front')
 @section('content')
-    {{-- <div class="breadcrumb-area">
+    <div class="breadcrumb-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -33,9 +33,9 @@
                 </div>
             </div>
         </div>
-    </section> --}}
+    </section>
 
-    <section class="sub-categori">
+    {{-- <section class="sub-categori">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12" style="background-color: #fff;">
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection
 
 @section('scripts')
