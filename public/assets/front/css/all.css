@@ -41074,12 +41074,14 @@ nav button {
     display: inline-block;
     margin-right: 20px;
     margin-bottom: 0px;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .product-details-page .right-area .product-info .product-price .price {
     display: inline-block;
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 600;
     color: #ff5500;
     margin-bottom: 0px;
 }

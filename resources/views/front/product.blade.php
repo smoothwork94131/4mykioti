@@ -114,14 +114,14 @@
                                         </ul>
                                     </div>
                                     <div class="product-model">
-                                        <small>Model #:  <?php echo $productt->subcategory_id; ?></small>
+                                        Model #:  <?php echo $productt->subcategory_id; ?>
                                     </div>
                                     <div class="product-part">
-                                        <small>Part #:  <?php echo $productt->sku; ?></small>
+                                        Part #:  <?php echo $productt->sku; ?>
                                     </div>
                                     @if($productt->photo == null)
-                                    <div class="product-part">
-                                        <small>Refno #:  <?php echo $productt->top; ?></small>
+                                    <div class="product-part" style="font-size: 18px;">
+                                        Ref Num: <?php echo $productt->top; ?>
                                     </div>
                                     @endif
                                     <div class="product-price">
@@ -241,7 +241,7 @@
                                                     class="d-block count {{ $productt->type == 'Physical' ? '' : 'd-none' }}">
                                                     <div class="qty" style="display: flex; align-items: center;">
                                                         <label
-                                                            style="font-size: 14px; margin-right: 10px; margin-top: 3px;">Quantity:
+                                                            style="font-size: 18px; margin-right: 10px; margin-top: 3px; font-weight: 600;">Quantity:
                                                         </label>
                                                         <ul style="display:flex; align-items-center: center;">
                                                             <li>
