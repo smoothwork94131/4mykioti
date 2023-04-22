@@ -29,28 +29,58 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12">
-                    <div id="map"></div>
+                    <div class="map-page-title">Locations</div>
+                    <div id="map" style="width:100%; height:500px;"></div>
+                    <div class="map_other_info">
+                        <div class="address-container">
+                            <div class="address-title">
+                                Contract Info
+                            </div>
+                            <div class="address-info">
+                                <div class="address-mark">{{ $locations->name }}</div>
+                            </div>
+                            <div class="address-info">
+                                <div class="address-mark">Address:</div>
+                                <div>{{ $locations->street . " " . $locations->city . " " . $locations->zip_code }}</div>
+                            </div>
+                            <div class="address-info">
+                                <div class="address-mark">Phone:</div>
+                                <div style="color: #F05223">{{ $locations->phone_number }}</div>
+                            </div>
+                        </div>
+                        @if($locations->hours)
+                        <div class="address-container">
+                            <div class="address-title">
+                                Hours
+                            </div>
+                            @php
+                                $hours = $locations->hours;
+                                $hours = json_decode($hours);
+                            @endphp
+                            @foreach($hours as $hour)
+                            <div class="address-info">
+                                <div class="address-mark" style="width: 100px;">{{ $hour->date}}</div>
+                                <div>{{ $hour->time}}</div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+                        @if($locations->facebook_url && $locations->youtube_url)
+                        <div class="address-container">
+                            <div class="address-title">
+                                Get Connected
+                            </div>
+                            <div class="address-info">
+                                <a href="{{ $locations->facebook_url }}"><i class="fab fa-fw fa-facebook"></i></a>
+                                <a href="{{ $locations->youtube_url }}"><i class="fab fa-fw fa-youtube"></i></a>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-    {{-- <section class="sub-categori">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 col-md-12" style="background-color: #fff;">
-                    @if($location_id == "36478")
-                    <img src="{{ asset('assets/images/location1.png')}}" style="width:100%; " />
-                    @elseif($location_id == "37100")
-                    <img src="{{ asset('assets/images/location2.png')}}" style="width:100%; " />
-                    @elseif($location_id == "37101")
-                    <img src="{{ asset('assets/images/location3.png')}}" style="width:100%; " />
-                    @endif
-                    <img>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 @endsection
 
 @section('scripts')
@@ -66,7 +96,7 @@
                 
                 const myLatLng = { lat: lat, lng: lng };
                 const map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 5,
+                    zoom: 18,
                     center: myLatLng,
                 });
 
