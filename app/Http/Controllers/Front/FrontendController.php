@@ -510,7 +510,6 @@ class FrontendController extends Controller
                     $result[$key] = $item ;
                 }
             }
-           
         }
         else{
             if(count($slug_list) == 1) {
@@ -538,7 +537,10 @@ class FrontendController extends Controller
                 
                 $db = strtolower($series);
                 $productt = DB::table($db)->where('name', '=', $prod)->first();
-                
+
+                $group_id = $productt->category_id;
+                $group_model = $productt->subcategory_id;
+                $group_record = DB::table($db . "_categories")->where('model', $group_model)->where('group_Id', $group_id)->first(); 
                 
                 if (Session::has('currency')) {
                     $curr = Currency::find(Session::get('currency'));
@@ -552,7 +554,6 @@ class FrontendController extends Controller
                 $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
                 
                 $page = "commonparts" ;
-                
 
                 $sql = "select * from `categories` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
                 $tbl_info =DB::select($sql);
@@ -585,7 +586,7 @@ class FrontendController extends Controller
                     }
                 }
 
-                return view('front.product', compact('db','productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
+                return view('front.product', compact('db','productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
             }
 
         }
