@@ -1,7 +1,6 @@
 @extends('layouts.front')
 @section('content')
-    <!-- Breadcrumb Area Start -->
-    <div class="breadcrumb-area">
+    {{-- <div class="breadcrumb-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -26,8 +25,6 @@
             </div>
         </div>
     </div>
-    <!-- Breadcrumb Area End -->
-    <!-- faq Area Start -->
     <section class="sub-categori">
         <div class="container">
             <div class="row justify-content-center">
@@ -36,8 +33,24 @@
                 </div>
             </div>
         </div>
+    </section> --}}
+
+    <section class="sub-categori">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12 col-md-12" style="background-color: #fff;">
+                    @if($location_id == "36478")
+                    <img src="{{ asset('assets/images/location1.png')}}" style="width:100%; " />
+                    @elseif($location_id == "37100")
+                    <img src="{{ asset('assets/images/location2.png')}}" style="width:100%; " />
+                    @elseif($location_id == "37101")
+                    <img src="{{ asset('assets/images/location3.png')}}" style="width:100%; " />
+                    @endif
+                    <img>
+                </div>
+            </div>
+        </div>
     </section>
-    <!-- faq Area End-->
 @endsection
 
 @section('scripts')
