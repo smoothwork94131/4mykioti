@@ -55,10 +55,12 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="xzoom-container">
                                 @php
-                                    $group_image = $group_record->image;
                                     $instead_image = "";
-                                    if($group_image != "" && file_exists(public_path('assets/images/group/'.$group_image))) {
-                                        $instead_image = asset('assets/images/group/'.$group_image);
+                                    if($group_record->image && file_exists(public_path('assets/images/group/'.$group_record->image))) {
+                                        $instead_image = asset('assets/images/group/'.$group_record->image);
+                                    }
+                                    else if($group_record->group_Id && file_exists(public_path('assets/images/group/'.$group_record->group_Id.'.png'))) {
+                                        $instead_image = asset('assets/images/group/'.$group_record->group_Id.'.png');
                                     }
                                     else {
                                         $instead_image = asset('assets/images/noimage.png');
@@ -117,6 +119,11 @@
                                     <div class="product-part">
                                         <small>Part #:  <?php echo $productt->sku; ?></small>
                                     </div>
+                                    @if($productt->photo == null)
+                                    <div class="product-part">
+                                        <small>Refno #:  <?php echo $productt->top; ?></small>
+                                    </div>
+                                    @endif
                                     <div class="product-price">
                                         <p class="title">{{ $langg->lang87 }} :</p>
                                         <p class="price"><span id="sizeprice">${{ $productt->price }}</span>
