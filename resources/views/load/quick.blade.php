@@ -255,32 +255,23 @@
                         @endif
 
 
-                        @if($product->product_type == "affiliate")
-
+                        @if($product->stock === 0)
                             <li class="addtocart">
-                                <a href="{{ route('affiliate.product', $product->slug) }}" target="_blank"><i
-                                            class="icofont-cart"></i> {{ $langg->lang251 }}</a>
+                                <a href="javascript:;" class="cart-out-of-stock">
+                                    <i class="icofont-close-circled"></i>
+                                    {{ $langg->lang78 }}</a>
                             </li>
                         @else
-                            @if($product->stock === 0)
-                                <li class="addtocart">
-                                    <a href="javascript:;" class="cart-out-of-stock">
-                                        <i class="icofont-close-circled"></i>
-                                        {{ $langg->lang78 }}</a>
-                                </li>
-                            @else
-                                <li class="addtocart">
-                                    <a href="javascript:;" id="maddcrt"><i class="icofont-cart"></i>{{ $langg->lang90 }}
-                                    </a>
-                                </li>
+                            <li class="addtocart">
+                                <a href="javascript:;" id="maddcrt"><i class="icofont-cart"></i>{{ $langg->lang90 }}
+                                </a>
+                            </li>
 
-                                <li class="addtocart">
-                                    <a id="mqaddcrt" href="javascript:;">
-                                        <i class="icofont-cart"></i>{{ $langg->lang251 }}
-                                    </a>
-                                </li>
-                            @endif
-
+                            <li class="addtocart">
+                                <a id="mqaddcrt" href="javascript:;">
+                                    <i class="icofont-cart"></i>{{ $langg->lang251 }}
+                                </a>
+                            </li>
                         @endif
                         @if(Auth::guard('web')->check())
                             <li class="favorite">

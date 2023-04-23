@@ -317,7 +317,10 @@ class CatalogController extends Controller
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
         $db = strtolower($series);
-        $group_record = DB::table($db.'_categories')->where('group_Id', $group)->first();
+        $group_record = DB::table($db.'_categories')
+            ->where('group_name', $group)
+            ->orWhere('group_Id', $group)
+            ->first();
         
         $sql = "select * from `{$db}` where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
 
@@ -668,90 +671,7 @@ class CatalogController extends Controller
 
     }
 
-    public function affProductRedirect($slug)
-    {
-        $product = Product::where('slug', '=', $slug)->first();
-
-        return redirect($product->affiliate_link);
-
-    }
     // -------------------------------- PRODUCT DETAILS SECTION ENDS----------------------------------------
-
-
-    // -------------------------------- PRODUCT COMMENT SECTION ----------------------------------------
-
-    public function comment(Request $request)
-    {
-        $comment = new Comment;
-        $input = $request->all();
-        $comment->fill($input)->save();
-        $comments = Comment::where('product_id', '=', $request->product_id)->get()->count();
-        $data[0] = $comment->user->photo ? url('assets/images/users/' . $comment->user->photo) : url('assets/images/noimage.png');
-        $data[1] = $comment->user->name;
-        $data[2] = $comment->created_at->diffForHumans();
-        $data[3] = $comment->text;
-        $data[4] = $comments;
-        $data[5] = route('product.comment.delete', $comment->id);
-        $data[6] = route('product.comment.edit', $comment->id);
-        $data[7] = route('product.reply', $comment->id);
-        $data[8] = $comment->user->id;
-        return response()->json($data);
-    }
-
-    public function commentedit(Request $request, $id)
-    {
-        $comment = Comment::findOrFail($id);
-        $comment->text = $request->text;
-        $comment->update();
-        return response()->json($comment->text);
-    }
-
-    public function commentdelete($id)
-    {
-        $comment = Comment::findOrFail($id);
-        if ($comment->replies->count() > 0) {
-            foreach ($comment->replies as $reply) {
-                $reply->delete();
-            }
-        }
-        $comment->delete();
-    }
-
-    // -------------------------------- PRODUCT COMMENT SECTION ENDS ----------------------------------------
-
-    // -------------------------------- PRODUCT REPLY SECTION ----------------------------------------
-
-    public function reply(Request $request, $id)
-    {
-        $reply = new Reply;
-        $input = $request->all();
-        $input['comment_id'] = $id;
-        $reply->fill($input)->save();
-        $data[0] = $reply->user->photo ? url('assets/images/users/' . $reply->user->photo) : url('assets/images/noimage.png');
-        $data[1] = $reply->user->name;
-        $data[2] = $reply->created_at->diffForHumans();
-        $data[3] = $reply->text;
-        $data[4] = route('product.reply.delete', $reply->id);
-        $data[5] = route('product.reply.edit', $reply->id);
-        return response()->json($data);
-    }
-
-    public function replyedit(Request $request, $id)
-    {
-        $reply = Reply::findOrFail($id);
-        $reply->text = $request->text;
-        $reply->update();
-        return response()->json($reply->text);
-    }
-
-    public function replydelete($id)
-    {
-        $reply = Reply::findOrFail($id);
-        $reply->delete();
-    }
-
-    // -------------------------------- PRODUCT REPLY SECTION ENDS----------------------------------------
-
 
     // ------------------ Rating SECTION --------------------
 

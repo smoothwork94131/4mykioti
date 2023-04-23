@@ -133,13 +133,7 @@
         </h5>
 
         <div class="cart-area">
-            @if ($prod->product_type == 'affiliate')
-                <span class="add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i
-                        class="icofont-cart"></i>
-                    {{ $langg->lang251 }}
-                </span>
-            @else
-                @if ($prod->emptyStock())
+            @if ($prod->emptyStock())
                     <span class="add-to-cart-btn cart-out-of-stock">
                         <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
                     </span>
@@ -155,7 +149,6 @@
                         <i class="icofont-cart"></i> {{ $langg->lang251 }}
                     </span>
                 @endif
-            @endif
         </div>
     </div>
 

@@ -274,12 +274,6 @@
                                         </div>
                                         @endif
 
-                                        @if ($productt->product_type == 'affiliate')
-                                        <li class="addtocart">
-                                            <a href="{{ route('affiliate.product', $productt->slug) }}" target="_blank"><i class="icofont-cart"></i>
-                                                {{ $langg->lang251 }}</a>
-                                        </li>
-                                        @else
                                         <li class="addtocart">
                                             <a href="javascript:;" id="addcrt"><i class="icofont-cart"></i>{{
                                                 $langg->lang90 }}</a>
@@ -290,8 +284,7 @@
                                                 <i class="icofont-cart"></i>{{ $langg->lang251 }}
                                             </a>
                                         </li>
-                                        @endif
-
+                                        
                                         @if (Auth::guard('web')->check())
                                         <li class="favorite">
                                             <a href="javascript:;" class="add-to-wish" data-href="{{ route('user-wishlist-add', $productt->id) }}"><i class="icofont-heart-alt"></i></a>
@@ -483,75 +476,12 @@
             </div>
         </div>
     </div>
-
-    {{-- MESSAGE MODAL ENDS --}}
-
-
-    @if (Auth::guard('web')->check())
-    @if ($productt->user_id != 0)
-    {{-- MESSAGE VENDOR MODAL --}}
-
-
-    <div class="modal" id="vendorform1" tabindex="-1" role="dialog" aria-labelledby="vendorformLabel1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="vendorformLabel1">{{ $langg->lang118 }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid p-0">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="contact-form">
-                                    <form id="emailreply">
-                                        {{ csrf_field() }}
-                                        <ul>
-
-                                            <li>
-                                                <input type="text" class="input-field" readonly="" placeholder="Send To" readonly="">
-                                            </li>
-
-                                            <li>
-                                                <input type="text" class="input-field" id="subj" name="subject" placeholder="{{ $langg->lang119 }}" required="">
-                                            </li>
-
-                                            <li>
-                                                <textarea class="input-field textarea" name="message" id="msg" placeholder="{{ $langg->lang120 }}" required=""></textarea>
-                                            </li>
-
-                                            <input type="hidden" name="email" value="{{ Auth::guard('web')->user()->email }}">
-                                            <input type="hidden" name="name" value="{{ Auth::guard('web')->user()->name }}">
-                                            <input type="hidden" name="user_id" value="{{ Auth::guard('web')->user()->id }}">
-                                            <input type="hidden" name="vendor_id" value="{{ $productt->user_id }}">
-
-                                        </ul>
-                                        <button class="submit-btn" id="emlsub1" type="submit">{{ $langg->lang118
-                                            }}</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    {{-- MESSAGE VENDOR MODAL ENDS --}}
-    @endif
-    @endif
-
 </div>
-
+{{-- MESSAGE MODAL ENDS --}}
 
 @if ($gs->is_report)
 @if (Auth::check())
 {{-- REPORT MODAL SECTION --}}
-
 <div class="modal fade" id="report-modal" tabindex="-1" role="dialog" aria-labelledby="report-modal-Title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -596,7 +526,6 @@
         </div>
     </div>
 </div>
-
 {{-- REPORT MODAL SECTION ENDS --}}
 @endif
 @endif
@@ -636,46 +565,6 @@
                 $('.close').click();
             }
 
-        });
-        return false;
-    });
-
-</script>
-
-
-<script type="text/javascript">
-    $(document).on("submit", "#emailreply", function() {
-        var token = $(this).find('input[name=_token]').val();
-        var subject = $(this).find('input[name=subject]').val();
-        var message = $(this).find('textarea[name=message]').val();
-        var email = $(this).find('input[name=email]').val();
-        var name = $(this).find('input[name=name]').val();
-        var user_id = $(this).find('input[name=user_id]').val();
-        var vendor_id = $(this).find('input[name=vendor_id]').val();
-        $('#subj').prop('disabled', true);
-        $('#msg').prop('disabled', true);
-        $('#emlsub').prop('disabled', true);
-        $.ajax({
-            type: 'post'
-            , url: "{{ URL::to('/vendor/contact') }}"
-            , data: {
-                '_token': token
-                , 'subject': subject
-                , 'message': message
-                , 'email': email
-                , 'name': name
-                , 'user_id': user_id
-                , 'vendor_id': vendor_id
-            }
-            , success: function() {
-                $('#subj').prop('disabled', false);
-                $('#msg').prop('disabled', false);
-                $('#subj').val('');
-                $('#msg').val('');
-                $('#emlsub').prop('disabled', false);
-                toastr.success("{{ $langg->message_sent }}");
-                $('.ti-close').click();
-            }
         });
         return false;
     });

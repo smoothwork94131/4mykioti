@@ -167,29 +167,6 @@ class UserController extends Controller
 
     }
 
-
-    public function favorite($id1, $id2)
-    {
-        $fav = new FavoriteSeller();
-        $fav->user_id = $id1;
-        $fav->vendor_id = $id2;
-        $fav->save();
-    }
-
-    public function favorites()
-    {
-        $user = Auth::guard('web')->user();
-        $favorites = FavoriteSeller::where('user_id', '=', $user->id)->get();
-        return view('user.favorite', compact('user', 'favorites'));
-    }
-
-    public function favdelete($id)
-    {
-        $wish = FavoriteSeller::findOrFail($id);
-        $wish->delete();
-        return redirect()->route('user-favorites')->with('success', 'Successfully Removed The Seller.');
-    }
-
     public function my_tractor() {
         $user_id = Auth::id();
         $tractors = DB::table("users-tractor")->where('user_id', $user_id)->orderBy('updatetime', 'desc')->get();

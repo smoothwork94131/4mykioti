@@ -297,24 +297,16 @@
                                                     </div>
                                                 @endif
 
-                                                @if ($productt->product_type == 'affiliate')
-                                                    <li class="addtocart">
-                                                        <a href="{{ route('affiliate.product', $productt->slug) }}"
-                                                            target="_blank"><i class="icofont-cart"></i>
-                                                            {{ $langg->lang251 }}</a>
-                                                    </li>
-                                                @else
-                                                    <li class="addtocart">
-                                                        <a href="javascript:;" id="addcrt"><i
-                                                                class="icofont-cart"></i>{{ $langg->lang90 }}</a>
-                                                    </li>
+                                                <li class="addtocart">
+                                                    <a href="javascript:;" id="addcrt"><i
+                                                            class="icofont-cart"></i>{{ $langg->lang90 }}</a>
+                                                </li>
 
-                                                    <li class="addtocart">
-                                                        <a id="qaddcrt" href="javascript:;">
-                                                            <i class="icofont-cart"></i>{{ $langg->lang251 }}
-                                                        </a>
-                                                    </li>
-                                                @endif
+                                                <li class="addtocart">
+                                                    <a id="qaddcrt" href="javascript:;">
+                                                        <i class="icofont-cart"></i>{{ $langg->lang251 }}
+                                                    </a>
+                                                </li>
 
                                                 @if (Auth::guard('web')->check())
                                                     <li class="favorite">
@@ -487,11 +479,54 @@
     </section>
     <!-- Product Details Area End -->
 
+    {{-- MESSAGE MODAL --}}
+    <div class="message-modal">
+        <div class="modal" id="vendorform" tabindex="-1" role="dialog" aria-labelledby="vendorformLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="vendorformLabel">{{ $langg->lang118 }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="contact-form">
+                                        <form id="emailreply1">
+                                            {{ csrf_field() }}
+                                            <ul>
+                                                <li>
+                                                    <input type="text" class="input-field" id="subj1"
+                                                        name="subject" placeholder="{{ $langg->lang119 }}"
+                                                        required="">
+                                                </li>
+                                                <li>
+                                                    <textarea class="input-field textarea" name="message" id="msg1" placeholder="{{ $langg->lang120 }}"
+                                                        required=""></textarea>
+                                                </li>
+                                                <input type="hidden" name="type" value="Ticket">
+                                            </ul>
+                                            <button class="submit-btn" id="emlsub"
+                                                type="submit">{{ $langg->lang118 }}</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- MESSAGE MODAL ENDS --}}
 
     @if ($gs->is_report)
         @if (Auth::check())
             {{-- REPORT MODAL SECTION --}}
-
             <div class="modal fade" id="report-modal" tabindex="-1" role="dialog"
                 aria-labelledby="report-modal-Title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -539,11 +574,9 @@
                     </div>
                 </div>
             </div>
-
             {{-- REPORT MODAL SECTION ENDS --}}
         @endif
     @endif
-
 @endsection
 
 
@@ -579,45 +612,6 @@
                     $('.close').click();
                 }
 
-            });
-            return false;
-        });
-    </script>
-
-
-    <script type="text/javascript">
-        $(document).on("submit", "#emailreply", function() {
-            var token = $(this).find('input[name=_token]').val();
-            var subject = $(this).find('input[name=subject]').val();
-            var message = $(this).find('textarea[name=message]').val();
-            var email = $(this).find('input[name=email]').val();
-            var name = $(this).find('input[name=name]').val();
-            var user_id = $(this).find('input[name=user_id]').val();
-            var vendor_id = $(this).find('input[name=vendor_id]').val();
-            $('#subj').prop('disabled', true);
-            $('#msg').prop('disabled', true);
-            $('#emlsub').prop('disabled', true);
-            $.ajax({
-                type: 'post',
-                url: "{{ URL::to('/vendor/contact') }}",
-                data: {
-                    '_token': token,
-                    'subject': subject,
-                    'message': message,
-                    'email': email,
-                    'name': name,
-                    'user_id': user_id,
-                    'vendor_id': vendor_id
-                },
-                success: function() {
-                    $('#subj').prop('disabled', false);
-                    $('#msg').prop('disabled', false);
-                    $('#subj').val('');
-                    $('#msg').val('');
-                    $('#emlsub').prop('disabled', false);
-                    toastr.success("{{ $langg->message_sent }}");
-                    $('.ti-close').click();
-                }
             });
             return false;
         });

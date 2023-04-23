@@ -48,25 +48,18 @@
                         <h4 class="price" style="color: {{ $colorsetting_style1 && $colorsetting_style1->price_color? $colorsetting_style1->price_color : '#333333' }}">{{ $prod->setCurrency() }} <del><small>{{ $prod->showPreviousPrice() }}</small></del></h4>
                         <h5 class="name" style="color: {{ $colorsetting_style1 && $colorsetting_style1->title_color? $colorsetting_style1->title_color: '#333333' }}">{{ $prod->showName() }}</h5>
                         <div class="item-cart-area">
-                        @if($prod->product_type == "affiliate")
-                            <span class="add-to-cart-btn affilate-btn"
-                                data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>
-                                {{ $langg->lang251 }}
-                            </span>
+                        @if($prod->emptyStock())
+                        <span class="add-to-cart-btn cart-out-of-stock">
+                            <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
+                        </span>
                         @else
-                            @if($prod->emptyStock())
-                            <span class="add-to-cart-btn cart-out-of-stock">
-                                <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
-                            </span>
-                            @else
-                            <span class="add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};">
-                                <i class="icofont-cart"></i> {{ $langg->lang56 }}
-                            </span>
-                            <span class="add-to-cart-quick add-to-cart-btn"
-                                data-href="{{ route('product.cart.quickadd',$prod->id) }}" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};">
-                                <i class="icofont-cart"></i> {{ $langg->lang251 }}
-                            </span>
-                            @endif
+                        <span class="add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};">
+                            <i class="icofont-cart"></i> {{ $langg->lang56 }}
+                        </span>
+                        <span class="add-to-cart-quick add-to-cart-btn"
+                            data-href="{{ route('product.cart.quickadd',$prod->id) }}" style="background-color:{{ $colorsetting_style1 && $colorsetting_style1->buttons_color? $colorsetting_style1->buttons_color: 'green' }};">
+                            <i class="icofont-cart"></i> {{ $langg->lang251 }}
+                        </span>
                         @endif
                         </div>
                     </div>
@@ -172,13 +165,6 @@
                         </p>
                         </h5>
                         <div class="cart-area">
-                        @if($prod->product_type == "affiliate")
-                            <span class="add-to-cart-btn affilate-btn"
-                                data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>
-                                {{ $langg->lang251 }}
-                            </span>
-                        @else
-                            
                             <span class="add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}"  style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                 <i class="icofont-cart"></i> {{ $langg->lang56 }}
                             </span>
@@ -186,7 +172,6 @@
                                 data-href="{{ route('product.cart.quickadd',$prod->id) }}" style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                 <i class="icofont-cart"></i> {{ $langg->lang251 }}
                             </span>
-                        @endif
                         </div>
                 </div>
                 <img class="prod-image" style="max-width:125px; max-height: 150px;"  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">

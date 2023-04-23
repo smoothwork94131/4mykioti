@@ -1057,12 +1057,9 @@ Route::prefix('user')->group(function () {
 
     // User Admin Send Message
 
-
     // Tickets
     Route::get('admin/tickets', 'User\MessageController@adminmessages')->name('user-message-index');
-    // Disputes
-    Route::get('admin/disputes', 'User\MessageController@adminDiscordmessages')->name('user-dmessage-index');
-
+    
     Route::get('admin/message/{id}', 'User\MessageController@adminmessage')->name('user-message-show');
     Route::post('admin/message/post', 'User\MessageController@adminpostmessage')->name('user-message-store');
     Route::get('admin/message/{id}/delete', 'User\MessageController@adminmessagedelete')->name('user-message-delete1');
@@ -1138,7 +1135,6 @@ Route::group(['middleware' => 'maintenance'], function () {
     /*Category list page */
 
     // PRODCT SECTION ENDS
-    Route::get('/afbuy/{slug}', 'Front\CatalogController@affProductRedirect')->name('affiliate.product');
     Route::get('/product/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
     Route::get('/product/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
     Route::post('/product/review', 'Front\CatalogController@reviewsubmit')->name('front.review.submit');
@@ -1147,29 +1143,12 @@ Route::group(['middleware' => 'maintenance'], function () {
     // CATEGORY SELECT DETAIL PAGE
     Route::get('/product/{slug}', 'Front\CatalogController@homeproduct')->name('front.homeproduct');
     Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@product')->name('front.product');
-
-    // COMMENT SECTION
-    Route::post('/product/comment/store', 'Front\CatalogController@comment')->name('product.comment');
-    Route::post('/product/comment/edit/{id}', 'Front\CatalogController@commentedit')->name('product.comment.edit');
-    Route::get('/product/comment/delete/{id}', 'Front\CatalogController@commentdelete')->name('product.comment.delete');
-    // COMMENT SECTION ENDS
+    Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
+    
 
     // REPORT SECTION   
     Route::post('/product/report', 'Front\CatalogController@report')->name('product.report');
     // REPORT SECTION ENDS
-
-    // COMPARE SECTION
-    Route::get('/product/compare/view', 'Front\CompareController@compare')->name('product.compare');
-    Route::get('/product/compare/add/{id}', 'Front\CompareController@addcompare')->name('product.compare.add');
-    Route::get('/product/compare/remove/{id}', 'Front\CompareController@removecompare')->name('product.compare.remove');
-    // COMPARE SECTION ENDS
-
-    // REPLY SECTION
-    Route::post('/product/reply/{id}', 'Front\CatalogController@reply')->name('product.reply');
-    Route::post('/product/reply/edit/{id}', 'Front\CatalogController@replyedit')->name('product.reply.edit');
-    Route::get('/product/reply/delete/{id}', 'Front\CatalogController@replydelete')->name('product.reply.delete');
-
-    // REPLY SECTION ENDS
 
     // CART SECTION
     Route::get('/carts/view', 'Front\CartController@cartview');
@@ -1205,7 +1184,6 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::post('/stripe-submit', 'Front\StripeController@store')->name('stripe.submit');
 
     // Molly Routes
-
     Route::post('/molly/submit', 'Front\MollyController@store')->name('molly.submit');
     Route::get('/molly/notify', 'Front\MollyController@notify')->name('molly.notify');
     // Molly Routes Ends
@@ -1222,24 +1200,9 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::post('/gateway', 'Front\CheckoutController@gateway')->name('gateway.submit');
     // CHECKOUT SECTION ENDS
 
-    // VENDOR SECTION
-    Route::get('/store/{category}', 'Front\VendorController@index')->name('front.vendor');
-    Route::post('/vendor/contact', 'Front\VendorController@vendorcontact');
-    // TAG SECTION ENDS
-
     // SUBSCRIBE SECTION
-
     Route::post('/subscriber/store', 'Front\FrontendController@subscribe')->name('front.subscribe');
-
     // SUBSCRIBE SECTION ENDS
-
-    // AGE SET SECTION
-
-    Route::post('/age/store', 'Front\FrontendController@age')->name('front.age');
-    Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
-
-    // AGE SET SECTION ENDS
-
 
     // LOGIN WITH FACEBOOK OR GOOGLE SECTION
     Route::get('auth/{provider}', 'User\SocialRegisterController@redirectToProvider')->name('social-provider');
@@ -1248,7 +1211,6 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     //  CRONJOB
     Route::get('/vendor/subscription/check', 'Front\FrontendController@subcheck');
-
     // CRONJOB ENDS
 
     // PAGE SECTION
@@ -1256,8 +1218,6 @@ Route::group(['middleware' => 'maintenance'], function () {
     // PAGE SECTION ENDS
 
     Route::post('the/genius/ocean/2441139', 'Front\FrontendController@subscription');
-    Route::get('finalize', 'Front\FrontendController@finalize');
-
     Route::get('/under-maintenance', 'Front\FrontendController@maintenance')->name('front-maintenance');
 
     Route::get('/search/{key}/{keyword}', 'Front\SearchController@index')->name('front-search.index');

@@ -53,11 +53,6 @@
                         <h4 class="price" style="color: {{ $colorsetting_style1 && $colorsetting_style1->price_color? $colorsetting_style1->price_color : '#333333' }}">{{ $solo_prod->setCurrency() }} <del><small>{{ $solo_prod->showPreviousPrice() }}</small></del></h4>
                         <h5 class="name" style="color: {{ $colorsetting_style1 && $colorsetting_style1->title_color? $colorsetting_style1->title_color: '#333333' }}">{{ $solo_prod->showName() }}</h5>
                         <div class="item-cart-area">
-                        @if($solo_prod->product_type == "affiliate")
-                            <span class="add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $solo_prod->slug) }}"><i class="icofont-cart"></i>
-                                {{ $langg->lang251 }}
-                            </span>
-                        @else
                             @if($solo_prod->emptyStock())
                             <span class="add-to-cart-btn cart-out-of-stock">
                                 <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
@@ -71,7 +66,6 @@
                                 <i class="icofont-cart"></i> {{ $langg->lang251 }}
                             </span>
                             @endif
-                        @endif
                         </div>
                     </div>
                 </a>
@@ -220,13 +214,7 @@
                         @endif
                         </h5>
                         <div class="cart-area">
-                            @if($solo_prod->product_type == "affiliate")
-                                <span class="add-to-cart-btn affilate-btn"
-                                    data-href="{{ route('affiliate.product', $solo_prod->slug) }}"><i class="icofont-cart"></i>
-                                    {{ $langg->lang251 }}
-                                </span>
-                            @else
-                                @if($solo_prod->emptyStock())
+                            @if($solo_prod->emptyStock())
                                 <span class="add-to-cart-btn cart-out-of-stock">
                                     <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
                                 </span>
@@ -238,34 +226,11 @@
                                     data-href="{{ route('product.cart.quickadd',['db' => 'products', 'id' => $solo_prod->id]) }}" style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
                                     <i class="icofont-cart"></i> {{ $langg->lang251 }}
                                 </span>
-                                @endif
                             @endif
                         </div>
                 </div>
                 <img class="prod-image" src="{{ $solo_prod->thumbnail ? asset('assets/images/thumbnails/'.$solo_prod->thumbnail):asset('assets/images/products/'.$gs->prod_image) }}" alt="">
             </a>
-            <!-- <div class="m-cart-area">
-                @if($solo_prod->product_type == "affiliate")
-                    <span class="add-to-cart-btn affilate-btn"
-                        data-href="{{ route('affiliate.product', $solo_prod->slug) }}"><i class="icofont-cart"></i>
-                        {{ $langg->lang251 }}
-                    </span>
-                @else
-                    @if($solo_prod->emptyStock())
-                    <span class="add-to-cart-btn cart-out-of-stock">
-                        <i class="icofont-close-circled"></i> {{ $langg->lang78 }}
-                    </span>
-                    @else
-                    <span class="add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => 'products', 'id' => $solo_prod->id]) }}"  style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
-                        <i class="icofont-cart"></i> {{ $langg->lang56 }}
-                    </span>
-                    <span class="add-to-cart-quick add-to-cart-btn"
-                        data-href="{{ route('product.cart.quickadd',['db' => 'products', 'id' => $solo_prod->id]) }}" style="background-color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color? $colorsetting_style2->buttons_color: 'green' }};">
-                        <i class="icofont-cart"></i> {{ $langg->lang251 }}
-                    </span>
-                    @endif
-                @endif
-            </div> -->
             </div>
         @endforeach
         <div class="col-lg-12">

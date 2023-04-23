@@ -129,13 +129,6 @@ class MessageController extends Controller
         return view('user.ticket.index', compact('convs'));
     }
 
-    public function adminDiscordmessages()
-    {
-        $user = Auth::guard('web')->user();
-        $convs = AdminUserConversation::where('type', '=', 'Dispute')->where('user_id', '=', $user->id)->get();
-        return view('user.dispute.index', compact('convs'));
-    }
-
     public function messageload($id)
     {
         $conv = AdminUserConversation::findOrfail($id);

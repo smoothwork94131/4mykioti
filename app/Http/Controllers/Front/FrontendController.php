@@ -484,16 +484,6 @@ class FrontendController extends Controller
         return view('load.suggest', compact('prods', 'model', 'series','category'));
     }
 
-    public function finalize()
-    {
-        // $actual_path = str_replace('project', '', base_path());
-        $actual_path = base_path() . '/public/';
-
-        $dir = $actual_path . 'install';
-        $this->deleteDir($dir);
-        return redirect('/');
-    }
-
     public function auth_guests()
     {
         $chk = MarkuryPost::marcuryBase();
@@ -689,12 +679,6 @@ class FrontendController extends Controller
         $subscribe->fill($request->all());
         $subscribe->save();
         return response()->json('You Have Subscribed Successfully.');
-    }
-
-    public function age(Request $request)
-    {
-        Session::put('age', $request->age);
-        return response()->json('You are ' . $request->age . ' years old');
     }
 
     public function groups(Request $request)

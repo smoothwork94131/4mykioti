@@ -37,15 +37,11 @@
                                     <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                 @endif
                                 <span class="dropdown-item quick-view" data-href="{{ route('product.quick',$prod->id) }}" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>
-                                @if($prod->product_type == "affiliate")
-                                    <span class="dropdown-item add-to-cart-btn affilate-btn" data-href="{{ route('affiliate.product', $prod->slug) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
+                                @if($prod->emptyStock())
+                                <span class="dropdown-item add-to-cart-btn cart-out-of-stock" href="#"><i class="icofont-close-circled"></i>&nbsp;&nbsp;{{ $langg->lang78 }}</span>
                                 @else
-                                    @if($prod->emptyStock())
-                                        <span class="dropdown-item add-to-cart-btn cart-out-of-stock" href="#"><i class="icofont-close-circled"></i>&nbsp;&nbsp;{{ $langg->lang78 }}</span>
-                                    @else
-                                        <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
-                                        <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',$prod->id) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
-                                    @endif
+                                <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',$prod->id) }}"><i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}</span>
+                                <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',$prod->id) }}"><i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}</span>
                                 @endif
                             </div>
                         </div>
