@@ -148,14 +148,7 @@ class CatalogController extends Controller
         
         $data['db'] = $db;
 
-        if ($request->ajax()) {
-
-            $data['ajax_check'] = 1;
-            
-            return view('includes.product.filtered-products', $data);
-        }
         return view('front.category', $data);
-        
     }
 
     public function collection(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
@@ -668,7 +661,6 @@ class CatalogController extends Controller
         }
 
         return view('load.quick', compact('product', 'curr', 'db'));
-
     }
 
     // -------------------------------- PRODUCT DETAILS SECTION ENDS----------------------------------------

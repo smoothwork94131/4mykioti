@@ -660,6 +660,7 @@ class CartController extends Controller
                 return 0;
             }
         }
+        
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->adding($prod, $itemid, $size_qty, $size_price);

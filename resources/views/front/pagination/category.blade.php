@@ -2,7 +2,6 @@
     @foreach($cats as $prod)
         @include('includes.product.product')
     @endforeach
-
 </div>
 
 @if(isset($min) || isset($max))
@@ -49,7 +48,6 @@
     $('[data-toggle="tooltip"]').on('click', function () {
         $(this).tooltip('hide');
     })
-
 
     $('[rel-toggle="tooltip"]').on('click', function () {
         $(this).tooltip('hide');
