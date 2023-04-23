@@ -42,13 +42,16 @@ class CartController extends Controller
         $products = $cart->items;
         $totalPrice = $cart->totalPrice;
         $mainTotal = $totalPrice;
+        $db = $cart->db;
+        $section = $cart->section;
+        $category = $cart->category;
         $tx = $gs->tax;
         if ($tx != 0) {
             $tax = ($totalPrice / 100) * $tx;
             $mainTotal = $totalPrice + $tax;
         }
 
-        return view('front.cart', compact('products', 'totalPrice', 'mainTotal', 'tx'));
+        return view('front.cart', compact('products', 'totalPrice', 'mainTotal', 'tx', 'db'));
     }
 
     public function cartview()
