@@ -699,6 +699,8 @@ class CartController extends Controller
             }
         }
 
+        
+
         $data[0] = $cart->totalPrice;
 
         $data[3] = $data[0];
