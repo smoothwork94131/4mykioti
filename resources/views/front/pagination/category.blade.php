@@ -11,17 +11,13 @@
     </div>
 
 @elseif(!empty($sort))
-
     <div class="page-center category">
         {!! $cats->appends(['sort' => $sort])->links() !!}
     </div>
-
 @else
-
     <div class="page-center category">
         {!! $cats->links() !!}
     </div>
-
 @endif
 
 
