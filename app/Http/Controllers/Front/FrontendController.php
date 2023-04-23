@@ -208,129 +208,6 @@ class FrontendController extends Controller
         return view('front.index', compact('ps', 'sliders', 'products', 'top_small_banners', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
-    public function extraIndex()
-    {
-        $services = DB::table('services')->where('user_id', '=', 0)->get();
-        $bottom_small_banners = DB::table('banners')->where('type', '=', 'BottomSmall')->get();
-        $large_banners = DB::table('banners')->where('type', '=', 'Large')->get();
-        $reviews = DB::table('reviews')->get();
-        $ps = DB::table('pagesettings')->find(1);
-        $partners = DB::table('partners')->get();
-        $selectable = ['id', 'user_id', 'name', 'slug', 'features', 'colors', 'thumbnail', 'price', 'previous_price', 'attributes', 'size', 'size_price', 'discount_date'];
-        $discount_products = Product::where('is_discount', '=', 1)->where('status', '=', 1)->orderBy('id', 'desc')->take(8)->get();
-        $best_products = Product::where('best', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(6)->get();
-        $top_products = Product::where('top', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(8)->get();
-        $big_products = Product::where('big', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(6)->get();
-        $hot_products = Product::where('hot', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(9)->get();
-        $latest_products = Product::where('latest', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(9)->get();
-        $trending_products = Product::where('trending', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(9)->get();
-        $sale_products = Product::where('sale', '=', 1)->where('status', '=', 1)->select($selectable)->orderBy('id', 'desc')->take(9)->get();
-        return view('front.extraindex', compact('ps', 'services', 'reviews', 'large_banners', 'bottom_small_banners', 'best_products', 'top_products', 'hot_products', 'latest_products', 'big_products', 'trending_products', 'sale_products', 'discount_products', 'partners'));
-    }
-
-// -------------------------------- HOME PAGE SECTION ENDS ----------------------------------------
-
-    public function solo_datatables()
-    {
-        $gs = Generalsetting::findOrFail(1);
-
-        $solo_category = $gs->solo_category;
-        $datas = Product::where('category_id', $solo_category)->where('product_type', '=', 'normal')->orderBy('id', 'desc')->get();
-
-        //--- Integrating This Collection Into Datatables
-        return Datatables::of($datas)
-            ->editColumn('name', function (Product $data) {
-                $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
-                $gs = Generalsetting::findOrFail(1);
-
-                $thumbnail = $data->thumbnail ? asset('assets/images/thumbnails/' . $data->thumbnail) : asset('assets/images/products/' . $gs->prod_image);
-
-                return '<a href="' . route('front.homeproduct', $data->slug) . '"><img src = "' . $thumbnail . '" alt="" width="50" height="50"> ' . $name . '</a>';
-            })
-            ->editColumn('price', function (Product $data) {
-                $price = $data->showPrice();
-                return $price;
-            })
-            ->editColumn('stock', function (Product $data) {
-                $stck = (string) $data->stock;
-                if ($stck == "0") {
-                    return "Out Of Stock";
-                } elseif ($stck == null) {
-                    return "Unlimited";
-                } else {
-                    return $data->stock;
-                }
-
-            })
-            ->addColumn('action', function (Product $data) {
-
-                $action = '<div class="dropdown">
-            <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <small>Actions</small>
-            </a>
-            <div class="dropdown-menu dropdown-primary">';
-
-                if (Auth::guard('web')->check()) {
-                    $action .= '<span class="dropdown-item add-to-wish" data-href="' . route('user-wishlist-add', $data->id) . '"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>';
-                } else {
-                    $action .= '<span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>';
-                }
-
-                $action .= '<span class="dropdown-item quick-view" data-href="' . route('product.quick', $data->id) . '" data-toggle="modal" data-target="#quickview"><i class="icofont-eye"></i>&nbsp;&nbsp;Quick View</span>';
-
-                if ($data->product_type == "affiliate") {
-                    $action .= '<span class="dropdown-item add-to-cart-btn affilate-btn" data-href="' . route('affiliate.product', $data->slug) . '"><i class="icofont-cart"></i>&nbsp;&nbsp;' . 'Add to cart' . '</span>';
-
-                } else {
-                    if ($data->emptyStock()) {
-                        $action .= '<span class="dropdown-item add-to-cart-btn cart-out-of-stock" href="#"><i class="icofont-close-circled"></i>&nbsp;&nbsp;' . 'Add to cart' . '</span>';
-
-                    } else {
-                        $action .= '<span class="dropdown-item add-to-cart add-to-cart-btn" data-href="' . route('product.cart.add', $data->id) . '"><i class="icofont-cart"></i>&nbsp;&nbsp;' . 'Add to cart' . '</span>';
-                        $action .= '<span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="' . route('product.cart.quickadd', $data->id) . '"><i class="icofont-dollar"></i>&nbsp;&nbsp;' . 'Buy now' . '</span>';
-                    }
-                }
-                $action .= '</div>
-        </div>';
-
-                return $action;
-            })
-
-            ->rawColumns(['name', 'action'])
-            ->toJson(); //--- Returning Json Data To Client Side
-    }
-
-// LANGUAGE SECTION
-
-    public function language($id)
-    {
-        $this->code_image();
-        Session::put('language', $id);
-        return redirect()->back();
-    }
-
-// LANGUAGE SECTION ENDS
-
-// CURRENCY SECTION
-
-    public function currency($id)
-    {
-        $this->code_image();
-        if (Session::has('coupon')) {
-            Session::forget('coupon');
-            Session::forget('coupon_code');
-            Session::forget('coupon_id');
-            Session::forget('coupon_total');
-            Session::forget('coupon_total1');
-            Session::forget('already');
-            Session::forget('coupon_percentage');
-        }
-        Session::put('currency', $id);
-        return redirect()->back();
-    }
-
-// CURRENCY SECTION ENDS
-
     public function partsByModel(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {
 
@@ -607,35 +484,6 @@ class FrontendController extends Controller
         return view('load.suggest', compact('prods', 'model', 'series','category'));
     }
 
-    public function autosearch(Request $request, $slug)
-    {
-
-        $db = strtolower($request->series);
-
-        if (mb_strlen($slug, 'utf-8') > 1) {
-            $search = ' ' . $slug;
-            $prods = DB::table($db)->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $slug . '%')->where('status', '=', 1)->take(10);
-            if (Session::has('age')) {
-                $age = Session::get('age');
-                if (!Auth::guard('web')->check() && $age < 21) {
-                    $prods->where('category_id', 15);
-                }
-            }
-
-            if (!Auth::guard('web')->check()) {
-                $prods = $prods->where('is_verified', 0);
-            } else {
-                if (!Auth::user()->is_verified) {
-                    $prods = $prods->where('is_verified', 0);
-                }
-            }
-
-            $prods = $prods->get();
-            return view('load.suggest', compact('prods', 'slug', 'db'));
-        }
-        return "";
-    }
-
     public function finalize()
     {
         // $actual_path = str_replace('project', '', base_path());
@@ -663,7 +511,7 @@ class FrontendController extends Controller
             }
         }
     }
-
+    
 // -------------------------------- BLOG SECTION ----------------------------------------
 
     public function blog(Request $request)

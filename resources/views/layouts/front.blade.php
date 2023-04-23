@@ -210,7 +210,7 @@
                 <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
             </div>
             <div class="cart">
-                <a href="/carts" title="Cart">
+                <a href="/carts" class="cart-icon" title="Cart">
                     <span><i class="fa fa-shopping-cart"></i></span>
                 </a>
                 <span class="cart-quantity header-cart-count" id="cart-count">{{ Session::has('cart') ?
@@ -232,7 +232,7 @@
                     </a>
                 </div>
                 <div class="cart" style='margin-left: 10px'>
-                    <a href="/carts" title="Cart">
+                    <a href="/carts" class="cart-icon" title="Cart">
                         <span><i class="fa fa-shopping-cart"></i></span>
                     </a>
                     <span class="cart-quantity header-cart-count" id="cart-count">{{ Session::has('cart') ?
@@ -485,32 +485,6 @@
                 </ul>
             </div>
         </nav>
-
-        <!-- <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                <a class="nav-link" href="#">Link 1</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Link 2</a>
-                </li>
-
-      
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Dropdown link
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
-                </div>
-                </li>
-            </ul>
-        </div>
-    </nav>  -->
-
     </section>
     <div class='about-header'>
         <div class='content'>

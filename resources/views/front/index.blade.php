@@ -155,12 +155,6 @@
 
 @section('scripts')
     <script>
-        $(window).on('load', function () {
-            setTimeout(function () {
-                $('#extraData').load('{{route('front.extraIndex')}}');
-            }, 500);
-        });
-
         function listView(){
             $('.grid-display').removeClass('d-none');
             $('.list-display').removeClass('d-none');
@@ -168,27 +162,6 @@
             $('button.list').removeClass('btn-success');
             $('button.list').addClass('btn-success');
             $('.grid-display').addClass('d-none');
-
-            var table = $('#geniustable').DataTable({
-                ordering: false,
-                processing: true,
-                serverSide: true,
-                retrieve: true,
-                lengthMenu: [ 50, 100, 150 ,200 ],
-                ajax: '{{ route('front.soloproduct.datatables') }}',
-                columns: [
-                    {data: 'name', name: 'name'},
-                    {data: 'stock', name: 'stock'},
-                    {data: 'price', name: 'price'},
-                    {data: 'action', name: 'action'},
-                ],
-                language: {
-                    processing: '<img src="{{asset('assets/images/'.$gs->admin_loader)}}">'
-                },
-                drawCallback: function (settings) {
-                    $('.select').niceSelect();
-                }
-            });
         }
 
         function gridView(){

@@ -1490,7 +1490,7 @@ Begin Header Custom Style
     transition: 0.2s all ease-in-out;
 }
 
-.header-tool .cart a {
+.header-tool .cart a.cart-icon {
     color: #fff!important;
 }
 

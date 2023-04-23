@@ -467,7 +467,6 @@ Route::prefix('admin')->group(function () {
     //------------ ADMIN USER MESSAGE SECTION ------------
 
     Route::group(['middleware' => 'permissions:messages'], function () {
-
         Route::get('/messages/datatables/{type}', 'Admin\MessageController@datatables')->name('admin-message-datatables');
         Route::get('/tickets', 'Admin\MessageController@index')->name('admin-message-index');
         Route::get('/disputes', 'Admin\MessageController@disputes')->name('admin-message-dispute');
@@ -1102,14 +1101,6 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     // ************************************ FRONT SECTION **********************************************
 
-    Route::get('/', 'Front\FrontendController@index')->name('front.index');
-    Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
-    Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
-    Route::get('/commonparts/{category?}/{series?}/{model?}/{prod?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
-    Route::get('/extras', 'Front\FrontendController@extraIndex')->name('front.extraIndex');
-    Route::get('/currency/{id}', 'Front\FrontendController@currency')->name('front.currency');
-    Route::get('/language/{id}', 'Front\FrontendController@language')->name('front.language');
-
     // BLOG SECTION
     Route::get('/blog', 'Front\FrontendController@blog')->name('front.blog');
     Route::get('/blog/{id}', 'Front\FrontendController@blogshow')->name('front.blogshow');
@@ -1117,17 +1108,7 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/blog/tag/{slug}', 'Front\FrontendController@blogtags')->name('front.blogtags');
     Route::get('/blog-search', 'Front\FrontendController@blogsearch')->name('front.blogsearch');
     Route::get('/blog/archive/{slug}', 'Front\FrontendController@blogarchive')->name('front.blogarchive');
-    // BLOG SECTION ENDS
-
-    // STRAIN SECTION
-    Route::get('/strain', 'Front\FrontendController@strain')->name('front.strain');
-    Route::get('/strainadd', 'Front\FrontendController@strainadd')->name('front.strainadd');
-    Route::get('/strain/{id}', 'Front\FrontendController@strainshow')->name('front.strainshow');
-    Route::get('/strain-search', 'Front\FrontendController@strainsearch')->name('front.strainsearch');
-    Route::post('/strain-save', 'Front\FrontendController@strainsave')->name('front.strainsave');
-
-    // STRAIN SECTION ENDS
-
+    
     // FAQ SECTION
     Route::get('/faq', 'Front\FrontendController@faq')->name('front.faq');
     // FAQ SECTION ENDS
@@ -1140,13 +1121,14 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/contact/refresh_code', 'Front\FrontendController@refresh_code');
     // CONTACT SECTION  ENDS
 
-    // PRODCT AUTO SEARCH SECTION
-    Route::get('/autosearch/product/{slug}', 'Front\FrontendController@autosearch');
-    Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@commonparts');
-    Route::get('/solodatatables/products', 'Front\FrontendController@solo_datatables')->name('front.soloproduct.datatables');
-    // PRODCT AUTO SEARCH SECTION ENDS
-
     // CATEGORY SECTION
+
+    Route::get('/', 'Front\FrontendController@index')->name('front.index');
+    Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
+    Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
+    Route::get('/commonparts/{category?}/{series?}/{model?}/{prod?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
+    Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@commonparts');
+
 
     Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
     Route::get('/collection/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@collection')->name('front.collection');
@@ -1163,11 +1145,8 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/product/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
 
     // CATEGORY SELECT DETAIL PAGE
-
     Route::get('/product/{slug}', 'Front\CatalogController@homeproduct')->name('front.homeproduct');
-    /*Only search product table with slug(product name) this for  select product in first page. */
     Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@product')->name('front.product');
-    /*route is long~. why? this route pointed by commonparts, partsbymode detail so in latest, it is neccessary page have detail breadcrumb */
 
     // COMMENT SECTION
     Route::post('/product/comment/store', 'Front\CatalogController@comment')->name('product.comment');
@@ -1186,7 +1165,6 @@ Route::group(['middleware' => 'maintenance'], function () {
     // COMPARE SECTION ENDS
 
     // REPLY SECTION
-
     Route::post('/product/reply/{id}', 'Front\CatalogController@reply')->name('product.reply');
     Route::post('/product/reply/edit/{id}', 'Front\CatalogController@replyedit')->name('product.reply.edit');
     Route::get('/product/reply/delete/{id}', 'Front\CatalogController@replydelete')->name('product.reply.delete');
@@ -1225,7 +1203,6 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::post('/instamojo/submit', 'Front\InstamojoController@store')->name('instamojo.submit');
     Route::post('/paypal-submit', 'Front\PaymentController@store')->name('paypal.submit');
     Route::post('/stripe-submit', 'Front\StripeController@store')->name('stripe.submit');
-
 
     // Molly Routes
 
@@ -1285,7 +1262,6 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     Route::get('/search/{key}/{keyword}', 'Front\SearchController@index')->name('front-search.index');
     Route::post('search', 'Front\SearchController@search')->name('front-search');
-
     Route::get('/location/{location_id}', 'Front\FrontendController@location')->name('front.location');
 
     //Search Route 

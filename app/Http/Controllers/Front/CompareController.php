@@ -14,7 +14,6 @@ use Carbon\Carbon;
 
 class CompareController extends Controller
 {
-
     public function compare()
     {
         $this->code_image();

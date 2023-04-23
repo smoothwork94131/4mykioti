@@ -317,7 +317,7 @@ class CatalogController extends Controller
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
         $db = strtolower($series);
-        $group_record = DB::table($db.'_categories')->where('group_name', $group)->first();
+        $group_record = DB::table($db.'_categories')->where('group_Id', $group)->first();
         
         $sql = "select * from `{$db}` where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
 
