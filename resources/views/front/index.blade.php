@@ -22,13 +22,6 @@
     </div>
     @endif
 
-
-    @if($ps->slider == 1)
-        @if(count($sliders))
-            @include('includes.slider-style')
-        @endif
-    @endif
-    
     <section class="hero-area" style="background-color: white">
         <div class="container custom-container">
             <div class="row">
