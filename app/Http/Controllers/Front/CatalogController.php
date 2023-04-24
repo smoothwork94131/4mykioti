@@ -512,7 +512,6 @@ class CatalogController extends Controller
         }
 
         if($model == "additonal products") {
-            
             $prod_name_arr = explode('-', $prod_name);
             $sku = $prod_name_arr[0];
             unset($prod_name_arr[0]);
