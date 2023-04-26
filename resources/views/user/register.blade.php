@@ -156,7 +156,7 @@
 @endsection
 
 @section('scripts')
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
+    <script src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
     
     <script>
         let placeSearch;
@@ -181,9 +181,7 @@
         }
 
         function fillInAddress() {
-            
             const place = autocomplete.getPlace();
-
             var location = JSON.parse(JSON.stringify(place.geometry.location));
 
             var position = "lat:" + location.lat + ",lng:" + location.lng;
@@ -191,10 +189,10 @@
             
             for (const component in componentForm) {
                 document.getElementById(component).value = "";
-                // document.getElementById(component).disabled = false;
             }
 
             for (const component of place.address_components) {
+                console.log(component)
                 const addressType = component.types[0];
 
                 if (componentForm[addressType]) {
