@@ -89,7 +89,7 @@ class CategoryController extends Controller
         $input = $request->all();
         if ($file = $request->file('photo'))
         {
-            $name = time().$file->getClientOriginalName();
+            $name = time().str_replace(' ', '', $file->getClientOriginalName());
             $file->move('assets/images/categories',$name);
             $input['photo'] = $name;
         }
@@ -162,7 +162,7 @@ class CategoryController extends Controller
         $input = $request->all();
             if ($file = $request->file('photo'))
             {
-                $name = time().$file->getClientOriginalName();
+                $name = time().str_replace(' ', '', $file->getClientOriginalName());
                 $file->move('assets/images/categories',$name);
                 if($data->photo != null)
                 {

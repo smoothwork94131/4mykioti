@@ -254,7 +254,7 @@
                                                     <div class="order-item">
                                                         <div class="product-img">
                                                             <div class="d-flex">
-                                                                @if($product->db == "products")
+                                                                @if($product["db"] == "products")
                                                                     <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
                                                                     height="80" width="80" class="p-1">
                                                                 @else
@@ -265,7 +265,7 @@
                                                         </div>
                                                         <div class="product-content">
                                                             <p class="name">
-                                                                @if($product->db == "products")
+                                                                @if($product["db"] == "products")
                                                                 <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                                 @else

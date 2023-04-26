@@ -65,14 +65,14 @@
                                         }
                                     @endphp
                                     <img class="xzoom5" id="xzoom-magnific" style="width: 100%;"
-                                        src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}"
-                                        xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}" />
+                                        src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}"
+                                        xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}" />
                                     <div class="xzoom-thumbs">
                                         <div class="all-slider">
                                             <a
-                                                href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}">
+                                                href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}">
                                                 <img class="xzoom-gallery5" width="80"
-                                                    src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}"
+                                                    src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : $instead_image) }}"
                                                     title="The description goes here">
                                             </a>
                                         </div>

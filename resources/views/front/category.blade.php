@@ -161,7 +161,7 @@
                                     </td>
                                     @endif
                                     <td style="text-align:center;">
-                                        <a href="{{route('front.product', $slug_list)}}">{{ $prod->name }}</a>
+                                        <a href="{{route('front.homeproduct', $slug_list)}}">{{ $prod->name }}</a>
                                     </td>
                                     <td style="text-align:center;">
                                         ${{ $prod->price }}
@@ -232,7 +232,7 @@
                                 </td>
                                 @endif
                                 <td style="text-align:center;">
-                                    <a href="{{route('front.product', $slug_list)}}">{{ $prod->name }}</a>
+                                    <a href="{{route('front.homeproduct', $slug_list)}}">{{ $prod->name }}</a>
                                 </td>
                                 <td style="text-align:center;">
                                     ${{ $prod->price }}

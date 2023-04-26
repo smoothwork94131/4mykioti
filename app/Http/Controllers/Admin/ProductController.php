@@ -364,53 +364,26 @@ class ProductController extends Controller
         $image = base64_decode($image);
         $image_name = time() . str_random(8) . '.png';
 
-        // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-        // $removebg = new RemoveBg($apiKey);
-
-        $path = public_path() .'/assets/images/products_home/' . $image_name;
+        $path = public_path() .'/assets/images/products/' . $image_name;
         file_put_contents($path, $image);
 
-        $removebg->file($path)
-        ->headers([
-            'X-Width' => 600,
-            'X-Height' => 600,
-        ])
-        ->body([
-            'size' => '4k', // regular, medium, hd, 4k, auto
-            'channels' => 'rgba', // rgba, alpha
-        ])
-        ->save($path);
-
         if ($data->photo != null) {
-            if (file_exists(public_path() . '/assets/images/products_home/' . $data->photo)) {
-                unlink(public_path() . '/assets/images/products_home/' . $data->photo);
+            if (file_exists(public_path() . '/assets/images/products/' . $data->photo)) {
+                unlink(public_path() . '/assets/images/products/' . $data->photo);
             }
         }
         $input['photo'] = $image_name;
         $data->update($input);
 
         if ($data->thumbnail != null) {
-            if (file_exists(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail)) {
-                unlink(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail);
+            if (file_exists(public_path() . '/assets/images/thumbnails/' . $data->thumbnail)) {
+                unlink(public_path() . '/assets/images/thumbnails/' . $data->thumbnail);
             }
         }
 
-        $img = Image::make(public_path() . '/assets/images/products_home/' . $data->photo)->resize(285, 285);
-
+        $img = Image::make(public_path() . '/assets/images/products/' . $data->photo)->resize(285, 285);
         $thumbnail = time() . str_random(8) . '.png';
-
-        $img->save(public_path() . '/assets/images/thumbnails_home/' . $thumbnail);
-
-        $removebg->file(public_path() . '/assets/images/thumbnails_home/' . $thumbnail)
-        ->headers([
-            'X-Width' => 600,
-            'X-Height' => 600,
-        ])
-        ->body([
-            'size' => '4k', // regular, medium, hd, 4k, auto
-            'channels' => 'rgba', // rgba, alpha
-        ])
-        ->save(public_path() . '/assets/images/thumbnails_home/' . $thumbnail);
+        $img->save(public_path() . '/assets/images/thumbnails/' . $thumbnail);
 
         $data->thumbnail = $thumbnail;
         $data->update();
@@ -421,7 +394,6 @@ class ProductController extends Controller
     //*** POST Request
     public function store(Request $request)
     {
-        
         $gs = Generalsetting::findOrFail(1);   
         if(1)
         {
@@ -472,13 +444,12 @@ class ProductController extends Controller
                 $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
                 $file = $request->file('photo');
-                // $file->move('public/assets/images/products_home/',$name);
-                move_uploaded_file($file, public_path() . '/assets/images/products_home/' . $name);
+                move_uploaded_file($file, public_path() . '/assets/images/products/' . $name);
 
-                $img = Image::make(public_path().'/assets/images/products_home/'.$name)->resize(285, 285);
+                $img = Image::make(public_path().'/assets/images/products/'.$name)->resize(285, 285);
             
                 $thumbnail = str_replace('.png', '-tn.png', $name);
-                $img->save(public_path().'/assets/images/thumbnails_home/'.$thumbnail);
+                $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
 
                 $input['photo'] = $name;
                 $input['thumbnail'] = $thumbnail;
@@ -886,8 +857,8 @@ class ProductController extends Controller
         {              
             if($data->photo != null)
             {
-                if (file_exists(public_path().'/assets/images/products_home/'.$data->photo)) {
-                    unlink(public_path().'/assets/images/products_home/'.$data->photo);
+                if (file_exists(public_path().'/assets/images/products/'.$data->photo)) {
+                    unlink(public_path().'/assets/images/products/'.$data->photo);
                 }
             }   
 
@@ -907,10 +878,7 @@ class ProductController extends Controller
 
             $name = str_replace(array( '\'', '"', ',' , ';', '<', '>', '!', '@', '#', '$', '%', '^', '&', '*', ':' ), '', $name); 
 
-            // $apiKey = "YAypVmKK55sfxF4SPZdMFLyx";
-            // $removebg = new RemoveBg($apiKey);
-            // $file->move('public/assets/images/products_home/', $name);
-            move_uploaded_file($file, public_path() . '/assets/images/products_home/' . $name);
+            move_uploaded_file($file, public_path() . '/assets/images/products/' . $name);
             $input['photo'] = $name;
         } 
         //Check Types
@@ -1117,15 +1085,15 @@ class ProductController extends Controller
             $prod = Product::find($data->id);
         
             // Set Thumbnail
-            $img = Image::make(public_path().'/assets/images/products_home/'.$prod->photo)->resize(285, 285);
+            $img = Image::make(public_path().'/assets/images/products/'.$prod->photo)->resize(285, 285);
             
-            if (file_exists(public_path().'/assets/images/thumbnails_home/'.$data->thumbnail)) {
-                unlink(public_path().'/assets/images/thumbnails_home/'.$data->thumbnail);
+            if (file_exists(public_path().'/assets/images/thumbnails/'.$data->thumbnail)) {
+                unlink(public_path().'/assets/images/thumbnails/'.$data->thumbnail);
             }
             
             $thumbnail = str_replace('.png', '-tn.png', $prod->photo);
             
-            $img->save(public_path().'/assets/images/thumbnails_home/'.$thumbnail);
+            $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
          
             $prod->thumbnail  = $thumbnail;
             $prod->update();
@@ -1273,13 +1241,13 @@ class ProductController extends Controller
 
 
         if (!filter_var($data->photo, FILTER_VALIDATE_URL)) {
-            if (file_exists(public_path() . '/assets/images/products_home/' . $data->photo)) {
-                unlink(public_path() . '/assets/images/products_home/' . $data->photo);
+            if (file_exists(public_path() . '/assets/images/products/' . $data->photo)) {
+                unlink(public_path() . '/assets/images/products/' . $data->photo);
             }
         }
 
-        if (file_exists(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail) && $data->thumbnail != "") {
-            unlink(public_path() . '/assets/images/thumbnails_home/' . $data->thumbnail);
+        if (file_exists(public_path() . '/assets/images/thumbnails/' . $data->thumbnail) && $data->thumbnail != "") {
+            unlink(public_path() . '/assets/images/thumbnails/' . $data->thumbnail);
         }
 
         if ($data->file != null) {
