@@ -301,7 +301,7 @@ class CatalogController extends Controller
         //--- Redirect Section Ends
     }
 
-    public function product(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
+    public function homeproduct(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
@@ -334,7 +334,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        $sql = "select * from `categories` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
+        $sql = "select * from `categories_home` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
         $tbl_info =DB::select($sql);
 
         $sql = "" ;
@@ -373,10 +373,10 @@ class CatalogController extends Controller
         $page = "partsbymodel" ;
 
         $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
-        return view('front.product', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
+        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
     }
 
-    public function homeproduct(Request $request, $slug)
+    public function product(Request $request, $slug)
     {   
         $this->code_image();
         $productt = Product::where('slug', '=', $slug)->firstOrFail();
@@ -598,7 +598,7 @@ class CatalogController extends Controller
         $db="product" ;
         $page = "" ;
         $slug_list = array() ;
-        return view('front.product', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     // Capcha Code Image

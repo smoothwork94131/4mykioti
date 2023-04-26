@@ -11,7 +11,7 @@ use App\Models\Counter;
 use App\Models\Generalsetting;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\CategoryHome;
+use App\Models\Category;
 use App\Models\Subscriber;
 use App\Models\User;
 use App\Models\Location;
@@ -143,65 +143,33 @@ class FrontendController extends Controller
         $ps = DB::table('pagesettings')->find(1);
 
         $products = Product::where('status', '=', 1);
-
-        // if (!Auth::guard('web')->check()) {
-        //     $products = $products->where('is_verified', 0);
-        // } else {
-        //     if (!Auth::user()->is_verified) {
-        //         $products = $products->where('is_verified', 0);
-        //     }
-        // }
-
         $gs = Generalsetting::findOrFail(1);
 
-        $solo_mode = $gs->solo_mode;
-        
-        // if ($solo_mode == 1) {
-        //     $sort = $request->sort;
-        //     $products = $products->select('*');
-        //     $products = $products->when($sort, function ($query, $sort) {
-        //         if ($sort == 'date_desc') {
-        //             return $query->orderBy('id', 'DESC');
-        //         } elseif ($sort == 'date_asc') {
-        //             return $query->orderBy('id', 'ASC');
-        //         } elseif ($sort == 'price_desc') {
-        //             return $query->orderBy('price', 'DESC');
-        //         } elseif ($sort == 'price_asc') {
-        //             return $query->orderBy('price', 'ASC');
-        //         }
-        //     })
-        //     ->when(empty($sort), function ($query, $sort) {
-        //         return $query->orderBy('id', 'DESC');
-        //     })
-        //     ->paginate(24);
-        // }
-        // else {
-            $home_categories = CategoryHome::where('status', '=', 1)->orderBy('order', 'asc')->get();
+        $home_categories = Category::where('status', '=', 1)->orderBy('order', 'asc')->get();
 
-            $results = array();
-            foreach($home_categories as $category) {
-                $category_id = $category->id;
-                $category_name = $category->name;
+        $results = array();
+        foreach($home_categories as $category) {
+            $category_id = $category->id;
+            $category_name = $category->name;
 
-                $products = Product::where('status', '=', 1)
-                    ->where('category_id', $category_id)
-                    ->orderBy('id', 'desc')
-                    ->take(9)
-                    ->get();
+            $products = Product::where('status', '=', 1)
+                ->where('category_id', $category_id)
+                ->orderBy('id', 'desc')
+                ->take(9)
+                ->get();
 
-                $product_item = array(
-                    'category_id' => $category_id,
-                    'category_name' => $category_name,
-                    'products' => $products
-                );
+            $product_item = array(
+                'category_id' => $category_id,
+                'category_name' => $category_name,
+                'products' => $products
+            );
 
-                $result[] = $product_item;
-            }
+            $result[] = $product_item;
+        }
 
 
             $products = $result;
-        // }
-
+        
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
@@ -237,17 +205,16 @@ class FrontendController extends Controller
         if(isset($group) && $group != NULL) {
             $slug_list["group"] = $group ;
             $group = $this->replaceDataToPath($group) ;
-
         }   
        
         if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            $result = DB::table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
         }
         else{
             if(count($slug_list) == 1) {
-                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
+                $category_info = DB::table("categories_home")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
-                $result = DB::table("categories")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+                $result = DB::table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
             } else if(count($slug_list) == 2) {
                 $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
             } else if(count($slug_list) == 3) {
@@ -294,7 +261,6 @@ class FrontendController extends Controller
         if(isset($category) && $category != NULL) { 
             $category = $this->replaceDataToPath($category) ;
             $slug_list["category"] = $category ;
-
         }
 
         if(isset($series) && $series != NULL) {
@@ -318,13 +284,13 @@ class FrontendController extends Controller
         }   
        
         if(count($slug_list) == 0) {
-            $result = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            $result = DB::table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
         }
         else{
             if(count($slug_list) == 1) {
-                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
+                $category_info = DB::table("categories_home")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
-                $result = DB::table("categories")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+                $result = DB::table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
             } else if(count($slug_list) == 2) {
                 $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
             } else if(count($slug_list) == 3) {
@@ -350,7 +316,6 @@ class FrontendController extends Controller
         if(isset($category) && $category != NULL) { 
             $category = $this->replaceDataToPath($category) ;
             $slug_list["category"] = $category ;
-
         }
 
         if(isset($series) && $series != NULL) {
@@ -368,9 +333,9 @@ class FrontendController extends Controller
         }
 
         if(count($slug_list) == 0) {
-            $result_ = DB::table("categories")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            $result_ = DB::table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
             foreach($result_ as $key =>$item) {
-                $ret = DB::table("categories")->select("*")->where("parent", $item->id)->get()->toArray();
+                $ret = DB::table("categories_home")->select("*")->where("parent", $item->id)->get()->toArray();
                 $flag = false ;
                 foreach($ret as $sub_item) {
 
@@ -390,10 +355,10 @@ class FrontendController extends Controller
         }
         else{
             if(count($slug_list) == 1) {
-                $category_info = DB::table("categories")->select("id")->where("name", $category)->get() ;
+                $category_info = DB::table("categories_home")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
                 
-                $result_ = DB::table("categories")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+                $result_ = DB::table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
                 $result = array() ;
                 foreach($result_ as $key =>$item) {
                     $table_name = strtolower($item->name);
@@ -432,7 +397,7 @@ class FrontendController extends Controller
                 
                 $page = "commonparts" ;
 
-                $sql = "select * from `categories` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
+                $sql = "select * from `categories_home` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
                 $tbl_info =DB::select($sql);
 
                 $sql = "" ;
@@ -470,9 +435,8 @@ class FrontendController extends Controller
         return view('front.commonparts', compact("result", "slug_list"));
     }
 
-    public function commonparts(Request $request, $category, $series, $model)
+    public function findpart(Request $request, $category, $series, $model)
     {
-
         $db = strtolower($series);
         $model = $this->replaceDataToPath($model) ;
 
@@ -705,9 +669,9 @@ class FrontendController extends Controller
             $categories = DB::table($table_name)->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
 
         } else if($type == "category" ) {
-            $series_info = DB::table("categories")->where("name", $category)->get() ;
+            $series_info = DB::table("categories_home")->where("name", $category)->get() ;
             $paret_id = $series_info[0]->id ;
-            $categories = DB::table("categories")->where("parent", $paret_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+            $categories = DB::table("categories_home")->where("parent", $paret_id)->where("status", "1")->orderBy("name", "asc")->get() ;
         }
 
         return response()->json(array("categories"=>$categories));

@@ -157,7 +157,7 @@
                                     @endif
                                     @if($thumbnail_flag)
                                     <td style="text-align:center;">
-                                        <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                                        <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                     </td>
                                     @endif
                                     <td style="text-align:center;">
@@ -228,7 +228,7 @@
                                 @endif
                                 @if($thumbnail_flag)
                                 <td style="text-align:center;">
-                                    <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                                    <img style="width:30px; height: 30px;" src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                 </td>
                                 @endif
                                 <td style="text-align:center;">
@@ -358,7 +358,7 @@
                 @endphp
                     <tr>
                         <td class='td-img' style="text-align:center;">
-                            <img  src="{{ $prod->thumbnail ? asset('assets/images/thumbnails/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                            <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                         </td>
                         <td style="text-align:center;">
                             <a href="{{route('front.commonparts', $slug_list)}}">{{ $prod->name }}</a>

@@ -255,10 +255,10 @@
                                                         <div class="product-img">
                                                             <div class="d-flex">
                                                                 @if($product->db == "products")
-                                                                    <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
+                                                                    <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
                                                                     height="80" width="80" class="p-1">
                                                                 @else
-                                                                    <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
+                                                                    <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
                                                                     height="80" width="80" class="p-1">
                                                                 @endif
                                                             </div>
@@ -266,10 +266,10 @@
                                                         <div class="product-content">
                                                             <p class="name">
                                                                 @if($product->db == "products")
-                                                                <a href="{{ route('front.homeproduct', $product['item']->slug) }}"
+                                                                <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                                 @else
-                                                                <a href="{{ route('front.product', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
                                                                     {{ $product['item']->name }}
                                                                 </a>
                                                                 @endif
@@ -330,10 +330,10 @@
                                                         <div class="product-img">
                                                             <div class="d-flex">
                                                                 @if($product["db"] == "products")
-                                                                    <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
+                                                                    <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
                                                                     height="80" width="80" class="p-1">
                                                                 @else
-                                                                    <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
+                                                                    <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
                                                                     height="80" width="80" class="p-1">
                                                                 @endif
                                                             </div>
@@ -341,10 +341,10 @@
                                                         <div class="product-content">
                                                             <p class="name">
                                                                 @if($product["db"] == "products")
-                                                                <a href="{{ route('front.homeproduct', $product['item']->slug) }}"
+                                                                <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                                 @else
-                                                                <a href="{{ route('front.product', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
                                                                     {{ $product['item']->name }}
                                                                 </a>
                                                                 @endif

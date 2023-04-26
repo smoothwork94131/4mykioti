@@ -1124,8 +1124,8 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
     Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
     Route::get('/commonparts/{category?}/{series?}/{model?}/{prod?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
-    Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@commonparts');
-
+    Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@findpart');
+    Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
 
     Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
     Route::get('/collection/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@collection')->name('front.collection');
@@ -1141,10 +1141,8 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/product/view/review/{id}', 'Front\CatalogController@reviews')->name('front.reviews');
 
     // CATEGORY SELECT DETAIL PAGE
-    Route::get('/product/{slug}', 'Front\CatalogController@homeproduct')->name('front.homeproduct');
-    Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@product')->name('front.product');
-    Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
-    
+    Route::get('/product/{slug}', 'Front\CatalogController@product')->name('front.product');
+    Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@homeproduct')->name('front.homeproduct');
 
     // REPORT SECTION   
     Route::post('/product/report', 'Front\CatalogController@report')->name('product.report');

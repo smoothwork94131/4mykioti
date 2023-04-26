@@ -7,7 +7,7 @@ use App\Models\Subcategory;
 use Datatables;
 use Carbon\Carbon;
 use App\Models\Product;
-use App\Models\CategoryHome;
+use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Gallery;
 use App\Models\Attribute;
@@ -41,10 +41,10 @@ class ProductController extends Controller
         return Datatables::of($datas)
             ->editColumn('name', function (Product $data) {
                 $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
-                $id = '<small>ID: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
+                $id = '<small>ID: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
                 $id2 = $data->user_id != 0 ? (count($data->user->products) > 0 ? '<small class="ml-2"> VENDOR: <a href="' . route('admin-vendor-show', $data->user_id) . '" target="_blank">' . $data->user->shop_name . '</a></small>' : '') : '';
 
-                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
+                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
 
                 return $name . '<br>' . $id . $id3 . $id2;
             })
@@ -95,9 +95,9 @@ class ProductController extends Controller
         return Datatables::of($datas)
             ->editColumn('name', function (Product $data) {
                 $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
-                $id = '<small>ID: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
+                $id = '<small>ID: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
 
-                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.homeproduct', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
+                $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
 
                 return $name . '<br>' . $id . $id3;
             })
@@ -150,14 +150,14 @@ class ProductController extends Controller
     //*** GET Request
     public function create()
     {
-        $cats = CategoryHome::all();
+        $cats = Category::all();
         $locs = StoreLocations::all();
         $sign = Currency::where('is_default', '=', 1)->first();
         return view('admin.product.create', compact('cats', 'sign', 'locs'));
     }
 
     public function existing() {
-        $homecategories = CategoryHome::orderBy('name', 'asc')->get();
+        $homecategories = Category::orderBy('name', 'asc')->get();
         
         return view('admin.product.existing', array('homecategories' => $homecategories));
     }
@@ -465,7 +465,7 @@ class ProductController extends Controller
                 $product_name = $input['name'];
 
                 if($input['category_id']){
-                    $category_name = CategoryHome::findOrFail($input['category_id'])->name;
+                    $category_name = Category::findOrFail($input['category_id'])->name;
                 }
 
                 $name = $category_name."-".$product_name.".png";
@@ -595,7 +595,7 @@ class ProductController extends Controller
             //test comment for update
             $attrArr = [];
             if (!empty($request->category_id)) {
-                $catAttrs = Attribute::where('attributable_id', $request->category_id)->where('attributable_type', 'App\Models\CategoryHome')->get();
+                $catAttrs = Attribute::where('attributable_id', $request->category_id)->where('attributable_type', 'App\Models\Category')->get();
                 if (!empty($catAttrs)) {
                     foreach ($catAttrs as $key => $catAttr) {
                         $in_name = $catAttr->input_name;
@@ -832,7 +832,7 @@ class ProductController extends Controller
         if (!Product::where('id', $id)->exists()) {
             return redirect()->route('admin.dashboard')->with('unsuccess', __('Sorry the page does not exist.'));
         }
-        $cats = CategoryHome::all();
+        $cats = Category::all();
         $data = Product::findOrFail($id);
         $sign = Currency::where('is_default', '=', 1)->first();
         $locs = StoreLocations::all();
@@ -895,7 +895,7 @@ class ProductController extends Controller
             $product_name = $input['name'];
 
             if($input['category_id']){
-                $category_name = CategoryHome::findOrFail($input['category_id'])->name;
+                $category_name = Category::findOrFail($input['category_id'])->name;
             }
 
             $name = $category_name."-".$product_name.".png";

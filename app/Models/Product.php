@@ -31,7 +31,7 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Models\CategoryHome')->withDefault(function ($data) {
+        return $this->belongsTo('App\Models\Category')->withDefault(function ($data) {
             foreach ($data->getFillable() as $dt) {
                 $data[$dt] = __('Deleted');
             }
