@@ -397,7 +397,7 @@ class CatalogController extends Controller
         $db="product" ;
         $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
 
-        return view('front.homeproduct', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     public function old_parts(Request $request, $query = null)
