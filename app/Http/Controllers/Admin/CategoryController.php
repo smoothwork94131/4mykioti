@@ -68,7 +68,7 @@ class CategoryController extends Controller
         $rules = [
             'photo' => 'mimes:jpeg,jpg,png,svg',
             'slug' => 'unique:categories|regex:/^[a-zA-Z0-9\s-]+$/',
-            'order' => 'unique:categories_home|integer|min:0'
+            'order' => 'unique:categories|integer|min:0'
         ];
 
         $customs = [
@@ -141,8 +141,8 @@ class CategoryController extends Controller
         //--- Validation Section
         $rules = [
         	'photo' => 'mimes:jpeg,jpg,png,svg',
-        	'slug' => 'unique:categories_home,slug,'.$id.'|regex:/^[a-zA-Z0-9\s-]+$/',
-            'order' => 'unique:categories_home|integer|min:0'
+        	'slug' => 'unique:categories,slug,'.$id.'|regex:/^[a-zA-Z0-9\s-]+$/',
+            'order' => 'unique:categories|integer|min:0'
         ];
 
         $customs = [
