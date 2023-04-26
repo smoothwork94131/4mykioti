@@ -1615,7 +1615,7 @@ function totalSearch(event, type) {
                   "<img src='/assets/images/noimage.png' style='width: 100%'/>";
               } else {
                 html +=
-                  "<img src='/assets/images/products/" +
+                  "<img src='/assets/images/products_home/" +
                   item["photo"] +
                   "' style='width: 100% ;height: 114px'/>";
               }
