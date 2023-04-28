@@ -3,7 +3,7 @@
         <div class="xzoom-container">
             @if ($product->photo)
                 @php 
-                    $flag = $db ? $db: 'products';
+                    $flag = $db ?? 'products';
                 @endphp
 
                 @if($flag == 'products')
