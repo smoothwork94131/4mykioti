@@ -373,8 +373,16 @@ class FrontendController extends Controller
                 $table_name = strtolower($series);
                 $result = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
             } else if(count($slug_list) == 3) {
-                $page = "commonparts" ;
-                return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>"common", "category"=>$category]);
+                $category = $this->replacPathToData($category) ;
+                $series = $this->replacPathToData($series) ;
+                $model = $this->replacPathToData($model) ;
+                
+                if(Config::get('session.domain_name') == 'mahindra') {
+                    return redirect()->route('front.collection',["series"=>$series, "model"=>$model, "section"=>"common", "category"=>$category]);
+                }
+                else {
+                    return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>"common", "category"=>$category]);
+                }
             } else if(count($slug_list) == 4) {
                 $this->code_image();
                 
@@ -429,7 +437,7 @@ class FrontendController extends Controller
                     }
                 }
 
-                return view('front.homeproduct', compact('db','productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
+                return view('front.product', compact('db','productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
             }
 
         }

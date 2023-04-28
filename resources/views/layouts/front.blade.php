@@ -519,19 +519,10 @@
                 <div class="col-md-6 col-lg-4 footer-item">
                     <div class="footer-widget">
                         <div class="footer-info-area">
-                            <!-- <div class="footer-logo">
-                            <a href="{{ route('front.index') }}" class="logo-link">
-                                <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
-                            </a>
-                        </div> -->
                             <div class="text">
-                                <!-- <p style="color: {{ $gs->footer_text_color }}">
-                                {!! $gs->footer !!}
-                            </p>
-                             -->
                                 <p class='title'>Tractor Brothers - Greensburg</p>
                                 <p>113 Hartman Road<br>Greensburg PA 15601</p>
-                                <p><a href='https://www.tractorbrothers.com/locations/36478'>(Map & Hours)</a></p>
+                                <p><a href='{{ route('front.location', '36478') }}'>(Map & Hours)</a></p>
                                 <p>(724) 691-0200</p>
                                 <p><a href="https://www.facebook.com/TractorBros" class='btn btn-primary'>
                                         <i class="fab fa-facebook"></i>
@@ -598,100 +589,27 @@
                 </div>
                 <div class="col-md-6 col-lg-4 footer-item">
                     <div class="footer-widget info-link-widget">
-                        <!-- <h4 class="title" style="color: {{ $gs->footer_text_color }}">
-                        {{ $langg->lang21 }}
-                    </h4>
-                    <ul class="link-list">
-                        <li>
-                            <a href="{{ route('front.index') }}" style="color: {{ $gs->footer_text_color }}">
-                                <i class="fas fa-angle-double-right" style="color: {{ $gs->footer_text_color }}"></i>{{ $langg->lang22 }}
-                            </a>
-                        </li>
-
-                        @foreach (DB::table('pages')->where('footer', '=', 1)->get() as $data)
-<li>
-                                <a href="{{ route('front.page', $data->slug) }}" style="color: {{ $gs->footer_text_color }}">
-                                    <i class="fas fa-angle-double-right" style="color: {{ $gs->footer_text_color }}"></i>{{ $data->title }}
-                                </a>
-                            </li>
-@endforeach
-
-                        <li>
-                            <a href="{{ route('front.contact') }}" style="color: {{ $gs->footer_text_color }}">
-                                <i class="fas fa-angle-double-right" style="color: {{ $gs->footer_text_color }}"></i>{{ $langg->lang23 }}
-                            </a>
-                        </li>
-                    </ul> -->
                         <div class="footer-info-area">
-                            <!-- <div class="footer-logo">
-                        <a href="{{ route('front.index') }}" class="logo-link">
-                            <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
-                        </a>
-                    </div> -->
                             <div class="text">
-                                <!-- <p style="color: {{ $gs->footer_text_color }}">
-                                {!! $gs->footer !!}
-                            </p>
-                            -->
                                 <p class='title'>Tractor Brothers - Butler</p>
                                 <p>520 Evans City Road<br>Butler, PA 16001</p>
-
-                                <p><a href='https://www.tractorbrothers.com/locations/37100'>(Map & Hours)</a></p>
+                                <p><a href='{{ route('front.location', '37100') }}'>(Map & Hours)</a></p>
                                 <p>(724) 482-6288</p>
-
                             </div>
-                            <div class="sub_text">
-                            </div>
+                            <div class="sub_text"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 footer-item">
                     <div class="footer-widget recent-post-widget">
-                        <!-- <h4 class="title" style="color: {{ $gs->footer_text_color }}">
-                        {{ $langg->lang24 }}
-                    </h4>
-                    <ul class="post-list">
-                        @foreach (App\Models\Blog::orderBy('created_at', 'desc')->limit(3)->get() as $blog)
-<li>
-                                <div class="post">
-                                    <div class="post-img">
-                                        <img style="width: 73px; height: 59px;"
-                                             src="{{ asset('assets/images/blogs/' . $blog->photo) }}" alt="">
-                                    </div>
-                                    <div class="post-details">
-                                        <a href="{{ route('front.blogshow', $blog->id) }}">
-                                            <h4 class="post-title" style="color: {{ $gs->footer_text_color }}">
-                                                {{ mb_strlen($blog->title, 'utf-8') > 45 ? mb_substr($blog->title, 0, 45, 'utf-8') . ' ..' : $blog->title }}
-                                            </h4>
-                                        </a>
-                                        <p class="date" style="color: {{ $gs->footer_text_color }}">
-                                            {{ date('M d - Y', strtotime($blog->created_at)) }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-@endforeach
-                    </ul> -->
                         <div class="footer-info-area">
-                            <!-- <div class="footer-logo">
-                        <a href="{{ route('front.index') }}" class="logo-link">
-                            <img src="{{ asset('assets/images/' . $gs->footer_logo) }}" alt="">
-                        </a>
-                    </div> -->
                             <div class="text">
-                                <!-- <p style="color: {{ $gs->footer_text_color }}">
-                                {!! $gs->footer !!}
-                            </p>
-                            -->
                                 <p class='title'>Tractor Brothers - Stoneboro</p>
                                 <p>4352 Greenville Sandy Lake Road<br>Stoneboro, PA 161531</p>
-
-                                <p><a href='https://www.tractorbrothers.com/locations/37101'>(Map & Hours)</a></p>
+                                <p><a href='{{ route('front.location', '37101') }}'>(Map & Hours)</a></p>
                                 <p>(724) 253-2035</p>
-
                             </div>
-                            <div class="sub_text">
-                            </div>
+                            <div class="sub_text"></div>
                         </div>
                     </div>
                 </div>

@@ -52,8 +52,13 @@ class CatalogController extends Controller
         $section = $this->replaceDataToPath($section) ;
         $group = $this->replaceDataToPath($group) ;
 
-        $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
-        $group_id = $group_info[0]->group_Id ;
+        if($group) {
+            $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+            $group_id = $group_info[0]->group_Id ;
+        }
+        else {
+            $group_id = NULL;
+        }
                 
 
         $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group ) ;
@@ -81,6 +86,9 @@ class CatalogController extends Controller
             $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
         }
 
+        $prods = $prods->where('price', '!=', 0);
+        $prods = $prods->where('name', '!=', "");
+        $prods = $prods->where('sku', '!=', "");
         $prods = $prods->where('status', 1);
 
         if ($section) {
@@ -94,8 +102,6 @@ class CatalogController extends Controller
         $prods = $prods->distinct();
         $prods = $prods->orderBy('top', 'asc');
         $prods = $prods->get();
-
-        // dd($prods);
 
         $refno_flag = 0;
         $thumbnail_flag = 0;
@@ -164,8 +170,13 @@ class CatalogController extends Controller
         $section = $this->replaceDataToPath($section) ;
         $group = $this->replaceDataToPath($group) ;
 
-        $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
-        $group_id = $group_info[0]->group_Id ;
+        if($group) {
+            $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+            $group_id = $group_info[0]->group_Id ;
+        }
+        else {
+            $group_id = NULL;
+        }
 
         $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group ) ;
         
@@ -179,7 +190,7 @@ class CatalogController extends Controller
         $db = strtolower($series);
 
         $prods = DB::table($db)
-        ->select('id', 'top', 'sku', 'price', 'name', 'thumbnail', 'product_type')
+        ->select('*')
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
         })
