@@ -257,6 +257,7 @@ $(function($) {
             }
             return $path ;
         }
+        
         /*------addClass/removeClass categories-------*/
         $(".categories_menu_inner > ul > li").on("click", function() {
             $(this).find('.link-area a').toggleClass('open').parent().parent().find('.categories_mega_menu, categorie_sub').addClass('open');

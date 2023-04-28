@@ -33,12 +33,20 @@ class CatalogController extends Controller
         if(strstr($path, ":::")) {
             $path = str_replace(":::", "/", $path) ;
         }
+
+        if(strstr($path, '***')) {
+            $path = str_replace("***", "#", $path) ;
+        }
         return $path ;
     }
     
     public function replacPathToData($data) {
         if(strstr($data, "/")) {
             $data = str_replace("/", ":::", $data) ;
+        }
+
+        if(strstr($data, '#')) {
+            $data = str_replace("#", "***", $data) ;
         }
         return $data ;
     }
@@ -163,14 +171,18 @@ class CatalogController extends Controller
 
     public function collection(Request $request, $category = null, $series = null, $model = null, $section = null, $group = null)
     {   
+        dd($group);
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
         $section = $this->replaceDataToPath($section) ;
         $group = $this->replaceDataToPath($group) ;
-
+        
         if($group) {
+            
             $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+            
+        
             $group_id = $group_info[0]->group_Id ;
         }
         else {

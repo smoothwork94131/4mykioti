@@ -241,19 +241,28 @@ class FrontendController extends Controller
         return view('front.partsbymodel', compact("result", "slug_list"));
     }
 
-    public function replacPathToData($data) {
-        if(strstr($data, "/")) {
-            $data = str_replace("/", ":::", $data) ;
-        }
-        return $data ;
-    }
-
     public function replaceDataToPath($path) {
         if(strstr($path, ":::")) {
             $path = str_replace(":::", "/", $path) ;
         }
+
+        if(strstr($path, '***')) {
+            $path = str_replace("***", "#", $path) ;
+        }
         return $path ;
     }
+    
+    public function replacPathToData($data) {
+        if(strstr($data, "/")) {
+            $data = str_replace("/", ":::", $data) ;
+        }
+        
+        if(strstr($data, '#')) {
+            $data = str_replace("#", "***", $data) ;
+        }
+        return $data ;
+    }
+
     public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {   
         $slug_list = array() ;

@@ -27,6 +27,10 @@
                                 if(strstr($path, "/")) {
                                     $path = str_replace("/", ":::", $path) ;
                                 }
+
+                                if(strstr($path, "#")) {
+                                    $path = str_replace("/", "***", $path) ;
+                                }
                                 $route = $route."/".$path
                             @endphp
                             <li>
@@ -65,6 +69,10 @@
                         $path = $item->name ;
                         if(strstr($path, "/")) {
                             $path = str_replace("/", ":::", $path) ;
+                        }
+
+                        if(strstr($path, "#")) {
+                            $path = str_replace("#", "***", $path) ;
                         }
                     @endphp
                     <a href="{{$route.'/'.$path}}">
