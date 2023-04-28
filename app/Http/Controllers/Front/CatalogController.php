@@ -171,7 +171,6 @@ class CatalogController extends Controller
 
     public function collection(Request $request, $category = null, $series = null, $model = null, $section = null, $group = null)
     {   
-        dd($group);
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
@@ -181,8 +180,6 @@ class CatalogController extends Controller
         if($group) {
             
             $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
-            
-        
             $group_id = $group_info[0]->group_Id ;
         }
         else {
