@@ -1082,8 +1082,8 @@ Route::group(['middleware' => 'maintenance'], function () {
     Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@findpart');
     Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
 
-    Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@category')->name('front.category');
-    Route::get('/collection/{category?}/{series?}/{model?}/{section?}/{group_id?}', 'Front\CatalogController@collection')->name('front.collection');
+    Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\CatalogController@category')->name('front.category');
+    Route::get('/collection/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\CatalogController@collection')->name('front.collection');
     
     Route::get('/collections/{query?}', 'Front\CatalogController@old_parts')->name('front.old_parts');
     Route::get('/collections/{model?}/products/{prod_name?}', 'Front\CatalogController@old_collection')->name('front.old_collection');

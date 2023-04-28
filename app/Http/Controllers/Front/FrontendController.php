@@ -178,7 +178,6 @@ class FrontendController extends Controller
 
     public function partsByModel(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {
-
         $slug_list = array() ;
         $result = array() ;
 
@@ -222,15 +221,17 @@ class FrontendController extends Controller
             } else if(count($slug_list) == 4) {
                 $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
             } else if(count($slug_list) == 5) {
-                $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
-                $group_id = $group_info[0]->group_Id ;
+                $category = $this->replacPathToData($category) ;
+                $series = $this->replacPathToData($series) ;
+                $model = $this->replacPathToData($model) ;
                 $section = $this->replacPathToData($section) ;
+                $group = $this->replacPathToData($group) ;
 
                 if(Config::get('session.domain_name') == 'mahindra') {
-                    return redirect()->route('front.collection',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
+                    return redirect()->route('front.collection',["category"=>$category, "series"=>$series, "model"=>$model, "section"=>$section, "group"=>$group]);
                 }
                 else {
-                    return redirect()->route('front.category',["series"=>$series, "model"=>$model, "section"=>$section, "category"=>$category, "group_id"=>$group_id]);
+                    return redirect()->route('front.category',["category"=>$category, "series"=>$series, "model"=>$model, "section"=>$section, "group"=>$group]);
                 }
             }
             Session::put("slug_list", $slug_list) ;

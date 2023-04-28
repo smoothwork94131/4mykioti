@@ -43,15 +43,20 @@ class CatalogController extends Controller
         return $data ;
     }
 
-    public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
+    public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group = null)
     {   
+        
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
         $section = $this->replaceDataToPath($section) ;
-        $group_id = $this->replaceDataToPath($group_id) ;
+        $group = $this->replaceDataToPath($group) ;
 
-        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group_id ) ;
+        $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+        $group_id = $group_info[0]->group_Id ;
+                
+
+        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group ) ;
         
         if($section == "common") {
             $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model) ;
@@ -151,15 +156,18 @@ class CatalogController extends Controller
         return view('front.category', $data);
     }
 
-    public function collection(Request $request, $category = null, $series = null, $model = null, $section = null, $group_id = null)
+    public function collection(Request $request, $category = null, $series = null, $model = null, $section = null, $group = null)
     {   
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
         $section = $this->replaceDataToPath($section) ;
-        $group_id = $this->replaceDataToPath($group_id) ;
+        $group = $this->replaceDataToPath($group) ;
 
-        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group_id ) ;
+        $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+        $group_id = $group_info[0]->group_Id ;
+
+        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group ) ;
         
         if($section == "common") {
             $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model) ;
@@ -171,7 +179,7 @@ class CatalogController extends Controller
         $db = strtolower($series);
 
         $prods = DB::table($db)
-        ->select('top', 'sku', 'price', 'name', 'thumbnail', 'id', 'product_type')
+        ->select('id', 'top', 'sku', 'price', 'name', 'thumbnail', 'product_type')
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
         })
@@ -184,6 +192,9 @@ class CatalogController extends Controller
             $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
         }
 
+        $prods = $prods->where('price', '!=', 0);
+        $prods = $prods->where('name', '!=', "");
+        $prods = $prods->where('sku', '!=', "");
         $prods = $prods->where('status', 1);
 
         if ($section) {
