@@ -124,7 +124,6 @@ $(function($) {
             var domain = $(this).data("domain_name");
             var cat_elem = $(this).parent().children('.categories_menu_inner');
 
-
             if (type) {
                 if (type != 'group') {
                     cat_elem.html('');
@@ -212,13 +211,14 @@ $(function($) {
                                 }
                             
                             } else if (type == 'group') {
+
                                 for (var x in data.categories) {
-                                    var group_Id = replaceDataToPath(data.categories[x].group_Id) ;
+                                    var group_name = replaceDataToPath(data.categories[x].group_name) ;
                                     if(domain == 'mahindra') {
-                                        element += `<li><a href="${mainurl}/collection/${category}/${series}/${model}/${section}/${group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                        element += `<li><a href="${mainurl}/collection/${category}/${series}/${model}/${section}/${group_name}">> ${data.categories[x].group_name}</a></li>`;
                                     }
                                     else {
-                                        element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${group_Id}">> ${data.categories[x].group_name}</a></li>`;
+                                        element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${group_name}">> ${data.categories[x].group_name}</a></li>`;
                                     }
                                 }
                                 cat_elem = cat_elem.children('.category-groups');

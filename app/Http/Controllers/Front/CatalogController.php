@@ -45,7 +45,6 @@ class CatalogController extends Controller
 
     public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group = null)
     {   
-        
         $category = $this->replaceDataToPath($category) ;
         $series = $this->replaceDataToPath($series) ;
         $model = $this->replaceDataToPath($model) ;
