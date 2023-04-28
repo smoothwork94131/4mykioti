@@ -659,7 +659,6 @@ class CatalogController extends Controller
 
     public function quick($id)
     {
-        
         $product = Product::findOrFail($id);
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));

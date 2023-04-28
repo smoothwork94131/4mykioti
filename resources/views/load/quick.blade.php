@@ -2,6 +2,11 @@
     <div class="col-lg-5">
         <div class="xzoom-container">
             @if ($product->photo)
+                @php 
+                    $flag = $db?? 'products';
+                @endphp
+
+                @if($flag == 'products')
                 <img class="quick-zoom" id="xzoom-magnific1"
                     src="{{ filter_var($product->photo, FILTER_VALIDATE_URL) ? $product->photo : asset('assets/images/products/' . $product->photo) }}"
                     xoriginal="{{ filter_var($product->photo, FILTER_VALIDATE_URL) ? $product->photo : asset('assets/images/products/' . $product->photo) }}" />
@@ -15,15 +20,30 @@
                         </a>
                     </div>
                 </div>
-            @else
+                @else
                 <img class="quick-zoom" id="xzoom-magnific1"
-                    src="{{ asset('assets/images/products/' . $gs->prod_image) }}"
-                    xoriginal="{{ asset('assets/images/products/' . $gs->prod_image) }}" />
+                    src="{{ filter_var($product->photo, FILTER_VALIDATE_URL) ? $product->photo : asset('assets/images/products_home/' . $product->photo) }}"
+                    xoriginal="{{ filter_var($product->photo, FILTER_VALIDATE_URL) ? $product->photo : asset('assets/images/products_home/' . $product->photo) }}" />
                 <div class="xzoom-thumbs">
                     <div class="quick-all-slider">
-                        <a href="{{ asset('assets/images/products/' . $gs->prod_image) }}">
+                        <a
+                            href="{{ filter_var($product->photo, FILTER_VALIDATE_URL) ? $product->photo : asset('assets/images/products_home/' . $product->photo) }}">
                             <img class="quick-zoom-gallery" width="80"
-                                src="{{ asset('assets/images/products/' . $gs->prod_image) }}"
+                                src="{{ filter_var($product->photo, FILTER_VALIDATE_URL) ? $product->photo : asset('assets/images/products_home/' . $product->photo) }}"
+                                title="The description goes here">
+                        </a>
+                    </div>
+                </div>
+                @endif
+            @else
+                <img class="quick-zoom" id="xzoom-magnific1"
+                    src="{{ asset('assets/images/noimage.png') }}"
+                    xoriginal="{{ asset('assets/images/noimage.png') }}" />
+                <div class="xzoom-thumbs">
+                    <div class="quick-all-slider">
+                        <a href="{{ asset('assets/images/noimage.png') }}">
+                            <img class="quick-zoom-gallery" width="80"
+                                src="{{ asset('assets/images/noimage.png') }}"
                                 title="The description goes here">
                         </a>
                     </div>

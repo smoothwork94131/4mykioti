@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
 
         $domain = parse_url(request()->root())['host']; 
         if($domain == 'localhost' || $domain == '127.0.0.1') {
-            $domain  = 'mahindra';
+            $domain  = 'kioti';
         }
         else if($domain == '4mykioti.com' || $domain == 'colthansen.com') {
             $domain  = 'kioti';
