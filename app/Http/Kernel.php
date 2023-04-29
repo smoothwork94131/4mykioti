@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'permissions' => \App\Http\Middleware\Permissions::class,
         'super' => \App\Http\Middleware\SuperAdmin::class,
         'maintenance' => \App\Http\Middleware\MaintenanceMode::class,
+        'check.api.ip' => \App\Http\Middleware\CheckApiIp::class,
     ];
 }

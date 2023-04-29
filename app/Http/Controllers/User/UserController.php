@@ -170,11 +170,12 @@ class UserController extends Controller
     public function my_tractor() {
         $user_id = Auth::id();
         $tractors = DB::table("users-tractor")->where('user_id', $user_id)->orderBy('updatetime', 'desc')->get();
-        $series = DB::table("categories")->select("name as series")->where("parent", ">", "0")->get()->toArray();
+        $series = DB::table("categories_home")->select("name as series")->where("parent", ">", "0")->get()->toArray();
         $model = $this->getTractorModel($series[0]->series) ;
 
         return view('user.myTractor', compact('tractors', 'series', 'model'));
     }
+
     public function save_my_tractor(Request $request) {
         
         $rules = [
@@ -195,14 +196,8 @@ class UserController extends Controller
             'hours.start_date' => 'This start_date must be Date.',
         ];
         
-        // $validator = Validator::make($request->all(), $rules, $messages);
-
         $request->validate($rules);
 
-        // if ($validator->fails()) {
-        //     return redirect()->route('user-my-tractor')>with('error', $validator->getMessageBag()->toArray());
-        // }
-        
         $input = $request->all();
         
         $tractor_id = $request->tractor_id ;

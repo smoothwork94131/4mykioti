@@ -13,6 +13,8 @@ class ApiController extends Controller
         $sku = $request->sku;
         $quantity = $request->quantity;
 
+        dd($sku);
+
         $series = DB::table('categories')
             ->select('name')
             ->where('parent', '!=', 0)
