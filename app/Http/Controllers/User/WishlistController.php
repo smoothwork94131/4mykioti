@@ -49,8 +49,6 @@ class WishlistController extends Controller
             }
         }
 
-        // dd($wishlists);
-
         $wishlists = collect($wishlists);
 
         if (!empty($request->sort)) {
