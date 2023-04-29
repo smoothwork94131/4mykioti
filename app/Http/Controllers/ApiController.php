@@ -13,20 +13,26 @@ class ApiController extends Controller
         $sku = $request->sku;
         $quantity = $request->quantity;
 
-        dd($sku);
-
-        $series = DB::table('categories')
+        $series = DB::table('categories_home')
             ->select('name')
             ->where('parent', '!=', 0)
             ->where('status', 1)
             ->get();
 
-        foreach($series as $serie) {
-            $table = strtolow($series->name);
+        $flag = 0;
 
-            DB::table($table)
+        foreach($series as $serie) {
+            $table = strtolower($serie->name);
+
+            $result = DB::table($table)
                 ->where('sku', $sku)
-                ->update(['quantity' => $quantity]);
+                ->update(['stock' => $quantity]);
+
+            if($result) {
+                $flag = 1;
+            }
         }
+
+        return $flag;
     }
 }
