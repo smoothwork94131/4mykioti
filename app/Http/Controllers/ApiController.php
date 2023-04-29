@@ -10,8 +10,8 @@ use Session;
 class ApiController extends Controller
 {
     public function updateQuantityBySku(Request $request) {
-        $sku = $request->sku;
-        $quantity = $request->quantity;
+
+        $param = $request->param;
 
         $series = DB::table('categories_home')
             ->select('name')
@@ -24,12 +24,17 @@ class ApiController extends Controller
         foreach($series as $serie) {
             $table = strtolower($serie->name);
 
-            $result = DB::table($table)
-                ->where('sku', $sku)
-                ->update(['stock' => $quantity]);
+            foreach($params as $param) {
+                $sku = $param->sku;
+                $quantity = $param->quantity;
+                
+                $result = DB::table($table)
+                    ->where('sku', $sku)
+                    ->update(['stock' => $quantity]);
 
-            if($result) {
-                $flag = 1;
+                if($result) {
+                    $flag = 1;
+                }
             }
         }
 
