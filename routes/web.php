@@ -944,7 +944,7 @@ Route::prefix('user')->group(function () {
 
     // User Wishlist
     Route::get('/wishlists', 'User\WishlistController@wishlists')->name('user-wishlists');
-    Route::get('/wishlist/add/{id}', 'User\WishlistController@addwish')->name('user-wishlist-add');
+    Route::get('/wishlist/add/{series?}/{prod_id?}', 'User\WishlistController@addwish')->name('user-wishlist-add');
     Route::get('/wishlist/remove/{id}', 'User\WishlistController@removewish')->name('user-wishlist-remove');
     // User Wishlist Ends
 

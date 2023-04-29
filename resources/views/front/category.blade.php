@@ -173,7 +173,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-primary">
                                                 @if(Auth::guard('web')->check())
-                                                    <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                                    <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add', ['series' => $db, 'prod_id' => $prod->id]) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                                 @else
                                                     <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                                 @endif
@@ -244,7 +244,7 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-primary">
                                             @if(Auth::guard('web')->check())
-                                                <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                                <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add', ['series' => $db, 'prod_id' => $prod->id]) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                             @else
                                                 <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                             @endif
@@ -382,7 +382,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-primary">
                                     @if(Auth::guard('web')->check())
-                                        <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                        <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add', ['series' => $db, 'prod_id' => $prod->id]) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                     @else
                                         <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                     @endif

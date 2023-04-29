@@ -427,7 +427,7 @@ class CatalogController extends Controller
         $db="product" ;
         $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
 
-        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+        return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'db', 'colorsetting_style2', "page", "slug_list"));
     }
 
     public function old_parts(Request $request, $query = null)
@@ -606,29 +606,6 @@ class CatalogController extends Controller
 
         $slug_list = array("model"=>$model, "prod_name"=>$this->replacPathToData($prod_name));
         return view('front.oldproduct', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
-    }
-
-    public function searchProdDetail() {
-        $this->code_image();
-        $productt = Product::where('slug', '=', $slug)->firstOrFail();
-        $productt->views += 1;
-        $productt->update();
-        
-        if (Session::has('currency')) {
-            $curr = Currency::find(Session::get('currency'));
-        } else {
-            $curr = Currency::where('is_default', '=', 1)->first();
-        }
-
-        $group_record->image = "";
-
-        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
-        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
-
-        $db="product" ;
-        $page = "" ;
-        $slug_list = array() ;
-        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     // Capcha Code Image

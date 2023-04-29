@@ -83,7 +83,7 @@
             <ul>
                 <li>
                     @if (Auth::guard('web')->check())
-                        <span class="add-to-wish" data-href="{{ route('user-wishlist-add', $prod->id) }}"
+                        <span class="add-to-wish" data-href="{{ route('user-wishlist-add', ['series' => 'products', 'prod_id' => $prod->id]) }}"
                             data-toggle="tooltip" data-placement="right" title="{{ $langg->lang54 }}"
                             data-placement="right"
                             style="color:{{ $colorsetting_style2 && $colorsetting_style2->buttons_color ? $colorsetting_style2->buttons_color : 'green' }};"><i

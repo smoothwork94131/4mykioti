@@ -13,7 +13,6 @@
                 else
                 {
                   $link = "http";
-
                   // Here append the common URL characters.
                   $link .= "://";
 
@@ -41,6 +40,12 @@
             <li class="{{ $link == route('user-orders') ? 'active':'' }}">
                 <a href="{{ route('user-orders') }}">
                     {{ $langg->lang201 }}
+                </a>
+            </li>
+
+            <li class="{{ $link == route('user-wishlists') ? 'active':'' }}">
+                <a href="{{ route('user-wishlists') }}">
+                    {{ $langg->lang168 }}
                 </a>
             </li>
             

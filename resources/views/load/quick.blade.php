@@ -223,7 +223,7 @@
                         @if (Auth::guard('web')->check())
                             <li class="favorite">
                                 <a href="javascript:;" class="add-to-wish"
-                                    data-href="{{ route('user-wishlist-add', $product->id) }}"><i
+                                    data-href="{{ route('user-wishlist-add', ['series' => $flag, 'prod_id' => $product->id]) }}"><i
                                         class="icofont-heart-alt"></i></a>
                             </li>
                         @else

@@ -308,7 +308,7 @@
                                                     </a>
                                                 </li>
 
-                                                @if (Auth::guard('web')->check())
+                                                {{-- @if (Auth::guard('web')->check())
                                                     <li class="favorite">
                                                         <a href="javascript:;" class="add-to-wish"
                                                             data-href="{{ route('user-wishlist-add', $productt->id) }}"><i
@@ -320,18 +320,16 @@
                                                             data-target="#comment-log-reg"><i
                                                                 class="icofont-heart-alt"></i></a>
                                                     </li>
-                                                @endif
+                                                @endif --}}
 
                                             </ul>
                                         </div>
 
-                                        @if ($productt->ship != null)
+                                        {{-- @if ($productt->ship != null)
                                             <p class="estimate-time">{{ $langg->lang86 }}: <b> {{ $productt->ship }}</b>
                                             </p>
                                         @endif
                                         @if ($gs->is_report)
-                                            {{-- PRODUCT REPORT SECTION --}}
-
                                             @if (Auth::guard('web')->check())
                                                 <div class="report-area">
                                                     <a href="javascript:;" data-toggle="modal"
@@ -345,9 +343,7 @@
                                                         {{ $langg->lang776 }}</a>
                                                 </div>
                                             @endif
-
-                                            {{-- PRODUCT REPORT SECTION ENDS --}}
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>

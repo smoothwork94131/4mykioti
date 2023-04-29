@@ -227,7 +227,7 @@
 
 
                                         <input type="hidden" id="product_id" value="{{ $productt->id }}">
-                                        <input type="hidden" id="db" value="{{ $db ?? 'products' }}">
+                                        <input type="hidden" id="db" value="{{ $db }}">
                                         <input type="hidden" id="curr_pos" value="{{ $gs->currency_format }}">
                                         <input type="hidden" id="curr_sign" value="{{ $curr->sign }}">
 
@@ -324,7 +324,7 @@
                                                 @if (Auth::guard('web')->check())
                                                     <li class="favorite">
                                                         <a href="javascript:;" class="add-to-wish"
-                                                            data-href="{{ route('user-wishlist-add', $productt->id) }}"><i
+                                                            data-href="{{ route('user-wishlist-add', ['series' => $db, 'prod_id' => $productt->id]) }}"><i
                                                                 class="icofont-heart-alt"></i></a>
                                                     </li>
                                                 @else

@@ -43,14 +43,6 @@
                         <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                     </td>
                     <td>
-                        @php 
-                            // $param_list=array();
-                            // foreach($prod as $sub_key => $item) {
-                            //     if(strstr($item, "/")) {
-                            //         $prod[$sub_key] = str_replace("/", ":::", $item) ;
-                            //     }
-                            // }
-                        @endphp
                         <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->subcategory_id.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
                     </td>
                     <td>
@@ -72,7 +64,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-primary">
                                 @if(Auth::guard('web')->check())
-                                    <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add',$prod->id) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
+                                    <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add', ['series' => $tbl_name, 'prod_id' => $prod->id]) }}"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                 @else
                                     <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg"><i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish</span>
                                 @endif
