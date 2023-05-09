@@ -11,7 +11,7 @@
                         <div class="account-info">
                             <div class="header-area">
                                 <h4 class="title">
-                                    My Tractor
+                                    {{ $langg->lang168 }}
                                 </h4>
                             </div>
                             <div class="edit-info-area">

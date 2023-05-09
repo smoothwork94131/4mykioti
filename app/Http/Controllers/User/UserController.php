@@ -170,6 +170,7 @@ class UserController extends Controller
     public function my_tractor() {
         $user_id = Auth::id();
         $tractors = DB::table("users-tractor")->where('user_id', $user_id)->orderBy('updatetime', 'desc')->get();
+        // dd($tractors);
         $series = DB::table("categories_home")->select("name as series")->where("parent", ">", "0")->get()->toArray();
         $model = $this->getTractorModel($series[0]->series) ;
 

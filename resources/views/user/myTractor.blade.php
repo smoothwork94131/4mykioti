@@ -71,7 +71,7 @@
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td colspan="2">No DATA</td>
+                                                <td colspan="2" style="text-align: center;">No DATA</td>
                                             </tr>
                                             @endforelse
                                             </tbody>
@@ -140,15 +140,21 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.product_table').DataTable({
-                "paging": false,
-                "ordering": false,
-                "info": false,
-                "searching": false,
-                "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
+        @php
+            if($tractors->count() > 0) {
+        @endphp
+            $(document).ready(function () {
+                $('.product_table').DataTable({
+                    "paging": false,
+                    "ordering": false,
+                    "info": false,
+                    "searching": false,
+                    "lengthMenu": [[50, 100, 150, 200, -1], [50, 100, 150, 200, "All"]]
+                });
             });
-        });
+        @php
+        }
+        @endphp
         
         function changeSeries(event) {
             var value = event.target.value ;
