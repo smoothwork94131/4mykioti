@@ -269,7 +269,7 @@
                                                                 <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                                 @else
-                                                                <a href="{{ route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_id, 'prod_name' => $product['item']->name]) }}">
                                                                     {{ $product['item']->name }}
                                                                 </a>
                                                                 @endif
@@ -344,7 +344,7 @@
                                                                 <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                                 @else
-                                                                <a href="{{ route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_id, 'prod_name' => $product['item']->name]) }}">
                                                                     {{ $product['item']->name }}
                                                                 </a>
                                                                 @endif
@@ -383,8 +383,7 @@
                                                             </div>
                                                             <div class="total-price">
                                                                 <h5 class="label">{{ $langg->lang756 }} : </h5>
-                                                                <p>{{ App\Models\Product::convertPrice($product['price']) }}
-                                                                </p>
+                                                                <p>{{ App\Models\Product::convertPrice($product['price']) }}</p>
                                                             </div>
                                                         </div>
                                                     </div>

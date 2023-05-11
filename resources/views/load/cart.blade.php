@@ -10,7 +10,7 @@
         <ul class="dropdown-cart-products">
             @foreach (Session::get('cart')->items as $product)
                 <li class="product cremove{{ ($product['db'] ?? 'products') . $product['item']->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">
-                    <a href="{{ $product['db'] == 'products' ? route('front.product', $product['item']->slug) : route('front.homeproduct', ['category' => $product['category'], 'series' => $product['db'], 'model' => $product['item']->subcategory_id, 'section' => $product['section'], 'group' => $product['item']->category_id, 'prod_name' => $product['item']->name]) }}">
+                    <a href="{{ $product['db'] == 'products' ? route('front.product', $product['item']->slug) : route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_id, 'prod_name' => $product['item']->name]) }}">
                         <div class="product-details">
                             <div class='img'>
                                 @if($product['db'] == 'products')
@@ -26,7 +26,7 @@
 
                                 <span class="cart-product-info">
                                     <span class="cart-product-qty"
-                                        id="cqt{{ $product['item']->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">{{ $product['qty'] }}</span><span>{{ $product['item']->measure }}</span>
+                                        id="cqt{{ $product['item']->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">{{ $product['qty'] }}</span><span></span>
                                     x <span
                                         id="prct{{ $product['item']->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">{{ App\Models\Product::convertPrice($product['item']->price) }}</span>
                                 </span>

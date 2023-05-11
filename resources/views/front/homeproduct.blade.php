@@ -101,128 +101,39 @@
                                                 <li class="review-count">
                                                     <p>{{ $langg->lang80 }}</p>
                                                 </li>
-                                                @if ($productt->product_condition != 0)
-                                                    <li>
-                                                        <div
-                                                            class="{{ $productt->product_condition == 2 ? 'mybadge' : 'mybadge1' }}">
-                                                            {{ $productt->product_condition == 2 ? 'New' : 'Used' }}
-                                                        </div>
-                                                    </li>
-                                                @endif
+                                                <li>
+                                                    <div class="mybadge">
+                                                        New
+                                                    </div>
+                                                </li>
+                                                
                                             </ul>
                                         </div>
                                         <div class="product-model">
-                                            Model #: <?php echo $productt->subcategory_id; ?>
+                                            Model #: <?php echo $productt->model; ?>
                                         </div>
                                         <div class="product-part">
                                             Part #: <?php echo $productt->sku; ?>
                                         </div>
                                         @if ($productt->photo == null)
                                             <div class="product-part" style="font-size: 18px;">
-                                                Ref Num: <?php echo $productt->top; ?>
+                                                Ref Num: <?php echo $productt->refno; ?>
                                             </div>
                                         @endif
                                         <div class="product-price">
                                             <p class="title">{{ $langg->lang87 }} :</p>
                                             <p class="price"><span id="sizeprice">${{ $productt->price }}</span>
                                             </p>
-                                            @if ($productt->youtube != null)
-                                                <a href="{{ $productt->youtube }}" class="video-play-btn mfp-iframe">
-                                                    <i class="fas fa-play"></i>
-                                                </a>
-                                            @endif
                                         </div>
 
-                                        <div class="info-meta-2">
-                                            <ul>
-                                                @if ($productt->type == 'License')
-                                                    @if ($productt->platform != null)
-                                                        <li>
-                                                            <p>{{ $langg->lang82 }}: <b>{{ $productt->platform }}</b></p>
-                                                        </li>
-                                                    @endif
+                                        @php
+                                            $stck = (string) $productt->stock;
+                                        @endphp
 
-                                                    @if ($productt->region != null)
-                                                        <li>
-                                                            <p>{{ $langg->lang83 }}: <b>{{ $productt->region }}</b></p>
-                                                        </li>
-                                                    @endif
-
-                                                    @if ($productt->licence_type != null)
-                                                        <li>
-                                                            <p>{{ $langg->lang84 }}: <b>{{ $productt->licence_type }}</b>
-                                                            </p>
-                                                        </li>
-                                                    @endif
-                                                @endif
-
-                                            </ul>
-                                        </div>
-
-
-                                        @if (!empty($productt->size))
-                                            <div class="product-size">
-                                                <p class="title">{{ $langg->lang88 }} :</p>
-                                                <ul class="siz-list">
-                                                    @php
-                                                        $is_first = true;
-                                                    @endphp
-                                                    @foreach ($productt->size as $key => $data1)
-                                                        <li class="{{ $is_first ? 'active' : '' }}">
-                                                            <span class="box">{{ $data1 }}
-                                                                <input type="hidden" class="size"
-                                                                    value="{{ $data1 }}">
-                                                                <input type="hidden" class="size_qty"
-                                                                    value="{{ $productt->size_qty[$key] }}">
-                                                                <input type="hidden" class="size_key"
-                                                                    value="{{ $key }}">
-                                                                <input type="hidden" class="size_price"
-                                                                    value="{{ round($productt->size_price[$key] * $curr->value, 2) }}">
-                                                            </span>
-                                                        </li>
-                                                        @php
-                                                            $is_first = false;
-                                                        @endphp
-                                                    @endforeach
-                                                    <li>
-                                                </ul>
-                                            </div>
-                                        @endif
-
-                                        @if (!empty($productt->color))
-                                            <div class="product-color">
-                                                <p class="title">{{ $langg->lang89 }} :</p>
-                                                <ul class="color-list">
-                                                    @php
-                                                        $is_first = true;
-                                                    @endphp
-                                                    @foreach ($productt->color as $key => $data1)
-                                                        <li class="{{ $is_first ? 'active' : '' }}">
-                                                            <span class="box" data-color="{{ $productt->color[$key] }}"
-                                                                style="background-color: {{ $productt->color[$key] }}"></span>
-                                                        </li>
-                                                        @php
-                                                            $is_first = false;
-                                                        @endphp
-                                                    @endforeach
-
-                                                </ul>
-                                            </div>
-                                        @endif
-
-                                        @if (!empty($productt->size))
-                                            <input type="hidden" id="stock" value="{{ $productt->size_qty[0] }}">
+                                        @if ($stck != null)
+                                            <input type="hidden" id="stock" value="{{ $stck }}">
                                         @else
-                                            @php
-                                                $stck = (string) $productt->stock;
-                                            @endphp
-                                            @if ($stck != null)
-                                                <input type="hidden" id="stock" value="{{ $stck }}">
-                                            @elseif($productt->type != 'Physical')
-                                                <input type="hidden" id="stock" value="0">
-                                            @else
-                                                <input type="hidden" id="stock" value="">
-                                            @endif
+                                            <input type="hidden" id="stock" value="">
                                         @endif
 
 
@@ -234,82 +145,31 @@
 
                                         <div class="info-meta-3">
                                             <ul class="meta-list">
-                                                @if ($productt->product_type != 'affiliate')
-                                                    <li
-                                                        class="d-block count {{ $productt->type == 'Physical' ? '' : 'd-none' }}">
-                                                        <div class="qty" style="display: flex; align-items: center;">
-                                                            <label
-                                                                style="font-size: 18px; margin-right: 10px; margin-top: 3px; font-weight: 600;">Quantity:
-                                                            </label>
-                                                            <ul style="display:flex; align-items-center: center;">
-                                                                <li>
-                                                                    <span class="qtminus">
-                                                                        <i class="icofont-minus"></i>
-                                                                    </span>
-                                                                </li>
-                                                                <li>
-                                                                    <!-- <span class="qttotal">1</span> -->
-                                                                    <input type="text" id="qttotal" class="qttotal"
-                                                                        value="1" step="1" min="0"
-                                                                        style="margin-right: 3px; width: 50px;" />
-                                                                </li>
-                                                                <li>
-                                                                    <span class="qtplus">
-                                                                        <i class="icofont-plus"></i>
-                                                                    </span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </li>
-                                                @endif
-
-                                                @if (!empty($productt->attributes))
-                                                    @php
-                                                        $attrArr = json_decode($productt->attributes, true);
-                                                    @endphp
-                                                @endif
-                                                @if (!empty($attrArr))
-                                                    <div class="product-attributes my-4">
-                                                        <div class="row">
-                                                            @foreach ($attrArr as $attrKey => $attrVal)
-                                                                @if (array_key_exists('details_status', $attrVal) && $attrVal['details_status'] == 1)
-                                                                    <div class="col-lg-6">
-                                                                        <div class="form-group mb-2">
-                                                                            <strong for=""
-                                                                                class="text-capitalize">{{ str_replace('_', ' ', $attrKey) }}
-                                                                                :</strong>
-                                                                            <div class="">
-                                                                                @foreach ($attrVal['values'] as $optionKey => $optionVal)
-                                                                                    <div
-                                                                                        class="custom-control custom-radio">
-                                                                                        <input type="hidden"
-                                                                                            class="keys" value="">
-                                                                                        <input type="hidden"
-                                                                                            class="values" value="">
-                                                                                        <input type="radio"
-                                                                                            id="{{ $attrKey }}{{ $optionKey }}"
-                                                                                            name="{{ $attrKey }}"
-                                                                                            class="custom-control-input product-attr"
-                                                                                            data-key="{{ $attrKey }}"
-                                                                                            data-price="{{ round($attrVal['prices'][$optionKey] * $curr->value, 2) }}"
-                                                                                            value="{{ $optionVal }}"
-                                                                                            {{ $loop->first ? 'checked' : '' }}>
-                                                                                        <label class="custom-control-label"
-                                                                                            for="{{ $attrKey }}{{ $optionKey }}">{{ $optionVal }}
-                                                                                            : {{ $curr->sign }}
-                                                                                            {{ number_format($productt->showRealPrice() + $attrVal['prices'][$optionKey] * $curr->value, '2', '.', '') }}
-                                                                                        </label>
-                                                                                    </div>
-                                                                                @endforeach
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                @endif
-                                                            @endforeach
-                                                        </div>
+                                                <li class="d-block count">
+                                                    <div class="qty" style="display: flex; align-items: center;">
+                                                        <label
+                                                            style="font-size: 18px; margin-right: 10px; margin-top: 3px; font-weight: 600;">Quantity:
+                                                        </label>
+                                                        <ul style="display:flex; align-items-center: center;">
+                                                            <li>
+                                                                <span class="qtminus">
+                                                                    <i class="icofont-minus"></i>
+                                                                </span>
+                                                            </li>
+                                                            <li>
+                                                                <input type="text" id="qttotal" class="qttotal"
+                                                                    value="1" step="1" min="0"
+                                                                    style="margin-right: 3px; width: 50px;" />
+                                                            </li>
+                                                            <li>
+                                                                <span class="qtplus">
+                                                                    <i class="icofont-plus"></i>
+                                                                </span>
+                                                            </li>
+                                                        </ul>
                                                     </div>
-                                                @endif
-
+                                                </li>
+                                                
                                                 <li class="addtocart">
                                                     <a href="javascript:;" id="addcrt"><i
                                                             class="icofont-cart"></i>{{ $langg->lang90 }}</a>
@@ -338,10 +198,6 @@
                                             </ul>
                                         </div>
 
-                                        @if ($productt->ship != null)
-                                            <p class="estimate-time">{{ $langg->lang86 }}: <b> {{ $productt->ship }}</b>
-                                            </p>
-                                        @endif
                                         @if ($gs->is_report)
                                             {{-- PRODUCT REPORT SECTION --}}
 
@@ -361,8 +217,6 @@
 
                                             {{-- PRODUCT REPORT SECTION ENDS --}}
                                         @endif
-
-
                                     </div>
                                 </div>
                             </div>

@@ -152,7 +152,7 @@
                                 <tr>
                                     @if($refno_flag)
                                     <td style="text-align:center;">
-                                        {{ $prod->top }}
+                                        {{ $prod->refno }}
                                     </td>
                                     @endif
                                     @if($thumbnail_flag)
@@ -223,7 +223,7 @@
                             <tr>
                                 @if($refno_flag)
                                 <td style="text-align:center;">
-                                    {{ $prod->top }}
+                                    {{ $prod->refno }}
                                 </td>
                                 @endif
                                 @if($thumbnail_flag)
@@ -364,10 +364,10 @@
                             <a href="{{route('front.commonparts', $slug_list)}}">{{ $prod->name }}</a>
                         </td>
                         <td style="text-align:center;">
-                            {{ $prod->subcategory_id }}
+                            {{ $prod->model }}
                         </td>
                         <td class='td-group' style="text-align:center;">
-                            {{ $prod->parent }}
+                            {{ $prod->group_id }}
                         </td>
                         <td class='td-part' style="text-align:center;">
                             {{ $prod->sku }}

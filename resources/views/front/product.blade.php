@@ -97,9 +97,6 @@
                                     </ul>
                                 </div>
 
-                                <div class="product-model">
-                                    <small>Model #:  <?php echo $productt->subcategory_id; ?></small>
-                                </div>
                                 <div class="product-part">
                                     <small>Part #:  <?php echo $productt->sku; ?></small>
                                 </div>

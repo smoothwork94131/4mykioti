@@ -7,18 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @if (isset($page->meta_tag) && isset($page->meta_description))
-        <meta name="keywords" content="{{ $page->meta_tag }}">
-        <meta name="description" content="{{ $page->meta_description }}">
-        <title>{{ $gs->title }}</title>
-    @elseif(isset($blog->meta_tag) && isset($blog->meta_description))
+    @if(isset($blog->meta_tag) && isset($blog->meta_description))
         <meta name="keywords" content="{{ $blog->meta_tag }}">
-        <meta name="description" content="{{ $blog->meta_description }}">
         <title>{{ $gs->title }}</title>
     @elseif(isset($productt))
         <meta property="og:title" content="{{ $productt->name }}" />
-        <meta property="og:description"
-            content="{{ $productt->meta_description != null ? $productt->meta_description : strip_tags($productt->description) }}" />
         <meta property="og:image" content="{{ asset('assets/images/thumbnails/' . $productt->thumbnail) }}" />
         <meta name="author" content="Davehansen.com">
         <title>{{ substr($productt->name, 0, 11) . '-' }}{{ $gs->title }}</title>

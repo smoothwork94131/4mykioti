@@ -35,7 +35,7 @@ class WishlistController extends Controller
                 $product = $product->select('products.*');
             }
             else {
-                $product = $product->leftjoin($table . '_categories as category', 'products.category_id', '=', 'category.group_Id');
+                $product = $product->leftjoin($table . '_categories as category', 'products.group_id', '=', 'category.group_Id');
                 $product = $product->select('products.*', 'category.model', 'category.section_name', 'category.group_name');
             }
             

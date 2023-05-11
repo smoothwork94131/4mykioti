@@ -100,20 +100,20 @@ class CatalogController extends Controller
 
         if ($section) {
             if ($section == 'common') {
-                $prods = $prods->where('best', 1)->where('subcategory_id', $model);
+                $prods = $prods->where('common_part', 1)->where('model', $model);
             } else {
-                $prods = $prods->where('category_id', $group_id)->where('subcategory_id', $model);
+                $prods = $prods->where('group_id', $group_id)->where('model', $model);
             }
         }
 
         $prods = $prods->distinct();
-        $prods = $prods->orderBy('top', 'asc');
+        $prods = $prods->orderBy('refno', 'asc');
         $prods = $prods->get();
 
         $refno_flag = 0;
         $thumbnail_flag = 0;
         foreach($prods as $prod) {
-            if($prod->top != 0) {
+            if($prod->refno != 0) {
                 $refno_flag = true;
             }
 
@@ -218,20 +218,20 @@ class CatalogController extends Controller
 
         if ($section) {
             if ($section == 'common') {
-                $prods = $prods->where('best', 1)->where('subcategory_id', $model);
+                $prods = $prods->where('common_part', 1)->where('model', $model);
             } else {
-                $prods = $prods->where('category_id', $group_id)->where('subcategory_id', $model);
+                $prods = $prods->where('group_id', $group_id)->where('model', $model);
             }
         }
 
         $prods = $prods->distinct();
-        $prods = $prods->orderBy('top', 'asc');
+        $prods = $prods->orderBy('refno', 'asc');
         $prods = $prods->get();
 
         $refno_flag = 0;
         $thumbnail_flag = 0;
         foreach($prods as $prod) {
-            if($prod->top != 0) {
+            if($prod->refno != 0) {
                 $refno_flag = true;
             }
 
@@ -294,14 +294,6 @@ class CatalogController extends Controller
         return view('front.category', $data);
     }
 
-    public function getsubs(Request $request)
-    {
-        $category = Category::where('slug', $request->category)->firstOrFail();
-        $subcategories = Subcategory::where('category_id', $category->id)->get();
-        return $subcategories;
-    }
-
-
     // -------------------------------- PRODUCT DETAILS SECTION ----------------------------------------
 
     public function report(Request $request)
@@ -345,7 +337,7 @@ class CatalogController extends Controller
             ->orWhere('group_Id', $group)
             ->first();
         
-        $sql = "select * from `{$db}` where `subcategory_id`='{$model}' and `name` = '{$prod_name}' ;" ;
+        $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}' ;" ;
 
         $productt =DB::select($sql);
         if($productt && count($productt) > 0) {
@@ -381,7 +373,7 @@ class CatalogController extends Controller
                 if($flag) {
                     $sql.=" union all " ;
                 } 
-                $sql .= "select distinct '$arr_tbl[$k]' as `table`, `subcategory_id` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
+                $sql .= "select distinct '$arr_tbl[$k]' as `table`, `model` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
                 $flag = true ;
             }
     
@@ -393,10 +385,10 @@ class CatalogController extends Controller
         foreach($fits as $item) {
             if(array_key_exists($item->table, $also_fits)) {
                 $also_item = $also_fits[$item->table] ;
-                array_push($also_item, $item->subcategory_id) ;
+                array_push($also_item, $item->model) ;
                 $also_fits[$item->table] = $also_item ;
             } else {
-                $also_fits[$item->table] = array($item->subcategory_id) ;
+                $also_fits[$item->table] = array($item->model) ;
             }
         }
 
@@ -424,7 +416,7 @@ class CatalogController extends Controller
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
-        $db="product" ;
+        $db="products" ;
         $page = "product" ; $slug_list = array("prod_name"=>$slug) ;
 
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'db', 'colorsetting_style2', "page", "slug_list"));

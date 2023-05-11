@@ -63,54 +63,8 @@ class CheckoutController extends Controller
             $cart = new Cart($oldCart);
             $products = $cart->items;
             // Shipping Method
-            if ($gs->multiple_shipping == 1) {
-                $user = null;
-                foreach ($cart->items as $prod) {
-                    $user[] = $prod['item']->user_id;
-                }
-
-                $users = array_unique($user);
-                if (count($users) == 1) {
-                    $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
-                    if (count($shipping_data) == 0) {
-                        $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                    } else {
-                        $vendor_shipping_id = $users[0];
-                    }
-                } else {
-                    $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                }
-
-            } else {
-                $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-            }
-            // Packaging
-            if ($gs->multiple_packaging == 1) {
-                $user = null;
-                foreach ($cart->items as $prod) {
-                    $user[] = $prod['item']->user_id;
-                }
-                $users = array_unique($user);
-                if (count($users) == 1) {
-                    $package_data = DB::table('packages')->where('user_id', '=', $users[0])->get();
-                    if (count($package_data) == 0) {
-                        $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                    } else {
-                        $vendor_packing_id = $users[0];
-                    }
-                } else {
-                    $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                }
-            } else {
-                $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-            }
-
-            foreach ($products as $prod) {
-                if ($prod['item']->type == 'Physical') {
-                    $dp = 0;
-                    break;
-                }
-            }
+            $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
+            $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
 
             if ($dp == 1) {
                 $ship = 0;
@@ -119,13 +73,19 @@ class CheckoutController extends Controller
             $total = 0;
             $productList = [];
             $productListNoWeight = [];
+            
             foreach ($products as $prod) {
-                if ($prod['item']->file) {
-                    $total += $prod['item']->price;
+                if (isset($prod['item']->weight_in_grams) && $prod['item']->weight_in_grams) {
                     array_push($productList, $prod);
-                } else {
+                } 
+                else if(isset($prod['item']->file) && $prod['item']->file) {
+                    array_push($productList, $prod);
+                }
+                else {
                     array_push($productListNoWeight, $prod);
                 }
+                
+                $total += $prod['item']->price;
             }
 
             $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
@@ -151,59 +111,22 @@ class CheckoutController extends Controller
                 $cart = new Cart($oldCart);
                 $products = $cart->items;
                 // Shipping Method
-                if ($gs->multiple_shipping == 1) {
-                    $user = null;
-                    foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']->user_id;
-                    }
-                    $users = array_unique($user);
-                    if (count($users) == 1) {
-                        $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
-                        if (count($shipping_data) == 0) {
-                            $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                        } else {
-                            $vendor_shipping_id = $users[0];
-                        }
-                    } else {
-                        $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                    }
-                } else {
-                    $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                }
-                // Packaging
-                if ($gs->multiple_packaging == 1) {
-                    $user = null;
-                    foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']->user_id;
-                    }
-                    $users = array_unique($user);
-                    if (count($users) == 1) {
-                        $package_data = DB::table('packages')->where('user_id', '=', $users[0])->get();
-                        if (count($package_data) == 0) {
-                            $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                        } else {
-                            $vendor_packing_id = $users[0];
-                        }
-                    } else {
-                        $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                    }
-                } else {
-                    $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                }
-                foreach ($products as $prod) {
-                    if ($prod['item']->type == 'Physical') {
-                        $dp = 0;
-                        break;
-                    }
-                }
+                $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
+                $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
+
                 $productList = [];
                 $productListNoWeight = [];
                 $total = 0;
                 foreach ($products as $prod) {
-                    if ($prod['item']->file) {
+                    if (isset($prod['item']->weight_in_grams) && $prod['item']->weight_in_grams) {
                         $total += $prod['item']->price;
                         array_push($productList, $prod);
-                    } else {
+                    } 
+                    else if(isset($prod['item']->file) && $prod['item']->file) {
+                        $total += $prod['item']->price;
+                        array_push($productList, $prod);
+                    } 
+                    else {
                         array_push($productListNoWeight, $prod);
                     }
                 }
@@ -223,14 +146,7 @@ class CheckoutController extends Controller
                     $total = Session::get('coupon_total');
                     $total = str_replace($curr->sign, '', $total) + round(0 * $curr->value, 2);
                 }
-                foreach ($products as $prod) {
-                    if ($prod['item']->type != 'Physical') {
-                        if (!Auth::guard('web')->check()) {
-                            $ck = 1;
-                            return view('front.checkout', ['products' => $cart->items, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'checked' => $ck, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
-                        }
-                    }
-                }
+                
                 return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
             } // If guest checkout is Deactivated then display pop up form with proper error message
             else {
@@ -240,45 +156,9 @@ class CheckoutController extends Controller
                 $cart = new Cart($oldCart);
                 $products = $cart->items;
                 // Shipping Method
-                if ($gs->multiple_shipping == 1) {
-                    $user = null;
-                    foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']->user_id;
-                    }
-                    $users = array_unique($user);
-                    if (count($users) == 1) {
-                        $shipping_data = DB::table('shippings')->where('user_id', '=', $users[0])->get();
-                        if (count($shipping_data) == 0) {
-                            $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                        } else {
-                            $vendor_shipping_id = $users[0];
-                        }
-                    } else {
-                        $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                    }
-                } else {
-                    $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
-                }
-                // Packaging
-                if ($gs->multiple_packaging == 1) {
-                    $user = null;
-                    foreach ($cart->items as $prod) {
-                        $user[] = $prod['item']->user_id;
-                    }
-                    $users = array_unique($user);
-                    if (count($users) == 1) {
-                        $package_data = DB::table('packages')->where('user_id', '=', $users[0])->get();
-                        if (count($package_data) == 0) {
-                            $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                        } else {
-                            $vendor_packing_id = $users[0];
-                        }
-                    } else {
-                        $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                    }
-                } else {
-                    $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
-                }
+                $shipping_data = DB::table('shippings')->where('user_id', '=', 0)->get();
+                $package_data = DB::table('packages')->where('user_id', '=', 0)->get();
+
                 $total = $cart->totalPrice;
                 $coupon = Session::has('coupon') ? Session::get('coupon') : 0;
                 if ($gs->tax != 0) {
@@ -800,7 +680,6 @@ class CheckoutController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         
-    
         $shop_url = env('SHOPIFY_SHOP_URL', '');
         $storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
         $storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
@@ -845,96 +724,96 @@ class CheckoutController extends Controller
             $count = count($cart->items);
             $needToTemp = false;
             foreach ($cart->items as $key => $prod) {
-                if (!$prod['item']->file) {
-                    $needToTemp = true;
-                    continue;
-                }
-                $i++;
+                if (!empty($prod['item']->file) || !empty($prod['item']->weight_in_grams)) {
+                    $i++;
                 
-                $query = '{
-                    products(first: 1, query:"(title:'.$prod['item']->name.') AND (variants.sku:'.$prod['item']->sku.')",) {
-                        edges {
-                            node {
-                                variants(first: 5) {
-                                    edges {
-                                        node {
-                                            id
+                    $query = '{
+                        products(first: 1, query:"(title:'.$prod['item']->name.') AND (variants.sku:'.$prod['item']->sku.')",) {
+                            edges {
+                                node {
+                                    variants(first: 5) {
+                                        edges {
+                                            node {
+                                                id
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                }';
-                
-                $productFromShopify = $shopify->GraphQL->post($query);      
-
-                if ($productFromShopify['data']['products']['edges']) {
-
-                    $update_input = '{
-                        id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
-                        price: '. $prod['item']->price .'
                     }';
-    
-                    $update_query = <<<QUERY
-                    mutation {
-                        productVariantUpdate( input: {$update_input}) {
-                            productVariant {
-                                id
-                                title
-                                inventoryPolicy
-                                inventoryQuantity
-                                price
-                                compareAtPrice
-                            }
-                            userErrors {
-                                field
-                                message
+                    
+                    $productFromShopify = $shopify->GraphQL->post($query);      
+
+                    if ($productFromShopify['data']['products']['edges']) {
+
+                        $update_input = '{
+                            id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
+                            price: '. $prod['item']->price .'
+                        }';
+        
+                        $update_query = <<<QUERY
+                        mutation {
+                            productVariantUpdate( input: {$update_input}) {
+                                productVariant {
+                                    id
+                                    title
+                                    inventoryPolicy
+                                    inventoryQuantity
+                                    price
+                                    compareAtPrice
+                                }
+                                userErrors {
+                                    field
+                                    message
+                                }
                             }
                         }
+                        QUERY;
+        
+                        $graphql_url = "https://" . $shop_url . "/admin/api/". $shopify_api_version ."/graphql.json";
+                        
+                        $post_data = array();
+                        $post_data['query'] = $update_query;
+                        $curl_init = curl_init();
+                        curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
+                        curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
+                            'Content-Type: application/json', 
+                            'Accept: application/json', 
+                            'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
+                            'X-Shopify-Access-Token: '. $storeAccessToken
+                        ));
+                        curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
+                        curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
+                        curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
+                        $response = curl_exec ($curl_init);
+                        $product_info = json_decode($response, true);
+                        $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
+                        curl_close ($curl_init);
+        
+                        if($i == $count) {
+                            $input .= "{
+                                quantity: {$prod['qty']},
+                                variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                            }";
+                        }
+                        else {
+                            $input .= "{
+                                quantity: {$prod['qty']},
+                                variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                            },";
+                        }
+                    } else {
+                        $this->createProductOnShopify($prod);
                     }
-                    QUERY;
-    
-                    $graphql_url = "https://" . $shop_url . "/admin/api/". $shopify_api_version ."/graphql.json";
                     
-                    $post_data = array();
-                    $post_data['query'] = $update_query;
-                    $curl_init = curl_init();
-                    curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
-                    curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
-                        'Content-Type: application/json', 
-                        'Accept: application/json', 
-                        'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
-                        'X-Shopify-Access-Token: '. $storeAccessToken
-                    ));
-                    curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
-                    curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
-                    curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
-                    $response = curl_exec ($curl_init);
-                    $product_info = json_decode($response, true);
-                    $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
-                    curl_close ($curl_init);
-    
-                    // print_r($product_info); exit;
-
-                    if($i == $count) {
-                        $input .= "{
-                            quantity: {$prod['qty']},
-                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                        }";
-                    }
-                    else {
-                        $input .= "{
-                            quantity: {$prod['qty']},
-                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                        },";
-                    }
-                } else {
-                    $this->createProductOnShopify($prod);
+                    $cart->removeItem($key);
                 }
-                
-                $cart->removeItem($key);
+                else {
+                    $needToTemp = true;
+                    continue;
+                }
             }
 
             $input.=']}';

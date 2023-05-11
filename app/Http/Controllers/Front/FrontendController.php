@@ -348,9 +348,8 @@ class FrontendController extends Controller
                 $ret = DB::table("categories_home")->select("*")->where("parent", $item->id)->get()->toArray();
                 $flag = false ;
                 foreach($ret as $sub_item) {
-
                     $table_name = strtolower($sub_item->name);
-                    $sub_ret = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get()->toArray();
+                    $sub_ret = DB::table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get()->toArray();
                     
                     if(count($sub_ret) > 0) {
                         $flag = true ;
@@ -372,7 +371,7 @@ class FrontendController extends Controller
                 $result = array() ;
                 foreach($result_ as $key =>$item) {
                     $table_name = strtolower($item->name);
-                    $ret = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get()->toArray();
+                    $ret = DB::table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get()->toArray();
                     if(count($ret) > 0) {
                         $result[$key] = $item ;
                     }
@@ -380,7 +379,7 @@ class FrontendController extends Controller
 
             } else if(count($slug_list) == 2) {
                 $table_name = strtolower($series);
-                $result = DB::table($table_name)->select('subcategory_id as name')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
+                $result = DB::table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get();
             } else if(count($slug_list) == 3) {
                 $category = $this->replacPathToData($category) ;
                 $series = $this->replacPathToData($series) ;
@@ -398,8 +397,8 @@ class FrontendController extends Controller
                 $db = strtolower($series);
                 $productt = DB::table($db)->where('name', '=', $prod)->first();
 
-                $group_id = $productt->category_id;
-                $group_model = $productt->subcategory_id;
+                $group_id = $productt->group_id;
+                $group_model = $productt->model;
                 $group_record = DB::table($db . "_categories")->where('model', $group_model)->where('group_Id', $group_id)->first(); 
                 
                 if (Session::has('currency')) {
@@ -430,7 +429,7 @@ class FrontendController extends Controller
                     if($flag) {
                         $sql.=" union all " ;
                     } 
-                    $sql .= "select distinct `subcategory_id`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
+                    $sql .= "select distinct `model`, '$arr_tbl[$k]' as `table` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
                     $flag = true ;
                 }
 
@@ -439,14 +438,14 @@ class FrontendController extends Controller
                 foreach($fits as $item) {
                     if(array_key_exists($item->table, $also_fits)) {
                         $also_item = $also_fits[$item->table] ;
-                        array_push($also_item, $item->subcategory_id) ;
+                        array_push($also_item, $item->model) ;
                         $also_fits[$item->table] = $also_item ;
                     } else {
-                        $also_fits[$item->table] = array($item->subcategory_id) ;
+                        $also_fits[$item->table] = array($item->model) ;
                     }
                 }
 
-                return view('front.product', compact('db','productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
+                return view('front.homeproduct', compact('db','productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
             }
 
         }
@@ -458,7 +457,7 @@ class FrontendController extends Controller
         $db = strtolower($series);
         $model = $this->replaceDataToPath($model) ;
 
-        $prods = DB::table($db)->where('subcategory_id', $model)->where('best', 1) ;
+        $prods = DB::table($db)->where('model', $model)->where('common_part', 1) ;
         $prods = $prods->get();
        
         $slug = $model;
