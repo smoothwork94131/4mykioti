@@ -11,13 +11,14 @@ class ApiController extends Controller
 {
     public function updateQuantityBySku(Request $request) {
 
-        $param = $request->param;
+        $params = $request->param;
 
-        $series = DB::table('categories_home')
-            ->select('name')
-            ->where('parent', '!=', 0)
-            ->where('status', 1)
-            ->get();
+        $series = DB::connection('product')
+        ->table('categories_home')
+        ->select('name')
+        ->where('parent', '!=', 0)
+        ->where('status', 1)
+        ->get();
 
         $flag = 0;
 
@@ -28,9 +29,35 @@ class ApiController extends Controller
                 $sku = $param->sku;
                 $quantity = $param->quantity;
                 
-                $result = DB::table($table)
-                    ->where('sku', $sku)
-                    ->update(['stock' => $quantity]);
+                $result = DB::connection('product')
+                ->table($table)
+                ->where('sku', $sku)
+                ->update(['stock' => DB::raw('stock') - $quantity]);
+
+                if($result) {
+                    $flag = 1;
+                }
+            }
+        }
+
+        $series = DB::connection('other')
+        ->table('categories_home')
+        ->select('name')
+        ->where('parent', '!=', 0)
+        ->where('status', 1)
+        ->get();
+
+        foreach($series as $serie) {
+            $table = strtolower($serie->name);
+
+            foreach($params as $param) {
+                $sku = $param->sku;
+                $quantity = $param->quantity;
+                
+                $result = DB::connection('other')
+                ->table($table)
+                ->where('sku', $sku)
+                ->update(['stock' => DB::raw('stock') - $quantity]);
 
                 if($result) {
                     $flag = 1;
