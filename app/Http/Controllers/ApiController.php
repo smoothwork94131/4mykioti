@@ -11,60 +11,40 @@ class ApiController extends Controller
 {
     public function updateQuantityBySku(Request $request) {
 
-        $params = $request->param;
+        $params = $request->orders;
 
-        $series = DB::connection('product')
-        ->table('categories_home')
-        ->select('name')
-        ->where('parent', '!=', 0)
-        ->where('status', 1)
-        ->get();
+        foreach($params as $param) {
+            $manufacturer = $param->name;
+            $parts = $param->parts;
 
-        $flag = 0;
+            $connection = null;
+            if($manufacturer == 'kioti') {
+                $connection = DB::connection('product');
+            }
+            else {
+                $connection = DB::connection('other');
+            }
 
-        foreach($series as $serie) {
-            $table = strtolower($serie->name);
+            $series = $connection->table('categories_home')
+                ->select('name')
+                ->where('parent', '!=', 0)
+                ->where('status', 1)
+                ->get();
 
-            foreach($params as $param) {
-                $sku = $param->sku;
-                $quantity = $param->quantity;
-                
-                $result = DB::connection('product')
-                ->table($table)
-                ->where('sku', $sku)
-                ->update(['stock' => DB::raw('stock') - $quantity]);
-
-                if($result) {
-                    $flag = 1;
+            foreach($series as $serie) {
+                $table = strtolower($serie->name);
+    
+                foreach($parts as $part) {
+                    $sku = $part->sku;
+                    $quantity = $part->quantity;
+                    
+                    $result = $connection->table($table)
+                        ->where('sku', $sku)
+                        ->update(['stock' => DB::raw('stock') - $quantity]);
                 }
             }
         }
 
-        $series = DB::connection('other')
-        ->table('categories_home')
-        ->select('name')
-        ->where('parent', '!=', 0)
-        ->where('status', 1)
-        ->get();
-
-        foreach($series as $serie) {
-            $table = strtolower($serie->name);
-
-            foreach($params as $param) {
-                $sku = $param->sku;
-                $quantity = $param->quantity;
-                
-                $result = DB::connection('other')
-                ->table($table)
-                ->where('sku', $sku)
-                ->update(['stock' => DB::raw('stock') - $quantity]);
-
-                if($result) {
-                    $flag = 1;
-                }
-            }
-        }
-
-        return $flag;
+        return true;
     }
 }
