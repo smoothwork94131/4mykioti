@@ -32,7 +32,32 @@ class ApiController extends Controller
                 $result = DB::connection('product')
                 ->table($table)
                 ->where('sku', $sku)
-                ->update(['stock' => $quantity]);
+                ->update(['stock' => DB::raw('stock') - $quantity]);
+
+                if($result) {
+                    $flag = 1;
+                }
+            }
+        }
+
+        $series = DB::connection('other')
+        ->table('categories_home')
+        ->select('name')
+        ->where('parent', '!=', 0)
+        ->where('status', 1)
+        ->get();
+
+        foreach($series as $serie) {
+            $table = strtolower($serie->name);
+
+            foreach($params as $param) {
+                $sku = $param->sku;
+                $quantity = $param->quantity;
+                
+                $result = DB::connection('other')
+                ->table($table)
+                ->where('sku', $sku)
+                ->update(['stock' => DB::raw('stock') - $quantity]);
 
                 if($result) {
                     $flag = 1;
