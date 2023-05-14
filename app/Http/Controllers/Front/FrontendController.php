@@ -124,7 +124,6 @@ class FrontendController extends Controller
 
     public function index(Request $request)
     {
-
         $this->code_image();
         if (!empty($request->reff)) {
             $affilate_user = User::where('affilate_code', '=', $request->reff)->first();
@@ -167,8 +166,7 @@ class FrontendController extends Controller
             $result[] = $product_item;
         }
 
-
-            $products = $result;
+        $products = $result;
         
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
@@ -207,19 +205,19 @@ class FrontendController extends Controller
         }   
        
         if(count($slug_list) == 0) {
-            $result = DB::table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
         }
         else{
             if(count($slug_list) == 1) {
-                $category_info = DB::table("categories_home")->select("id")->where("name", $category)->get() ;
+                $category_info = DB::connection('product')->table("categories_home")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
-                $result = DB::table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+                $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
             } else if(count($slug_list) == 2) {
-                $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
             } else if(count($slug_list) == 3) {
-                $result = DB::table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
             } else if(count($slug_list) == 4) {
-                $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
             } else if(count($slug_list) == 5) {
                 $category = $this->replacPathToData($category) ;
                 $series = $this->replacPathToData($series) ;
@@ -294,21 +292,21 @@ class FrontendController extends Controller
         }   
        
         if(count($slug_list) == 0) {
-            $result = DB::table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
         }
         else{
             if(count($slug_list) == 1) {
-                $category_info = DB::table("categories_home")->select("id")->where("name", $category)->get() ;
+                $category_info = DB::connection('product')->table("categories_home")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
-                $result = DB::table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+                $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
             } else if(count($slug_list) == 2) {
-                $result = DB::table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
             } else if(count($slug_list) == 3) {
-                $result = DB::table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
             } else if(count($slug_list) == 4) {
-                $result = DB::table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
             } else if(count($slug_list) == 5) {
-                $group_info = DB::table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
+                $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
                 $result = $group_info ;
             }
 
@@ -343,13 +341,13 @@ class FrontendController extends Controller
         }
 
         if(count($slug_list) == 0) {
-            $result_ = DB::table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            $result_ = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
             foreach($result_ as $key =>$item) {
-                $ret = DB::table("categories_home")->select("*")->where("parent", $item->id)->get()->toArray();
+                $ret = DB::connection('product')->table("categories_home")->select("*")->where("parent", $item->id)->get()->toArray();
                 $flag = false ;
                 foreach($ret as $sub_item) {
                     $table_name = strtolower($sub_item->name);
-                    $sub_ret = DB::table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get()->toArray();
+                    $sub_ret = DB::connection('product')->table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get()->toArray();
                     
                     if(count($sub_ret) > 0) {
                         $flag = true ;
@@ -364,14 +362,14 @@ class FrontendController extends Controller
         }
         else{
             if(count($slug_list) == 1) {
-                $category_info = DB::table("categories_home")->select("id")->where("name", $category)->get() ;
+                $category_info = DB::connection('product')->table("categories_home")->select("id")->where("name", $category)->get() ;
                 $category_id = $category_info[0]->id ;
                 
-                $result_ = DB::table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+                $result_ = DB::connection('product')->table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
                 $result = array() ;
                 foreach($result_ as $key =>$item) {
                     $table_name = strtolower($item->name);
-                    $ret = DB::table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get()->toArray();
+                    $ret = DB::connection('product')->table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get()->toArray();
                     if(count($ret) > 0) {
                         $result[$key] = $item ;
                     }
@@ -379,7 +377,7 @@ class FrontendController extends Controller
 
             } else if(count($slug_list) == 2) {
                 $table_name = strtolower($series);
-                $result = DB::table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get();
+                $result = DB::connection('product')->table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get();
             } else if(count($slug_list) == 3) {
                 $category = $this->replacPathToData($category) ;
                 $series = $this->replacPathToData($series) ;
@@ -395,11 +393,11 @@ class FrontendController extends Controller
                 $this->code_image();
                 
                 $db = strtolower($series);
-                $productt = DB::table($db)->where('name', '=', $prod)->first();
+                $productt = DB::connection('product')->table($db)->where('name', '=', $prod)->first();
 
                 $group_id = $productt->group_id;
                 $group_model = $productt->model;
-                $group_record = DB::table($db . "_categories")->where('model', $group_model)->where('group_Id', $group_id)->first(); 
+                $group_record = DB::connection('product')->table($db . "_categories")->where('model', $group_model)->where('group_Id', $group_id)->first(); 
                 
                 if (Session::has('currency')) {
                     $curr = Currency::find(Session::get('currency'));
@@ -415,7 +413,7 @@ class FrontendController extends Controller
                 $page = "commonparts" ;
 
                 $sql = "select * from `categories_home` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
-                $tbl_info =DB::select($sql);
+                $tbl_info =DB::connection('product')->select($sql);
 
                 $sql = "" ;
                 $flag = false ;
@@ -433,7 +431,7 @@ class FrontendController extends Controller
                     $flag = true ;
                 }
 
-                $fits =DB::select($sql) ;
+                $fits =DB::connection('product')->select($sql) ;
                 $also_fits = array();
                 foreach($fits as $item) {
                     if(array_key_exists($item->table, $also_fits)) {
@@ -457,7 +455,7 @@ class FrontendController extends Controller
         $db = strtolower($series);
         $model = $this->replaceDataToPath($model) ;
 
-        $prods = DB::table($db)->where('model', $model)->where('common_part', 1) ;
+        $prods = DB::connection('product')->table($db)->where('model', $model)->where('common_part', 1) ;
         $prods = $prods->get();
        
         $slug = $model;
@@ -675,20 +673,20 @@ class FrontendController extends Controller
         if ($type == 'model') {
             if ($request->model_type == "common") {
                 $table_name = strtolower($series);
-                $categories = DB::table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
+                $categories = DB::connection('product')->table($table_name)->select('subcategory_id')->where("best", "1")->distinct()->orderBy('subcategory_id', 'asc')->get();
             } else {
-                $categories = DB::table($table_name)->select('model')->distinct()->distinct()->orderBy('model', 'asc')->get();
+                $categories = DB::connection('product')->table($table_name)->select('model')->distinct()->distinct()->orderBy('model', 'asc')->get();
             }  
         } else if ($type == 'section') {
-            $categories = DB::table($table_name)->select('section_name')->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
+            $categories = DB::connection('product')->table($table_name)->select('section_name')->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
 
         } else if ($type == 'group') {
-            $categories = DB::table($table_name)->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+            $categories = DB::connection('product')->table($table_name)->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
 
         } else if($type == "category" ) {
-            $series_info = DB::table("categories_home")->where("name", $category)->get() ;
+            $series_info = DB::connection('product')->table("categories_home")->where("name", $category)->get() ;
             $paret_id = $series_info[0]->id ;
-            $categories = DB::table("categories_home")->where("parent", $paret_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+            $categories = DB::connection('product')->table("categories_home")->where("parent", $paret_id)->where("status", "1")->orderBy("name", "asc")->get() ;
         }
 
         return response()->json(array("categories"=>$categories));

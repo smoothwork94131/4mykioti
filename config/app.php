@@ -80,6 +80,8 @@ return [
 
     'locale' => 'en',
 
+    'manufacturer_id' => env('MANUFACTURER_ID', 'kioti'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale

@@ -18,6 +18,7 @@ class CartController extends Controller
     public function cart()
     {
         $this->code_image();
+
         if (!Session::has('cart')) {
             return view('front.cart');
         }
@@ -36,6 +37,7 @@ class CartController extends Controller
         if (Session::has('coupon_percentage')) {
             Session::forget('coupon_percentage');
         }
+
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -69,20 +71,20 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
+            $series_info = DB::connection('product')->table('categories_home')
                 ->where('name', $series)
                 ->where('status', 1)
                 ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories_home')
+            $category_info = DB::connection('product')->table('categories_home')
                     ->where('id', $series_parent)
                     ->first();
                 
             $category = $category_info->name;
 
-            $prod = DB::table($db)
+            $prod = DB::connection('product')->table($db)
                 ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
                 ->where($db.'.id', '=', $id)
                 ->select($db.'.*', $db.'_categories.section_name as section')
@@ -195,24 +197,27 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
+            $series_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('name', $series)
+            ->where('status', 1)
+            ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
+            $category_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('id', $series_parent)
+            ->first();
                 
             $category = $category_info->name;
 
-            $prod = DB::table($db)
-                ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
-                ->where($db.'.id', '=', $id)
-                ->select($db.'.*', $db.'_categories.section_name as section')
-                ->first();
+            $prod = DB::connection('product')
+            ->table($db)
+            ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
+            ->where($db.'.id', '=', $id)
+            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->first();
 
             if($prod) {
                 $prod->category = $category;
@@ -371,24 +376,27 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
+            $series_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('name', $series)
+            ->where('status', 1)
+            ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
+            $category_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('id', $series_parent)
+            ->first();
                 
             $category = $category_info->name;
 
-            $prod = DB::table($db)
-                ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
-                ->where($db.'.id', '=', $id)
-                ->select($db.'.*', $db.'_categories.section_name as section')
-                ->first();
+            $prod = DB::connection('product')
+            ->table($db)
+            ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
+            ->where($db.'.id', '=', $id)
+            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->first();
 
             if($prod) {
                 $prod->category = $category;
@@ -511,24 +519,27 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
+            $series_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('name', $series)
+            ->where('status', 1)
+            ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
+            $category_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('id', $series_parent)
+            ->first();
                 
             $category = $category_info->name;
 
-            $prod = DB::table($db)
-                ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
-                ->where($db.'.id', '=', $id)
-                ->select($db.'.*', $db.'_categories.section_name as section')
-                ->first();
+            $prod = DB::connection('product')
+            ->table($db)
+            ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
+            ->where($db.'.id', '=', $id)
+            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->first();
 
             if($prod) {
                 $prod->category = $category;
@@ -653,24 +664,27 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
+            $series_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('name', $series)
+            ->where('status', 1)
+            ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
+            $category_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('id', $series_parent)
+            ->first();
                 
             $category = $category_info->name;
 
-            $prod = DB::table($db)
-                ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
-                ->where($db.'.id', '=', $id)
-                ->select($db.'.*', $db.'_categories.section_name as section')
-                ->first();
+            $prod = DB::connection('product')
+            ->table($db)
+            ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
+            ->where($db.'.id', '=', $id)
+            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->first();
 
             if($prod) {
                 $prod->category = $category;
@@ -786,24 +800,27 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
+            $series_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('name', $series)
+            ->where('status', 1)
+            ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
+            $category_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('id', $series_parent)
+            ->first();
                 
             $category = $category_info->name;
 
-            $prod = DB::table($db)
-                ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
-                ->where($db.'.id', '=', $id)
-                ->select($db.'.*', $db.'_categories.section_name as section')
-                ->first();
+            $prod = DB::connection('product')
+            ->table($db)
+            ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
+            ->where($db.'.id', '=', $id)
+            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->first();
 
             if($prod) {
                 $prod->category = $category;
@@ -888,24 +905,27 @@ class CartController extends Controller
         }
         else {
             $series = strtoupper($db);
-            $series_info = DB::table('categories_home')
-                ->where('name', $series)
-                ->where('status', 1)
-                ->first();
+            $series_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('name', $series)
+            ->where('status', 1)
+            ->first();
 
             $series_parent = $series_info->parent;
             
-            $category_info = DB::table('categories_home')
-                    ->where('id', $series_parent)
-                    ->first();
+            $category_info = DB::connection('product')
+            ->table('categories_home')
+            ->where('id', $series_parent)
+            ->first();
                 
             $category = $category_info->name;
 
-            $prod = DB::table($db)
-                ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
-                ->where($db.'.id', '=', $id)
-                ->select($db.'.*', $db.'_categories.section_name as section')
-                ->first();
+            $prod = DB::connection('product')
+            ->table($db)
+            ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
+            ->where($db.'.id', '=', $id)
+            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->first();
 
             if($prod) {
                 $prod->category = $category;

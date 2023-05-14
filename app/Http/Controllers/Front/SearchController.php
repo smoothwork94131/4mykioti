@@ -37,25 +37,28 @@ class SearchController extends Controller{
 
         $search_word_array = array_values($search_word_array);
 
-        $category = DB::table('categories_home')
-                ->where('name', $tbl_name)
-                ->get();
+        $category = DB::connection('product')
+        ->table('categories_home')
+        ->where('name', $tbl_name)
+        ->get();
 
         $category_id = $category[0]->id;
 
-        $series = DB::table('categories_home')
-                ->where('parent', $category_id)
-                ->where('status', 1)
-                ->get();
+        $series = DB::connection('product')
+        ->table('categories_home')
+        ->where('parent', $category_id)
+        ->where('status', 1)
+        ->get();
 
         $model_array = array();
 
         foreach($series as $ser) {
-            $model = DB::table(strtolower($ser->name).'_categories')
-                    ->select('model as model_name')
-                    ->orderBy('model', 'asc')
-                    ->get()
-                    ->groupBy('model_name');
+            $model = DB::connection('product')
+            ->table(strtolower($ser->name).'_categories')
+            ->select('model as model_name')
+            ->orderBy('model', 'asc')
+            ->get()
+            ->groupBy('model_name');
 
             $model_temp = [];
             foreach($model as $key => $item) {
@@ -161,9 +164,9 @@ class SearchController extends Controller{
         $categories_match = false;
         $result = array();
         if($sql != "") {
-            $categories =DB::select($sql) ;
+            $categories =DB::connection('product')->select($sql) ;
             if(count($search_word_array) > 1) {
-                $categories_match = DB::select($sql_match);
+                $categories_match = DB::connection('product')->select($sql_match);
             }
 
             if($categories_match) {
@@ -192,7 +195,7 @@ class SearchController extends Controller{
             foreach($result as $key => $item) {
                 $table_name = strtolower($item->table);
                 $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
-                $ret = DB::select($sql) ;
+                $ret = DB::connection('product')->select($sql) ;
                 if($ret) {
                     $item->group_name = $ret[0]->group_name ;
                     $item->section = $ret[0]->section_name ;
@@ -234,25 +237,28 @@ class SearchController extends Controller{
 
         $search_word_array = array_values($search_word_array);
 
-        $category = DB::table('categories_home')
-                ->where('name', $tbl_name)
-                ->get();
+        $category = DB::connection('product')
+        ->table('categories_home')
+        ->where('name', $tbl_name)
+        ->get();
 
         $category_id = $category[0]->id;
 
-        $series = DB::table('categories_home')
-                ->where('parent', $category_id)
-                ->where('status', 1)
-                ->get();
+        $series = DB::connection('product')
+        ->table('categories_home')
+        ->where('parent', $category_id)
+        ->where('status', 1)
+        ->get();
 
         $model_array = array();
 
         foreach($series as $ser) {
-            $model = DB::table(strtolower($ser->name).'_categories')
-                    ->select('model as model_name')
-                    ->orderBy('model', 'asc')
-                    ->get()
-                    ->groupBy('model_name');
+            $model = DB::connection('product')
+            ->table(strtolower($ser->name).'_categories')
+            ->select('model as model_name')
+            ->orderBy('model', 'asc')
+            ->get()
+            ->groupBy('model_name');
 
             $model_temp = [];
             foreach($model as $key => $item) {
@@ -360,9 +366,9 @@ class SearchController extends Controller{
         $categories_match = false;
         $result = array();
         if($sql != "") {
-            $categories =DB::select($sql) ;
+            $categories =DB::connection('product')->select($sql) ;
             if(count($search_word_array) > 1) {
-                $categories_match = DB::select($sql_match);
+                $categories_match = DB::connection('product')->select($sql_match);
             }
 
             if($categories_match) {
@@ -392,7 +398,7 @@ class SearchController extends Controller{
             foreach($result as $key => $item) {
                 $table_name = strtolower($item->table);
                 $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
-                $ret = DB::select($sql) ;
+                $ret = DB::connection('product')->select($sql) ;
                 if($ret) {
                     $item->group_name = $ret[0]->group_name ;
                     $item->section = $ret[0]->section_name ;
