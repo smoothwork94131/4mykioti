@@ -401,7 +401,6 @@ class ProductController extends Controller
             $sign = Currency::where('is_default','=',1)->first();
             $input = $request->all();
 
-            $input["user_id"] = 0;
             $input["subcategory_id"] = "home";
 
             if($input['effects'] == '<br>') {
@@ -834,7 +833,6 @@ class ProductController extends Controller
 
         $input = $request->all();
 
-        $input["user_id"] = 0;
         $input["subcategory_id"] = "home";
 
         if($input['effects'] == '<br>') {
