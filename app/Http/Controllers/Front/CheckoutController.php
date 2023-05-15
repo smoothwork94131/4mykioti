@@ -723,8 +723,9 @@ class CheckoutController extends Controller
             $i = 0;
             $count = count($cart->items);
             $needToTemp = false;
+            $apiItem = array();
             foreach ($cart->items as $key => $prod) {
-                if (!empty($prod['item']->file) || !empty($prod['item']->weight_in_grams)) {
+                if (!empty($prod['item']->weight_in_grams)) {
                     $i++;
                 
                     $query = '{
@@ -746,7 +747,6 @@ class CheckoutController extends Controller
                     $productFromShopify = $shopify->GraphQL->post($query);      
 
                     if ($productFromShopify['data']['products']['edges']) {
-
                         $update_input = '{
                             id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
                             price: '. $prod['item']->price .'
@@ -804,6 +804,12 @@ class CheckoutController extends Controller
                                 variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
                             },";
                         }
+
+                        $apiItem[] = array(
+                            'sku' => $prod['item']->sku,
+                            'qty' => $prod['qty']
+                        );
+
                     } else {
                         $this->createProductOnShopify($prod);
                     }
@@ -817,6 +823,17 @@ class CheckoutController extends Controller
             }
 
             $input.=']}';
+
+            if(!empty($apiItem) && count($apiItem) != 0) {
+                $response = Http::post('https://example.com/api', $apiItem);
+                
+                if ($response->ok()) {
+                    $data = $response->json();
+                    // Do something with the response data
+                } else {
+                    // Handle the error
+                }
+            }
             
             if ($needToTemp) {
                 $content = [
