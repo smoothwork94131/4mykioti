@@ -824,16 +824,16 @@ class CheckoutController extends Controller
 
             $input.=']}';
 
-            if(!empty($apiItem) && count($apiItem) != 0) {
-                $response = Http::post('https://example.com/api', $apiItem);
+            // if(!empty($apiItem) && count($apiItem) != 0) {
+            //     $response = Http::post('https://example.com/api', $apiItem);
                 
-                if ($response->ok()) {
-                    $data = $response->json();
-                    // Do something with the response data
-                } else {
-                    // Handle the error
-                }
-            }
+            //     if ($response->ok()) {
+            //         $data = $response->json();
+            //         // Do something with the response data
+            //     } else {
+            //         // Handle the error
+            //     }
+            // }
             
             if ($needToTemp) {
                 $content = [
