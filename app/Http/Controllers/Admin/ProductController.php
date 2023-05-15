@@ -169,12 +169,13 @@ class ProductController extends Controller
         $data = array();
 
         if ($parent == "#") {
-            $categories = DB::table('categories')
-                ->select('id', 'name')
-                ->where('parent', 0)
-                ->where('status', 1)
-                ->orderBy('name', 'asc')
-                ->get();
+            $categories = DB::connection('product')
+            ->table('categories_home')
+            ->select('id', 'name')
+            ->where('parent', 0)
+            ->where('status', 1)
+            ->orderBy('name', 'asc')
+            ->get();
 
             foreach($categories as $item) {
                 $data[] = array(
@@ -186,12 +187,13 @@ class ProductController extends Controller
             }
         } else {
             if($param == "category") {
-                $series = DB::table('categories')
-                    ->select('id', 'name')
-                    ->where('parent', $parent)
-                    ->where('status', 1)
-                    ->orderBy('name', 'asc')
-                    ->get();
+                $series = DB::connection('product')
+                ->table('categories_home')
+                ->select('id', 'name')
+                ->where('parent', $parent)
+                ->where('status', 1)
+                ->orderBy('name', 'asc')
+                ->get();
 
                 foreach($series as $item) {
                     $data[] = array(
@@ -203,11 +205,12 @@ class ProductController extends Controller
                 }
             }
             else if($param == "series") {
-                $model = DB::table($parent.'_categories')
-                    ->select('model as model_name')
-                    ->orderBy('model', 'asc')
-                    ->get()
-                    ->groupBy('model_name');
+                $model = DB::connection('product')
+                ->table($parent.'_categories')
+                ->select('model as model_name')
+                ->orderBy('model', 'asc')
+                ->get()
+                ->groupBy('model_name');
 
                 foreach($model as $key => $item) {
                     $data[] = array(
@@ -223,12 +226,13 @@ class ProductController extends Controller
                 $series = $series_model[0];
                 $model = $series_model[1];
 
-                $section = DB::table($series . '_categories')
-                    ->select('section_name')
-                    ->orderBy('section_name', 'asc')
-                    ->where('model', $model)
-                    ->get()
-                    ->groupBy('section_name');
+                $section = DB::connection('product')
+                ->table($series . '_categories')
+                ->select('section_name')
+                ->orderBy('section_name', 'asc')
+                ->where('model', $model)
+                ->get()
+                ->groupBy('section_name');
 
                 foreach($section as $key => $item) {
                     $data[] = array(
@@ -245,12 +249,13 @@ class ProductController extends Controller
                 $model = $series_model_section[1];
                 $section = $series_model_section[2];
 
-                $group = DB::table($series . '_categories')
-                    ->select('group_Id', 'group_name', 'image')
-                    ->where('model', $model)
-                    ->where('section_name', $section)
-                    ->orderBy('group_Id', 'asc')
-                    ->get();
+                $group = DB::connection('product')
+                ->table($series . '_categories')
+                ->select('group_Id', 'group_name', 'image')
+                ->where('model', $model)
+                ->where('section_name', $section)
+                ->orderBy('group_Id', 'asc')
+                ->get();
 
                 foreach($group as $item) {
                     $image = $item->image? public_path() . '/assets/images/group' . $item->image:public_path() . '/assets/images/group' . $item->group_Id . '.png';
@@ -270,13 +275,14 @@ class ProductController extends Controller
                 $section = $series_model_section_group[2];
                 $group = $series_model_section_group[3];
 
-                $data = DB::table($series)
-                    ->select('*')
-                    ->where('subcategory_id', $model)
-                    ->where('category_id', $group)
-                    ->orderBy('name', 'asc')
-                    ->get()
-                    ->toArray();
+                $data = DB::connection('product')
+                ->table($series)
+                ->select('*')
+                ->where('subcategory_id', $model)
+                ->where('category_id', $group)
+                ->orderBy('name', 'asc')
+                ->get()
+                ->toArray();
             }
         }
 
@@ -296,14 +302,14 @@ class ProductController extends Controller
         
         if($model->fill($data)->save()) {
 
-            if ($data["photo"]!="" && file_exists(public_path() . '/assets/images/products/' . $data["photo"])) {
-                $img = Image::make(public_path().'/assets/images/products/' . $data["photo"])->resize(800, 800);
-                $img->save(public_path().'/assets/images/products_home/' . $data["photo"]); 
+            if ($data["photo"]!="" && file_exists(public_path() . '/assets/images/products_home/' . $data["photo"])) {
+                $img = Image::make(public_path().'/assets/images/products_home/' . $data["photo"])->resize(800, 800);
+                $img->save(public_path().'/assets/images/products/' . $data["photo"]); 
             }
 
-            if ($data["thumbnail"]!="" && file_exists(public_path() . '/assets/images/thumbnails/' . $data["thumbnail"])) {
-                $img = Image::make(public_path().'/assets/images/thumbnails/' . $data["thumbnail"])->resize(250, 250);
-                $img->save(public_path().'/assets/images/thumbnails_home/' . $data["thumbnail"]);
+            if ($data["thumbnail"]!="" && file_exists(public_path() . '/assets/images/thumbnails_home/' . $data["thumbnail"])) {
+                $img = Image::make(public_path().'/assets/images/thumbnails_home/' . $data["thumbnail"])->resize(250, 250);
+                $img->save(public_path().'/assets/images/thumbnails/' . $data["thumbnail"]);
             }
             
             $result = array(
