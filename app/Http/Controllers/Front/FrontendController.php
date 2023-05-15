@@ -140,22 +140,20 @@ class FrontendController extends Controller
         $sliders = DB::table('sliders')->get();
         $top_small_banners = DB::table('banners')->where('type', '=', 'TopSmall')->get();
         $ps = DB::table('pagesettings')->find(1);
-
-        $products = Product::where('status', '=', 1);
         $gs = Generalsetting::findOrFail(1);
-
-        $home_categories = Category::where('status', '=', 1)->orderBy('order', 'asc')->get();
-
-        $results = array();
+        $home_categories = Category::where('manufacturer', Config::get('app.manufacturer_id'))->where('status', '=', 1)->orderBy('order', 'asc')->get();
+        
+        $result = array();
         foreach($home_categories as $category) {
             $category_id = $category->id;
             $category_name = $category->name;
 
             $products = Product::where('status', '=', 1)
-                ->where('category_id', $category_id)
-                ->orderBy('id', 'desc')
-                ->take(9)
-                ->get();
+            ->where('manufacturer_id', Config::get('app.manufacturer_id'))
+            ->where('category_id', $category_id)
+            ->orderBy('id', 'desc')
+            ->take(9)
+            ->get();
 
             $product_item = array(
                 'category_id' => $category_id,

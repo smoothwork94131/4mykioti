@@ -94,7 +94,6 @@ class Product extends Model
             $price = $this->price + $gs->fixed_commission + ($this->price / 100) * $gs->percentage_commission;
         }
 
-
         return $price;
     }
 
@@ -119,20 +118,15 @@ class Product extends Model
         if (!empty($attrArr)) {
             foreach ($attrArr as $attrKey => $attrVal) {
                 if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
-
                     foreach ($attrVal['values'] as $optionKey => $optionVal) {
                         $price += $attrVal['prices'][$optionKey];
-                        // only the first price counts
                         break;
                     }
-
                 }
             }
         }
 
-
         // Attribute Section Ends
-
 
         return $price;
     }
@@ -199,9 +193,7 @@ class Product extends Model
             }
         }
 
-
         // Attribute Section Ends
-
 
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
@@ -409,7 +401,7 @@ class Product extends Model
     {
         $tags = null;
         $tagz = '';
-        $name = Product::where('status', '=', 1)->pluck('tags')->toArray();
+        $name = Product::where('manufacturer_id', Config::get('app.manufacturer_id'))->where('status', '=', 1)->pluck('tags')->toArray();
         foreach ($name as $nm) {
             if (!empty($nm)) {
                 foreach ($nm as $n) {
