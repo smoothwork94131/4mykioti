@@ -296,14 +296,14 @@ class ProductController extends Controller
         
         if($model->fill($data)->save()) {
 
-            if ($data["photo"]!="" && file_exists(public_path() . '/assets/images/products/' . $data["photo"])) {
-                $img = Image::make(public_path().'/assets/images/products/' . $data["photo"])->resize(800, 800);
-                $img->save(public_path().'/assets/images/products_home/' . $data["photo"]); 
+            if ($data["photo"]!="" && file_exists(public_path() . '/assets/images/products_home/' . $data["photo"])) {
+                $img = Image::make(public_path().'/assets/images/products_home/' . $data["photo"])->resize(800, 800);
+                $img->save(public_path().'/assets/images/products/' . $data["photo"]); 
             }
 
-            if ($data["thumbnail"]!="" && file_exists(public_path() . '/assets/images/thumbnails/' . $data["thumbnail"])) {
-                $img = Image::make(public_path().'/assets/images/thumbnails/' . $data["thumbnail"])->resize(250, 250);
-                $img->save(public_path().'/assets/images/thumbnails_home/' . $data["thumbnail"]);
+            if ($data["thumbnail"]!="" && file_exists(public_path() . '/assets/images/thumbnails_home/' . $data["thumbnail"])) {
+                $img = Image::make(public_path().'/assets/images/thumbnails_home/' . $data["thumbnail"])->resize(250, 250);
+                $img->save(public_path().'/assets/images/thumbnails/' . $data["thumbnail"]);
             }
             
             $result = array(
