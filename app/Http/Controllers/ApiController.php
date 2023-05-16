@@ -10,61 +10,48 @@ use Session;
 class ApiController extends Controller
 {
     public function updateQuantityBySku(Request $request) {
+        try {
+            $params = $request->orders;
 
-        $params = $request->param;
+            foreach($params as $item) {
+                $manufacturer = $item["name"];
+                $parts = $item["parts"];
 
-        $series = DB::connection('product')
-        ->table('categories_home')
-        ->select('name')
-        ->where('parent', '!=', 0)
-        ->where('status', 1)
-        ->get();
+                $connection = null;
+                if($manufacturer == 'kioti') {
+                    $connection = DB::connection('product');
+                }
+                else {
+                    $connection = DB::connection('other');
+                }
 
-        $flag = 0;
+                $series = $connection->table('categories_home')
+                    ->select('name')
+                    ->where('parent', '!=', 0)
+                    ->where('status', 1)
+                    ->get();
 
-        foreach($series as $serie) {
-            $table = strtolower($serie->name);
-
-            foreach($params as $param) {
-                $sku = $param->sku;
-                $quantity = $param->quantity;
-                
-                $result = DB::connection('product')
-                ->table($table)
-                ->where('sku', $sku)
-                ->update(['stock' => DB::raw('stock') - $quantity]);
-
-                if($result) {
-                    $flag = 1;
+                foreach($series as $serie) {
+                    $table = strtolower($serie->name);
+        
+                    foreach($parts as $part) {
+                        $sku = $part["sku"];
+                        $quantity = $part["quantity"];
+                        $result = $connection->table($table)
+                        ->where('sku', $sku)
+                        ->update([
+                            'stock' => DB::raw('stock - '. $quantity)
+                        ]);                   
+                    }
                 }
             }
+
+            return true;
+        } catch (\Exception $e) {
+            // Log the error message
+            \Log::error($e->getMessage());
+            // Return a JSON response with an error message
+            return response()->json(['error' => 'An error occurred while updating the quantity.'], 500);
         }
-
-        $series = DB::connection('other')
-        ->table('categories_home')
-        ->select('name')
-        ->where('parent', '!=', 0)
-        ->where('status', 1)
-        ->get();
-
-        foreach($series as $serie) {
-            $table = strtolower($serie->name);
-
-            foreach($params as $param) {
-                $sku = $param->sku;
-                $quantity = $param->quantity;
-                
-                $result = DB::connection('other')
-                ->table($table)
-                ->where('sku', $sku)
-                ->update(['stock' => DB::raw('stock') - $quantity]);
-
-                if($result) {
-                    $flag = 1;
-                }
-            }
-        }
-
-        return $flag;
     }
 }
