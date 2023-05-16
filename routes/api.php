@@ -17,4 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('check.api.ip')->post('/update_quantity', 'ApiController@updateQuantityBySku');
+Route::middleware('check.api.ip')->group(function () {
+    Route::post('/update_quantity', 'ApiController@updateQuantityBySku');
+});
