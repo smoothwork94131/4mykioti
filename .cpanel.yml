@@ -1,7 +1,6 @@
 ---
 deployment:
   tasks:
-    # - DEPLOYPATH=/home/4mykioti/public_html/
     - DEPLOYPATH=/home/colthansen/public_html/
     # - DEPLOYPATH=/home/kubernetesai/public_html/
     - /bin/cp -R * $DEPLOYPATH
