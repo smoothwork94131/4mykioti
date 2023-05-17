@@ -60,7 +60,7 @@ class CatalogController extends Controller
         $group = $this->replaceDataToPath($group) ;
 
         if($group) {
-            $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+            $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
             $group_id = $group_info[0]->group_Id ;
         }
         else {
@@ -79,7 +79,8 @@ class CatalogController extends Controller
         $search = $request->search;
         $db = strtolower($series);
 
-        $prods = DB::table($db)
+        $prods = DB::connection('product')
+        ->table($db)
         ->select('*')
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
@@ -102,7 +103,7 @@ class CatalogController extends Controller
             if ($section == 'common') {
                 $prods = $prods->where('common_part', 1)->where('model', $model);
             } else {
-                $prods = $prods->where('group_id', $group_id)->where('model', $model);
+                $prods = $prods->where('group_Id', $group_id)->where('model', $model);
             }
         }
 
@@ -122,7 +123,7 @@ class CatalogController extends Controller
             }
         }
         
-        $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
+        $group = DB::connection('product')->table($db.'_categories')->where('group_Id', $group_id)->first();
 
         if($group) {
             $slug_list['group'] = $group->group_name ;
@@ -179,7 +180,7 @@ class CatalogController extends Controller
         
         if($group) {
             
-            $group_info = DB::table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
+            $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
             $group_id = $group_info[0]->group_Id ;
         }
         else {
@@ -197,7 +198,8 @@ class CatalogController extends Controller
         $search = $request->search;
         $db = strtolower($series);
 
-        $prods = DB::table($db)
+        $prods = DB::connection('product')
+        ->table($db)
         ->select('*')
         ->when($minprice, function ($query, $minprice) {
             return $query->where('price', '>=', $minprice);
@@ -240,7 +242,7 @@ class CatalogController extends Controller
             }
         }
         
-        $group = DB::table($db.'_categories')->where('group_Id', $group_id)->first();
+        $group = DB::connection('product')->table($db.'_categories')->where('group_Id', $group_id)->first();
 
         if($group) {
             $slug_list['group'] = $group->group_name ;
@@ -332,14 +334,14 @@ class CatalogController extends Controller
         $prod_name = $this->replaceDataToPath($prod_name) ;
 
         $db = strtolower($series);
-        $group_record = DB::table($db.'_categories')
+        $group_record = DB::connection('product')
+            ->table($db.'_categories')
             ->where('group_name', $group)
             ->orWhere('group_Id', $group)
             ->first();
         
         $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}' ;" ;
-
-        $productt =DB::select($sql);
+        $productt =DB::connection('product')->select($sql);
         if($productt && count($productt) > 0) {
             $productt = $productt[0] ;
         }
@@ -357,7 +359,7 @@ class CatalogController extends Controller
         }
 
         $sql = "select * from `categories_home` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
-        $tbl_info =DB::select($sql);
+        $tbl_info =DB::connection('product')->select($sql);
 
         $sql = "" ;
         $flag = false ;
@@ -376,8 +378,8 @@ class CatalogController extends Controller
                 $sql .= "select distinct '$arr_tbl[$k]' as `table`, `model` from `{$arr_tbl[$k]}` where `sku` = '{$productt->sku}' " ;
                 $flag = true ;
             }
-    
-            $fits =DB::select($sql) ;        
+
+            $fits =DB::connection('product')->select($sql) ;
         }
     
         $also_fits = array();
@@ -429,10 +431,10 @@ class CatalogController extends Controller
 
         if(strstr($model, "5-finish")) {
             $sql = "select `sku` from `implements` where `featured` = 1 group by sku" ;
-            $skus =collect(DB::select($sql));
+            $skus =collect(DB::connection('product')->select($sql));
             foreach($skus as $sku) {
                 $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
-                $sku_record = DB::select($sql1);
+                $sku_record = DB::connection('product')->select($sql1);
                 if($sku_record && count($sku_record) > 0) {
                     $result[] = $sku_record[0];
                 }
@@ -441,10 +443,10 @@ class CatalogController extends Controller
         }
         else if(strstr($model, "6-finish")) {
             $sql = "select `sku` from `implements` where `latest` = 1 group by sku" ;
-            $skus =collect(DB::select($sql));
+            $skus =collect(DB::connection('product')->select($sql));
             foreach($skus as $sku) {
                 $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
-                $sku_record = DB::select($sql1);
+                $sku_record = DB::connection('product')->select($sql1);
                 if($sku_record && count($sku_record) > 0) {
                     $result[] = $sku_record[0];
                 }
@@ -453,10 +455,10 @@ class CatalogController extends Controller
         }
         else if(strstr($model, "7-finish")) {
             $sql = "select `sku` from `implements` where `big` = 1 group by sku" ;
-            $skus =collect(DB::select($sql));
+            $skus =collect(DB::connection('product')->select($sql));
             foreach($skus as $sku) {
                 $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
-                $sku_record = DB::select($sql1);
+                $sku_record = DB::connection('product')->select($sql1);
                 if($sku_record && count($sku_record) > 0) {
                     $result[] = $sku_record[0];
                 }
@@ -465,10 +467,10 @@ class CatalogController extends Controller
         }
         else if(strstr($model, "5-md")) {
             $sql = "select `sku` from `implements` where `trending` = 1 group by sku" ;
-            $skus =collect(DB::select($sql));
+            $skus =collect(DB::connection('product')->select($sql));
             foreach($skus as $sku) {
                 $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
-                $sku_record = DB::select($sql1);
+                $sku_record = DB::connection('product')->select($sql1);
                 if($sku_record && count($sku_record) > 0) {
                     $result[] = $sku_record[0];
                 }
@@ -477,10 +479,10 @@ class CatalogController extends Controller
         }
         else if(strstr($model, "6-md")) {
             $sql = "select `sku` from `implements` where `sale` = 1 group by sku" ;
-            $skus =collect(DB::select($sql));
+            $skus =collect(DB::connection('product')->select($sql));
             foreach($skus as $sku) {
                 $sql1 = "select * from `implements` where `sku` = '{$sku->sku}'";
-                $sku_record = DB::select($sql1);
+                $sku_record = DB::connection('product')->select($sql1);
                 if($sku_record && count($sku_record) > 0) {
                     $result[] = $sku_record[0];
                 }
@@ -489,7 +491,7 @@ class CatalogController extends Controller
         }
         else if(strstr($model, "additonal-products")) {
             $sql = "select * from products_additional";
-            $result = collect(DB::select($sql))->paginate(20);
+            $result = collect(DB::connection('product')->select($sql))->paginate(20);
         }
         else {
             if(strstr($model, "mahindra")) {
@@ -501,7 +503,7 @@ class CatalogController extends Controller
             }
     
             $sql = "select * from `models` where model_name like '%". $model ."%'";
-            $model_info =DB::select($sql);
+            $model_info =DB::connection('product')->select($sql);
             $flag = false;
             $sql = "";
             
@@ -513,7 +515,7 @@ class CatalogController extends Controller
                 $flag = true ;
             }
 
-            $result =collect(DB::select($sql))->paginate(20);
+            $result =collect(DB::connection('product')->select($sql))->paginate(20);
         }
         
         // dd($result);
@@ -540,7 +542,7 @@ class CatalogController extends Controller
             $prod_name = implode(' ', $prod_name_arr);
 
             $sql = "select * from `products_additional` where `sku`='{$sku}' and `name`='{$prod_name}'";
-            $productt =DB::select($sql);
+            $productt =DB::connection('product')->select($sql);
             if($productt && count($productt) > 0) {
                 $productt = $productt[0] ;
             }
@@ -550,7 +552,7 @@ class CatalogController extends Controller
         }
         else {
             $sql = "select * from `models` where model_name like '%". $model ."%'";
-            $model_info =DB::select($sql);
+            $model_info =DB::connection('product')->select($sql);
 
             if($model_info && count($model_info) > 0) {
                 $table_name = $model_info[0]->table_name;
@@ -561,7 +563,7 @@ class CatalogController extends Controller
 
                 $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
 
-                $productt =DB::select($sql2);
+                $productt =DB::connection('product')->select($sql2);
                 if($productt && count($productt) > 0) {
                     $productt = $productt[0] ;
                 }
@@ -571,7 +573,7 @@ class CatalogController extends Controller
 
                     $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`,  `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
 
-                    $productt =DB::select($sql2);
+                    $productt =DB::connection('product')->select($sql2);
                     if($productt && count($productt) > 0) {
                         $productt = $productt[0] ;
                     }
