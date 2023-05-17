@@ -107,7 +107,6 @@ class CatalogController extends Controller
             }
         }
         
-
         $prods = $prods->distinct();
         $prods = $prods->orderBy('refno', 'asc');
         $prods = $prods->get();
