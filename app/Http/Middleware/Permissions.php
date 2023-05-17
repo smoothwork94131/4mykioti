@@ -7,7 +7,6 @@ use Closure;
 
 class Permissions
 {
-
     public function handle($request, Closure $next, $data)
     {
         if (Auth::guard('admin')->check()) {

@@ -27,7 +27,7 @@ class Admin extends Authenticatable
 
     public function IsSuper()
     {
-        if ($this->id == 1) {
+        if ($this->role_id == 0) {
             return true;
         }
         return false;
@@ -43,6 +43,4 @@ class Admin extends Authenticatable
             return false;
         }
     }
-
-
 }

@@ -10,9 +10,8 @@ use Session;
 class ApiController extends Controller
 {
     public function updateQuantityBySku(Request $request) {
+        $params = $request->orders;
         try {
-            $params = $request->orders;
-
             foreach($params as $item) {
                 $manufacturer = $item["name"];
                 $parts = $item["parts"];
@@ -50,6 +49,29 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             // Log the error message
             \Log::error($e->getMessage());
+
+            //Sending email
+
+            $json = json_encode($params);
+
+            $to = 'usamtg@hotmail.com';
+            $subject = 'Failed on API Request to update Quantity of Inventory';
+            $msg = "Something wrong happened during updating the stock of Inventory. Please check below Json. <br>" . $json;
+
+            //Sending Email To Customer
+            if ($gs->is_smtp == 1) {
+                $data = [
+                    'to' => $to,
+                    'subject' => $subject,
+                    'body' => $msg,
+                ];
+                $mailer = new GeniusMailer();
+                $mailer->sendCustomMail($data);
+            } else {
+                $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
+                mail($to, $subject, $msg, $headers);
+            }
+
             // Return a JSON response with an error message
             return response()->json(['error' => 'An error occurred while updating the quantity.'], 500);
         }

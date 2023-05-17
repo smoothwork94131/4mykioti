@@ -6,21 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class StoreLocations extends Model
 {
-    protected $fillable = ['address', 'city', 'state', 'zip', 'country', 'lat', 'lng', 'user_id', 'contact_name', 'contact_number', 'contact_email', 'location_name'];
+    protected $fillable = ['name', 'address', 'city', 'state', 'zip', 'country', 'lat', 'lng', 'contact_name', 'contact_number', 'contact_email', 'hours', 'facebook_url', 'youtube_url'];
 
     public $timestamps = false;
 
     public function products()
     {
         return $this->hasMany('App\Models\Product', 'location_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User')->withDefault(function ($data) {
-            foreach ($data->getFillable() as $dt) {
-                $data[$dt] = __('Deleted');
-            }
-        });
     }
 }

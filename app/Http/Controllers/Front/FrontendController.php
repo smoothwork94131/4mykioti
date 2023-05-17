@@ -4,6 +4,17 @@ namespace App\Http\Controllers\Front;
 
 use App\Classes\GeniusMailer;
 use App\Http\Controllers\Controller;
+use Auth;
+use Carbon\Carbon;
+use Datatables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use InvalidArgumentException;
+use Markury\MarkuryPost;
+use Config;
+use PHPShopify\ShopifySDK;
+use App\Models\Currency;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\ColorSetting;
@@ -14,18 +25,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subscriber;
 use App\Models\User;
-use App\Models\Location;
-use Auth;
-use Carbon\Carbon;
-use Datatables;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use InvalidArgumentException;
-use Markury\MarkuryPost;
-use PHPShopify\ShopifySDK;
-use App\Models\Currency;
-use Config;
+use App\Models\StoreLocations;
 
 class FrontendController extends Controller
 {
@@ -832,7 +832,7 @@ class FrontendController extends Controller
     }
 
     public function location(Request $request, $location_id = null) {
-        $locations = Location::find($location_id);
+        $locations = StoreLocations::find($location_id);
         return view('front.location', compact('locations', 'location_id'));
     }
 }
