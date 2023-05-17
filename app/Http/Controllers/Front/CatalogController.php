@@ -103,7 +103,7 @@ class CatalogController extends Controller
             if ($section == 'common') {
                 $prods = $prods->where('common_part', 1)->where('model', $model);
             } else {
-                $prods = $prods->where('group_Id', $group_id)->where('model', $model);
+                $prods = $prods->where('group_id', $group_id)->where('model', $model);
             }
         }
         
