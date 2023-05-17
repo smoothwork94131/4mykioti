@@ -122,6 +122,11 @@ Route::prefix('admin')->group(function () {
         // DELETE SECTION ENDS
 
         Route::get('/products/catalog/{id1}/{id2}', 'Admin\ProductController@catalog')->name('admin-prod-catalog');
+
+        //INVENTORY SECTION
+        Route::get('/products/inventory', 'Admin\ProductController@inventory')->name('admin-prod-inventory');
+        Route::get('/products/inventory/update/{sku}', 'Admin\ProductController@inventory_update')->name('admin-prod-inventory-update');
+        
         //------------ ADMIN PRODUCT SECTION ENDS------------
     });
 

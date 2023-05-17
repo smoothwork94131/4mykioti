@@ -1292,4 +1292,40 @@ class ProductController extends Controller
         }
         return response()->json($attrOptions);
     }
+
+    public function inventory(Request $request) {
+
+        $series = DB::connection('product')
+        ->table('categories_home')
+        ->select('name')
+        ->where('status', 1)
+        ->where('parent', '!=', 0)
+        ->get();
+
+        $query = "";
+        foreach($series as $index => $db) {
+            if($index != 0) {
+                $query .= " UNION ";
+            }
+            $query .= "(SELECT DISTINCT `sku`, `name`, `stock` FROM `". strtolower($db->name) ."`)";
+        }
+        $query .= " ORDER BY `sku`";
+
+        $inventories = collect(DB::connection('product')->select($query))->groupBy('sku');
+
+        $datas = $inventories->map(function ($group) {
+            if(count($group) > 0) {
+                return $group[0];
+            }
+            else {
+                return $group;
+            }
+        });
+
+        return view('admin.product.inventory', compact('datas'));
+    }
+
+    public function inventory_update(Request $request) {
+        
+    }
 }
