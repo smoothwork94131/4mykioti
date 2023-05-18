@@ -29,7 +29,12 @@ class WishlistController extends Controller
             $wish_id = $wish->id;
             $table = $wish->series;
             $product_id = $wish->product_id;
-            $product = DB::table($table . ' as products');
+            if($table == 'products') {
+                $product = DB::table($table . ' as products');
+            }
+            else {
+                $product = DB::connection('product')->table($table . ' as products');
+            }
             $product = $product->where('products.id', $product_id);
             if($table == 'products') {
                 $product = $product->select('products.*');
