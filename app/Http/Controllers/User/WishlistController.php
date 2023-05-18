@@ -56,8 +56,6 @@ class WishlistController extends Controller
 
         $wishlists = collect($wishlists);
 
-        dd($wishlists);
-
         if (!empty($request->sort)) {
             $sort = $request->sort;
             
