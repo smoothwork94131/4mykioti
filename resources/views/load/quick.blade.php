@@ -57,7 +57,7 @@
                 <h4 class="product-name">{{ $product->name }}</h4>
                 <div class="info-meta-1">
                     <ul>
-                        @if ($product->product_condition != 0)
+                        @if (!empty($product->product_condition) && $product->product_condition != 0)
                             <li>
                                 <div class="{{ $product->product_condition == 2 ? 'mybadge' : 'mybadge1' }}">
                                     {{ $product->product_condition == 2 ? 'New' : 'Used' }}
@@ -67,14 +67,21 @@
                     </ul>
                 </div>
 
-                <div><small>Model #: <?php echo $product->category_id; ?></small></div>
+                <div>
+                    <small>Model #: 
+                        @if(!empty($product->category_id))
+                            {{ $product->category_id }}
+                        @else
+                            {{ $product->model}}
+                        @endif
+                    </small>
+                </div>
                 <div><small>Part #: <?php echo $product->sku; ?></small></div>
 
                 <div class="product-price">
                     <p class="title">{{ $langg->lang87 }} :</p>
-                    <p class="price"><span id="msizeprice">{{ $product->price }}</span>
-                    </p>
-                    @if ($product->youtube != null)
+                    <p class="price"><span id="msizeprice">{{ $product->price }}</span></p>
+                    @if (!empty($product->youtube))
                         <a href="{{ $product->youtube }}" class="video-play-btn mfp-iframe">
                             <i class="fas fa-play"></i>
                         </a>
@@ -234,10 +241,11 @@
                         @endif
                     </ul>
 
-                    @if ($product->ship != null)
+                    @if (!empty($product->ship))
                         <p class="estimate-time">{{ $langg->lang86 }}: <b> {{ $product->ship }}</b></p>
                     @endif
-                    @if ($product->sku != null)
+
+                    @if (!empty($product->sku))
                         <p class="p-sku">
                             {{ $langg->lang77 }}: <span class="idno">{{ $product->sku }}</span>
                         </p>

@@ -653,7 +653,7 @@ class CatalogController extends Controller
     public function iquick($db, $id)
     {
         $db = strtolower($db);
-        $product = DB::table($db)->find($id);
+        $product = DB::connection('product')->table($db)->find($id);
         if (Session::has('currency')) {
             $curr = Currency::find(Session::get('currency'));
         } else {
