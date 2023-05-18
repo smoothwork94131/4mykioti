@@ -125,7 +125,7 @@ Route::prefix('admin')->group(function () {
 
         //INVENTORY SECTION
         Route::get('/products/inventory', 'Admin\ProductController@inventory')->name('admin-prod-inventory');
-        Route::get('/products/inventory/update/{sku}', 'Admin\ProductController@inventory_update')->name('admin-prod-inventory-update');
+        Route::post('/products/inventory/update', 'Admin\ProductController@inventory_update')->name('admin-prod-inventory-update');
         
         //------------ ADMIN PRODUCT SECTION ENDS------------
     });

@@ -1326,6 +1326,22 @@ class ProductController extends Controller
     }
 
     public function inventory_update(Request $request) {
-        
+        $sku = $request->sku;
+        $quantity = $request->quantity;
+
+        $series = DB::connection('product')
+        ->table('categories_home')
+        ->select('name')
+        ->where('status', 1)
+        ->where('parent', '!=', 0)
+        ->get();
+
+        foreach($series as $index => $db) {
+            $result = DB::connection('product')->table($db->name)->where('sku', $sku)->update(['stock' => $quantity]);
+        }
+
+        return json_encode(array(
+            'flag' => true
+        ));
     }
 }

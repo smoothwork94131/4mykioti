@@ -50,7 +50,7 @@
                                         </td>
                                         <td>
                                             <div class="godropdown">
-                                                <button class="go-dropdown-toggle">
+                                                <button class="go-dropdown-toggle" onclick="updateInventory('{{ $data->sku }}')">
                                                     <i class="fas fa-edit"></i> Update
                                                 </button>
                                             </div>
@@ -91,108 +91,26 @@
 
     <script type="text/javascript">
 
-        // Gallery Section Update
-
-        $(document).on("click", ".set-gallery", function () {
-            var pid = $(this).find('input[type=hidden]').val();
-            $('#pid').val(pid);
-            $('.selected-image .row').html('');
+        function updateInventory(sku) {
+            var quantity = $("#stock_box_" + sku).val();
             $.ajax({
-                type: "GET",
-                url: "{{ route('admin-gallery-show') }}",
-                data: {id: pid},
-                success: function (data) {
-                    if (data[0] == 0) {
-                        $('.selected-image .row').addClass('justify-content-center');
-                        $('.selected-image .row').html('<h3>{{ __("No Images Found.") }}</h3>');
-                    } else {
-                        $('.selected-image .row').removeClass('justify-content-center');
-                        $('.selected-image .row h3').remove();
-                        var arr = $.map(data[1], function (el) {
-                            return el
-                        });
-
-                        for (var k in arr) {
-                            $('.selected-image .row').append('<div class="col-sm-6">' +
-                                '<div class="img gallery-img">' +
-                                '<span class="remove-img"><i class="fas fa-times"></i>' +
-                                '<input type="hidden" value="' + arr[k]['id'] + '">' +
-                                '</span>' +
-                                '<a href="' + '{{asset('assets/images/galleries').'/'}}' + arr[k]['photo'] + '" target="_blank">' +
-                                '<img src="' + '{{asset('assets/images/galleries').'/'}}' + arr[k]['photo'] + '" alt="gallery image">' +
-                                '</a>' +
-                                '</div>' +
-                                '</div>');
-                        }
+                type: "post",
+                url: "{{ route('admin-prod-inventory-update') }}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    sku: sku,
+                    quantity: quantity
+                },
+                success: function (result) {
+                    if(result.flag = true) {
+                        toastr.success("Updated quantity successfully");
                     }
-
+                    else {
+                        toastr.warning("Something went wrong during update of quantity");
+                    }
                 }
             });
-        });
-
-
-        $(document).on('click', '.remove-img', function () {
-            var id = $(this).find('input[type=hidden]').val();
-            $(this).parent().parent().remove();
-            $.ajax({
-                type: "GET",
-                url: "{{ route('admin-gallery-delete') }}",
-                data: {id: id}
-            });
-        });
-
-        $(document).on('click', '#prod_gallery', function () {
-            $('#uploadgallery').click();
-        });
-
-
-        $("#uploadgallery").change(function () {
-            $("#form-gallery").submit();
-        });
-
-        $(document).on('submit', '#form-gallery', function () {
-            $.ajax({
-                url: "{{ route('admin-gallery-store') }}",
-                method: "POST",
-                data: new FormData(this),
-                dataType: 'JSON',
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    if (data != 0) {
-                        $('.selected-image .row').removeClass('justify-content-center');
-                        $('.selected-image .row h3').remove();
-                        var arr = $.map(data, function (el) {
-                            return el
-                        });
-                        for (var k in arr) {
-                            $('.selected-image .row').append('<div class="col-sm-6">' +
-                                '<div class="img gallery-img">' +
-                                '<span class="remove-img"><i class="fas fa-times"></i>' +
-                                '<input type="hidden" value="' + arr[k]['id'] + '">' +
-                                '</span>' +
-                                '<a href="' + '{{asset('assets/images/galleries').'/'}}' + arr[k]['photo'] + '" target="_blank">' +
-                                '<img src="' + '{{asset('assets/images/galleries').'/'}}' + arr[k]['photo'] + '" alt="gallery image">' +
-                                '</a>' +
-                                '</div>' +
-                                '</div>');
-                        }
-                    }
-
-                }
-
-            });
-            return false;
-        });
-
-
-        // Gallery Section Update Ends
-
+        }
 
     </script>
-
-
-
-
 @endsection   
