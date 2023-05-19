@@ -8,6 +8,10 @@
     <meta name="author" content="DaveHansen.com">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @if(isset(env('GOOGLE_VERIFICATION_KEY')))
+        <meta name="google-site-verification" content="{{ env('GOOGLE_VERIFICATION_KEY') }}" />
+    @endif
+
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
