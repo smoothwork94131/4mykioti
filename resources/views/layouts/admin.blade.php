@@ -8,8 +8,12 @@
     <meta name="author" content="DaveHansen.com">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @if(isset(env('GOOGLE_VERIFICATION_KEY')))
-        <meta name="google-site-verification" content="{{ env('GOOGLE_VERIFICATION_KEY') }}" />
+    @php
+        $googleVerificationKey = env('GOOGLE_VERIFICATION_KEY');
+    @endphp
+
+    @if(isset($googleVerificationKey))
+        <meta name="google-site-verification" content="{{ $googleVerificationKey }}" />
     @endif
 
     <meta http-equiv="cache-control" content="max-age=0" />
