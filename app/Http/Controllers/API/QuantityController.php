@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
 
-class ApiController extends Controller
+class QuantityController extends Controller
 {
     public function updateQuantityBySku(Request $request) {
         $params = $request->orders;
