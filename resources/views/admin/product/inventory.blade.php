@@ -28,7 +28,31 @@
                 <div class="col-lg-12">
                     <div class="mr-table allproduct">
 
-                        @include('includes.admin.form-success')
+                        @include('includes.admin.form-success-session')
+                        @include('includes.admin.form-error-session')
+
+                        <div class="action-area">
+                            <form id="search-form" class="search-form" name="search-form" method="GET" action="{{ route('admin-prod-inventory') }}">
+                                {{csrf_field()}}
+                                <div class="search-area">
+                                    <input type="text" class="form-control" id="inventory_search" name="inventory_search" placeholder="Enter Search Text .." value="{{ $search_text }}">
+                                    <button type="submit" class="add-btn">
+                                        <i class="fas fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </form>
+                            <form id="update-form" class="update-form" name="update-form" method="POST" action="{{ route('admin-prod-inventory-update') }}">
+                                {{csrf_field()}}
+                                <input type="hidden" id="update_data" name="update_data" value="">
+                                <button type="button" onclick="updateInventory()" class="add-btn">
+                                    <i class="fas fa-save"></i>
+                                    Save
+                                </button>
+                            </form>
+                        </div>
+
+                        <hr>
 
                         <div class="table-responsiv">
                             <table id="geniustable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
@@ -37,27 +61,22 @@
                                         <th>{{ __("SKU") }}</th>
                                         <th>{{ __("Name") }}</th>
                                         <th>{{ __("Stock") }}</th>
-                                        <th>{{ __("Options") }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($datas as $key=>$data)
                                     <tr>
-                                        <td>{{ $data->sku }}</td>
+                                        <td>
+                                            {{ $data->sku }}
+                                            <input type="hidden" id="box_sku_{{$data->sku}}"  value="{{ $data->sku }}" />
+                                        </td>
                                         <td>{{ $data->name }}</td>
                                         <td>
-                                            <input id="stock_box_{{$data->sku}}" type="number", class="form-control" value="{{ $data->stock }}" />
-                                        </td>
-                                        <td>
-                                            <div class="godropdown">
-                                                <button class="go-dropdown-toggle" onclick="updateInventory('{{ $data->sku }}')">
-                                                    <i class="fas fa-edit"></i> Update
-                                                </button>
-                                            </div>
+                                            <input type="number" id="box_quantity_{{$data->sku}}" class="form-control" value="{{ $data->stock }}" />
                                         </td>
                                     </tr>    
                                     @empty
-                                        <td colspan="4">No Record</td>
+                                        <td colspan="3">No Record</td>
                                     @endforelse
                                 </tbody>
                             </table>
@@ -74,46 +93,27 @@
 @endsection
 
 @section('scripts')
-    {{-- DATA TABLE --}}
-
-    <script type="text/javascript">
-        // var table = $('#geniustable').DataTable({
-        //     paging: true,
-        //     ordering: false,
-        //     info: false,
-        //     searching: false,
-        //     language: {
-        //         processing: '<img src="{{asset('assets/images/'.$gs->admin_loader)}}">'
-        //     },
-        //     drawCallback: function (settings) {
-        //         $('.select').niceSelect();
-        //     },
-        //     lengthMenu: [[20, 100, 150, 200, -1], [20, 100, 150, 200, "All"]],
-        // });
-    </script>
-
-
     <script type="text/javascript">
 
-        function updateInventory(sku) {
-            var quantity = $("#stock_box_" + sku).val();
-            $.ajax({
-                type: "post",
-                url: "{{ route('admin-prod-inventory-update') }}",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    sku: sku,
-                    quantity: quantity
-                },
-                success: function (result) {
-                    if(result.flag = true) {
-                        toastr.success("Updated quantity successfully");
-                    }
-                    else {
-                        toastr.warning("Something went wrong during update of quantity");
-                    }
+        function updateInventory() {
+            var total_sku_obj = $("[id ^= 'box_sku_']");
+            var total_quantity_obj = $("[id ^= 'box_quantity_']");
+
+            var total_data = new Array();
+
+            for(let i=0; i<total_sku_obj.length; i++) {
+                let temp_obj = {
+                    sku: $(total_sku_obj[i]).val(),
+                    quantity: $(total_quantity_obj[i]).val()
                 }
-            });
+
+                total_data.push(temp_obj)
+            }
+
+            total_data = JSON.stringify(total_data);
+            $("#update_data").val(total_data);
+
+            $("#update-form").submit();
         }
 
     </script>

@@ -95,10 +95,6 @@ a:not([href]) {
     margin: 20px 20px;
 }
 
-.slider-title {
-
-}
-
 .product-description .panel-heading.text-center h3 {
     background-color: #1f224f;
     color: #ffffff;
@@ -1041,4 +1037,25 @@ span.price-curr {
 
 .page-center {
     text-align: center;
+}
+
+.action-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-form {
+    width: 90%;
+}
+
+.search-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-area input {
+    width: 90%;
+    margin-bottom: 0px;
 }

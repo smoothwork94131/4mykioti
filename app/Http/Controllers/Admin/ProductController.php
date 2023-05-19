@@ -1307,7 +1307,15 @@ class ProductController extends Controller
             if($index != 0) {
                 $query .= " UNION ";
             }
-            $query .= "(SELECT DISTINCT `sku`, `name`, `stock` FROM `". strtolower($db->name) ."`)";
+
+            $query .= "(SELECT DISTINCT `sku`, `name`, `stock` FROM `". strtolower($db->name) . "`" ;
+
+            if(isset($request->inventory_search)) {
+                $query .= " WHERE `sku` like '%". $request->inventory_search ."%' or `name`  like '%". $request->inventory_search ."%'";
+            }
+            
+            $query .= ")";
+            
         }
         $query .= " ORDER BY `sku`";
 
@@ -1322,14 +1330,20 @@ class ProductController extends Controller
             }
         });
 
+        $search_text = "";
+        if($request->inventory_search) {
+            $search_text = $request->inventory_search;
+        }
+
         $datas = $datas->paginate(30);
 
-        return view('admin.product.inventory', compact('datas'));
+        return view('admin.product.inventory', compact('datas', 'search_text'));
     }
 
     public function inventory_update(Request $request) {
-        $sku = $request->sku;
-        $quantity = $request->quantity;
+
+        $params = $request->update_data;
+        $params = json_decode($params);
 
         $series = DB::connection('product')
         ->table('categories_home')
@@ -1338,12 +1352,17 @@ class ProductController extends Controller
         ->where('parent', '!=', 0)
         ->get();
 
-        foreach($series as $index => $db) {
-            $result = DB::connection('product')->table($db->name)->where('sku', $sku)->update(['stock' => $quantity]);
-        }
+        try {
+            foreach($series as $index => $db) {
+                foreach($params as $param) {
+                    $result = DB::connection('product')->table($db->name)->where('sku', $param->sku)->update(['stock' => $param->quantity]);
+                }
+            }
 
-        return json_encode(array(
-            'flag' => true
-        ));
+            return redirect()->route('admin-prod-inventory')->with('success', 'Updated successfully');
+        }
+        catch (Exception $e) {
+            return redirect()->route('admin-prod-inventory')->with('error', 'Something went wrong during update. Try again');
+        }
     }
 }
