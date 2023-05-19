@@ -1003,3 +1003,42 @@ span.price-curr {
     padding-left: 10px;
     padding-top: 7px;
 }
+
+.page-center {
+    display: flex;
+    justify-content: end;
+}
+
+.page-center ul.pagination li {
+    width: 35px;
+    height: 35px;
+    background: #ff55001a;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 14px;
+    line-height: 35px;
+    margin: 0px 5px;
+    transition: all .3s;
+    display: inline-block;
+    color: #000;
+    cursor: pointer;
+}
+
+.page-center ul.pagination li a:hover {
+    color: #000 !important;
+}
+
+.page-center ul.pagination {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.page-center ul.pagination li.active {
+    background: #2d3274;
+    color: #fff;
+    cursor: no-drop;
+}
+
+.page-center {
+    text-align: center;
+}

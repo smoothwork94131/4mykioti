@@ -62,6 +62,10 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <div class="page-center">
+                            {{ $datas->links('admin.pagination', ['paginator' => $datas, 'maxLinks' => 10]) }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,19 +77,19 @@
     {{-- DATA TABLE --}}
 
     <script type="text/javascript">
-        var table = $('#geniustable').DataTable({
-            paging: true,
-            ordering: false,
-            info: false,
-            searching: false,
-            language: {
-                processing: '<img src="{{asset('assets/images/'.$gs->admin_loader)}}">'
-            },
-            drawCallback: function (settings) {
-                $('.select').niceSelect();
-            },
-            lengthMenu: [[20, 100, 150, 200, -1], [20, 100, 150, 200, "All"]],
-        });
+        // var table = $('#geniustable').DataTable({
+        //     paging: true,
+        //     ordering: false,
+        //     info: false,
+        //     searching: false,
+        //     language: {
+        //         processing: '<img src="{{asset('assets/images/'.$gs->admin_loader)}}">'
+        //     },
+        //     drawCallback: function (settings) {
+        //         $('.select').niceSelect();
+        //     },
+        //     lengthMenu: [[20, 100, 150, 200, -1], [20, 100, 150, 200, "All"]],
+        // });
     </script>
 
 

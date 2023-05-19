@@ -1322,6 +1322,8 @@ class ProductController extends Controller
             }
         });
 
+        $datas = $datas->paginate(30);
+
         return view('admin.product.inventory', compact('datas'));
     }
 
