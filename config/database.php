@@ -69,6 +69,21 @@ return [
             'engine' => null,
         ],
 
+        'other' => [
+            'driver' => 'mysql',
+            'host' => env('DB_OTHER_HOST', '127.0.0.1'),
+            'port' => env('DB_OTHER_PORT', '3306'),
+            'database' => env('DB_OTHER_DATABASE', ''),
+            'username' => env('DB_OTHER_USERNAME', ''),
+            'password' => env('DB_OTHER_PASSWORD', ''),
+            'unix_socket' => env('DB_OTHER_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

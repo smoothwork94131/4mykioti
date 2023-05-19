@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
+use App\Models\Generalsetting;
+use App\Classes\GeniusMailer;
 
 class QuantityController extends Controller
 {
@@ -51,7 +54,7 @@ class QuantityController extends Controller
             \Log::error($e->getMessage());
 
             //Sending email
-
+            $gs = Generalsetting::findOrFail(1);
             $json = json_encode($params);
 
             $to = 'usamtg@hotmail.com';

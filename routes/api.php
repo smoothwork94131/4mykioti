@@ -18,6 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('check.api.ip')->group(function () {
-    Route::post('/update_quantity', 'API/QuantityController@updateQuantityBySku');
-    Route::post('/update_price', 'API/PriceController@updatePriceBySku');
+    Route::post('/update_quantity', 'API\QuantityController@updateQuantityBySku');
+    Route::post('/update_price', 'API\PriceController@updatePriceBySku');
 });

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
+use App\Models\Generalsetting;
+use App\Classes\GeniusMailer;
 
 class PriceController extends Controller
 {
@@ -32,7 +35,6 @@ class PriceController extends Controller
 
                 foreach($series as $serie) {
                     $table = strtolower($serie->name);
-        
                     foreach($parts as $part) {
                         $sku = $part["sku"];
                         $price = $part["price"];
@@ -40,7 +42,7 @@ class PriceController extends Controller
                         ->where('sku', $sku)
                         ->update([
                             'price' => $price
-                        ]);                   
+                        ]);                  
                     }
                 }
             }
@@ -51,7 +53,7 @@ class PriceController extends Controller
             \Log::error($e->getMessage());
 
             //Sending email
-
+            $gs = Generalsetting::findOrFail(1);
             $json = json_encode($params);
 
             $to = 'usamtg@hotmail.com';
