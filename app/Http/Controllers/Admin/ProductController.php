@@ -1335,7 +1335,7 @@ class ProductController extends Controller
             $search_text = $request->inventory_search;
         }
 
-        $datas = $datas->paginate(30);
+        $datas = $datas->paginate(10);
 
         return view('admin.product.inventory', compact('datas', 'search_text'));
     }
