@@ -300,7 +300,7 @@
                             <div class='desktop-search-field'>
                                 <div class='search-table'>
                                     <div class='sel-drop' onclick='searchSelTableGroup()'>
-                                        <div class='name'>{{ $eccategories[0]->name }}</div>
+                                        <div class='name'>{{ $eccategories[1]->name }}</div>
                                         <div class='icon'>
                                             <i class="fa fa-angle-down ml-2 mt-1"></i>
                                         </div>
