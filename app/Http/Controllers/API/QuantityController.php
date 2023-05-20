@@ -15,15 +15,14 @@ class QuantityController extends Controller
     public function updateQuantityBySku(Request $request) {
         $params = $request->orders;
         try {
-            foreach($params as $item) {
+            foreach ($params as $item) {
                 $manufacturer = $item["name"];
                 $parts = $item["parts"];
 
                 $connection = null;
-                if($manufacturer == 'kioti') {
+                if ($manufacturer == 'kioti') {
                     $connection = DB::connection('product');
-                }
-                else {
+                } else {
                     $connection = DB::connection('other');
                 }
 
@@ -33,14 +32,17 @@ class QuantityController extends Controller
                     ->where('status', 1)
                     ->get();
 
-                foreach($series as $serie) {
+                foreach ($series as $serie) {
                     $table = strtolower($serie->name);
-        
-                    $result = $connection->table($table)
-                        ->where('sku', $sku)
-                        ->update([
-                            'stock' => DB::raw('stock - ' . (int)$quantity)
-                        ]);             
+
+                    foreach ($parts as $part) {
+                        $sku = $part["sku"];
+                        $quantity = $part["quantity"];
+                        $result = $connection->table($table)
+                            ->where('sku', $sku)
+                            ->update([
+                                'stock' => DB::raw('stock - ' . (int)$quantity)
+                            ]);
                     }
                 }
             }
