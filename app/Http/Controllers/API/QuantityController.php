@@ -42,7 +42,7 @@ class QuantityController extends Controller
                         ->update([
                             'price' => $price
                         ]);                   
-                        ]);                  
+             
                     }
                 }
             }
