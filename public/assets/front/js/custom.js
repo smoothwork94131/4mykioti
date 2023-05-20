@@ -1600,7 +1600,7 @@ function totalSearch(event, type) {
               "/" +
               item.table +
               "/" +
-              item.subcategory_id +
+              item.model +
               "/" +
               section +
               "/" +
@@ -1623,7 +1623,7 @@ function totalSearch(event, type) {
                 "</div>" +
                 "<div style='width: 55% ;padding-top: 30px;'>" +
                 "<div>" +
-                item["subcategory_id"] +
+                item["model"] +
                 "</div>" +
                 "<div>" +
                 item["name"] +
