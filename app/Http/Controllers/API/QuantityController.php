@@ -12,41 +12,40 @@ use App\Classes\GeniusMailer;
 
 class QuantityController extends Controller
 {
-    public function updateQuantityBySku(Request $request) {
+    public function updatePriceBySku(Request $request) {
         $params = $request->orders;
         try {
-            foreach ($params as $item) {
+            foreach($params as $item) {
                 $manufacturer = $item["name"];
                 $parts = $item["parts"];
-
                 $connection = null;
-                if ($manufacturer == 'kioti') {
+                if($manufacturer == 'kioti') {
                     $connection = DB::connection('product');
-                } else {
+                }
+                else {
                     $connection = DB::connection('other');
                 }
-
                 $series = $connection->table('categories_home')
                     ->select('name')
                     ->where('parent', '!=', 0)
                     ->where('status', 1)
                     ->get();
 
-                foreach ($series as $serie) {
+                foreach($series as $serie) {
                     $table = strtolower($serie->name);
 
-                    foreach ($parts as $part) {
+                    foreach($parts as $part) {
                         $sku = $part["sku"];
-                        $quantity = $part["quantity"];
+                        $price = $part["price"];
                         $result = $connection->table($table)
-                            ->where('sku', $sku)
-                            ->update([
-                                'stock' => DB::raw('stock - :quantity'),
-                            ], ['quantity' => (int)$quantity]);
+                        ->where('sku', $sku)
+                        ->update([
+                            'price' => $price
+                        ]);                   
+                        ]);                  
                     }
                 }
             }
-
             return true;
         } catch (\Exception $e) {
             // Log the error message
