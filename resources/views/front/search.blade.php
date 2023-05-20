@@ -43,13 +43,10 @@
                         <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                     </td>
                     <td>
-                        <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->subcategory_id.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
+                        <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->model.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
                     </td>
                     <td>
-                        {{ $prod->subcategory_id }}
-                    </td>
-                    <td class='td-group'>
-                        {{ $prod->parent }}
+                        {{ $prod->model }}
                     </td>
                     <td class='td-part'>
                         {{ $prod->sku }}

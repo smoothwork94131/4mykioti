@@ -145,7 +145,7 @@ class SearchController extends Controller{
                     $sub_sql.=" or ";
                 }
 
-                $sub_sql .= "subcategory_id=UPPER('{$sub_item}') ";
+                $sub_sql .= "model=UPPER('{$sub_item}') ";
                 $sub_flag = true;
             }
 
@@ -154,8 +154,8 @@ class SearchController extends Controller{
 
             $table_name = strtolower($search_key);
             
-            $sql .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, `thumbnail`, `parent`, `sku`, `id`, `product_type`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql} " ;
-            $sql_match .= "select `subcategory_id`, `category_id`, `name`, `photo`, `price`, `thumbnail`, `parent`, `sku`, `id`, `product_type`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+            $sql .= "select `model`, `group_id`, `name`, `photo`, `price`, `thumbnail`, `sku`, `id`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql} " ;
+            $sql_match .= "select `model`, `group_id`, `name`, `photo`, `price`, `thumbnail`, `sku`, `id`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql_match} " ;
 
             $flag = true ;
         }
@@ -194,7 +194,7 @@ class SearchController extends Controller{
             $data = array();
             foreach($result as $key => $item) {
                 $table_name = strtolower($item->table);
-                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
+                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'" ;
                 $ret = DB::connection('product')->select($sql) ;
                 if($ret) {
                     $item->group_name = $ret[0]->group_name ;
@@ -347,7 +347,7 @@ class SearchController extends Controller{
                     $sub_sql.=" or ";
                 }
 
-                $sub_sql .= "subcategory_id=UPPER('{$sub_item}') ";
+                $sub_sql .= "model=UPPER('{$sub_item}') ";
                 $sub_flag = true;
             }
 
@@ -356,8 +356,8 @@ class SearchController extends Controller{
 
             $table_name = strtolower($search_key);
             
-            $sql .= "select `id`, `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
-            $sql_match .= "select `id`, `subcategory_id`, `category_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+            $sql .= "select `id`, `model`, `group_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
+            $sql_match .= "select `id`, `model`, `group_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
 
             $flag = true ;
         }
@@ -365,6 +365,7 @@ class SearchController extends Controller{
         $categories = array();
         $categories_match = false;
         $result = array();
+        
         if($sql != "") {
             $categories =DB::connection('product')->select($sql) ;
             if(count($search_word_array) > 1) {
@@ -397,7 +398,7 @@ class SearchController extends Controller{
             $data = array();
             foreach($result as $key => $item) {
                 $table_name = strtolower($item->table);
-                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->category_id}' and `model`='{$item->subcategory_id}'" ;
+                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'" ;
                 $ret = DB::connection('product')->select($sql) ;
                 if($ret) {
                     $item->group_name = $ret[0]->group_name ;
