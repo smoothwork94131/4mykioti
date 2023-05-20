@@ -56,18 +56,17 @@ class QuantityController extends Controller
 
             //Sending email
             $gs = Generalsetting::findOrFail(1);
-            $json = json_encode($params);
-
             $to = 'usamtg@hotmail.com';
             $subject = 'Failed on API Request to update Quantity of Inventory';
-            $msg = "Something wrong happened during updating the stock of Inventory. Please check below Json. <br>" . $json;
+            $msg = "Something wrong happened during updating the stock of Inventory. Please check below Json. <br>";
+            $jsonMsg = json_encode($params, JSON_PRETTY_PRINT);
 
             //Sending Email To Customer
             if ($gs->is_smtp == 1) {
                 $data = [
                     'to' => $to,
                     'subject' => $subject,
-                    'body' => $msg,
+                    'body' => $msg . $jsonMsg,
                 ];
                 $mailer = new GeniusMailer();
                 $mailer->sendCustomMail($data);

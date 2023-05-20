@@ -65,8 +65,6 @@ class PhoneController extends Controller
 
             //Sending email
             $gs = Generalsetting::findOrFail(1);
-            $json = json_encode($params);
-
             $to = 'usamtg@hotmail.com';
             $subject = 'Failed on API Request to update Quantity of Inventory From Mobile APP';
             $msg = "Manufacturer is ". $manufacturer. " and SKU of part is ". $sku .".";

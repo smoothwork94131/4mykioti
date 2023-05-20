@@ -93,6 +93,19 @@ class SearchController extends Controller{
             }
         }
 
+        if(count($search_model) == 0) {
+            foreach($model_array as $key=>$item) {
+                $temp = [];
+                foreach($item as $sub_item) {
+                    $temp[] = $sub_item;
+                }
+
+                if(count($temp) != 0) {
+                    $search_model[$key] = $temp;
+                }   
+            }
+        }
+
         $like_clause = "";
         $like_match_clause = "";
 
@@ -134,6 +147,7 @@ class SearchController extends Controller{
         foreach($search_model as $search_key => $search_item) {
             if($flag) {
                 $sql.=" union all " ;
+                $sql_match.=" union all " ;
             }
             
             $sub_flag = false;
@@ -145,7 +159,7 @@ class SearchController extends Controller{
                     $sub_sql.=" or ";
                 }
 
-                $sub_sql .= "model=UPPER('{$sub_item}') ";
+                $sub_sql .= "`model`=UPPER('{$sub_item}') ";
                 $sub_flag = true;
             }
 
@@ -205,7 +219,7 @@ class SearchController extends Controller{
             $result = $data ;
         }
 
-        $products = $result ;
+        $products = collect($result)->paginate(20);
         return view('front.search', compact('products', 'tbl_name'));
     }
     
@@ -293,6 +307,19 @@ class SearchController extends Controller{
             }
         }
 
+        if(count($search_model) == 0) {
+            foreach($model_array as $key=>$item) {
+                $temp = [];
+                foreach($item as $sub_item) {
+                    $temp[] = $sub_item;
+                }
+
+                if(count($temp) != 0) {
+                    $search_model[$key] = $temp;
+                }   
+            }
+        }
+
         $like_clause = "";
         $like_match_clause = "";
 
@@ -336,6 +363,7 @@ class SearchController extends Controller{
         foreach($search_model as $search_key => $search_item) {
             if($flag) {
                 $sql.=" union all " ;
+                $sql_match .=" union all " ;
             }
             
             $sub_flag = false;
@@ -347,7 +375,7 @@ class SearchController extends Controller{
                     $sub_sql.=" or ";
                 }
 
-                $sub_sql .= "model=UPPER('{$sub_item}') ";
+                $sub_sql .= "`model`=UPPER('{$sub_item}') ";
                 $sub_flag = true;
             }
 
