@@ -34,16 +34,16 @@ class QuantityController extends Controller
                 foreach($series as $serie) {
                     $table = strtolower($serie->name);
 
-                    foreach($parts as $part) {
+                    foreach ($parts as $part) {
                         $sku = $part["sku"];
-                        $price = $part["price"];
+                        $quantity = $part["quantity"];
                         $result = $connection->table($table)
-                        ->where('sku', $sku)
-                        ->update([
-                            'price' => $price
-                        ]);                   
-             
+                            ->where('sku', $sku)
+                            ->update([
+                                'stock' => DB::raw('stock - :quantity'),
+                            ], ['quantity' => (int)$quantity]);
                     }
+                    
                 }
             }
             return true;
