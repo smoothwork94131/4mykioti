@@ -12,39 +12,50 @@ use App\Classes\GeniusMailer;
 
 class PhoneController extends Controller
 {
-    public function updatePriceBySku(Request $request) {
-        $params = $request->orders;
+    public function loadPartNumFromImage(Request $reqest) {
+
+        if ($file = $request->file('file'))
+        {
+            $name = str_replace(' ', '-', $file->getClientOriginalName());
+            $name = time().$name;
+            $image_path = public_path() . '/assets/images/mobile/' . $name;
+            move_uploaded_file($file, $image_path);
+
+            // $image_path = public_path() . '/assets/images/mobile/product1.png';
+            $python_path = public_path() . '/assets/exe/'; 
+            $command = "python " . $python_path . "findPartNumFromImage.py " . $image_path . " " . $python_path;
+            $output = shell_exec($command);
+            echo $output;
+        }
+    }
+    
+    public function updateQuantityBySku(Request $request) {
         try {
-            foreach($params as $item) {
-                $manufacturer = $item["name"];
-                $parts = $item["parts"];
+            $manufacturer = $request->manufacturer;
+            $sku = $request->sku;
+            $quantity = $request->quantity;
 
-                $connection = null;
-                if($manufacturer == 'kioti') {
-                    $connection = DB::connection('product');
-                }
-                else {
-                    $connection = DB::connection('other');
-                }
+            $connection = null;
+            if($manufacturer == 'kioti') {
+                $connection = DB::connection('product');
+            }
+            else {
+                $connection = DB::connection('other');
+            }
 
-                $series = $connection->table('categories_home')
-                    ->select('name')
-                    ->where('parent', '!=', 0)
-                    ->where('status', 1)
-                    ->get();
+            $series = $connection->table('categories_home')
+                ->select('name')
+                ->where('parent', '!=', 0)
+                ->where('status', 1)
+                ->get();
 
-                foreach($series as $serie) {
-                    $table = strtolower($serie->name);
-                    foreach($parts as $part) {
-                        $sku = $part["sku"];
-                        $price = $part["price"];
-                        $result = $connection->table($table)
-                        ->where('sku', $sku)
-                        ->update([
-                            'price' => $price
-                        ]);                  
-                    }
-                }
+            foreach($series as $serie) {
+                $table = strtolower($serie->name);
+                $result = $connection->table($table)
+                ->where('sku', $sku)
+                ->update([
+                    'stock' => $quantity
+                ]); 
             }
 
             return true;
@@ -57,8 +68,8 @@ class PhoneController extends Controller
             $json = json_encode($params);
 
             $to = 'usamtg@hotmail.com';
-            $subject = 'Failed on API Request to update Price of Inventory';
-            $msg = "Something wrong happened during updating the Price of Inventory. Please check below Json. <br>" . $json;
+            $subject = 'Failed on API Request to update Quantity of Inventory From Mobile APP';
+            $msg = "Manufacturer is ". $manufacturer. " and SKU of part is ". $sku .".";
 
             //Sending Email To Customer
             if ($gs->is_smtp == 1) {
@@ -75,7 +86,7 @@ class PhoneController extends Controller
             }
 
             // Return a JSON response with an error message
-            return response()->json(['error' => 'An error occurred while updating the Price.'], 500);
+            return response()->json(['error' => 'An error occurred while updating the quantity.'], 500);
         }
     }
 }

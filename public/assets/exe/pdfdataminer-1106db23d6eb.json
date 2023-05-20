@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "pdfdataminer",
+  "private_key_id": "1106db23d6ebe813ba6f7a984b5572870a1a1034",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3fGY3kXNO7gNF\nZpJsRzNAOxKi2Pt9OZ+QGaqSEBZYXaQEms1LdV2wMFpK96k3u9GkXFNmOcWJUZ5c\nPPkbUYkNI+T+6w/1BJBscVZKPqOCtR76yW8BbMtqHahEALDJtq09LB7cK9N3RQta\n35bOo2euOBP6nYE7Fylh+1f6fKspYuGVWtyCPVWgBfHKRmqHJz8kglrfVRzXJhaP\n3ITu5OryxyVWeLPE4OFq2sQgV9AyZEPFrRC/fU8WLA9xd86yZDqH9HmDbwnatPHP\n5QZ7Cc+uOVDz293vkj2dRSTTMoQEYEW1K1zmWa8zZFtMLSzwGTiyAvotF27ONf+d\no6elRgV7AgMBAAECggEADTDgylrnDsQWsR0UJruhqBr3FoUB43lKitoFhLWqXZTx\nzzDv1F5uK1X2j9ApNqwGgMnwZvd9R4d6Goh5oiik8TBk7Jyqi4NV/K3TNcg2ChYK\nUZ48oD4Zi5nxOF5SV1YOM0kiONLfw4HPtKtBVL6zm/dFHG3JVh2uqHAg3Y2r4nAt\nomAScQqBLvcVuKZh+5U3UHg0z9Db07AamIyBXTNdl18P6kSIrxgb2IxLfRZEyJvs\nFDduIZKF8KRvSUYdgXc7+nCPDlI4sEForKT88563cTLzvS38vLPB/Vq2LNndFQio\nMEdWJ2gDR7vn4pO/HNkuUwzxTn8QZ/vQeg+1SN6bwQKBgQDrKRWI5kdIVvimvolR\nW1QXsl9A9XHIhWvNnj0wKq2awrlPa8T1w14mLsaFiwJ6pu/YL35MAw/AqhvY2SXR\nl4MOfwW4J2Aec54gqEO37iPp0EMOtboQa4sNIi5GZ2KrCtZImt2BX/5jm31oeBiY\nA04g/TN3iBJSQaFuiXVVpngVQQKBgQDHvwMTKV8K14f/uX8tHTKnVzaCwIeamWZE\nc/CRHyIpN29u4SRTxhRMaN7pnA6R1hKpP97uaTSO3/6A/uIY8oXPfiGq5gb8cCFx\nfrF+VQ8+WzzDEGyEpFuWrdrFxtkrbxSBCC6XYBh65+aI2UMi+qIBf3BglG13qqSS\nEEkyh/O/uwKBgQCyk/huhbEMFj+tIHRW++vYMvRy9/D4PZmoA8qjkUVUiRsAXO6t\nUzdj95F6SB4R1kO9ABQA1TJZNNUAz6YQi+ZSU9OcDQrJFTO3yQ/j1Uwgeq7xtL8f\nSQvHZXWOsWQUT556dGBRpvwf2Cxb8Rd8GMZz9tPmqcaAAKb+shQQfuIiAQKBgBfC\nBWibDB3rAtcMxi6kgWjb+7TTl41w33QW4i8wp8yFNnDWwI5iSfnIo3Lfx+/aqX+O\nBEMRKlowFEJdjqDu/7FtTC3ajEwsPh4UtqHTFiwRiAmfg3jHX8ltRk8t1pjO7n5m\nbbw9hsvfl1EBnnWjn+9TrBcgsGCCYG6rFzm2Z+yPAoGAO2tpmi7BajtOMlhJihIm\nz7S4NHun9sW4Vvubppn3jdQhn4ehcXLuBIxzU7gEiZbD466zjem2oSzfiHggFQj3\nZf18sVjXQehpPxSEkTd4yEDMR65nBEsxzbDm0rH5QYhICM0/tY0kdX+pcUbKOldq\n/drL2ELblC56QS4VmLvhmCE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "visionacct@pdfdataminer.iam.gserviceaccount.com",
+  "client_id": "107804055977840200556",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/visionacct%40pdfdataminer.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

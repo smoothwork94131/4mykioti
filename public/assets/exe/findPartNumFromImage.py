@@ -1,11 +1,14 @@
 from google.cloud import vision
+import sys;
 import re
 import os
 
+image_path = sys.argv[1]
+python_path = sys.argv[2]
+
 # Set your Google Cloud project ID and path to the image file
 project_id = 'pdfdataminer'
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "pdfdataminer-1106db23d6eb.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = python_path + "pdfdataminer-1106db23d6eb.json"
 
 # Define the regular expression patterns
 part_pattern = re.compile(r"Part: (\w+)")
@@ -40,7 +43,5 @@ def processImg(image_path):
     if part_number is not None:
         return part_number
     else:
-        print("Part Number not found.")
-
-image_path = 'product1.png'
+        return "something went wrong"
 print(processImg(image_path))

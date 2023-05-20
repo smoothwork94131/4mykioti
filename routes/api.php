@@ -21,3 +21,6 @@ Route::middleware('check.api.ip')->group(function () {
     Route::post('/update_quantity', 'API\QuantityController@updateQuantityBySku');
     Route::post('/update_price', 'API\PriceController@updatePriceBySku');
 });
+
+Route::post('/load_partnum_from_image', 'API\PhoneController@loadPartNumFromImage');
+Route::post('/update_quantity_from_phone', 'API\PhoneController@updateQuantityBySku');
