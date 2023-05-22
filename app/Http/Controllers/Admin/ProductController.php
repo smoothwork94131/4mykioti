@@ -1333,20 +1333,25 @@ class ProductController extends Controller
 
         // $datas = $datas->paginate(10);
 
-        $search_text = "";
-        if(isset($request->inventory_search)) {
-            $inventories = Inventory::where('part_number', 'like', '%'. $request->inventory_search .'%')
-            ->orWhere('description', 'like', '%'. $request->inventory_search .'%')
-            ->orderByRaw('bin is NULL')
-            ->orderBy('bin', 'asc')->paginate(10);
-            $search_text = $request->inventory_search;
-        }
-        else {
-            $inventories = Inventory::orderByRaw('bin is NULL ASC, bin ASC')->paginate(10);
-            $search_text = "";
+        $inventories = new Inventory;
+
+        $manufacturer = 'Kioti';
+        if(isset($request->manufacturer)) {
+            $manufacturer = $request->manufacturer;
         }
 
-        return view('admin.product.inventory', compact('inventories', 'search_text'));
+        $inventories = $inventories->where('line_number', 'like', '%'. $manufacturer .'%');
+
+        $search_text = "";
+        if(isset($request->inventory_search)) {
+            $search_text = $request->inventory_search;
+            $inventories = $inventories->where(function ($query) use ($search_text) {
+                $query->where('part_number', 'like', '%'. $search_text .'%')->orWhere('description', 'like', '%'. $search_text .'%');
+            });
+        }
+    
+        $inventories = $inventories->orderByRaw('bin is NULL ASC, bin ASC')->paginate(10);
+        return view('admin.product.inventory', compact('inventories', 'search_text', 'manufacturer'));
     }
 
     public function inventory_update(Request $request) {

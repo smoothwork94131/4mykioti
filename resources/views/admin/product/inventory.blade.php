@@ -35,6 +35,11 @@
                             <form id="search-form" class="search-form" name="search-form" method="GET" action="{{ route('admin-prod-inventory') }}">
                                 {{csrf_field()}}
                                 <div class="search-area">
+                                    <select id="manufacturer" name="manufacturer" class="form-control">
+                                        <option value="Kioti" {{ $manufacturer=='Kioti'?'selected':'' }}>KIOTI</option>
+                                        <option value="Mahindra" {{ $manufacturer=='Mahindra'?'selected':'' }}>MAHINDRA</option>
+                                        <option value="Roxor" {{ $manufacturer=='Roxor'?'selected':'' }}>ROXOR</option>
+                                    </select>
                                     <input type="text" class="form-control" id="inventory_search" name="inventory_search" placeholder="Enter Search Text .." value="{{ $search_text }}">
                                     <button type="submit" class="add-btn">
                                         <i class="fas fa-search"></i>
