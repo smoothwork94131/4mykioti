@@ -1337,11 +1337,12 @@ class ProductController extends Controller
         if(isset($request->inventory_search)) {
             $inventories = Inventory::where('part_number', 'like', '%'. $request->inventory_search .'%')
             ->orWhere('description', 'like', '%'. $request->inventory_search .'%')
-            ->orderBy('bin', 'desc')->paginate(10);
+            ->orderByRaw('bin is NULL')
+            ->orderBy('bin', 'asc')->paginate(10);
             $search_text = $request->inventory_search;
         }
         else {
-            $inventories = Inventory::orderBy('bin', 'desc')->paginate(10);
+            $inventories = Inventory::orderByRaw('bin is NULL ASC, bin ASC')->paginate(10);
             $search_text = "";
         }
 
