@@ -60,19 +60,25 @@
                                     <tr>
                                         <th>{{ __("SKU") }}</th>
                                         <th>{{ __("Name") }}</th>
+                                        <th>{{ __("BIN") }}</th>
+                                        <th>{{ __("LINE NUMBER") }}</th>
+                                        <th>{{ __("VENDOR NUMBER") }}</th>
                                         <th>{{ __("Stock") }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($datas as $key=>$data)
+                                    @forelse ($inventories as $key=>$inventory)
                                     <tr>
                                         <td>
-                                            {{ $data->sku }}
-                                            <input type="hidden" id="box_sku_{{$data->sku}}"  value="{{ $data->sku }}" />
+                                            {{ $inventory->part_number }}
+                                            <input type="hidden" id="box_sku_{{$inventory->part_number}}"  value="{{ $inventory->part_number }}" />
                                         </td>
-                                        <td>{{ $data->name }}</td>
+                                        <td>{{ $inventory->description }}</td>
+                                        <td>{{ $inventory->bin }}</td>
+                                        <td>{{ $inventory->line_number }}</td>
+                                        <td>{{ $inventory->vendor_number }}</td>
                                         <td>
-                                            <input type="number" id="box_quantity_{{$data->sku}}" class="form-control" value="{{ $data->stock }}" />
+                                            <input type="number" id="box_quantity_{{$inventory->part_number}}" class="form-control" value="" placeholder="Please Enter Quantity." min="0" />
                                         </td>
                                     </tr>    
                                     @empty
@@ -83,7 +89,7 @@
                         </div>
 
                         <div class="page-center">
-                            {{ $datas->links('admin.pagination', ['paginator' => $datas, 'maxLinks' => 10]) }}
+                            {{ $inventories->links('admin.pagination', ['paginator' => $inventories, 'maxLinks' => 10]) }}
                         </div>
                     </div>
                 </div>
@@ -112,7 +118,6 @@
 
             total_data = JSON.stringify(total_data);
             $("#update_data").val(total_data);
-
             $("#update-form").submit();
         }
 

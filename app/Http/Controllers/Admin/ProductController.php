@@ -15,6 +15,7 @@ use App\Models\AttributeOption;
 use App\Models\StoreLocations;
 use App\Models\Generalsetting;
 use App\Models\ReturnPolicy;
+use App\Models\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -1295,49 +1296,56 @@ class ProductController extends Controller
 
     public function inventory(Request $request) {
 
-        $series = DB::connection('product')
-        ->table('categories_home')
-        ->select('name')
-        ->where('status', 1)
-        ->where('parent', '!=', 0)
-        ->get();
+        // $series = DB::connection('product')
+        // ->table('categories_home')
+        // ->select('name')
+        // ->where('status', 1)
+        // ->where('parent', '!=', 0)
+        // ->get();
 
-        $query = "";
-        foreach($series as $index => $db) {
-            if($index != 0) {
-                $query .= " UNION ";
-            }
+        // $query = "";
+        // foreach($series as $index => $db) {
+        //     if($index != 0) {
+        //         $query .= " UNION ";
+        //     }
 
-            $query .= "(SELECT DISTINCT `sku`, `name`, `stock` FROM `". strtolower($db->name) . "`" ;
+        //     $query .= "(SELECT DISTINCT `sku`, `name`, `stock` FROM `". strtolower($db->name) . "`" ;
 
-            if(isset($request->inventory_search)) {
-                $query .= " WHERE `sku` like '%". $request->inventory_search ."%' or `name`  like '%". $request->inventory_search ."%'";
-            }
+        //     if(isset($request->inventory_search)) {
+        //         $query .= " WHERE `sku` like '%". $request->inventory_search ."%' or `name`  like '%". $request->inventory_search ."%'";
+        //     }
             
-            $query .= ")";
+        //     $query .= ")";
             
-        }
-        $query .= " ORDER BY `sku`";
+        // }
+        // $query .= " ORDER BY `sku`";
 
-        $inventories = collect(DB::connection('product')->select($query))->groupBy('sku');
+        // $inventories = collect(DB::connection('product')->select($query))->groupBy('sku');
 
-        $datas = $inventories->map(function ($group) {
-            if(count($group) > 0) {
-                return $group[0];
-            }
-            else {
-                return $group;
-            }
-        });
+        // $datas = $inventories->map(function ($group) {
+        //     if(count($group) > 0) {
+        //         return $group[0];
+        //     }
+        //     else {
+        //         return $group;
+        //     }
+        // });
+
+        // $datas = $datas->paginate(10);
 
         $search_text = "";
-        if($request->inventory_search) {
+        if(isset($request->inventory_search)) {
+            $inventories = Inventory::where('part_number', 'like', '%'. $request->inventory_search .'%')
+            ->orWhere('description', 'like', '%'. $request->inventory_search .'%')
+            ->orderBy('bin', 'desc')->paginate(10);
             $search_text = $request->inventory_search;
         }
+        else {
+            $inventories = Inventory::orderBy('bin', 'desc')->paginate(10);
+            $search_text = "";
+        }
 
-        $datas = $datas->paginate(10);
-
-        return view('admin.product.inventory', compact('datas', 'search_text'));
+        return view('admin.product.inventory', compact('inventories', 'search_text'));
     }
 
     public function inventory_update(Request $request) {
