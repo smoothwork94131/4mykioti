@@ -317,7 +317,9 @@
                                     <div class='search-field'>
                                         <input class='search-input form-control'
                                             onkeyup="totalSearch(event, 'desktop')"
-                                            value="{{ $eccategories[0]->name }}" />
+                                            value="{{ $eccategories[0]->name }}" 
+                                            placeholder="I need an oil filter for a ck20"
+                                            />
                                         <div class='icon'><i class='fa fa-search'
                                                 onclick=" event.keyCode = 1200 ; totalSearch(event, 'desktop')"></i>
                                         </div>
@@ -375,7 +377,7 @@
             </div>
             <div style='margin-top: 10px;'>
                 <div class='search-field'>
-                    <input class='search-input form-control' onkeyup="totalSearch(event, 'mobile')" />
+                    <input class='search-input form-control' onkeyup="totalSearch(event, 'mobile')" placeholder="I need an oil filter for a ck20" />
                     <div class='icon' onclick="event.keyCode = 1200 ;  totalSearch(event, 'mobile')"><i
                             class='fa fa-search'></i></div>
                 </div>
