@@ -311,7 +311,9 @@ class FrontendController extends Controller
             Session::put("slug_list", $slug_list) ;
             Session::put("page_name", "schematics") ;
         }
-        return view('front.schematics', compact("result", "slug_list"));
+
+        $manufacturer = Config::get('session.domain_name');
+        return view('front.schematics', compact("result", "slug_list", "manufacturer"));
     }
 
     public function commonpart(Request $request, $category=null, $series=null, $model=null, $prod=null)
