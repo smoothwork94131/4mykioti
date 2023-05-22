@@ -59,7 +59,7 @@
             
             @if(count($slug_list) == 5)
                 <h2>
-                    {{ strtoupper($manufacturer) . " " .$result[0]->group_name . " Schematics"}}
+                    {{ strtoupper($manufacturer) . " " .$result[0]->group_name . " SCHEMATICS"}}
                 </h2>
                 <div class="group-schematics">
                     @if($result[0]->image && file_exists(public_path('assets/images/group/'.$result[0]->image)))
