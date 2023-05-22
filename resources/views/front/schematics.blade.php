@@ -83,7 +83,7 @@
                     @endphp
                     <a href="{{$route.'/'.$path}}">
                         <div class="m-block" >
-                            {{$item->name}}
+                            {{$item->name}} Schematics
                         </div>
                     </a>
                 </div> 
