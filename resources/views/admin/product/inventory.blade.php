@@ -58,12 +58,12 @@
                             <table id="geniustable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>{{ __("SKU") }}</th>
-                                        <th>{{ __("Name") }}</th>
+                                        <th>{{ __("PART NUMBER") }}</th>
+                                        <th>{{ __("DESCRIPTION") }}</th>
                                         <th>{{ __("BIN") }}</th>
                                         <th>{{ __("LINE NUMBER") }}</th>
                                         <th>{{ __("VENDOR NUMBER") }}</th>
-                                        <th>{{ __("Stock") }}</th>
+                                        <th>{{ __("STOCK") }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
