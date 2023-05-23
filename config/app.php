@@ -192,6 +192,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Mtownsend\RemoveBg\Providers\RemoveBgServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Laravel\Sanctum\SanctumServiceProvider::class,
     ],
 
     /*
