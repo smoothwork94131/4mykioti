@@ -1367,10 +1367,11 @@ class ProductController extends Controller
         ->get();
 
         try {
-            foreach($series as $index => $db) {
-                foreach($params as $param) {
+            foreach($params as $param) {
+                foreach($series as $index => $db) {
                     $result = DB::connection('product')->table($db->name)->where('sku', $param->sku)->update(['stock' => $param->quantity]);
                 }
+                $inventory_update = Inventory::where('part_number', $param->sku)->update(['bin' => $param->bin]);
             }
 
             return redirect()->route('admin-prod-inventory')->with('success', 'Updated successfully');
