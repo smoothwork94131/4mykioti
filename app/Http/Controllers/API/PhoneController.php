@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
+use Image;
 use App\Models\Generalsetting;
 use App\Classes\GeniusMailer;
 
@@ -20,6 +21,28 @@ class PhoneController extends Controller
             $name = time().$name;
             $image_path = public_path() . '/assets/images/mobile/' . $name;
             move_uploaded_file($file, $image_path);
+
+            $extension = pathinfo($image_path, PATHINFO_EXTENSION);
+            
+            $img = Image::make($image_path);
+            if($extension == 'heic') {
+                $img->encode('jpg', 75)->save($image_path);
+            }
+            
+            $targetSize = 2000; // 100 KB
+
+            // get the current file size in bytes
+            $currentSize = $image->filesize();
+
+            // calculate the resize ratio
+            $ratio = sqrt($currentSize / ($targetSize * 1024));
+
+            
+            $width = round($img->width() / $ratio);
+            $height = round($img->height() / $ratio);
+
+            $img->resize($width, $height);
+            $img->save($image_path); 
 
             // $image_path = public_path() . '/assets/images/mobile/product1.png';
             $python_path = public_path() . '/assets/exe/'; 
