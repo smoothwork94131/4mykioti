@@ -273,7 +273,7 @@
                 @foreach($prods as $key=>$prod)
                     <tr>
                         <td style="text-align:center;">
-                            {{ $manufactuer . $prod->model . $prod->name}}
+                            {{ $manufactuer . " " . $prod->model . " " . $prod->name}}
                         </td>
                     </tr>
                 @endforeach
