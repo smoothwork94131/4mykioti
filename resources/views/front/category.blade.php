@@ -273,7 +273,7 @@
                 @foreach($prods as $key=>$prod)
                     <tr>
                         <td style="text-align:center;">
-                            the {{ $manufactuer . " " . $prod->model . " " . $prod->name}} available online for {{ $prod->price }} at 4my{{ $manufactuer}}.com
+                            the {{ $manufactuer . " " . $prod->model . " " . $prod->name}} is available online for ${{ $prod->price }} at 4my{{ $manufactuer}}.com
                         </td>
                     </tr>
                 @endforeach
