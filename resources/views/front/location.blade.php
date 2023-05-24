@@ -17,7 +17,7 @@
                         </li>
                         <li>
                             <a href="{{ route('front.location', $location_id) }}">
-                                {{ $locations->street . " " . $locations->city . " " . $locations->zip_code }}
+                                {{ $locations->address . " " . $locations->city . " " . $locations->state . " " . $locations->zip }}
                             </a>
                         </li>
                     </ul>
@@ -88,7 +88,7 @@
     function initMap() {
         var geocoder = new google.maps.Geocoder();
 
-        var address = "{{ $locations->street . " " . $locations->city . " " . $locations->zip_code }}";
+        var address = "{{ $locations->address . '' . $locations->city . ', ' . $locations->state . ' ' . $locations->zip }}";
         geocoder.geocode({ 'address': address }, function(results, status) {
             if (status == 'OK') {
                 var lat = results[0].geometry.location.lat();

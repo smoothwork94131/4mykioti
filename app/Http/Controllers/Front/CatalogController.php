@@ -18,6 +18,7 @@ use App\Models\Report;
 use App\Models\Subcategory;
 use App\Models\Generalsetting;
 use Auth;
+use Config;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -166,6 +167,7 @@ class CatalogController extends Controller
         $data['colorsetting_style2'] = $colorsetting_style2;
         
         $data['db'] = $db;
+        $data['manufactuer'] = Config::get('session.domain_name');
 
         return view('front.category', $data);
     }

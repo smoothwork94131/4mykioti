@@ -15,8 +15,10 @@ use App\Models\AttributeOption;
 use App\Models\StoreLocations;
 use App\Models\Generalsetting;
 use App\Models\ReturnPolicy;
-use Illuminate\Http\Request;
+use App\Models\Inventory;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
  
 use Validator;
 use Image;
@@ -35,7 +37,7 @@ class ProductController extends Controller
     //*** JSON Request
     public function datatables()
     {
-        $datas = Product::orderBy('id', 'desc')->get();
+        $datas = Product::where('manufacturer_id', Config::get('app.manufacturer_id'))->orderBy('id', 'desc')->get();
 
         //--- Integrating This Collection Into Datatables
         return Datatables::of($datas)
@@ -43,9 +45,7 @@ class ProductController extends Controller
                 $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
                 $id = '<small>ID: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
                 $id2 = $data->user_id != 0 ? (count($data->user->products) > 0 ? '<small class="ml-2"> VENDOR: <a href="' . route('admin-vendor-show', $data->user_id) . '" target="_blank">' . $data->user->shop_name . '</a></small>' : '') : '';
-
                 $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
-
                 return $name . '<br>' . $id . $id3 . $id2;
             })
             ->editColumn('price', function (Product $data) {
@@ -89,16 +89,14 @@ class ProductController extends Controller
     //*** JSON Request
     public function catalogdatatables()
     {
-        $datas = Product::where('is_catalog', '=', 1)->orderBy('id', 'desc')->get();
+        $datas = Product::where('manufacturer_id', Config::get('app.manufacturer_id'))->where('is_catalog', '=', 1)->orderBy('id', 'desc')->get();
 
         //--- Integrating This Collection Into Datatables
         return Datatables::of($datas)
             ->editColumn('name', function (Product $data) {
                 $name = mb_strlen(strip_tags($data->name), 'utf-8') > 50 ? mb_substr(strip_tags($data->name), 0, 50, 'utf-8') . '...' : strip_tags($data->name);
                 $id = '<small>ID: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . sprintf("%'.08d", $data->id) . '</a></small>';
-
                 $id3 = $data->type == 'Physical' ? '<small class="ml-2"> SKU: <a href="' . route('front.product', $data->slug) . '" target="_blank">' . $data->sku . '</a>' : '';
-
                 return $name . '<br>' . $id . $id3;
             })
             ->editColumn('price', function (Product $data) {
@@ -150,15 +148,14 @@ class ProductController extends Controller
     //*** GET Request
     public function create()
     {
-        $cats = Category::all();
+        $cats = Category::where('manufacturer', Config::get('app.manufacturer_id'))->get();
         $locs = StoreLocations::all();
         $sign = Currency::where('is_default', '=', 1)->first();
         return view('admin.product.create', compact('cats', 'sign', 'locs'));
     }
 
     public function existing() {
-        $homecategories = Category::orderBy('name', 'asc')->get();
-        
+        $homecategories = Category::where('manufacturer', Config::get('app.manufacturer_id'))->orderBy('name', 'asc')->get();
         return view('admin.product.existing', array('homecategories' => $homecategories));
     }
 
@@ -169,12 +166,13 @@ class ProductController extends Controller
         $data = array();
 
         if ($parent == "#") {
-            $categories = DB::table('categories')
-                ->select('id', 'name')
-                ->where('parent', 0)
-                ->where('status', 1)
-                ->orderBy('name', 'asc')
-                ->get();
+            $categories = DB::connection('product')
+            ->table('categories_home')
+            ->select('id', 'name')
+            ->where('parent', 0)
+            ->where('status', 1)
+            ->orderBy('name', 'asc')
+            ->get();
 
             foreach($categories as $item) {
                 $data[] = array(
@@ -186,12 +184,13 @@ class ProductController extends Controller
             }
         } else {
             if($param == "category") {
-                $series = DB::table('categories')
-                    ->select('id', 'name')
-                    ->where('parent', $parent)
-                    ->where('status', 1)
-                    ->orderBy('name', 'asc')
-                    ->get();
+                $series = DB::connection('product')
+                ->table('categories_home')
+                ->select('id', 'name')
+                ->where('parent', $parent)
+                ->where('status', 1)
+                ->orderBy('name', 'asc')
+                ->get();
 
                 foreach($series as $item) {
                     $data[] = array(
@@ -203,11 +202,12 @@ class ProductController extends Controller
                 }
             }
             else if($param == "series") {
-                $model = DB::table($parent.'_categories')
-                    ->select('model as model_name')
-                    ->orderBy('model', 'asc')
-                    ->get()
-                    ->groupBy('model_name');
+                $model = DB::connection('product')
+                ->table($parent.'_categories')
+                ->select('model as model_name')
+                ->orderBy('model', 'asc')
+                ->get()
+                ->groupBy('model_name');
 
                 foreach($model as $key => $item) {
                     $data[] = array(
@@ -223,12 +223,13 @@ class ProductController extends Controller
                 $series = $series_model[0];
                 $model = $series_model[1];
 
-                $section = DB::table($series . '_categories')
-                    ->select('section_name')
-                    ->orderBy('section_name', 'asc')
-                    ->where('model', $model)
-                    ->get()
-                    ->groupBy('section_name');
+                $section = DB::connection('product')
+                ->table($series . '_categories')
+                ->select('section_name')
+                ->orderBy('section_name', 'asc')
+                ->where('model', $model)
+                ->get()
+                ->groupBy('section_name');
 
                 foreach($section as $key => $item) {
                     $data[] = array(
@@ -245,12 +246,13 @@ class ProductController extends Controller
                 $model = $series_model_section[1];
                 $section = $series_model_section[2];
 
-                $group = DB::table($series . '_categories')
-                    ->select('group_Id', 'group_name', 'image')
-                    ->where('model', $model)
-                    ->where('section_name', $section)
-                    ->orderBy('group_Id', 'asc')
-                    ->get();
+                $group = DB::connection('product')
+                ->table($series . '_categories')
+                ->select('group_Id', 'group_name', 'image')
+                ->where('model', $model)
+                ->where('section_name', $section)
+                ->orderBy('group_Id', 'asc')
+                ->get();
 
                 foreach($group as $item) {
                     $image = $item->image? public_path() . '/assets/images/group' . $item->image:public_path() . '/assets/images/group' . $item->group_Id . '.png';
@@ -270,13 +272,14 @@ class ProductController extends Controller
                 $section = $series_model_section_group[2];
                 $group = $series_model_section_group[3];
 
-                $data = DB::table($series)
-                    ->select('*')
-                    ->where('subcategory_id', $model)
-                    ->where('category_id', $group)
-                    ->orderBy('name', 'asc')
-                    ->get()
-                    ->toArray();
+                $data = DB::connection('product')
+                ->table($series)
+                ->select('*')
+                ->where('subcategory_id', $model)
+                ->where('category_id', $group)
+                ->orderBy('name', 'asc')
+                ->get()
+                ->toArray();
             }
         }
 
@@ -290,6 +293,8 @@ class ProductController extends Controller
         $category_id = $request->category_id;
         $data = $request->data;
         $data["category_id"] = $category_id;
+        $data["subcategory_id"] = "home";
+        $data["manufacturer_id"] = Config::get('app.manufacturer_id');
         unset($data["description"]);
 
         $model = new Product;
@@ -402,6 +407,7 @@ class ProductController extends Controller
             $input = $request->all();
 
             $input["subcategory_id"] = "home";
+            $input["manufacturer_id"] = Config::get('app.manufacturer_id');
 
             if($input['effects'] == '<br>') {
                 $input['effects'] = NULL;
@@ -651,7 +657,7 @@ class ProductController extends Controller
     //*** POST Request
     public function import()
     {
-        $cats = Category::all();
+        $cats = Category::where('manufacturer', Config::get('app.manufacturer_id'))->get();
         $sign = Currency::where('is_default', '=', 1)->first();
         return view('admin.product.productcsv', compact('cats', 'sign'));
     }
@@ -680,10 +686,8 @@ class ProductController extends Controller
         $file = fopen(public_path('assets/temp_files/' . $filename), "r");
         $i = 1;
         while (($line = fgetcsv($file)) !== FALSE) {
-
             if ($i != 1) {
-
-                if (!Product::where('sku', $line[0])->exists()) {
+                if (!Product::where('manufacturer_id', Config::get('app.manufacturer_id'))->where('sku', $line[0])->exists()) {
 
                     $data = new Product;
                     $sign = Currency::where('is_default', '=', 1)->first();
@@ -715,7 +719,6 @@ class ProductController extends Controller
                                 $input['childcategory_id'] = $chcat->first()->id;
                             }
                         }
-
 
                         $input['photo'] = $line[5];
                         $input['name'] = $line[4];
@@ -802,7 +805,7 @@ class ProductController extends Controller
         if (!Product::where('id', $id)->exists()) {
             return redirect()->route('admin.dashboard')->with('unsuccess', __('Sorry the page does not exist.'));
         }
-        $cats = Category::all();
+        $cats = Category::where('manufacturer', Config::get('app.manufacturer_id'))->get();
         $data = Product::findOrFail($id);
         $sign = Currency::where('is_default', '=', 1)->first();
         $locs = StoreLocations::all();
@@ -1288,5 +1291,91 @@ class ProductController extends Controller
             $attrOptions[] = ['attribute' => $attribute, 'options' => $options];
         }
         return response()->json($attrOptions);
+    }
+
+    public function inventory(Request $request) {
+
+        // $series = DB::connection('product')
+        // ->table('categories_home')
+        // ->select('name')
+        // ->where('status', 1)
+        // ->where('parent', '!=', 0)
+        // ->get();
+
+        // $query = "";
+        // foreach($series as $index => $db) {
+        //     if($index != 0) {
+        //         $query .= " UNION ";
+        //     }
+
+        //     $query .= "(SELECT DISTINCT `sku`, `name`, `stock` FROM `". strtolower($db->name) . "`" ;
+
+        //     if(isset($request->inventory_search)) {
+        //         $query .= " WHERE `sku` like '%". $request->inventory_search ."%' or `name`  like '%". $request->inventory_search ."%'";
+        //     }
+            
+        //     $query .= ")";
+            
+        // }
+        // $query .= " ORDER BY `sku`";
+
+        // $inventories = collect(DB::connection('product')->select($query))->groupBy('sku');
+
+        // $datas = $inventories->map(function ($group) {
+        //     if(count($group) > 0) {
+        //         return $group[0];
+        //     }
+        //     else {
+        //         return $group;
+        //     }
+        // });
+
+        // $datas = $datas->paginate(10);
+
+        $inventories = new Inventory;
+
+        $manufacturer = 'Kioti';
+        if(isset($request->manufacturer)) {
+            $manufacturer = $request->manufacturer;
+        }
+
+        $inventories = $inventories->where('line_number', 'like', '%'. $manufacturer .'%');
+
+        $search_text = "";
+        if(isset($request->inventory_search)) {
+            $search_text = $request->inventory_search;
+            $inventories = $inventories->where(function ($query) use ($search_text) {
+                $query->where('part_number', 'like', '%'. $search_text .'%')->orWhere('description', 'like', '%'. $search_text .'%');
+            });
+        }
+    
+        $inventories = $inventories->orderByRaw('bin is NULL ASC, bin ASC')->paginate(10);
+        return view('admin.product.inventory', compact('inventories', 'search_text', 'manufacturer'));
+    }
+
+    public function inventory_update(Request $request) {
+
+        $params = $request->update_data;
+        $params = json_decode($params);
+
+        $series = DB::connection('product')
+        ->table('categories_home')
+        ->select('name')
+        ->where('status', 1)
+        ->where('parent', '!=', 0)
+        ->get();
+
+        try {
+            foreach($series as $index => $db) {
+                foreach($params as $param) {
+                    $result = DB::connection('product')->table($db->name)->where('sku', $param->sku)->update(['stock' => $param->quantity]);
+                }
+            }
+
+            return redirect()->route('admin-prod-inventory')->with('success', 'Updated successfully');
+        }
+        catch (Exception $e) {
+            return redirect()->route('admin-prod-inventory')->with('error', 'Something went wrong during update. Try again');
+        }
     }
 }

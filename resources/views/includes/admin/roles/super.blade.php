@@ -44,6 +44,9 @@
         <li>
             <a href="{{ route('admin-prod-import') }}"><span>{{ __('Bulk Product Upload') }}</span></a>
         </li>
+        <li>
+            <a href="{{ route('admin-prod-inventory') }}"><span>{{ __('Inventory') }}</span></a>
+        </li>
     </ul>
 </li>
 
@@ -81,7 +84,7 @@
     </ul>
 </li>
 
-{{-- <li>
+<li>
     <a href="#license" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-check-circle"></i>{{ __('Verified License') }}
     </a>
@@ -96,7 +99,7 @@
             <a href="{{ route('admin-verification-approved') }}"><span>{{ __('Approved') }}</span></a>
         </li>
     </ul>
-</li> --}}
+</li>
 
 <hr>
 
@@ -269,7 +272,7 @@
         <li><a href="{{route('admin-group-show')}}"><span>{{ __('Group Email') }}</span></a></li>
     </ul>
 </li>
-{{-- <li>
+<li>
     <a href="#payments" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-file-code"></i>{{ __('Payment Settings') }}
     </a>
@@ -289,7 +292,7 @@
         <li><a href="{{route('admin-social-facebook')}}"><span>{{ __('Facebook Login') }}</span></a></li>
         <li><a href="{{route('admin-social-google')}}"><span>{{ __('Google Login') }}</span></a></li>
     </ul>
-</li> --}}
+</li>
 <li>
     <a href="#langs" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-language"></i>{{ __('Language Settings') }}
@@ -316,10 +319,7 @@
         </li>
     </ul>
 </li>
-
 <hr>
-
-
 <li>
     <a href="#blog" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-fw fa-newspaper"></i>{{ __('Blog') }}
@@ -333,7 +333,6 @@
         </li>
     </ul>
 </li>
-
 <li>
     <a href="#msg" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
         <i class="fas fa-fw fa-newspaper"></i>{{ __('Messages') }}
@@ -348,29 +347,21 @@
         <li>
             <a href="{{ route('admin-message-sendmessage') }}"><span>{{ __('Send Text Messages') }}</span></a>
         </li>
-
     </ul>
 </li>
 
 <hr>
 
-
 <li>
-    <a href="{{ route('admin-staff-index') }}" class=" wave-effect"><i class="fas fa-user-secret"></i>{{ __('Manage
-        Staff') }}</a>
-</li>
-
-<li>
-    <a href="{{ route('admin-subs-index') }}" class=" wave-effect"><i class="fas fa-users-cog mr-2"></i>{{
-        __('Subscribers') }}</a>
-</li>
-
-<li>
-    <a href="{{ route('admin-role-index') }}" class=" wave-effect"><i class="fas fa-user-tag"></i>{{ __('Manage Roles')
-        }}</a>
+    <a href="{{ route('admin-staff-index') }}" class=" wave-effect"><i class="fas fa-user-secret"></i>{{ __('Manage Staff') }}</a>
 </li>
 <li>
-    <a href="{{ route('admin-cache-clear') }}" class=" wave-effect"><i class="fas fa-sync"></i>{{ __('Clear Cache') }}
-    </a>
+    <a href="{{ route('admin-subs-index') }}" class=" wave-effect"><i class="fas fa-users-cog mr-2"></i>{{ __('Subscribers') }}</a>
+</li>
+<li>
+    <a href="{{ route('admin-role-index') }}" class=" wave-effect"><i class="fas fa-user-tag"></i>{{ __('Manage Roles') }}</a>
+</li>
+<li>
+    <a href="{{ route('admin-cache-clear') }}" class=" wave-effect"><i class="fas fa-sync"></i>{{ __('Clear Cache') }}</a>
 </li>
 <li><a href="{{route('admin-generate-backup')}}"> {{ __('Generate Backup') }}</a></li>

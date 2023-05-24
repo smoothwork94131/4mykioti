@@ -76,10 +76,15 @@ class Handler extends ExceptionHandler
                 $login = 'admin.login';
                 break;
 
+            case 'sanctum':
+                return response()->json(['message' => 'Unauthorized'], 401);
+                break;
+
             default:
                 $login = 'user.login';
                 break;
         }
+
         return redirect()->guest(route($login));
     }
 }

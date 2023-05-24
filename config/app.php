@@ -80,6 +80,8 @@ return [
 
     'locale' => 'en',
 
+    'manufacturer_id' => env('MANUFACTURER_ID', 'kioti'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -190,6 +192,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Mtownsend\RemoveBg\Providers\RemoveBgServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Laravel\Sanctum\SanctumServiceProvider::class,
     ],
 
     /*

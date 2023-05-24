@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Admin extends Authenticatable
 {
-    protected $guard = 'admin';
+    use HasApiTokens, HasFactory, Notifiable;
+
+    // protected $guard = 'admin';
 
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'role_id', 'photo', 'created_at', 'updated_at', 'remember_token', 'shop_name'
@@ -27,7 +31,7 @@ class Admin extends Authenticatable
 
     public function IsSuper()
     {
-        if ($this->id == 1) {
+        if ($this->role_id == 0) {
             return true;
         }
         return false;
@@ -43,6 +47,4 @@ class Admin extends Authenticatable
             return false;
         }
     }
-
-
 }

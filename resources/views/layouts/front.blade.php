@@ -191,8 +191,7 @@
                 <a href="/carts" class="cart-icon" title="Cart">
                     <span><i class="fa fa-shopping-cart"></i></span>
                 </a>
-                <span class="cart-quantity header-cart-count"
-                    id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
+                <span class="cart-quantity header-cart-count" id="cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
                 <div class="my-dropdown-menu header-cart-items" id="cart-items">
                     @include('load.cart')
                 </div>
@@ -301,7 +300,7 @@
                             <div class='desktop-search-field'>
                                 <div class='search-table'>
                                     <div class='sel-drop' onclick='searchSelTableGroup()'>
-                                        <div class='name'>{{ $eccategories[0]->name }}</div>
+                                        <div class='name'>{{ $eccategories[1]->name }}</div>
                                         <div class='icon'>
                                             <i class="fa fa-angle-down ml-2 mt-1"></i>
                                         </div>
@@ -318,7 +317,9 @@
                                     <div class='search-field'>
                                         <input class='search-input form-control'
                                             onkeyup="totalSearch(event, 'desktop')"
-                                            value="{{ $eccategories[0]->name }}" />
+                                            value="{{ $eccategories[0]->name }}" 
+                                            placeholder="I need an oil filter for a ck20"
+                                            />
                                         <div class='icon'><i class='fa fa-search'
                                                 onclick=" event.keyCode = 1200 ; totalSearch(event, 'desktop')"></i>
                                         </div>
@@ -376,7 +377,7 @@
             </div>
             <div style='margin-top: 10px;'>
                 <div class='search-field'>
-                    <input class='search-input form-control' onkeyup="totalSearch(event, 'mobile')" />
+                    <input class='search-input form-control' onkeyup="totalSearch(event, 'mobile')" placeholder="I need an oil filter for a ck20" />
                     <div class='icon' onclick="event.keyCode = 1200 ;  totalSearch(event, 'mobile')"><i
                             class='fa fa-search'></i></div>
                 </div>

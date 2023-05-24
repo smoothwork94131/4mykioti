@@ -27,31 +27,15 @@ class AppServiceProvider extends ServiceProvider
         
         App::setlocale($admin_lang->name);
 
-        $domain = parse_url(request()->root())['host']; 
-        if($domain == 'localhost' || $domain == '127.0.0.1') {
-            $domain  = 'kioti';
-        }
-        else if($domain == '4mykioti.com' || $domain == 'colthansen.com') {
-            $domain  = 'kioti';
-        }
-        else if($domain == '4mymahindra.com' || $domain == 'kubernetesai.com') {
-            $domain  = 'mahindra';
-        }
-        else if($domain == '4mytractor.com') {
-            $domain  = 'tractor';
-        }
-        else {
-            $domain  = 'kioti';
-        }
-
-        Config::set('session.domain_name', $domain);
+        $manufacturer_id = Config::get('app.manufacturer_id');
+        Config::set('session.domain_name', $manufacturer_id);
 
         view()->composer('*', function ($settings) {
             $gs = DB::table('generalsettings')->find(1);
             $settings->with('gs', $gs);
             $settings->with('seo', DB::table('seotools')->find(1));
             $settings->with('categories', Category::where('status', '=', 1)->orderBy('id', 'asc')->get());
-            $settings->with('eccategories', DB::table("categories_home")->where("parent","0")->where("status", "1")->orderBy('name', 'asc')->get());
+            $settings->with('eccategories', DB::connection('product')->table("categories_home")->where("parent","0")->where("status", "1")->orderBy('name', 'asc')->get());
             
             if (Session::has('language')) {
                 $data = DB::table('languages')->find(Session::get('language'));

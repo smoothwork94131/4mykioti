@@ -11,6 +11,9 @@ class Cart extends Model
     public $items = null;
     public $totalQty = 0;
     public $totalPrice = 0;
+    protected $conenection = 'cart';
+    protected $table = 'cart';
+    protected $fillable = ['manufacturer_id', 'user_id', 'sku', 'quantity'];
 
     public function __construct($oldCart)
     {

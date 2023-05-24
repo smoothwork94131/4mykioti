@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use Datatables;
-use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Controller;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -18,7 +19,7 @@ class CategoryController extends Controller
     //*** JSON Request
     public function datatables()
     {
-         $datas = Category::orderBy('order','desc')->get();
+         $datas = Category::where('manufacturer', Config::get('app.manufacturer_id'))->orderBy('order','desc')->get();
          //--- Integrating This Collection Into Datatables
          return Datatables::of($datas)
                 ->addColumn('status', function(Category $data) {
@@ -87,6 +88,7 @@ class CategoryController extends Controller
         //--- Logic Section
         $data = new Category();
         $input = $request->all();
+        $input["manufacturer"] = Config::get('app.manufacturer_id');
         if ($file = $request->file('photo'))
         {
             $name = time().str_replace(' ', '', $file->getClientOriginalName());

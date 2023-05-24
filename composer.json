@@ -17,7 +17,7 @@
         "intervention/image": "*",
         "laravel/framework": "*",
         "laravel/helpers": "*",
-        "laravel/passport": "*",
+        "laravel/sanctum": "^3.2",
         "laravel/socialite": "*",
         "laravel/tinker": "*",
         "maatwebsite/excel": "*",
