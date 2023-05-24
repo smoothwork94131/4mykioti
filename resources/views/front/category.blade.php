@@ -263,7 +263,7 @@
         </div>
 
         <div class="container-fluid">
-            <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="display: none;">
+            <table id="product_table" class="table product_table" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th style="text-align:center;">Name</th>
