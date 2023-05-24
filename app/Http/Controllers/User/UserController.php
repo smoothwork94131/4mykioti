@@ -170,7 +170,7 @@ class UserController extends Controller
     public function my_tractor() {
         $user_id = Auth::id();
         $tractors = DB::table("users-tractor")->where('user_id', $user_id)->orderBy('updatetime', 'desc')->get();
-        $series = DB::table("categories_home")->select("name as series")->where("parent", ">", "0")->get()->toArray();
+        $series = DB::connection('product')->table("categories_home")->select("name as series")->where("parent", ">", "0")->get()->toArray();
         $model = $this->getTractorModel($series[0]->series) ;
 
         return view('user.myTractor', compact('tractors', 'series', 'model'));
@@ -233,7 +233,7 @@ class UserController extends Controller
 
     public function getTractorModel($series) {
         $series = strtolower($series) ;
-        $model =  DB::table("{$series}_categories")->select("model")->get()->groupBy("model")->toArray() ;
+        $model =  DB::connection('product')->table("{$series}_categories")->select("model")->get()->groupBy("model")->toArray() ;
         return $model ;
     }
 }
