@@ -104,7 +104,7 @@
                         </ul>
                     </div>
                     <h2 class="section-title remove-padding">
-                        {{$group->group_name }}
+                        {{$group->group_name }} PART
                         <span class="title-underline"></span>
                     </h2>
                 </div>
@@ -260,6 +260,25 @@
                     </table>
                 </div>
             </div>
+        </div>
+
+        <div class="container-fluid">
+            <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="display: none;">
+                <thead>
+                <tr>
+                    <th style="text-align:center;">Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($prods as $key=>$prod)
+                    <tr>
+                        <td style="text-align:center;">
+                            {{ $manufactuer . $prod->model . $prod->name}}
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
 
         <div class="modal fade" id="prod_img_modal" role="dialog" >

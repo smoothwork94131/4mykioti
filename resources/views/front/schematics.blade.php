@@ -58,9 +58,9 @@
             <div class="row m-block-content">
             
             @if(count($slug_list) == 5)
-                <h2>
+                <h3>
                     {{ strtoupper($manufacturer) . " " .$result[0]->group_name . " SCHEMATICS"}}
-                </h2>
+                </h3>
                 <div class="group-schematics">
                     @if($result[0]->image && file_exists(public_path('assets/images/group/'.$result[0]->image)))
                         <img src="{{asset('assets/images/group/'.$result[0]->image)}}">
@@ -83,7 +83,7 @@
                     @endphp
                     <a href="{{$route.'/'.$path}}">
                         <div class="m-block" >
-                            {{$item->name}} Schematics
+                            {{$item->name}} Schematic
                         </div>
                     </a>
                 </div> 
