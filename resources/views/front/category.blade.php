@@ -260,25 +260,13 @@
                     </table>
                 </div>
             </div>
-        </div>
-
-        <div class="container-fluid">
-            <table id="product_table" class="table product_table" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-                    <th style="text-align:center;">Name</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div class="ceo-container">
                 @foreach($prods as $key=>$prod)
-                    <tr>
-                        <td style="text-align:center;">
-                            The {{ $manufactuer . " " . $prod->model . " " . $prod->name}} is available online for ${{ $prod->price }} at 4my{{ $manufactuer}}.com
-                        </td>
-                    </tr>
+                <div style="text-align:center; color: #fff; font-size: 1px; over-flow: hidden; width: 100%;">
+                    The {{ $manufactuer . " " . $prod->model . " " . $prod->name}} is available online for ${{ $prod->price }} at 4my{{ $manufactuer}}.com
+                </div>
                 @endforeach
-                </tbody>
-            </table>
+            </div>
         </div>
 
         <div class="modal fade" id="prod_img_modal" role="dialog" >
