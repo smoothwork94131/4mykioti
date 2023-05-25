@@ -65,9 +65,9 @@
                                     <tr>
                                         <th>{{ __("PART NUMBER") }}</th>
                                         <th>{{ __("DESCRIPTION") }}</th>
+                                        {{-- <th>{{ __("LINE NUMBER") }}</th>
+                                        <th>{{ __("VENDOR NUMBER") }}</th> --}}
                                         <th>{{ __("BIN") }}</th>
-                                        <th>{{ __("LINE NUMBER") }}</th>
-                                        <th>{{ __("VENDOR NUMBER") }}</th>
                                         <th>{{ __("STOCK") }}</th>
                                     </tr>
                                 </thead>
@@ -79,11 +79,13 @@
                                             <input type="hidden" id="box_sku_{{$inventory->part_number}}"  value="{{ $inventory->part_number }}" />
                                         </td>
                                         <td>{{ $inventory->description }}</td>
-                                        <td>{{ $inventory->bin }}</td>
-                                        <td>{{ $inventory->line_number }}</td>
-                                        <td>{{ $inventory->vendor_number }}</td>
+                                        {{-- <td>{{ $inventory->line_number }}</td>
+                                        <td>{{ $inventory->vendor_number }}</td> --}}
                                         <td>
-                                            <input type="number" id="box_quantity_{{$inventory->part_number}}" class="form-control" value="" placeholder="Please Enter Quantity." min="0" />
+                                            <input type="text" id="box_bin_{{$inventory->part_number}}" class="form-control" value="{{ $inventory->bin }}" placeholder="Please Enter Bin." style="max-width: 25ch;"/>
+                                        </td>
+                                        <td>
+                                            <input type="number" id="box_quantity_{{$inventory->part_number}}" class="form-control" value="" min="0" max="9999" style="max-width: 9ch;" />
                                         </td>
                                     </tr>    
                                     @empty
@@ -109,13 +111,15 @@
         function updateInventory() {
             var total_sku_obj = $("[id ^= 'box_sku_']");
             var total_quantity_obj = $("[id ^= 'box_quantity_']");
+            var total_bin_obj = $("[id ^= 'box_bin_']");
 
             var total_data = new Array();
 
             for(let i=0; i<total_sku_obj.length; i++) {
                 let temp_obj = {
                     sku: $(total_sku_obj[i]).val(),
-                    quantity: $(total_quantity_obj[i]).val()
+                    quantity: $(total_quantity_obj[i]).val(),
+                    bin: $(total_bin_obj[i]).val() 
                 }
 
                 total_data.push(temp_obj)
