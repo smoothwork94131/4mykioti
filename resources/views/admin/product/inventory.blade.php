@@ -65,9 +65,9 @@
                                     <tr>
                                         <th>{{ __("PART NUMBER") }}</th>
                                         <th>{{ __("DESCRIPTION") }}</th>
+                                        {{-- <th>{{ __("LINE NUMBER") }}</th>
+                                        <th>{{ __("VENDOR NUMBER") }}</th> --}}
                                         <th>{{ __("BIN") }}</th>
-                                        <th>{{ __("LINE NUMBER") }}</th>
-                                        <th>{{ __("VENDOR NUMBER") }}</th>
                                         <th>{{ __("STOCK") }}</th>
                                     </tr>
                                 </thead>
@@ -79,13 +79,13 @@
                                             <input type="hidden" id="box_sku_{{$inventory->part_number}}"  value="{{ $inventory->part_number }}" />
                                         </td>
                                         <td>{{ $inventory->description }}</td>
+                                        {{-- <td>{{ $inventory->line_number }}</td>
+                                        <td>{{ $inventory->vendor_number }}</td> --}}
                                         <td>
-                                            <input type="text" id="box_bin_{{$inventory->part_number}}" class="form-control" value="{{ $inventory->bin }}" placeholder="Please Enter Bin." />
+                                            <input type="text" id="box_bin_{{$inventory->part_number}}" class="form-control" value="{{ $inventory->bin }}" placeholder="Please Enter Bin." style="max-width: 25ch;"/>
                                         </td>
-                                        <td>{{ $inventory->line_number }}</td>
-                                        <td>{{ $inventory->vendor_number }}</td>
                                         <td>
-                                            <input type="number" id="box_quantity_{{$inventory->part_number}}" class="form-control" value="" placeholder="Please Enter Quantity." min="0" />
+                                            <input type="number" id="box_quantity_{{$inventory->part_number}}" class="form-control" value="" min="0" max="9999" style="max-width: 9ch;" />
                                         </td>
                                     </tr>    
                                     @empty
