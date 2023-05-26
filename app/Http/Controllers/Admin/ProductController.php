@@ -19,6 +19,7 @@ use App\Models\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
  
 use Validator;
 use Image;
@@ -1373,8 +1374,22 @@ class ProductController extends Controller
                 }
                 $inventory_update = Inventory::where('part_number', $param->sku)->update(['bin' => $param->bin]);
             }
+ 
+            $response = Http::post('http://24.239.36.98/infinitysync/api/login', [
+                'userName' => 'dhansen',
+                'password' => 'T75676Grep34!',
+            ]);
 
-            return redirect()->route('admin-prod-inventory')->with('success', 'Updated successfully');
+            if($response->ok()) {
+                $login_result = $response->json();
+                if(!empty($login_result->token)) {
+                    $quantity_response = Http::post('http://24.239.36.98/infinitysync/api/set_quantity', $params);
+
+                    if($quantity_response->ok()) {
+                        return redirect()->route('admin-prod-inventory')->with('success', 'Updated successfully');           
+                    }
+                }
+            }
         }
         catch (Exception $e) {
             return redirect()->route('admin-prod-inventory')->with('error', 'Something went wrong during update. Try again');
