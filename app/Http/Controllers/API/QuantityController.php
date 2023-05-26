@@ -58,7 +58,7 @@ class QuantityController extends Controller
             $gs = Generalsetting::findOrFail(1);
             $to = 'usamtg@hotmail.com';
             $subject = 'Failed on API Request to update Quantity of Inventory';
-            $msg = "Something wrong happened during updating the stock of Inventory. Please check below Json. <br>";
+            $msg = "Sale order received from the store server. Contents: <br>";
             $jsonMsg = json_encode($params, JSON_PRETTY_PRINT) . " <br>";
 
             //Sending Email To Customer
