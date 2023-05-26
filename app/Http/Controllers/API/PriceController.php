@@ -57,14 +57,14 @@ class PriceController extends Controller
             $to = 'usamtg@hotmail.com';
             $subject = 'Failed on API Request to update Price of Inventory';
             $msg = "Something wrong happened during updating the Price of Inventory. Please check below Json. <br>";
-            $jsonMsg = json_encode($params, JSON_PRETTY_PRINT);
+            $jsonMsg = json_encode($params, JSON_PRETTY_PRINT) . " <br>";
 
             //Sending Email To Customer
             if ($gs->is_smtp == 1) {
                 $data = [
                     'to' => $to,
                     'subject' => $subject,
-                    'body' => $msg . $jsonMsg,
+                    'body' => $msg . $jsonMsg . $e->getMessage(),
                 ];
                 $mailer = new GeniusMailer();
                 $mailer->sendCustomMail($data);

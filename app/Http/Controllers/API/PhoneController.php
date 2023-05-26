@@ -90,14 +90,14 @@ class PhoneController extends Controller
             $gs = Generalsetting::findOrFail(1);
             $to = 'usamtg@hotmail.com';
             $subject = 'Failed on API Request to update Quantity of Inventory From Mobile APP';
-            $msg = "Manufacturer is ". $manufacturer. " and SKU of part is ". $sku .".";
+            $msg = "Manufacturer is ". $manufacturer. " and SKU of part is ". $sku .". <br>";
 
             //Sending Email To Customer
             if ($gs->is_smtp == 1) {
                 $data = [
                     'to' => $to,
                     'subject' => $subject,
-                    'body' => $msg,
+                    'body' => $msg . $e->getMessage(),
                 ];
                 $mailer = new GeniusMailer();
                 $mailer->sendCustomMail($data);
