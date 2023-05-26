@@ -20,9 +20,11 @@ use App\Models\VendorOrder;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Session;
 use Validator;
 use PHPShopify\ShopifySDK;
+
 class CheckoutController extends Controller
 {
     public function loadpayment($slug1, $slug2)
@@ -40,6 +42,7 @@ class CheckoutController extends Controller
         }
         return view('load.payment', compact('payment', 'pay_id', 'gateway', 'curr'));
     }
+
     public function checkout()
     {
         $this->code_image();
@@ -100,7 +103,6 @@ class CheckoutController extends Controller
                 $total = Session::get('coupon_total');
                 $total = $total + round(0 * $curr->value, 2);
             }
-
             return view('front.checkout', ['products' => $productList, 'productsNw' => $productListNoWeight, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'gateways' => $gateways, 'shipping_cost' => 0, 'digital' => $dp, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data, 'vendor_shipping_id' => $vendor_shipping_id, 'vendor_packing_id' => $vendor_packing_id]);
         } else {
             // If guest checkout is activated then user can go for checkout
@@ -417,6 +419,7 @@ class CheckoutController extends Controller
             }
         }
     }
+
     public function cashondelivery(Request $request) {
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
@@ -637,6 +640,7 @@ class CheckoutController extends Controller
         }
         return redirect($success_url);
     }
+    
     public function shopifycheckout(Request $request) {
         if ($request->pass_check) {
             $users = User::where('email', '=', $request->personal_email)->get();
@@ -723,6 +727,7 @@ class CheckoutController extends Controller
             $i = 0;
             $count = count($cart->items);
             $needToTemp = false;
+            $params = array();
             foreach ($cart->items as $key => $prod) {
                 if (!empty($prod['item']->file) || !empty($prod['item']->weight_in_grams)) {
                     $i++;
@@ -746,7 +751,6 @@ class CheckoutController extends Controller
                     $productFromShopify = $shopify->GraphQL->post($query);      
 
                     if ($productFromShopify['data']['products']['edges']) {
-
                         $update_input = '{
                             id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
                             price: '. $prod['item']->price .'
@@ -806,6 +810,16 @@ class CheckoutController extends Controller
                         }
                     } else {
                         $this->createProductOnShopify($prod);
+                    }
+
+                    if($prod['db'] != "products") {
+                        $temp = array(
+                            'sku' => $prod['item']->sku,
+                            'locationID' => 4,
+                            'quantity' => $prod['qty']
+                        );
+    
+                        $params[] = $temp;
                     }
                     
                     $cart->removeItem($key);
@@ -895,7 +909,27 @@ class CheckoutController extends Controller
 
             // $checkoutsh = $shopify->GraphQL->post();
 
-            if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
+            if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {                
+                if(count($params)) {
+                    $response = Http::post('http://24.239.36.98/infinitysync/api/login', [
+                        'userName' => 'dhansen',
+                        'password' => 'T75676Grep34!',
+                    ]);
+        
+                    if($response->ok()) {
+                        $login_result = $response->json();
+                        if(!empty($login_result->token)) {
+                            $quantity_response = Http::post('http://24.239.36.98/infinitysync/api/update_quantity', [
+                                'parts' => $params
+                            ]);
+        
+                            if($quantity_response->ok()) {
+                                return redirect()->route('admin-prod-inventory')->with('success', 'Updated successfully');           
+                            }
+                        }
+                    }
+                }
+
                 Session::put('tempcart', $cart);
                 Session::forget('cart');
                 Session::forget('already');
@@ -935,7 +969,6 @@ class CheckoutController extends Controller
         $gs = Generalsetting::findOrFail(1);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-        // $storefrontAccessToken = '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';
         $content = [
             'totalQty' => $cart->totalQty,
             'totalPrice' => $cart->totalPrice,
@@ -1261,7 +1294,7 @@ class CheckoutController extends Controller
             variants: [
                 {
                     sku: "'.$prod['item']->sku.'",
-                    weight: '.$prod['item']->file.'
+                    weight: '.$prod['item']->file??$prod['item']->weight_in_grams.'
                     price: '.$prod['item']->price.'
                 }
             ]

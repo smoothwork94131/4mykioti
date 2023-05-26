@@ -1296,44 +1296,6 @@ class ProductController extends Controller
     }
 
     public function inventory(Request $request) {
-
-        // $series = DB::connection('product')
-        // ->table('categories_home')
-        // ->select('name')
-        // ->where('status', 1)
-        // ->where('parent', '!=', 0)
-        // ->get();
-
-        // $query = "";
-        // foreach($series as $index => $db) {
-        //     if($index != 0) {
-        //         $query .= " UNION ";
-        //     }
-
-        //     $query .= "(SELECT DISTINCT `sku`, `name`, `stock` FROM `". strtolower($db->name) . "`" ;
-
-        //     if(isset($request->inventory_search)) {
-        //         $query .= " WHERE `sku` like '%". $request->inventory_search ."%' or `name`  like '%". $request->inventory_search ."%'";
-        //     }
-            
-        //     $query .= ")";
-            
-        // }
-        // $query .= " ORDER BY `sku`";
-
-        // $inventories = collect(DB::connection('product')->select($query))->groupBy('sku');
-
-        // $datas = $inventories->map(function ($group) {
-        //     if(count($group) > 0) {
-        //         return $group[0];
-        //     }
-        //     else {
-        //         return $group;
-        //     }
-        // });
-
-        // $datas = $datas->paginate(10);
-
         $inventories = new Inventory;
 
         $manufacturer = 'Kioti';
@@ -1347,7 +1309,9 @@ class ProductController extends Controller
         if(isset($request->inventory_search)) {
             $search_text = $request->inventory_search;
             $inventories = $inventories->where(function ($query) use ($search_text) {
-                $query->where('part_number', 'like', '%'. $search_text .'%')->orWhere('description', 'like', '%'. $search_text .'%');
+                $query->where('part_number', 'like', '%'. $search_text .'%')
+                ->orWhere('description', 'like', '%'. $search_text .'%')
+                ->orWhere('bin', 'like', '%'. $search_text .'%');
             });
         }
     
@@ -1383,7 +1347,13 @@ class ProductController extends Controller
             if($response->ok()) {
                 $login_result = $response->json();
                 if(!empty($login_result->token)) {
-                    $quantity_response = Http::post('http://24.239.36.98/infinitysync/api/set_quantity', $params);
+                    foreach($params as $param) {
+                        $param->locationID = 4;
+                    }
+
+                    $quantity_response = Http::post('http://24.239.36.98/infinitysync/api/set_quantity', [
+                        'parts' => $params
+                    ]);
 
                     if($quantity_response->ok()) {
                         return redirect()->route('admin-prod-inventory')->with('success', 'Updated successfully');           

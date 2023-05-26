@@ -1031,7 +1031,6 @@
         var pos = {{ $gs->currency_format }};
 
         @if (isset($checked))
-
             $('#comment-log-reg1').modal('show');
         @endif
 
@@ -1329,9 +1328,7 @@
             }
         });
     </script>
-    <script
-        src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly"
-        defer></script>
+    <script src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
 
     <script type="text/javascript">
         let placeSearch;
