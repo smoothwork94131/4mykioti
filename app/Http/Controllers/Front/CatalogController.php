@@ -107,7 +107,7 @@ class CatalogController extends Controller
                 $prods = $prods->where('group_id', $group_id)->where('model', $model);
             }
         }
-
+        
         $prods = $prods->distinct();
         $prods = $prods->orderBy('refno', 'asc');
         $prods = $prods->get();

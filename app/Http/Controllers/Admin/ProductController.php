@@ -837,7 +837,6 @@ class ProductController extends Controller
 
         $input = $request->all();
 
-        $input["user_id"] = 0;
         $input["subcategory_id"] = "home";
 
         if($input['effects'] == '<br>') {
