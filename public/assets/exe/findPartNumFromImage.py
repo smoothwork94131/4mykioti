@@ -1,23 +1,20 @@
 from google.cloud import vision
-import sys;
 import re
 import os
 
-image_path = sys.argv[1]
-python_path = sys.argv[2]
-
 # Set your Google Cloud project ID and path to the image file
 project_id = 'pdfdataminer'
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = python_path + "pdfdataminer-1106db23d6eb.json"
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "pdfdataminer-1106db23d6eb.json"
 
 # Define the regular expression patterns
-part_pattern = re.compile(r"Part: (\w+)")
-part_alt_pattern = re.compile(r"Pa\w{2}: (\w+)")
+part_pattern = re.compile(r"^[A-Za-z0-9!@#$%^&*()-_+{}\[\]:;\"'<>,.?/|\\-]+$")
+bin_pattern = re.compile(r"^[A-Za-z0-9!@#$%^&*()-_+{}\[\]:;\"'<>,.?/|\\-]+$")
 
 # Instantiate a client
 client = vision.ImageAnnotatorClient()
 
-def processImg(image_path):
+def processImg(image):
     # Load the image
     with open(image_path, 'rb') as image_file:
         content = image_file.read()
@@ -25,23 +22,25 @@ def processImg(image_path):
     image = vision.Image(content=content)
 
     # Perform text detection
+
     response = client.text_detection(image=image)
-    texts = response.text_annotations
+    text_annotations = response.text_annotations
+    result = []
 
-    # Get the entire text from the first element of texts
-    entire_text = texts[0].description
+    for annotation in text_annotations:
+        if 'description' in annotation:
+            # Search for a pattern that matches the format of a part number
+            part_match = re.search(part_pattern, annotation.description)
+            if part_match:
+                if part_match.group(0) not in result :
+                    result.append(part_match.group(0))
 
-    lines = entire_text.split("\n")
-    part_number = None
+            bin_match = re.search(bin_pattern, annotation.description)
+            if bin_match:
+                if bin_match.group(0) not in result :
+                    result.append(bin_match.group(0))
+    
+    return result
 
-    for line in lines:
-        if "Part: " in line:
-            # Get the part number from the same line
-            part_number = line.split("Part: ")[1]
-            break
-
-    if part_number is not None:
-        return part_number
-    else:
-        return "something went wrong"
+image_path = 'Product2.png'
 print(processImg(image_path))
