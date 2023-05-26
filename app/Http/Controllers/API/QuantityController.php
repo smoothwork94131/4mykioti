@@ -43,7 +43,7 @@ class QuantityController extends Controller
                         $result = $connection->table($table)
                             ->where('sku', $sku)
                             ->update([
-                                'stock' => DB::raw('stock - ' . (int)$quantity),
+                                'stock' => DB::raw((int)$quantity),
                             ]);
                     }
                 }
