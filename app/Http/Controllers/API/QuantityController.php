@@ -22,32 +22,24 @@ class QuantityController extends Controller
 
                 $connection = null;
 
-                if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
-                    if ($manufacturer == 'kioti') {
-                        $connection = DB::connection('product');
-                    } else {
-                        $connection = DB::connection('other');
-                    }
-    
-                    $series = $connection->table('categories_home')
-                        ->select('name')
-                        ->where('parent', '!=', 0)
-                        ->where('status', 1)
-                        ->get();
-    
-                    foreach ($series as $serie) {
-                        $table = strtolower($serie->name);
-    
-                        foreach ($parts as $part) {
-                            $sku = $part["sku"];
-                            $quantity = $part["quantity"];
-    
-                            $result = $connection->table($table)
-                                ->where('sku', $sku)
-                                ->update([
-                                    'stock' => DB::raw('stock - ' . (int)$quantity),
-                                ]);
-                        }
+                $series = $connection->table('categories_home')
+                    ->select('name')
+                    ->where('parent', '!=', 0)
+                    ->where('status', 1)
+                    ->get();
+
+                foreach ($series as $serie) {
+                    $table = strtolower($serie->name);
+
+                    foreach ($parts as $part) {
+                        $sku = $part["sku"];
+                        $quantity = $part["quantity"];
+
+                        $result = $connection->table($table)
+                            ->where('sku', $sku)
+                            ->update([
+                                'stock' => DB::raw((int)$quantity),
+                            ]);
                     }
                 }
             }
