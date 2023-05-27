@@ -20,29 +20,31 @@ class PriceController extends Controller
                 $parts = $item["parts"];
 
                 $connection = null;
-                if($manufacturer == 'kioti') {
-                    $connection = DB::connection('product');
-                }
-                else {
-                    $connection = DB::connection('other');
-                }
-
-                $series = $connection->table('categories_home')
-                    ->select('name')
-                    ->where('parent', '!=', 0)
-                    ->where('status', 1)
-                    ->get();
-
-                foreach($series as $serie) {
-                    $table = strtolower($serie->name);
-                    foreach($parts as $part) {
-                        $sku = $part["sku"];
-                        $price = $part["price"];
-                        $result = $connection->table($table)
-                        ->where('sku', $sku)
-                        ->update([
-                            'price' => $price
-                        ]);                  
+                if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
+                    if($manufacturer == 'kioti') {
+                        $connection = DB::connection('product');
+                    }
+                    else {
+                        $connection = DB::connection('other');
+                    }
+    
+                    $series = $connection->table('categories_home')
+                        ->select('name')
+                        ->where('parent', '!=', 0)
+                        ->where('status', 1)
+                        ->get();
+    
+                    foreach($series as $serie) {
+                        $table = strtolower($serie->name);
+                        foreach($parts as $part) {
+                            $sku = $part["sku"];
+                            $price = $part["price"];
+                            $result = $connection->table($table)
+                            ->where('sku', $sku)
+                            ->update([
+                                'price' => $price
+                            ]);                  
+                        }
                     }
                 }
             }
