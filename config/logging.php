@@ -48,6 +48,7 @@ return [
             'path' => storage_path('logs/api/quantity.log'),
             'level' => 'debug',
             'days' => 14,
+            'permission' => '0777'
         ],
 
         'api_price' => [
@@ -55,6 +56,7 @@ return [
             'path' => storage_path('logs/api/price.log'),
             'level' => 'debug',
             'days' => 14,
+            'permission' => '0777'
         ],
 
         'api_phone' => [
@@ -62,6 +64,7 @@ return [
             'path' => storage_path('logs/api/phone.log'),
             'level' => 'debug',
             'days' => 14,
+            'permission' => '0777'
         ],
 
         // ...
