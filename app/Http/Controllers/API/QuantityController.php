@@ -21,6 +21,11 @@ class QuantityController extends Controller
                 $parts = $item["parts"];
 
                 $connection = null;
+                if ($manufacturer == 'kioti') {
+                    $connection = DB::connection('product');
+                } else {
+                    $connection = DB::connection('other');
+                }
 
                 $series = $connection->table('categories_home')
                     ->select('name')
