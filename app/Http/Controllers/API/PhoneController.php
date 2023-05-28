@@ -59,26 +59,33 @@ class PhoneController extends Controller
             $quantity = $request->quantity;
 
             $connection = null;
-            if($manufacturer == 'kioti') {
-                $connection = DB::connection('product');
+            if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
+                if($manufacturer == 'kioti') {
+                    $connection = DB::connection('product');
+                }
+                else {
+                    $connection = DB::connection('other');
+                }
+    
+                $series = $connection->table('categories_home')
+                    ->select('name')
+                    ->where('parent', '!=', 0)
+                    ->where('status', 1)
+                    ->get();
+    
+                foreach($series as $serie) {
+                    $table = strtolower($serie->name);
+                    $result = $connection->table($table)
+                    ->where('sku', $sku)
+                    ->update([
+                        'stock' => $quantity
+                    ]);
+                    
+                    Log::channel('api_phone')->info("Updated Stock as {$quantity} For parts which sku is {$sku} and manufacturer is {$manufacturer} in {$serie->name} Series");
+                }
             }
             else {
-                $connection = DB::connection('other');
-            }
-
-            $series = $connection->table('categories_home')
-                ->select('name')
-                ->where('parent', '!=', 0)
-                ->where('status', 1)
-                ->get();
-
-            foreach($series as $serie) {
-                $table = strtolower($serie->name);
-                $result = $connection->table($table)
-                ->where('sku', $sku)
-                ->update([
-                    'stock' => $quantity
-                ]); 
+                Log::channel('api_phone')->warning("Coming api request for store sale of {$manufacturer} Manufacturer from phone");
             }
 
             return true;
@@ -91,20 +98,24 @@ class PhoneController extends Controller
             $to = 'usamtg@hotmail.com';
             $subject = 'Failed on API Request to update Quantity of Inventory From Mobile APP';
             $msg = "Manufacturer is ". $manufacturer. " and SKU of part is ". $sku .". <br>";
+            $content = $msg . $e->getMessage();
 
             //Sending Email To Customer
             if ($gs->is_smtp == 1) {
                 $data = [
                     'to' => $to,
                     'subject' => $subject,
-                    'body' => $msg . $e->getMessage(),
+                    'body' => $content,
                 ];
+
                 $mailer = new GeniusMailer();
                 $mailer->sendCustomMail($data);
             } else {
                 $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-                mail($to, $subject, $msg, $headers);
+                mail($to, $subject, $content, $headers);
             }
+
+            Log::channel('api_phone')->error($content);
 
             // Return a JSON response with an error message
             return response()->json(['error' => 'An error occurred while updating the quantity.'], 500);
