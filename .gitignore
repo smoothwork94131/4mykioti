@@ -1,5 +1,5 @@
 .env
-.cpanel.yml
+# .cpanel.yml
 /.vscode
 /node_modules
 /public/storage
