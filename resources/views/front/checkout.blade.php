@@ -825,8 +825,7 @@
                                             {{ $langg->lang128 }}
                                         </p>
                                         <P>
-                                            <b
-                                                class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
+                                            <b class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
                                         </P>
                                     </li>
                                     @if ($gs->tax != 0)
