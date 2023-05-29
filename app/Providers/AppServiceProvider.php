@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Currency;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Collection;
@@ -68,6 +69,14 @@ class AppServiceProvider extends ServiceProvider
                 $settings->with('solo_category', $solo_category);
                 $settings->with('solo_category_info', $solo_category_info);
             }
+
+            if (Session::has('currency')) {
+                $currency = Currency::find(Session::get('currency'));
+            } else {
+                $currency = Currency::where('is_default', '=', 1)->first();
+            }
+
+            $settings->with('current_currency', $currency);
 
             $domain = Config::get('session.domain_name');
             $settings->with('domain_name', $domain);
