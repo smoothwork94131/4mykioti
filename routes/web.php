@@ -123,11 +123,17 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/products/catalog/{id1}/{id2}', 'Admin\ProductController@catalog')->name('admin-prod-catalog');
 
-        //INVENTORY SECTION
-        Route::get('/products/inventory', 'Admin\ProductController@inventory')->name('admin-prod-inventory');
-        Route::post('/products/inventory/update', 'Admin\ProductController@inventory_update')->name('admin-prod-inventory-update');
+        
+        
         
         //------------ ADMIN PRODUCT SECTION ENDS------------
+    });
+
+    //------------ ADMIN AINVENTORY SECTION ------------
+
+    Route::group(['middleware' => 'permissions:inventories'], function () {
+        Route::get('/inventory', 'Admin\InventoryController@index')->name('admin-inventory');
+        Route::post('/inventory/update', 'Admin\InventoryController@update')->name('admin-inventory-update');
     });
 
     //------------ ADMIN AFFILIATE PRODUCT SECTION ------------

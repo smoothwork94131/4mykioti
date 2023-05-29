@@ -17,7 +17,7 @@
                             <a href="javascript:;">{{ __("Products") }} </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin-prod-index') }}">{{ __("Inventory") }}</a>
+                            <a href="{{ route('admin-inventory') }}">{{ __("Inventory") }}</a>
                         </li>
                     </ul>
                 </div>
@@ -32,7 +32,7 @@
                         @include('includes.admin.form-error-session')
 
                         <div class="action-area">
-                            <form id="search-form" class="search-form" name="search-form" method="GET" action="{{ route('admin-prod-inventory') }}">
+                            <form id="search-form" class="search-form" name="search-form" method="GET" action="{{ route('admin-inventory') }}">
                                 {{csrf_field()}}
                                 <div class="search-area">
                                     <select id="manufacturer" name="manufacturer" class="form-control">
@@ -47,7 +47,7 @@
                                     </button>
                                 </div>
                             </form>
-                            <form id="update-form" class="update-form" name="update-form" method="POST" action="{{ route('admin-prod-inventory-update') }}">
+                            <form id="update-form" class="update-form" name="update-form" method="POST" action="{{ route('admin-inventory-update') }}">
                                 {{csrf_field()}}
                                 <input type="hidden" id="update_data" name="update_data" value="">
                                 <button type="button" onclick="updateInventory()" class="add-btn">

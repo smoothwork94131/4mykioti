@@ -236,9 +236,9 @@
 
                                 <div class="row justify-content-center">
                                     <div class="col-lg-4 d-flex justify-content-between">
-                                        <label class="control-label">{{ __('Manage Staffs') }} *</label>
+                                        <label class="control-label">{{ __('Inventories') }} *</label>
                                         <label class="switch">
-                                            <input type="checkbox" name="section[]" value="manage_staffs">
+                                            <input type="checkbox" name="section[]" value="inventories">
                                             <span class="slider round"></span>
                                         </label>
                                     </div>

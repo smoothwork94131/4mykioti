@@ -36,6 +36,22 @@
                 {{-- <li>
                     <a href="{{ route('admin-prod-catalog-index') }}"><span>{{ __('Product Catalogs') }}</span></a>
                 </li> --}}
+                <li>
+                    <a href="{{ route('admin-prod-import') }}"><span>{{ __('Bulk Product Upload') }}</span></a>
+                </li>
+            </ul>
+        </li>
+    @endif
+
+    @if (Auth::guard('admin')->user()->sectionCheck('inventories'))
+        <li>
+            <a href="#inventory" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+                <i class="icofont-cart"></i>{{ __('Inventories') }}
+            </a>
+            <ul class="collapse list-unstyled" id="inventory" data-parent="#accordion">
+                <li>
+                    <a href="{{ route('admin-inventory') }}"><span>{{ __('Inventory') }}</span></a>
+                </li>
             </ul>
         </li>
     @endif
@@ -271,25 +287,20 @@
                 <li>
                     <a href="{{ route('admin-sb-index') }}"><span>{{ __('Top Small Banners') }}</span></a>
                 </li>
-
                 <li>
                     <a href="{{ route('admin-sb-large') }}"><span>{{ __('Large Banners') }}</span></a>
                 </li>
                 <li>
                     <a href="{{ route('admin-sb-bottom') }}"><span>{{ __('Bottom Small Banners') }}</span></a>
                 </li>
-
                 <li>
                     <a href="{{ route('admin-review-index') }}"><span>{{ __('Reviews') }}</span></a>
                 </li>
                 <li>
                     <a href="{{ route('admin-partner-index') }}"><span>{{ __('Partners') }}</span></a>
                 </li>
-
-
                 <li>
-                    <a
-                        href="{{ route('admin-ps-customize') }}"><span>{{ __('Home Page Customization') }}</span></a>
+                    <a href="{{ route('admin-ps-customize') }}"><span>{{ __('Home Page Customization') }}</span></a>
                 </li>
             </ul>
         </li>
@@ -389,17 +400,9 @@
         </li>
     @endif
 
-    @if (Auth::guard('admin')->user()->sectionCheck('manage_staffs'))
-        <li>
-            <a href="{{ route('admin-staff-index') }}" class=" wave-effect"><i class="fas fa-user-secret"></i>{{ __('Manage Staffs') }}</a>
-        </li>
-    @endif
-
-
     @if (Auth::guard('admin')->user()->sectionCheck('subscribers'))
         <li>
             <a href="{{ route('admin-subs-index') }}" class=" wave-effect"><i class="fas fa-users-cog mr-2"></i>{{ __('Subscribers') }}</a>
         </li>
     @endif
-
 @endif
