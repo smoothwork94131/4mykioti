@@ -148,7 +148,7 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card c-info-box-area">
                     <div class="c-info-box box4">
-                        <p>{{ count($orders) }}</p>
+                        <p>{{ count($all_orders) }}</p>
                     </div>
                     <div class="c-info-box-content">
                         <h6 class="title">{{ __('Total Sales') }}</h6>
