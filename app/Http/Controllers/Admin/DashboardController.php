@@ -69,6 +69,7 @@ class DashboardController extends Controller
         $shopify = ShopifySDK::config($config);
         $processing = $shopify->Order->get(array('status' => 'cancelled'));
         $completed = $shopify->Order->get(array('status' => 'closed'));
+        $users = $shopify->Customer->get();
 
         $series = DB::connection('product')->table('categories_home')->where('parent', '<>', 0)->where('status', 1)->get();
         $products = 0;
