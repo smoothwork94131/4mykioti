@@ -748,7 +748,7 @@ class CheckoutController extends Controller
                         }
                     }';
                     
-                    $productFromShopify = $shopify->GraphQL->post($query);      
+                    $productFromShopify = $shopify->GraphQL->post($query);
 
                     if ($productFromShopify['data']['products']['edges']) {
                         $update_input = '{
@@ -920,7 +920,6 @@ class CheckoutController extends Controller
             curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
             $response = curl_exec ($curl_init);
             $checkoutsh = json_decode($response, true);
-
             $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
             curl_close ($curl_init);
 

@@ -13,6 +13,8 @@ use App\Models\Blog;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Counter;
+use PHPShopify\ShopifySDK;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -32,11 +34,10 @@ class DashboardController extends Controller
         $sales = "";
         for ($i = 0; $i < 30; $i++) {
             $days .= "'" . date("d M", strtotime('-' . $i . ' days')) . "',";
-
             $sales .= "'" . Order::where('status', '=', 'completed')->whereDate('created_at', '=', date("Y-m-d", strtotime('-' . $i . ' days')))->count() . "',";
         }
         $users = User::all();
-        $products = Product::all();
+        $products = Product::all()->count();
         $blogs = Blog::all();
         $pproducts = Product::orderBy('id', 'desc')->take(5)->get();
         $rorders = Order::orderBy('id', 'desc')->take(5)->get();
@@ -53,6 +54,29 @@ class DashboardController extends Controller
             }
         }
 
+        $shop_url = env('SHOPIFY_SHOP_URL', '');
+        $storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
+        $storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
+        $shopify_api_version = env('SHOPIFY_API_VERSION', '2023-01');
+
+        $config = array(
+            'ShopUrl' => $shop_url,
+            'AccessToken' => $storeAccessToken,
+            'FrontAccessToken' => $storefrontAccessToken,
+            'ApiVersion' => $shopify_api_version
+        );
+
+        $shopify = ShopifySDK::config($config);
+        $processing = $shopify->Order->get(array('status' => 'cancelled'));
+        $completed = $shopify->Order->get(array('status' => 'closed'));
+
+        $series = DB::connection('product')->table('categories_home')->where('parent', '<>', 0)->where('status', 1)->get();
+        $products = 0;
+        foreach($series as $item) {
+            $db = strtolower($item->name);
+            $products += DB::connection('product')->table(strtolower($db))->count();
+        }
+        
         return view('admin.dashboard', compact('pending', 'activation_notify', 'processing', 'completed', 'products', 'users', 'blogs', 'days', 'sales', 'pproducts', 'rorders', 'poproducts', 'rusers', 'referrals', 'browsers'));
     }
 

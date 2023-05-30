@@ -24,7 +24,7 @@
         @endif
 
         <div class="row row-cards-one">
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            {{-- <div class="col-md-12 col-lg-6 col-xl-4">
                 <div class="mycard bg1">
                     <div class="left">
                         <h5 class="title">{{ __('Orders Pending!') }} </h5>
@@ -37,8 +37,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            </div> --}}
+            <div class="col-md-12 col-lg-6 col-xl-6">
                 <div class="mycard bg2">
                     <div class="left">
                         <h5 class="title">{{ __('Orders Procsessing!') }}</h5>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="col-md-12 col-lg-6 col-xl-6">
                 <div class="mycard bg3">
                     <div class="left">
                         <h5 class="title">{{ __('Orders Completed!') }}</h5>
@@ -66,11 +66,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="col-md-12 col-lg-6 col-xl-6">
                 <div class="mycard bg4">
                     <div class="left">
                         <h5 class="title">{{ __('Total Products!') }}</h5>
-                        <span class="number">{{count($products)}}</span>
+                        <span class="number">{{$products}}</span>
                         <a href="{{route('admin-prod-index')}}" class="link">{{ __('View All') }}</a>
                     </div>
                     <div class="right d-flex align-self-center">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="col-md-12 col-lg-6 col-xl-6">
                 <div class="mycard bg5">
                     <div class="left">
                         <h5 class="title">{{ __('Total Customers!') }}</h5>
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 col-xl-4">
+            {{-- <div class="col-md-12 col-lg-6 col-xl-4">
                 <div class="mycard bg6">
                     <div class="left">
                         <h5 class="title">{{ __('Total Posts!') }}</h5>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
 
