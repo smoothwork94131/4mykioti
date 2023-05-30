@@ -15,6 +15,7 @@ use App\Models\Product;
 use App\Models\Counter;
 use PHPShopify\ShopifySDK;
 use DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -27,17 +28,17 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $pending = Order::where('status', '=', 'pending')->get();
-        $processing = Order::where('status', '=', 'processing')->get();
-        $completed = Order::where('status', '=', 'completed')->get();
+        $pending_orders = Order::where('status', '=', 'pending')->get();
+        $processing_orders = Order::where('status', '=', 'processing')->get();
+        $completed_orders = Order::where('status', '=', 'completed')->get();
         $days = "";
         $sales = "";
         for ($i = 0; $i < 30; $i++) {
             $days .= "'" . date("d M", strtotime('-' . $i . ' days')) . "',";
             $sales .= "'" . Order::where('status', '=', 'completed')->whereDate('created_at', '=', date("Y-m-d", strtotime('-' . $i . ' days')))->count() . "',";
         }
-        $users = User::all();
-        $products = Product::all()->count();
+        $all_customers = User::all();
+        $total_products = Product::all()->count();
         $blogs = Blog::all();
         $pproducts = Product::orderBy('id', 'desc')->take(5)->get();
         $rorders = Order::orderBy('id', 'desc')->take(5)->get();
@@ -67,18 +68,26 @@ class DashboardController extends Controller
         );
 
         $shopify = ShopifySDK::config($config);
-        $processing = $shopify->Order->get(array('status' => 'cancelled'));
-        $completed = $shopify->Order->get(array('status' => 'closed'));
-        $users = $shopify->Customer->get();
+        $orders = $shopify->Order->get(array('status' => 'any'));
+        $pending_orders = $shopify->Order->get(array('financial_status' => 'pending'));
+        $processing_orders = $shopify->Order->get(array('status' => 'cancelled'));
+        $completed_orders = $shopify->Order->get(array('status' => 'closed'));
+        $orders_in_30 = $shopify->Order->get(array(
+            'status' => 'closed',
+            'created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')
+        ));
+
+        $all_customers = $shopify->Customer->get();
+        $customers_in_30 = $shopify->Customer->get(array('created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')));
 
         $series = DB::connection('product')->table('categories_home')->where('parent', '<>', 0)->where('status', 1)->get();
-        $products = 0;
+        $total_products = 0;
         foreach($series as $item) {
             $db = strtolower($item->name);
-            $products += DB::connection('product')->table(strtolower($db))->count();
+            $total_products += DB::connection('product')->table(strtolower($db))->count();
         }
         
-        return view('admin.dashboard', compact('pending', 'activation_notify', 'processing', 'completed', 'products', 'users', 'blogs', 'days', 'sales', 'pproducts', 'rorders', 'poproducts', 'rusers', 'referrals', 'browsers'));
+        return view('admin.dashboard', compact('pending_orders', 'orders_in_30', 'activation_notify', 'processing_orders', 'completed_orders', 'total_products', 'all_customers', 'customers_in_30', 'blogs', 'days', 'sales', 'pproducts', 'rorders', 'poproducts', 'rusers', 'referrals', 'browsers'));
     }
 
     public function profile()

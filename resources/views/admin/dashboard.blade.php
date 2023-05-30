@@ -24,11 +24,11 @@
         @endif
 
         <div class="row row-cards-one">
-            {{-- <div class="col-md-12 col-lg-6 col-xl-4">
+            <div class="col-md-12 col-lg-6 col-xl-4">
                 <div class="mycard bg1">
                     <div class="left">
                         <h5 class="title">{{ __('Orders Pending!') }} </h5>
-                        <span class="number">{{count($pending)}}</span>
+                        <span class="number">{{count($pending_orders)}}</span>
                         <a href="{{route('admin-order-pending')}}" class="link">{{ __('View All') }}</a>
                     </div>
                     <div class="right d-flex align-self-center">
@@ -37,12 +37,12 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
-            <div class="col-md-12 col-lg-6 col-xl-6">
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-4">
                 <div class="mycard bg2">
                     <div class="left">
                         <h5 class="title">{{ __('Orders Procsessing!') }}</h5>
-                        <span class="number">{{count($processing)}}</span>
+                        <span class="number">{{count($processing_orders)}}</span>
                         <a href="{{route('admin-order-processing')}}" class="link">{{ __('View All') }}</a>
                     </div>
                     <div class="right d-flex align-self-center">
@@ -52,11 +52,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 col-xl-6">
+            <div class="col-md-12 col-lg-6 col-xl-4">
                 <div class="mycard bg3">
                     <div class="left">
                         <h5 class="title">{{ __('Orders Completed!') }}</h5>
-                        <span class="number">{{count($completed)}}</span>
+                        <span class="number">{{count($completed_orders)}}</span>
                         <a href="{{route('admin-order-completed')}}" class="link">{{ __('View All') }}</a>
                     </div>
                     <div class="right d-flex align-self-center">
@@ -70,7 +70,7 @@
                 <div class="mycard bg4">
                     <div class="left">
                         <h5 class="title">{{ __('Total Products!') }}</h5>
-                        <span class="number">{{$products}}</span>
+                        <span class="number">{{$total_products}}</span>
                         <a href="{{route('admin-prod-index')}}" class="link">{{ __('View All') }}</a>
                     </div>
                     <div class="right d-flex align-self-center">
@@ -84,7 +84,7 @@
                 <div class="mycard bg5">
                     <div class="left">
                         <h5 class="title">{{ __('Total Customers!') }}</h5>
-                        <span class="number">{{count($users)}}</span>
+                        <span class="number">{{count($all_customers)}}</span>
                         <a href="{{route('admin-user-index')}}" class="link">{{ __('View All') }}</a>
                     </div>
                     <div class="right d-flex align-self-center">
@@ -115,7 +115,7 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card c-info-box-area">
                     <div class="c-info-box box1">
-                        <p>{{ App\Models\User::where( 'created_at', '>', Carbon\Carbon::now()->subDays(30))->get()->count()  }}</p>
+                        <p>{{ count($customers_in_30) }}</p>
                     </div>
                     <div class="c-info-box-content">
                         <h6 class="title">{{ __('New Customers') }}</h6>
@@ -126,7 +126,7 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card c-info-box-area">
                     <div class="c-info-box box2">
-                        <p>{{ App\Models\User::count() }}</p>
+                        <p>{{ count($all_customers) }}</p>
                     </div>
                     <div class="c-info-box-content">
                         <h6 class="title">{{ __('Total Customers') }}</h6>
@@ -137,7 +137,7 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card c-info-box-area">
                     <div class="c-info-box box3">
-                        <p>{{ App\Models\Order::where('status','=','completed')->where( 'created_at', '>', Carbon\Carbon::now()->subDays(30))->get()->count()  }}</p>
+                        <p>{{ count($orders_in_30) }}</p>
                     </div>
                     <div class="c-info-box-content">
                         <h6 class="title">{{ __('Total Sales') }}</h6>
@@ -148,7 +148,7 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card c-info-box-area">
                     <div class="c-info-box box4">
-                        <p>{{ App\Models\Order::where('status','=','completed')->get()->count() }}</p>
+                        <p>{{ count($orders) }}</p>
                     </div>
                     <div class="c-info-box-content">
                         <h6 class="title">{{ __('Total Sales') }}</h6>
@@ -159,7 +159,6 @@
         </div>
 
         <div class="row row-cards-one">
-
             <div class="col-md-6 col-lg-6 col-xl-6">
                 <div class="card">
                     <h5 class="card-header">{{ __('Recent Order(s)') }}</h5>
