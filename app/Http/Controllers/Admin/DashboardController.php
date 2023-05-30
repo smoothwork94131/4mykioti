@@ -68,17 +68,17 @@ class DashboardController extends Controller
         );
 
         $shopify = ShopifySDK::config($config);
-        $orders = $shopify->Order->get(array('status' => 'any'));
+        $all_orders = $shopify->Order->get(array('status' => 'any'));
         $pending_orders = $shopify->Order->get(array('financial_status' => 'pending'));
         $processing_orders = $shopify->Order->get(array('status' => 'cancelled'));
         $completed_orders = $shopify->Order->get(array('status' => 'closed'));
-        $orders_in_30 = $shopify->Order->get(array(
+        $in_30_orders = $shopify->Order->get(array(
             'status' => 'closed',
             'created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')
         ));
 
         $all_customers = $shopify->Customer->get();
-        $customers_in_30 = $shopify->Customer->get(array('created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')));
+        $in_30_customers = $shopify->Customer->get(array('created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')));
 
         $series = DB::connection('product')->table('categories_home')->where('parent', '<>', 0)->where('status', 1)->get();
         $total_products = 0;
@@ -87,7 +87,7 @@ class DashboardController extends Controller
             $total_products += DB::connection('product')->table(strtolower($db))->count();
         }
         
-        return view('admin.dashboard', compact('pending_orders', 'orders_in_30', 'activation_notify', 'processing_orders', 'completed_orders', 'total_products', 'all_customers', 'customers_in_30', 'blogs', 'days', 'sales', 'pproducts', 'rorders', 'poproducts', 'rusers', 'referrals', 'browsers'));
+        return view('admin.dashboard', compact('activation_notify', 'all_orders',  'pending_orders', 'in_30_orders', 'processing_orders', 'completed_orders', 'all_customers', 'in_30_customers', 'total_products', 'blogs', 'days', 'sales', 'pproducts', 'rorders', 'poproducts', 'rusers', 'referrals', 'browsers'));
     }
 
     public function profile()

@@ -115,7 +115,7 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card c-info-box-area">
                     <div class="c-info-box box1">
-                        <p>{{ count($customers_in_30) }}</p>
+                        <p>{{ count($in_30_customers) }}</p>
                     </div>
                     <div class="c-info-box-content">
                         <h6 class="title">{{ __('New Customers') }}</h6>
@@ -137,7 +137,7 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card c-info-box-area">
                     <div class="c-info-box box3">
-                        <p>{{ count($orders_in_30) }}</p>
+                        <p>{{ count($in_30_orders) }}</p>
                     </div>
                     <div class="c-info-box-content">
                         <h6 class="title">{{ __('Total Sales') }}</h6>
