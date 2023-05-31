@@ -3,5 +3,5 @@ deployment:
   tasks:
     - DEPLOYPATH=/home/colthansen/public_html/
     - /bin/cp -R * $DEPLOYPATH
-    - DEPLOYPATH2=/home/colthansen/public_html/kubernetsai.com/
+    - DEPLOYPATH2=/home/colthansen/public_html/kubernetesai.com/
     - /bin/cp -R * $DEPLOYPATH2
