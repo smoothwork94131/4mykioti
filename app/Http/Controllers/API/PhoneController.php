@@ -48,7 +48,7 @@ class PhoneController extends Controller
             $python_path = public_path() . '/assets/exe/'; 
             $command = "python " . $python_path . "findPartNumFromImage.py " . $image_path . " " . $python_path;
             $output = shell_exec($command);
-            echo $output;
+            return $output;
         }
     }
     
