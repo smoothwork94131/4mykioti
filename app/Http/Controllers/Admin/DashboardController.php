@@ -28,6 +28,8 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $all_orders = array();
+        $in_30_orders = array();
         $pending_orders = Order::where('status', '=', 'pending')->get();
         $processing_orders = Order::where('status', '=', 'processing')->get();
         $completed_orders = Order::where('status', '=', 'completed')->get();
@@ -37,6 +39,7 @@ class DashboardController extends Controller
             $days .= "'" . date("d M", strtotime('-' . $i . ' days')) . "',";
             $sales .= "'" . Order::where('status', '=', 'completed')->whereDate('created_at', '=', date("Y-m-d", strtotime('-' . $i . ' days')))->count() . "',";
         }
+        $in_30_customers =array();
         $all_customers = User::all();
         $total_products = Product::all()->count();
         $blogs = Blog::all();
