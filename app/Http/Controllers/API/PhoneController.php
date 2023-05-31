@@ -9,11 +9,12 @@ use Auth;
 use Session;
 use Image;
 use App\Models\Generalsetting;
+use App\Models\Inventory;
 use App\Classes\GeniusMailer;
 
 class PhoneController extends Controller
 {
-    public function loadPartNumFromImage(Request $reqest) {
+    public function loadPartNumFromImage(Request $request) {
 
         if ($file = $request->file('file'))
         {
@@ -50,6 +51,9 @@ class PhoneController extends Controller
             $output = shell_exec($command);
             echo $output;
         }
+        else {
+            echo 0;
+        }
     }
     
     public function updateQuantityBySku(Request $request) {
@@ -57,35 +61,39 @@ class PhoneController extends Controller
             $manufacturer = $request->manufacturer;
             $sku = $request->sku;
             $quantity = $request->quantity;
+            $bin = $request->bin;
 
-            $connection = null;
-            if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
-                if($manufacturer == 'kioti') {
-                    $connection = DB::connection('product');
+            $result = Inventory::where('part_number', $sku)->update(['bin' => $bin]);
+            if($result) {
+                $connection = null;
+                if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
+                    if($manufacturer == 'kioti') {
+                        $connection = DB::connection('product');
+                    }
+                    else {
+                        $connection = DB::connection('other');
+                    }
+        
+                    $series = $connection->table('categories_home')
+                        ->select('name')
+                        ->where('parent', '!=', 0)
+                        ->where('status', 1)
+                        ->get();
+        
+                    foreach($series as $serie) {
+                        $table = strtolower($serie->name);
+                        $result = $connection->table($table)
+                        ->where('sku', $sku)
+                        ->update([
+                            'stock' => $quantity
+                        ]);
+                        
+                        Log::channel('api_phone')->info("Updated Stock as {$quantity} For parts which sku is {$sku} and manufacturer is {$manufacturer} in {$serie->name} Series");
+                    }
                 }
                 else {
-                    $connection = DB::connection('other');
+                    Log::channel('api_phone')->warning("Coming api request for store sale of {$manufacturer} Manufacturer from phone");
                 }
-    
-                $series = $connection->table('categories_home')
-                    ->select('name')
-                    ->where('parent', '!=', 0)
-                    ->where('status', 1)
-                    ->get();
-    
-                foreach($series as $serie) {
-                    $table = strtolower($serie->name);
-                    $result = $connection->table($table)
-                    ->where('sku', $sku)
-                    ->update([
-                        'stock' => $quantity
-                    ]);
-                    
-                    Log::channel('api_phone')->info("Updated Stock as {$quantity} For parts which sku is {$sku} and manufacturer is {$manufacturer} in {$serie->name} Series");
-                }
-            }
-            else {
-                Log::channel('api_phone')->warning("Coming api request for store sale of {$manufacturer} Manufacturer from phone");
             }
 
             return true;

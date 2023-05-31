@@ -28,7 +28,7 @@
                 <div class="col-12 remove-padding s-top-block">
                     @if($domain_name == 'mahindra')
                     <div>
-                        Over 500,000 Mahindra Parts <br>and growing...
+                        Over 730,000 Mahindra Parts <br>and growing...
                     </div>
                     @elseif($domain_name == 'kioti')
                     <div>
