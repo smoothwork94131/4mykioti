@@ -3,3 +3,5 @@ deployment:
   tasks:
     - DEPLOYPATH=/home/nmykio5/public_html/
     - /bin/cp -R * $DEPLOYPATH
+    - DEPLOYPATH2=/home/nmykio5/public_html/4mymahindra.com
+    - /bin/cp -R * $DEPLOYPATH2
