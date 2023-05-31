@@ -14,7 +14,7 @@ use App\Classes\GeniusMailer;
 
 class PhoneController extends Controller
 {
-    public function loadPartNumFromImage(Request $reqest) {
+    public function loadPartNumFromImage(Request $request) {
 
         if ($file = $request->file('file'))
         {
@@ -50,6 +50,9 @@ class PhoneController extends Controller
             $command = "python " . $python_path . "findPartNumFromImage.py " . $image_path . " " . $python_path;
             $output = shell_exec($command);
             echo $output;
+        }
+        else {
+            echo 0;
         }
     }
     
