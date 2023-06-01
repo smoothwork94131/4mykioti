@@ -37,11 +37,17 @@ def processImg(image):
         if "Part: " in line:
             part_number = line.split("Part: ")[1]
             break
+        elif "Part Number:" in line:
+            part_number = line.split("Part Number: ")[1]
+            break
+        elif "Part #" in line:
+            part_number = line.split("Part # ")[1]
+            break
             
+    result = []
     if part_number is not None:
-        return part_number
+        result.append(part_number)
     else:
-        result = []
         for annotation in texts:
             if 'description' in annotation:
                 # Search for a pattern that matches the format of a part number
@@ -50,6 +56,5 @@ def processImg(image):
                     if part_match.group(0) not in result :
                         result.append(part_match.group(0))
 
-        return result
-
+    return result
 print(processImg(image_path))
