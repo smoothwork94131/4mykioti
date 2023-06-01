@@ -33,7 +33,7 @@ class PhoneController extends Controller
             $targetSize = 2000; // 100 KB
 
             // get the current file size in bytes
-            $currentSize = $image->filesize();
+            $currentSize = $img->filesize();
 
             // calculate the resize ratio
             $ratio = sqrt($currentSize / ($targetSize * 1024));

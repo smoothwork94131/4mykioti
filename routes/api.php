@@ -13,20 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('/login', 'API\AuthController@login')->name('login.api');
-Route::post('/register','API\AuthController@register')->name('register.api');
+Route::post('/login', 'API\AuthController@login')->name('login.api')->withoutMiddleware("throttle:api");
+Route::post('/register','API\AuthController@register')->name('register.api')->withoutMiddleware("throttle:api");
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', 'API\AuthController@logout')->name('logout.api');
+    Route::post('/logout', 'API\AuthController@logout')->name('logout.api')->withoutMiddleware("throttle:api");
 
     // This api is for inventory in mobile.
-    Route::post('/load_partnum_from_image', 'API\PhoneController@loadPartNumFromImage');
-    Route::post('/update_quantity_from_phone', 'API\PhoneController@updateQuantityBySku');
+    Route::post('/load_partnum_from_image', 'API\PhoneController@loadPartNumFromImage')->withoutMiddleware("throttle:api");
+    Route::post('/update_quantity_from_phone', 'API\PhoneController@updateQuantityBySku')->withoutMiddleware("throttle:api");
 });
 
 // This api is for sale in store.
 
 Route::middleware('check.api.ip')->group(function () {
-    Route::post('/update_quantity', 'API\QuantityController@updateQuantityBySku');
-    Route::post('/update_price', 'API\PriceController@updatePriceBySku');
+    Route::post('/update_quantity', 'API\QuantityController@updateQuantityBySku')->withoutMiddleware("throttle:api");
+    Route::post('/update_price', 'API\PriceController@updatePriceBySku')->withoutMiddleware("throttle:api");
 });
