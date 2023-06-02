@@ -29,7 +29,7 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            if(!Auth::Guard('admin-api')->attempt($request->only(['email', 'password']))){
+            if(!Auth::Guard('admin')->attempt($request->only(['email', 'password']))){
                 return response()->json([
                     'status' => false,
                     'message' => 'Email & Password does not match with our record.',

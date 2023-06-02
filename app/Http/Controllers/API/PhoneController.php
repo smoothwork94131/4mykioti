@@ -15,7 +15,6 @@ use App\Classes\GeniusMailer;
 class PhoneController extends Controller
 {
     public function loadPartNumFromImage(Request $request) {
-
         if ($file = $request->file('file'))
         {
             $name = str_replace(' ', '-', $file->getClientOriginalName());
