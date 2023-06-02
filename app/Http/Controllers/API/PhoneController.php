@@ -11,6 +11,10 @@ use Image;
 use App\Models\Generalsetting;
 use App\Models\Inventory;
 use App\Classes\GeniusMailer;
+use Google\Cloud\Vision\V1\Feature\Type;
+use Google\Cloud\Vision\V1\ImageAnnotatorClient;
+use Google\Cloud\Vision\V1\Likelihood;
+
 
 class PhoneController extends Controller
 {
@@ -30,28 +34,63 @@ class PhoneController extends Controller
             }
             
             $targetSize = 2000; // 100 KB
-
-            // get the current file size in bytes
             $currentSize = $img->filesize();
-
-            // calculate the resize ratio
             $ratio = sqrt($currentSize / ($targetSize * 1024));
 
-            
             $width = round($img->width() / $ratio);
             $height = round($img->height() / $ratio);
 
             $img->resize($width, $height);
             $img->save($image_path); 
 
-            // $image_path = public_path() . '/assets/images/mobile/product1.png';
-            $python_path = public_path() . '/assets/exe/'; 
-            $command = "python " . $python_path . "findPartNumFromImage.py " . $image_path . " " . $python_path;
-            $output = shell_exec($command);
-            return $output;
+            $python_path = public_path() . '/assets/exe/pdfdataminer-1106db23d6eb.json'; 
+            putenv("GOOGLE_APPLICATION_CREDENTIALS=$python_path");
+
+            $imageAnnotator = new ImageAnnotatorClient();
+            $image=file_get_contents($image_path);
+
+            $response = $imageAnnotator->textDetection($image);
+            $labels = $response->getTextAnnotations();
+            $description = $labels[0]->getDescription();
+
+            $lines = explode("\n", $description);
+            $part_number = "";
+            foreach ($lines as $line) {
+                if (strpos($line, "Part: ") !== false) {
+                    $part_number = explode("Part: ", $line)[1];
+                } 
+                else if(strpos($line, "Part Number: ") !== false) {
+                    $part_number = explode("Part Number: ", $line)[1];
+                }
+                else if(strpos($line, "Part # ") !== false) {
+                    $part_number = explode("Part # ", $line)[1];
+                }
+            }
+
+            $imageAnnotator->close();
+            $part_pattern = "^[A-Za-z0-9!@#$%^&*()-_+{}\[\]:;\"'<>,.?/|\\-]+$";
+
+            $result = array();
+            if($part_number != "") {
+                $result[] = $part_number;
+            }
+            else {
+                foreach($labels as $label) {
+                    if(isset($label->description)){
+                        if(preg_match($part_pattern, $label->description, $matches)){
+                            if(!in_array($matches[0], $result)) {
+                                $result[] = $matches[0];
+                            }
+                        }    
+                    }
+                }
+            }
+
+            return $result;
+
         }
         else {
-            echo 0;
+            return 0;
         }
     }
     
