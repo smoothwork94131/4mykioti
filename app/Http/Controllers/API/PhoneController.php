@@ -96,10 +96,34 @@ class PhoneController extends Controller
     
     public function updateQuantityBySku(Request $request) {
         try {
+
             $manufacturer = $request->manufacturer;
             $sku = $request->sku;
             $quantity = $request->quantity;
             $bin = $request->bin;
+
+            $image_file_name = "";
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $image_file_name = str_replace(' ', '-', $file->getClientOriginalName());
+                $image_file_name = time().$name;
+                if($manufacturer == 'kioti') {
+                    $image_path = $public_path() . '/assets/images/products_home/' . $image_file_name;
+                }
+                else {
+                    $image_path = $document_root . '/4mymahindra.com/public/assets/images/products_home/' . $image_file_name;
+                }
+                
+                move_uploaded_file($file, $image_path);
+                $thumbnail_img = Image::make($image_path)->resize(285, 285);
+                if($manufacturer == 'kioti') {
+                    $thumbnail_path = public_path().'/assets/images/thumbnails_home/'.$image_file_name;   
+                }
+                else {
+                    $thumbnail_path = $document_root . '/4mymahindra.com/public/assets/images/thumbnails_home/' . $image_file_name;
+                }
+                $thumbnail_img->save($thumbnail_path);
+            }
 
             $result = Inventory::where('part_number', $sku)->update(['bin' => $bin]);
             if($result) {
@@ -120,11 +144,20 @@ class PhoneController extends Controller
         
                     foreach($series as $serie) {
                         $table = strtolower($serie->name);
-                        $result = $connection->table($table)
-                        ->where('sku', $sku)
-                        ->update([
-                            'stock' => $quantity
-                        ]);
+                        $result = $connection->table($table);
+                        $result = $result->where('sku', $sku);
+                        if($image_file_name == '') {
+                            $result = $result->update([
+                                'stock' => $quantity
+                            ]);
+                        }
+                        else {
+                            $result = $result->update([
+                                'stock' => $quantity,
+                                'photo' => $image_file_name,
+                                'thumbnail' => $image_file_name
+                            ]);
+                        }
                         
                         Log::channel('api_phone')->info("Updated Stock as {$quantity} For parts which sku is {$sku} and manufacturer is {$manufacturer} in {$serie->name} Series");
                     }
