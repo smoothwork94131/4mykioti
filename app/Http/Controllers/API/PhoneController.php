@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
 use Image;
+use Illuminate\Support\Facades\Log;
 use App\Models\Generalsetting;
 use App\Models\Inventory;
 use App\Classes\GeniusMailer;

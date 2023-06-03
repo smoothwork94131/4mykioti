@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
+use Illuminate\Support\Facades\Log;
 use App\Models\Generalsetting;
 use App\Classes\GeniusMailer;
 
