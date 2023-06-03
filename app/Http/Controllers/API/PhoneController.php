@@ -107,7 +107,7 @@ class PhoneController extends Controller
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $image_file_name = str_replace(' ', '-', $file->getClientOriginalName());
-                $image_file_name = time().$name;
+                $image_file_name = time().$image_file_name;
                 if($manufacturer == 'kioti') {
                     $image_path = $public_path() . '/assets/images/products_home/' . $image_file_name;
                 }
