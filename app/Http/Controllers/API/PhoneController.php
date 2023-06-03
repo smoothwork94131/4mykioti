@@ -109,7 +109,7 @@ class PhoneController extends Controller
                 $image_file_name = str_replace(' ', '-', $file->getClientOriginalName());
                 $image_file_name = time().$image_file_name;
                 if($manufacturer == 'kioti') {
-                    $image_path = $public_path() . '/assets/images/products_home/' . $image_file_name;
+                    $image_path = public_path() . '/assets/images/products_home/' . $image_file_name;
                 }
                 else {
                     $image_path = $document_root . '/4mymahindra.com/public/assets/images/products_home/' . $image_file_name;
