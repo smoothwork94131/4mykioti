@@ -835,7 +835,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/staff/update/{id}', 'Admin\StaffController@update')->name('admin-staff-update');
         Route::get('/staff/show/{id}', 'Admin\StaffController@show')->name('admin-staff-show');
         Route::get('/staff/delete/{id}', 'Admin\StaffController@destroy')->name('admin-staff-delete');
-
     });
 
     //------------ ADMIN STAFF SECTION ENDS------------
@@ -880,7 +879,6 @@ Route::prefix('admin')->group(function () {
 
     Route::group(['middleware' => 'permissions:super'], function () {
 
-
         Route::get('/cache/clear', function () {
             Artisan::call('cache:clear');
             Artisan::call('config:clear');
@@ -906,7 +904,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/role/delete/{id}', 'Admin\RoleController@destroy')->name('admin-role-delete');
 
         // ------------ ROLE SECTION ENDS ----------------------
-
 
     });
 
@@ -1060,7 +1057,7 @@ Route::prefix('user')->group(function () {
 
 // ************************************ USER SECTION ENDS**********************************************
 
-Route::group(['middleware' => 'maintenance'], function () {
+Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
 
     // ************************************ FRONT SECTION **********************************************
 
@@ -1192,3 +1189,5 @@ Route::group(['middleware' => 'maintenance'], function () {
 
     // ************************************ FRONT SECTION ENDS**********************************************
 });
+
+Route::get('/give_cookie/{cookie}', 'Front\FrontendController@cookie')->name('front.cookie');

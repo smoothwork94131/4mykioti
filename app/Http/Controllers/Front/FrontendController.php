@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use InvalidArgumentException;
 use Markury\MarkuryPost;
 use Config;
+use Cookie;
 use PHPShopify\ShopifySDK;
 use App\Models\Currency;
 use App\Models\Blog;
@@ -836,5 +837,25 @@ class FrontendController extends Controller
     public function location(Request $request, $location_id = null) {
         $locations = StoreLocations::find($location_id);
         return view('front.location', compact('locations', 'location_id'));
+    }
+
+    public function cookie(Request $request, $cookie = null) {
+        if($cookie) {
+            $user_id = decrypt($cookie);
+            $user = User::find($user_id);
+            $expiration = Carbon::now()->addDays(30)->timestamp;
+            $cookieValue = encrypt($user->id);
+            Cookie::queue('user_id', $cookieValue, $expiration);
+
+            $user->loggedin_at = Carbon::now();
+            $user->save();
+            $login_url = env('OAUTH_GIVE_COOKIE_URL') . '/give_cookie/' . $cookieValue;
+
+            return view('front.cookie', compact($login_url));
+        }
+        else {
+            $login_url = "";
+            return view('front.cookie', compact($login_url));
+        }
     }
 }

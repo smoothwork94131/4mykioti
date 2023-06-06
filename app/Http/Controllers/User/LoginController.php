@@ -6,14 +6,15 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Session;
 use Validator;
+use Carbon\Carbon;
+use Cookie;
 use App\Models\UserCart;
 
 class LoginController extends Controller
 {
     public function __construct()
     {
-        
-        $this->middleware('guest', ['except' => ['logout', 'userLogout']]);
+        $this->middleware('guest', ['except' => ['logout']]);
     }
 
     public function showLoginForm()
@@ -33,7 +34,7 @@ class LoginController extends Controller
             'password' => 'required'
         ];
 
-        $validator = Validator::make(  $request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
@@ -41,7 +42,7 @@ class LoginController extends Controller
         //--- Validation Section Ends
 
         // Attempt to log the user in
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             // if successful, then redirect to their intended location
 
             // Check If Email is verified or not
@@ -55,26 +56,6 @@ class LoginController extends Controller
                 return response()->json(array('errors' => [0 => 'Your Account Has Been Banned.']));
             }
             
-            // Login Via Modal
-            // if (!empty($request->modal)) {
-            //     // Login as Vendor
-            //     if (!empty($request->vendor)) {
-            //         if (Auth::guard('web')->user()->is_vendor == 1) {
-            //             return response()->json(route('vendor-dashboard'));
-            //         } else {
-            //             return response()->json(route('user-package'));
-            //         }
-            //     }
-                
-            //     // if (Auth::guard('web')->user()->is_vendor == 1) {
-            //     //     return response()->json(array('flag' => 2));
-            //     // } else {
-            //     //     return response()->json(array('flag' => 1));
-            //     // }
-
-            //     return response()->json(1);
-            // }
-
             $cart = Session::get('cart');
 
             $content = NULL;
@@ -89,6 +70,7 @@ class LoginController extends Controller
             
             $usercart = new UserCart;
             $data = $usercart->where('user_id', Auth::guard('web')->user()->id)->get()->first();
+            
             if (!$data) {
                 $usercart->content = json_encode($content);
                 $usercart->user_id = Auth::guard('web')->user()->id;
@@ -98,14 +80,33 @@ class LoginController extends Controller
                 $data->user_id = Auth::guard('web')->user()->id;
                 $data->update();
             }
+
             // Login as User
+            $user = Auth::guard('web')->user();
+            $expiration = Carbon::now()->addDays(30)->timestamp;
+            $cookieValue = encrypt($user->id);
+            Cookie::queue('user_id', $cookieValue, $expiration);
+
+            $user->loggedin_at = Carbon::now();
+            $user->save();
+
             if(session()->has('url.intended'))
             {
                 $intended_url = session()->get('url.intended');
                 session()->forget('url.intended');
-                return response()->json($intended_url);
+                return response()->json(array(
+                    'main_url' => $intended_url,
+                    'first_login_url' => env('OAUTH_GIVE_COOKIE_FIRST_URL') . '/give_cookie/' . $cookieValue,
+                    'second_login_url' => env('OAUTH_GIVE_COOKIE_SECOND_URL') . '/give_cookie/' . $cookieValue
+                 ));
             }
-            return response()->json(route('user-dashboard'));
+            else {
+                return response()->json(array(
+                    'main_url' => route('user-dashboard'),
+                    'first_login_url' => env('OAUTH_GIVE_COOKIE_URL') . '/give_cookie/' . $cookieValue,
+                    'second_login_url' => env('OAUTH_GIVE_COOKIE_SECOND_URL') . '/give_cookie/' . $cookieValue
+                ));
+            }
         }
 
         // if unsuccessful, then redirect back to the login with the form data
@@ -114,6 +115,13 @@ class LoginController extends Controller
 
     public function logout()
     {
+        if (Auth::guard('web')->check()) {
+            Auth::guard('web')->user()->update([
+                'remember_token' => null,
+                'loggedin_at' => null
+            ]);
+        }
+        
         Auth::guard('web')->logout();
         return redirect('/');
     }

@@ -23,8 +23,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        // dd(URL::previous());
-
         if(!str_contains(URL::previous(), '/admin/login'))
             Session::put('url_intended',URL::previous());
 

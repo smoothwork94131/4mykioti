@@ -224,7 +224,13 @@ $(function ($) {
             if (data == 1) {
               location.reload();
             } else {
-              window.location = data;
+              var main_url = data.main_url;
+              var first_login_url = data.first_login_url;
+              var second_login_url = data.second_login_url;
+
+              $('#first_auth_iframe').attr('src', first_login_url);
+              $('#second_auth_iframe').attr('src', second_login_url);
+              window.location = main_url;
             }
           }
           $this.find("button.submit-btn").prop("disabled", false);
