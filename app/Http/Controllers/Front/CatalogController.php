@@ -287,6 +287,7 @@ class CatalogController extends Controller
         $data['colorsetting_style2'] = $colorsetting_style2;
         
         $data['db'] = $db;
+        $data['manufactuer'] = Config::get('session.domain_name');
 
         if ($request->ajax()) {
 
