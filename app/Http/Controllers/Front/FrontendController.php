@@ -843,7 +843,7 @@ class FrontendController extends Controller
         if($cookie) {
             $user = User::find($cookie);
             $expiration = Carbon::now()->addDays(30)->timestamp;
-            Cookie::queue('user_id', $user->id, $expiration);
+            Cookie::queue('user_id', $user->id, $expiration, null, null, false, true, 'None');
 
             $user->loggedin_at = Carbon::now();
             $user->save();
