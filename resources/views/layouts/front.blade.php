@@ -636,9 +636,20 @@
         </div>
     </footer>
 
-    <iframe id="first_auth_iframe" style="display:none;"></iframe>
-    <iframe id="second_auth_iframe" style="display: none;"></iframe>
+    @if (Session::has('first_login_url'))
+        <iframe src="{{ Session::get('first_login_url') }}" id="first_auth_iframe" style="display:none;"></iframe>
+        @php
+            Session::forget('first_login_url');
+        @endphp
+    @endif
 
+    @if (Session::has('second_login_url'))
+        <iframe src="{{ Session::get('second_login_url') }}" id="second_auth_iframe" style="display: none;"></iframe>
+        @php
+            Session::forget('second_login_url');
+        @endphp
+    @endif
+    
     <!-- Footer Area End -->
 
     <!-- Back to Top Start -->

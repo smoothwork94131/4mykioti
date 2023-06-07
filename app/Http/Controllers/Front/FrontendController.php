@@ -841,8 +841,7 @@ class FrontendController extends Controller
 
     public function cookie(Request $request, $cookie = null) {
         if($cookie) {
-            $user_id = decrypt($cookie);
-            $user = User::find($user_id);
+            $user = User::find($cookie);
             $expiration = Carbon::now()->addDays(30)->timestamp;
             $cookieValue = encrypt($user->id);
             Cookie::queue('user_id', $cookieValue, $expiration);

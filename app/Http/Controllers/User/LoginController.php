@@ -84,28 +84,22 @@ class LoginController extends Controller
             // Login as User
             $user = Auth::guard('web')->user();
             $expiration = Carbon::now()->addDays(30)->timestamp;
-            $cookieValue = encrypt($user->id);
-            Cookie::queue('user_id', $cookieValue, $expiration);
+            Cookie::queue('user_id', $user->id, $expiration);
 
             $user->loggedin_at = Carbon::now();
             $user->save();
+
+            session()->put('first_login_url', env('OAUTH_GIVE_COOKIE_FIRST_URL') . '/give_cookie/' . $user->id);
+            session()->put('second_login_url', env('OAUTH_GIVE_COOKIE_SECOND_URL') . '/give_cookie/' . $user->id);
 
             if(session()->has('url.intended'))
             {
                 $intended_url = session()->get('url.intended');
                 session()->forget('url.intended');
-                return response()->json(array(
-                    'main_url' => $intended_url,
-                    'first_login_url' => env('OAUTH_GIVE_COOKIE_FIRST_URL') . '/give_cookie/' . $cookieValue,
-                    'second_login_url' => env('OAUTH_GIVE_COOKIE_SECOND_URL') . '/give_cookie/' . $cookieValue
-                 ));
+                return response()->json($intended_url);
             }
             else {
-                return response()->json(array(
-                    'main_url' => route('user-dashboard'),
-                    'first_login_url' => env('OAUTH_GIVE_COOKIE_URL') . '/give_cookie/' . $cookieValue,
-                    'second_login_url' => env('OAUTH_GIVE_COOKIE_SECOND_URL') . '/give_cookie/' . $cookieValue
-                ));
+                return response()->json(route('user-dashboard'));
             }
         }
 

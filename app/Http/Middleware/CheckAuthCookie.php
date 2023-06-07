@@ -20,9 +20,7 @@ class CheckAuthCookie
     public function handle(Request $request, Closure $next)
     {
         if ($request->hasCookie('user_id')) {
-            $cookie = $request->cookie('user_id');
-            $user_id = decrypt($cookie);
-            
+            $user_id = $request->cookie('user_id');
             $user = User::find($user_id);
             $last_loggedin_at = Carbon::parse($user->loggedin_at);
             $now = Carbon::now();
