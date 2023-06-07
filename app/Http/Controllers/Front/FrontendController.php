@@ -843,18 +843,14 @@ class FrontendController extends Controller
         if($cookie) {
             $user = User::find($cookie);
             $expiration = Carbon::now()->addDays(30)->timestamp;
-            $cookieValue = encrypt($user->id);
-            Cookie::queue('user_id', $cookieValue, $expiration);
+            Cookie::queue('user_id', $user->id, $expiration);
 
             $user->loggedin_at = Carbon::now();
             $user->save();
-            $login_url = env('OAUTH_GIVE_COOKIE_URL') . '/give_cookie/' . $cookieValue;
-
-            return view('front.cookie', compact($login_url));
+            return view('front.cookie');
         }
         else {
-            $login_url = "";
-            return view('front.cookie', compact($login_url));
+            return view('front.cookie');
         }
     }
 }
