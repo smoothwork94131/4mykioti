@@ -7,19 +7,44 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @php
+        $page_title = "";
+        if($domain_name == 'kioti') {
+            $page_title = "Kioti";
+        }
+        else {
+            $page_title = "Mahindra";
+        }
+
+        if(Session::has('rootRoute')) {
+            $page_title .= ' ';
+            $page_title .= Session::get('rootRoute');
+            Session::forget('rootRoute');
+        }
+
+        if(isset($slug_list) && count($slug_list) > 0) {
+            foreach($slug_list as $key=>$item) {
+                $page_title .= ' ';
+                $page_title .= $slug_list[$key] ?? '';
+            }
+        }
+
+    @endphp
+
     @if(isset($blog->meta_tag) && isset($blog->meta_description))
         <meta name="keywords" content="{{ $blog->meta_tag }}">
-        <title>{{ $gs->title }}</title>
     @elseif(isset($productt))
         <meta property="og:title" content="{{ $productt->name }}" />
         <meta property="og:image" content="{{ asset('assets/images/thumbnails/' . $productt->thumbnail) }}" />
-        <meta name="author" content="Davehansen.com">
-        <title>{{ substr($productt->name, 0, 11) . '-' }}{{ $gs->title }}</title>
+        @php
+            $page_title = substr($productt->name, 0, 11) . '-' . $page_title;
+        @endphp
     @else
-        <meta name="keywords" content="{{ $seo->meta_keys }}">
-        <meta name="author" content="Davehansen.com">
-        <title>{{ $gs->title }}</title>
+        <meta name="keywords" content="{{ $seo->meta_keys }}">    
     @endif
+    
+    <meta name="author" content="Davehansen.com">
+    <title>{{ $page_title }}</title>
 
     @php
         $googleVerificationKey = env('GOOGLE_VERIFICATION_KEY');

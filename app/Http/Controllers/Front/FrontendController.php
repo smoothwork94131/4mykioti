@@ -123,6 +123,28 @@ class FrontendController extends Controller
 
 // -------------------------------- HOME PAGE SECTION ----------------------------------------
 
+    public function replaceDataToPath($path) {
+        if(strstr($path, ":::")) {
+            $path = str_replace(":::", "/", $path) ;
+        }
+
+        if(strstr($path, '***')) {
+            $path = str_replace("***", "#", $path) ;
+        }
+        return $path ;
+    }
+
+    public function replacPathToData($data) {
+        if(strstr($data, "/")) {
+            $data = str_replace("/", ":::", $data) ;
+        }
+        
+        if(strstr($data, '#')) {
+            $data = str_replace("#", "***", $data) ;
+        }
+        return $data ;
+    }
+
     public function index(Request $request)
     {
         $this->code_image();
@@ -175,6 +197,8 @@ class FrontendController extends Controller
 
     public function partsByModel(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {
+        Session::put('rootRoute', 'Find Parts');
+        
         $slug_list = array() ;
         $result = array() ;
 
@@ -232,36 +256,15 @@ class FrontendController extends Controller
                 }
             }
             Session::put("slug_list", $slug_list) ;
-            Session::put("page_name", "partsbymodel") ;
         }
         
         return view('front.partsbymodel', compact("result", "slug_list"));
     }
 
-    public function replaceDataToPath($path) {
-        if(strstr($path, ":::")) {
-            $path = str_replace(":::", "/", $path) ;
-        }
-
-        if(strstr($path, '***')) {
-            $path = str_replace("***", "#", $path) ;
-        }
-        return $path ;
-    }
-    
-    public function replacPathToData($data) {
-        if(strstr($data, "/")) {
-            $data = str_replace("/", ":::", $data) ;
-        }
-        
-        if(strstr($data, '#')) {
-            $data = str_replace("#", "***", $data) ;
-        }
-        return $data ;
-    }
-
     public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {   
+        Session::put('rootRoute', 'Schematics');
+        
         $slug_list = array() ;
         $result = array() ;
 
@@ -309,8 +312,7 @@ class FrontendController extends Controller
                 $result = $group_info ;
             }
 
-            Session::put("slug_list", $slug_list) ;
-            Session::put("page_name", "schematics") ;
+            Session::put("slug_list", $slug_list);
         }
 
         $manufacturer = Config::get('session.domain_name');
@@ -319,6 +321,8 @@ class FrontendController extends Controller
 
     public function commonpart(Request $request, $category=null, $series=null, $model=null, $prod=null)
     {
+        Session::put('rootRoute', 'Common Parts');
+        
         $slug_list = array() ;
         $result = array() ;
 

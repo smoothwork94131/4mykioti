@@ -22,8 +22,18 @@
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
 
+    @php
+    $page_title = "";
+    if($domain_name == 'kioti') {
+        $page_title = "Kioti";
+    }
+    else {
+        $page_title = "Mahindra";
+    }
+    @endphp
+
     <!-- Title -->
-    <title>{{$gs->title}}</title>
+    <title>{{ $page_title }}</title>
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/'.$gs->favicon)}}" />
     <!-- Bootstrap -->

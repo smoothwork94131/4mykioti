@@ -11,8 +11,10 @@ use App\Models\Product;
 use App\Models\Currency;
 use Carbon\Carbon;
 use Session;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Route;
 use App;
 
 class AppServiceProvider extends ServiceProvider
@@ -90,7 +92,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         Collection::macro('paginate', function ($perPage, $total = null, $page = null, $pageName = 'page') {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
             return new LengthAwarePaginator(
