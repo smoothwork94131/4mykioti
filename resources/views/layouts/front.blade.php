@@ -16,36 +16,30 @@
             $page_title = "Mahindra";
         }
 
-        $rootRoute = "";
         if(Session::has('rootRoute')) {
             $rootRoute = Session::get('rootRoute');
-            if($rootRoute == 'Find' || $rootRoute == 'Schematics') {
-                $page_title = "Find " . $page_title;
+            if($rootRoute == 'Find') {
+                $page_title = "Parts for the " . $page_title;
+            }
+            else if($rootRoute == 'Common') {
+                $page_title = "Common Parts for the " . $page_title;
             }
             else{
-                $page_title = "Find Common " . $page_title;
+                $page_title = "Schematics for the " . $page_title;
             }
             Session::forget('rootRoute');
         }
 
         if(isset($slug_list) && count($slug_list) > 0) {
             foreach($slug_list as $key=>$item) {
+                if($key == 'prod_name') {
+                    continue;
+                }
                 $page_title .= ' ';
                 $page_title .= $slug_list[$key] ?? '';
             }
         }
-
-        if($rootRoute != "") {
-            if($rootRoute == "Find" || $rootRoute == "Common") {
-                $page_title .= " Parts";
-            }
-            else {
-                $page_title .= " Schematics";
-            }
-        }
-
     @endphp
-
     @if(isset($blog->meta_tag) && isset($blog->meta_description))
         <meta name="keywords" content="{{ $blog->meta_tag }}">
     @elseif(isset($productt))
