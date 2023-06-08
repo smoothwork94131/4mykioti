@@ -22,6 +22,9 @@
             if(array_key_exists('prod_name', $slug_list)) {
                 unset($slug_list['prod_name']);
             }
+            if(array_key_exists('prod', $slug_list)) {
+                unset($slug_list['prod']);
+            }
 
             $page_title .= ' ';
             if(count($slug_list)==1) {
@@ -35,7 +38,7 @@
             }
             else if(count($slug_list)==4) {
                 $page_title .= $slug_list["model"] ?? '';
-                $page_title .= ' ' . $slug_list["section"] ?? '';
+                $page_title .= ' ' . $slug_list["section"]?? '';
             }
             else if(count($slug_list)==5) {
                 $page_title .= $slug_list["model"] ?? '';
