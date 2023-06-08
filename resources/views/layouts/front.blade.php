@@ -16,29 +16,47 @@
             $page_title = "Mahindra";
         }
 
+        
+
+        if(isset($slug_list) && count($slug_list) > 0) {
+            if(array_key_exists('prod_name', $slug_list)) {
+                unset($slug_list['prod_name']);
+            }
+
+            $page_title .= ' ';
+            if(count($slug_list)==1) {
+                $page_title .= $slug_list["category"] ?? '';
+            }
+            else if(count($slug_list)==2) {
+                $page_title .= $slug_list["series"] ?? '';
+            }
+            else if(count($slug_list)==3) {
+                $page_title .= $slug_list["model"] ?? '';
+            }
+            else if(count($slug_list)==4) {
+                $page_title .= $slug_list["model"] ?? '';
+                $page_title .= ' ' . $slug_list["section"] ?? '';
+            }
+            else if(count($slug_list)==5) {
+                $page_title .= $slug_list["model"] ?? '';
+                $page_title .= ' ' . $slug_list["group"] ?? '';
+            }
+        }
+
         if(Session::has('rootRoute')) {
             $rootRoute = Session::get('rootRoute');
             if($rootRoute == 'Find') {
-                $page_title = "Parts for the " . $page_title;
+                $page_title .= " Parts";
             }
             else if($rootRoute == 'Common') {
-                $page_title = "Common Parts for the " . $page_title;
+                $page_title .= " Common Parts";
             }
             else{
-                $page_title = "Schematics for the " . $page_title;
+                $page_title .= " Schematics";
             }
             Session::forget('rootRoute');
         }
 
-        if(isset($slug_list) && count($slug_list) > 0) {
-            foreach($slug_list as $key=>$item) {
-                if($key == 'prod_name') {
-                    continue;
-                }
-                $page_title .= ' ';
-                $page_title .= $slug_list[$key] ?? '';
-            }
-        }
     @endphp
     @if(isset($blog->meta_tag) && isset($blog->meta_description))
         <meta name="keywords" content="{{ $blog->meta_tag }}">
