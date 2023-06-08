@@ -197,7 +197,7 @@ class FrontendController extends Controller
 
     public function partsByModel(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
     {
-        Session::put('rootRoute', 'Find Parts');
+        Session::put('rootRoute', 'Find');
         
         $slug_list = array() ;
         $result = array() ;
@@ -321,7 +321,7 @@ class FrontendController extends Controller
 
     public function commonpart(Request $request, $category=null, $series=null, $model=null, $prod=null)
     {
-        Session::put('rootRoute', 'Common Parts');
+        Session::put('rootRoute', 'Common');
         
         $slug_list = array() ;
         $result = array() ;

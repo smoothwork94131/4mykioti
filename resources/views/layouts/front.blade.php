@@ -16,9 +16,15 @@
             $page_title = "Mahindra";
         }
 
+        $rootRoute = "";
         if(Session::has('rootRoute')) {
-            $page_title .= ' ';
-            $page_title .= Session::get('rootRoute');
+            $rootRoute = Session::get('rootRoute');
+            if($rootRoute == 'Find' || $rootRoute == 'Schematics') {
+                $page_title = "Find " . $page_title;
+            }
+            else{
+                $page_title = "Find Common " . $page_title;
+            }
             Session::forget('rootRoute');
         }
 
@@ -26,6 +32,15 @@
             foreach($slug_list as $key=>$item) {
                 $page_title .= ' ';
                 $page_title .= $slug_list[$key] ?? '';
+            }
+        }
+
+        if($rootRoute != "") {
+            if($rootRoute == "Find" || $rootRoute == "Common") {
+                $page_title .= " Parts";
+            }
+            else {
+                $page_title .= " Schematics";
             }
         }
 
@@ -37,7 +52,9 @@
         <meta property="og:title" content="{{ $productt->name }}" />
         <meta property="og:image" content="{{ asset('assets/images/thumbnails/' . $productt->thumbnail) }}" />
         @php
-            $page_title = substr($productt->name, 0, 11) . '-' . $page_title;
+            if(isset($slug_list)) {
+                $page_title = $page_title ." - ". $productt->name;
+            }
         @endphp
     @else
         <meta name="keywords" content="{{ $seo->meta_keys }}">    
