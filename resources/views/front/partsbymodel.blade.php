@@ -43,7 +43,6 @@
                                         {{$item}}
                                     </a>
                                 @endif
-                                
                             </li>
                             @php
                                 $index++ ;
@@ -55,40 +54,41 @@
         </div>
     </div>
     <!-- Breadcrumb Area End -->
-    <!-- faq Area Start -->
-  
+
+    <!-- Section Start -->
     <section class="faq-section">
         <div class="container">
-            <div class="row m-block-content">
-                @if(count($result) == 0) 
-                    <h3 algin='center'>No data</h3>
-                @endif
-                @foreach($result as $item)
-                <div class="col col-md-3 col-sm-4">
-                    @php 
-                        $path = $item->name ;
-                        if(strstr($path, "/")) {
-                            $path = str_replace("/", ":::", $path) ;
-                        }
+            @if(count($result) == 0) 
+                <h3 class="page-title">No data</h3>
+            @else
+                <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $category?? '' }} {{ $series?? '' }} {{ $model?? '' }} {{ $section?? '' }} {{ $group?? '' }} Parts</h3>
+                <div class="row m-block-content">
+                    @foreach($result as $item)
+                        <div class="col-md-3 col-sm-6">
+                            @php 
+                                $path = $item->name ;
+                                if(strstr($path, "/")) {
+                                    $path = str_replace("/", ":::", $path) ;
+                                }
 
-                        if(strstr($path, "#")) {
-                            $path = str_replace("#", "***", $path) ;
-                        }
-                    @endphp
-                    <a href="{{$route.'/'.$path}}">
-                        <div class="m-block" >
-                            {{$item->name}} Parts
-                        </div>
-                    </a>
-                </div> 
-                @endforeach
-            </div>
+                                if(strstr($path, "#")) {
+                                    $path = str_replace("#", "***", $path) ;
+                                }
+                            @endphp
+                            <a href="{{$route.'/'.$path}}">
+                                <div class="m-block" >
+                                    {{$item->name}} Parts
+                                </div>
+                            </a>
+                        </div> 
+                    @endforeach
+                </div>
+            @endif
         </div>
     </section>
-    <!-- faq Area End-->
+    <!-- Section End-->
+@endsection
 
-    @section('scripts')
-
-    @endsection
+@section('scripts')
 
 @endsection

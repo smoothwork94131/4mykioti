@@ -1,3 +1,10 @@
+.page-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #F05223;
+    margin-bottom: 30px;
+}
+
 /*PAGINATION DESIGN*/
 
 .page-center ul.pagination li {
@@ -877,13 +884,12 @@ a.sell-btn {
 }
 
 @media (max-width: 768px) {
-    .product_table {
-        font-size: 12px;
+    .page-title {
+        font-size: 24px;
     }
 
-    .product_table .td-img img {
-        width: 30px;
-        height: 30px;
+    .product_table {
+        font-size: 12px;
     }
 
     .product_table .th-group, .product_table .td-group, .product_table .th-part, .product_table .td-part {
@@ -2273,11 +2279,4 @@ End Footer Custom Style
     font-weight: bolder;
     color: #F05223;
     margin-bottom: 10px;
-}
-
-.page-title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #F05223;
-    margin-bottom: 20px;
 }

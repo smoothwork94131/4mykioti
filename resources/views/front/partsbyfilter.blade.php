@@ -96,13 +96,13 @@
     <section class="faq-section">
         <div class="container">
             @if(count($results) == 0) 
-                <h3 algin='center' class="page-title">No data</h3>
+                <h3 class="page-title">No data</h3>
             @else
                 <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $category?? '' }} {{ $series?? '' }} {{ $model?? '' }} {{ $filter }} Filters</h3>
                 @if(count($slug_list) > 3)
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-border" cellspacing="0" width="100%">
+                            <table class="table product_table" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
                                     <th width='10%' class='th-img' style="text-align:center;"></th>
@@ -126,7 +126,7 @@
                                 @endphp
                                     <tr>
                                         <td class='td-img' style="text-align:center;">
-                                            <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="" style="width:50px; height: 50px;">
+                                            <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                         </td>
                                         <td style="text-align:center;">
                                             <a href="{{route('front.commonparts', $slug_list)}}">{{ $prod->name }}</a>
@@ -177,7 +177,7 @@
                 @else
                     <div class="row m-block-content">
                         @foreach($results as $item)
-                        <div class="col col-md-3 col-sm-4">
+                        <div class="col-md-3 col-sm-6">
                             @php 
                                 $path = $item->name ;
                                 if(strstr($path, "/")) {
@@ -196,7 +196,8 @@
             @endif
         </div>
     </section>
+@endsection
 
-    @section('scripts')
-    @endsection
+@section('scripts')
+
 @endsection

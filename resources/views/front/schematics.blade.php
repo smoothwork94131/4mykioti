@@ -1,6 +1,6 @@
 @extends('layouts.front')
-@section('content')
 
+@section('content')
     <!-- Breadcrumb Area Start -->
     <div class="breadcrumb-area">
         <div class="container">
@@ -52,50 +52,54 @@
         </div>
     </div>
     <!-- Breadcrumb Area End -->
-    <!-- faq Area Start -->
+
+    <!-- Section Start -->
     <section class="faq-section">
         <div class="container">
-            <div class="row m-block-content">
-            
-            @if(count($slug_list) == 5)
-                <h3>
-                    {{ strtoupper($manufacturer) . " " .$result[0]->group_name . " SCHEMATICS"}}
-                </h3>
-                <div class="group-schematics">
-                    @if($result[0]->image && file_exists(public_path('assets/images/group/'.$result[0]->image)))
-                        <img src="{{asset('assets/images/group/'.$result[0]->image)}}">
-                    @else
-                        @if(file_exists(public_path('assets/images/group/'.$result[0]->group_Id.'.png')))
-                        <img src="{{asset('assets/images/group/'.$result[0]->group_Id.'.png')}}">
-                        @else
-                        <img src="{{asset('assets/images/noimage.png')}}" style="min-width: 100px;">
-                        @endif
-                    @endif
-                </div>
-            @else
-                @foreach($result as $item)
-                <div class="col col-md-3 col-sm-4">
-                    @php 
-                        $path = $item->name ;
-                        if(strstr($path, "/")) {
-                            $path = str_replace("/", ":::", $path) ;
-                        }
-                    @endphp
-                    <a href="{{$route.'/'.$path}}">
-                        <div class="m-block" >
-                            {{$item->name}} Schematic
+            @if(count($result) == 0) 
+                <h3 class="page-title">No data</h3>
+            @else               
+                @if(count($slug_list) == 5)
+                    <h3 class="page-title">{{ strtoupper($domain_name) . " " .$result[0]->group_name . " SCHEMATICS"}}</h3>
+                    <div class="row m-block-content">
+                        <div class="group-schematics">
+                            @if($result[0]->image && file_exists(public_path('assets/images/group/'.$result[0]->image)))
+                                <img src="{{asset('assets/images/group/'.$result[0]->image)}}">
+                            @else
+                                @if(file_exists(public_path('assets/images/group/'.$result[0]->group_Id.'.png')))
+                                <img src="{{asset('assets/images/group/'.$result[0]->group_Id.'.png')}}">
+                                @else
+                                <img src="{{asset('assets/images/noimage.png')}}" style="min-width: 100px;">
+                                @endif
+                            @endif
                         </div>
-                    </a>
-                </div> 
-                @endforeach    
+                    </div>
+                @else
+                    <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $category?? '' }} {{ $series?? '' }} {{ $model?? '' }} {{ $section?? '' }} {{ $group?? '' }} Schematics</h3>
+                    <div class="row m-block-content">
+                        @foreach($result as $item)
+                        <div class="col-md-3 col-sm-6">
+                            @php 
+                                $path = $item->name ;
+                                if(strstr($path, "/")) {
+                                    $path = str_replace("/", ":::", $path) ;
+                                }
+                            @endphp
+                            <a href="{{$route.'/'.$path}}">
+                                <div class="m-block" >
+                                    {{$item->name}} Schematic
+                                </div>
+                            </a>
+                        </div> 
+                        @endforeach    
+                    </div>
+                @endif
             @endif
-            </div>
         </div>
     </section>
-    <!-- faq Area End-->
+    <!-- Section End-->
+@endsection
 
-    @section('scripts')
-
-    @endsection
+@section('scripts')
 
 @endsection

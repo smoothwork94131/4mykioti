@@ -31087,7 +31087,6 @@ table.dataTable td {
 .dataTables_wrapper {
     position: relative;
     clear: both;
-    *zoom: 1;
     zoom: 1
 }
 
@@ -31125,7 +31124,6 @@ table.dataTable td {
     text-align: center;
     text-decoration: none !important;
     cursor: pointer;
-    *cursor: hand;
     color: #333 !important;
     border: 1px solid transparent;
     border-radius: 2px
@@ -31217,7 +31215,7 @@ table.dataTable td {
 }
 
 .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody {
-    *margin-top: -1px;
+    margin-top: -1px;
     -webkit-overflow-scrolling: touch
 }
 
@@ -44853,7 +44851,7 @@ Faq Page Start
 -----------------------------*/
 
 .faq-section {
-    padding: 50px 0px 70px;
+    padding: 3px 0px 70px;
 }
 
 .ui-accordion .ui-accordion-header {

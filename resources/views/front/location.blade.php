@@ -29,7 +29,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 col-md-12">
-                    <div class="map-page-title">Locations</div>
+                    <div class="page-title">Locations</div>
                     <div id="map" style="width:100%; height:500px;"></div>
                     <div class="map_other_info">
                         <div class="address-container">

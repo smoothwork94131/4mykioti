@@ -255,10 +255,11 @@ class FrontendController extends Controller
                     return redirect()->route('front.category',["category"=>$category, "series"=>$series, "model"=>$model, "section"=>$section, "group"=>$group]);
                 }
             }
-            Session::put("slug_list", $slug_list) ;
         }
+
+        Session::put("slug_list", $slug_list);
         
-        return view('front.partsbymodel', compact("result", "slug_list"));
+        return view('front.partsbymodel', compact("result", "slug_list", "category", "series", "model", "section", "group"));
     }
 
     public function commonpart(Request $request, $category=null, $series=null, $model=null, $prod=null)
@@ -391,9 +392,11 @@ class FrontendController extends Controller
 
                 return view('front.homeproduct', compact('db','productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "slug_list", "page", "also_fits"));
             }
-
         }
-        return view('front.commonparts', compact("result", "slug_list"));
+
+        Session::put("slug_list", $slug_list);
+
+        return view('front.commonparts', compact("result", "slug_list", "category", "series", "model"));
     }
 
     public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
@@ -446,12 +449,11 @@ class FrontendController extends Controller
                 $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
                 $result = $group_info ;
             }
-
-            Session::put("slug_list", $slug_list);
         }
 
-        $manufacturer = Config::get('session.domain_name');
-        return view('front.schematics', compact("result", "slug_list", "manufacturer"));
+        Session::put("slug_list", $slug_list);
+
+        return view('front.schematics', compact("result", "slug_list", "category", "series", "model", "section", "group"));
     }
 
     public function partsByFilter(Request $request, $filter=null, $category=null, $series=null, $model=null) {

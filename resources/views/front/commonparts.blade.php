@@ -1,6 +1,6 @@
 @extends('layouts.front')
-@section('content')
 
+@section('content')
     <!-- Breadcrumb Area Start -->
     <div class="breadcrumb-area">
         <div class="container">
@@ -52,34 +52,37 @@
         </div>
     </div>
     <!-- Breadcrumb Area End -->
-    <!-- faq Area Start -->
-  
+    
+    <!-- Section Start -->
     <section class="faq-section">
         <div class="container">
-            <div class="row m-block-content">
-               
-                @foreach($result as $item)
-                <div class="col col-md-3 col-sm-4">
-                    @php 
-                        $path = $item->name ;
-                        if(strstr($path, "/")) {
-                            $path = str_replace("/", ":::", $path) ;
-                        }
-                    @endphp
-                    <a href="{{$route.'/'.$path}}">
-                        <div class="m-block" >
-                            {{$item->name}}
+            @if(count($result) == 0)
+                <h3 class="page-title">No data</h3>
+            @else
+                <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $category?? '' }} {{ $series?? '' }} {{ $model?? '' }} Common Parts</h3>
+                <div class="row m-block-content">
+                    @foreach($result as $item)
+                        <div class="col-md-3 col-sm-6">
+                            @php 
+                                $path = $item->name ;
+                                if(strstr($path, "/")) {
+                                    $path = str_replace("/", ":::", $path) ;
+                                }
+                            @endphp
+                            <a href="{{$route.'/'.$path}}">
+                                <div class="m-block" >
+                                    {{$item->name}}
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div> 
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </section>
     <!-- faq Area End-->
+@endsection
 
-    @section('scripts')
-
-    @endsection
+@section('scripts')
 
 @endsection
