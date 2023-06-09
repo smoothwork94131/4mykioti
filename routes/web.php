@@ -1087,7 +1087,7 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
     Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
     Route::get('/commonparts/{category?}/{series?}/{model?}/{prod?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
-    Route::get('/partsbyfilter/{filter?}/{category?}', 'Front\FrontendController@partsByFilter')->name('front.partsbyfilter');
+    Route::get('/partsbyfilter/{filter?}/{category?}/{series?}/{model?}', 'Front\FrontendController@partsByFilter')->name('front.partsbyfilter');
     Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@findpart');
     Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
 

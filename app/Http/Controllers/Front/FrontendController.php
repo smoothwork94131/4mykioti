@@ -321,7 +321,6 @@ class FrontendController extends Controller
                         $result[$key] = $item ;
                     }
                 }
-
             } else if(count($slug_list) == 2) {
                 $table_name = strtolower($series);
                 $result = DB::connection('product')->table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get();
@@ -455,7 +454,7 @@ class FrontendController extends Controller
         return view('front.schematics', compact("result", "slug_list", "manufacturer"));
     }
 
-    public function partsByFilter(Request $request, $filter=null, $category=null) {
+    public function partsByFilter(Request $request, $filter=null, $category=null, $series=null, $model=null) {
         Session::put('rootRoute', 'Filter');
         
         $slug_list = array() ;
@@ -468,31 +467,69 @@ class FrontendController extends Controller
             $slug_list["category"] = $category;
         }
 
-        if(count($slug_list) == 1) {
-            $results = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get();
+        if(isset($series) && $series != NULL) {
+            $series = $this->replaceDataToPath($series) ;
+            $slug_list["series"] = $series ;
         }
-        else{
-            $category = $this->replacPathToData($category);
-            
-            $category_record = DB::connection('product')->table('categories_home')->select('id')->where("name", $category)->get();
-            $category_id = -1;
-            if($category_record) {
-                $category_id = $category_record[0]->id;
+
+        if(isset($model) && $model != NULL) {
+            $model = $this->replaceDataToPath($model) ;
+            $slug_list["model"] = $model ;
+        }
+
+        if(count($slug_list) == 1) {
+            $result_ = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+            foreach($result_ as $key =>$item) {
+                $ret = DB::connection('product')->table("categories_home")->select("*")->where("parent", $item->id)->get()->toArray();
+                $flag = false ;
+                foreach($ret as $sub_item) {
+                    $table_name = strtolower($sub_item->name);
+                    $models = DB::connection('product');
+                    $models = $models->table($table_name);
+                    $models = $models->select('model');
+                    if($filter == 'Air') {
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,air%');
+                        $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%air,filter%');
+                    }
+                    else if($filter == 'Oil') {
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil%');
+                        $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,filter%');
+                    }
+                    else if($filter == 'Fuel') {
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,fuel%');
+                        $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%fuel,filter%');
+                    }
+                    else if($filter == 'Oil-Pressure') {
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
+                        $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                    }
+                    else {
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,hydraulic%');
+                        $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%hydraulic,filter%');
+                    }
+                    $models = $models->distinct();
+                    $models = $models->get();
+                    
+                    if(count($models) > 0) {
+                        $flag = true ;
+                        break ;
+                    }
+                }
+               
+                if($flag) {
+                    $results[$key] = $item ;
+                }
             }
-
-            $series = DB::connection('product')
-                ->table("categories_home")
-                ->select("name")
-                ->where("parent", $category_id)
-                ->where("status", "1")
-                ->orderBy("name", "asc")
-                ->get();
-
-            $results = [];
-
-            foreach ($series as $table) {
+        }
+        else if(count($slug_list) == 2) {
+            $category_info = DB::connection('product')->table("categories_home")->select("id")->where("name", $category)->get();
+            $category_id = $category_info[0]->id ;
+            $result = array() ;
+            $result_ = DB::connection('product')->table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get();
+            foreach($result_ as $key =>$item) {
+                $table_name = strtolower($item->name);
                 $models = DB::connection('product');
-                $models = $models->table(strtolower($table->name));
+                $models = $models->table($table_name);
                 $models = $models->select('model');
                 if($filter == 'Air') {
                     $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,air%');
@@ -517,15 +554,72 @@ class FrontendController extends Controller
                 $models = $models->distinct();
                 $models = $models->get();
 
-                foreach ($models as $model) {
-                    $results[] = ['series' => $table, 'model' => $model];
+                if(count($models) > 0) {
+                    $results[$key] = $item ;
                 }
             }
-
-            Session::put("slug_list", $slug_list) ;
+        }
+        else if(count($slug_list) == 3) {
+            $table_name = strtolower($series);
+            $models = DB::connection('product');
+            $models = $models->table($table_name);
+            $models = $models->select('model as name');
+            if($filter == 'Air') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,air%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%air,filter%');
+            }
+            else if($filter == 'Oil') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,filter%');
+            }
+            else if($filter == 'Fuel') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,fuel%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%fuel,filter%');
+            }
+            else if($filter == 'Oil-Pressure') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+            }
+            else {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,hydraulic%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%hydraulic,filter%');
+            }
+            $models = $models->distinct();
+            $results = $models->get();
+        }
+        else{
+            $table_name = strtolower($series);
+            $models = DB::connection('product');
+            $models = $models->table($table_name);
+            $models = $models->select('*');
+            $models = $models->where('model', $model);
+            if($filter == 'Air') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,air%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%air,filter%');
+            }
+            else if($filter == 'Oil') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,filter%');
+            }
+            else if($filter == 'Fuel') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,fuel%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%fuel,filter%');
+            }
+            else if($filter == 'Oil-Pressure') {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+            }
+            else {
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,hydraulic%');
+                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%hydraulic,filter%');
+            }
+            $models = $models->distinct();
+            $results = $models->get()->paginate(20);
         }
         
-        return view('front.partsbyfilter', compact("results", "slug_list", "filter", "category"));
+        Session::put("slug_list", $slug_list) ;
+
+        return view('front.partsbyfilter', compact("results", "slug_list", "filter", "category", "series", "model"));
     }
 
     public function findpart(Request $request, $category, $series, $model)

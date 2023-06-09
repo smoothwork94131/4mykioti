@@ -43,11 +43,23 @@
                 }
             }
             else if(count($slug_list)==3) {
-                $page_title .= $slug_list["model"] ?? '';
+                if(isset($slug_list["filter"])) {
+                    $page_title .= $slug_list["series"] ?? '';
+                    $page_title .= " " . $slug_list["filter"] ?? '';
+                }
+                else {
+                    $page_title .= $slug_list["model"] ?? '';
+                }
             }
             else if(count($slug_list)==4) {
-                $page_title .= $slug_list["model"] ?? '';
-                $page_title .= ' ' . $slug_list["section"]?? '';
+                if(isset($slug_list["filter"])) {
+                    $page_title .= $slug_list["model"] ?? '';
+                    $page_title .= " " . $slug_list["filter"] ?? '';
+                }
+                else {
+                    $page_title .= $slug_list["model"] ?? '';
+                    $page_title .= ' ' . $slug_list["section"]?? '';
+                }
             }
             else if(count($slug_list)==5) {
                 $page_title .= $slug_list["model"] ?? '';
