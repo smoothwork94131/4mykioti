@@ -45,41 +45,45 @@
     <!-- faq Area Start -->
     <section class="faq-section">
         <div class="container">
-            <div class="row m-block-content">
-                @if(count($results) == 0) 
-                    <h3 algin='center'>No data</h3>
-                @endif
-
+            @if(count($results) == 0) 
+                <h3 algin='center' class="page-title">No data</h3>
+            @else
                 @if(count($slug_list) > 1)
-                    @foreach($results as $item)
-                    <div class="col col-md-3 col-sm-4">
-                        <div class="m-block" >
-                            Series: {{ $item["series"]->name }}, Model: {{ $item["model"]->model }}
-                        </div>
-                    </div> 
-                    @endforeach
-                @else
-                    @foreach($results as $item)
-                    <div class="col col-md-3 col-sm-4">
-                        @php 
-                            $path = $item->name ;
-                            if(strstr($path, "/")) {
-                                $path = str_replace("/", ":::", $path) ;
-                            }
-
-                            if(strstr($path, "#")) {
-                                $path = str_replace("#", "***", $path) ;
-                            }
-                        @endphp
-                        <a href="{{$route.'/'.$path}}">
+                    <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $category?? '' }} {{ $filter }} Filters</h3>
+                    <div class="row m-block-content">
+                        @foreach($results as $item)
+                        <div class="col col-md-3 col-sm-4">
                             <div class="m-block" >
-                                {{$item->name}} Parts
+                                Series: {{ $item["series"]->name }}, Model: {{ $item["model"]->model }}
                             </div>
-                        </a>
-                    </div> 
-                    @endforeach
+                        </div> 
+                        @endforeach
+                    </div>
+                @else
+                    <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $filter }} Filters</h3>
+                    <div class="row m-block-content">
+                        @foreach($results as $item)
+                        <div class="col col-md-3 col-sm-4">
+                            @php 
+                                $path = $item->name ;
+                                if(strstr($path, "/")) {
+                                    $path = str_replace("/", ":::", $path) ;
+                                }
+
+                                if(strstr($path, "#")) {
+                                    $path = str_replace("#", "***", $path) ;
+                                }
+                            @endphp
+                            <a href="{{$route.'/'.$path}}">
+                                <div class="m-block" >
+                                    {{$item->name}} Filter
+                                </div>
+                            </a>
+                        </div> 
+                        @endforeach
+                    </div>
                 @endif
-            </div>
+            @endif
         </div>
     </section>
 

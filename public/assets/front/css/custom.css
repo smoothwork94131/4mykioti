@@ -2274,3 +2274,10 @@ End Footer Custom Style
     color: #F05223;
     margin-bottom: 10px;
 }
+
+.page-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #F05223;
+    margin-bottom: 20px;
+}

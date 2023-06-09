@@ -525,7 +525,7 @@ class FrontendController extends Controller
             Session::put("slug_list", $slug_list) ;
         }
         
-        return view('front.partsbyfilter', compact("results", "slug_list"));
+        return view('front.partsbyfilter', compact("results", "slug_list", "filter", "category"));
     }
 
     public function findpart(Request $request, $category, $series, $model)
