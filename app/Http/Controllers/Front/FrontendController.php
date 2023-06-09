@@ -261,64 +261,6 @@ class FrontendController extends Controller
         return view('front.partsbymodel', compact("result", "slug_list"));
     }
 
-    public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
-    {   
-        Session::put('rootRoute', 'Schematics');
-        
-        $slug_list = array() ;
-        $result = array() ;
-
-        if(isset($category) && $category != NULL) { 
-            $category = $this->replaceDataToPath($category) ;
-            $slug_list["category"] = $category ;
-        }
-
-        if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
-        }
-
-        if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;
-        }
-
-        if(isset($section) && $section != NULL) {
-            $section = $this->replaceDataToPath($section) ;
-            $slug_list["section"] = $section ;
-        }
-
-        if(isset($group) && $group != NULL) {
-            $group = $this->replaceDataToPath($group) ;
-            $slug_list["group"] = $group ;
-        }   
-       
-        if(count($slug_list) == 0) {
-            $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
-        }
-        else{
-            if(count($slug_list) == 1) {
-                $category_info = DB::connection('product')->table("categories_home")->select("id")->where("name", $category)->get() ;
-                $category_id = $category_info[0]->id ;
-                $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
-            } else if(count($slug_list) == 2) {
-                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
-            } else if(count($slug_list) == 3) {
-                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
-            } else if(count($slug_list) == 4) {
-                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
-            } else if(count($slug_list) == 5) {
-                $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
-                $result = $group_info ;
-            }
-
-            Session::put("slug_list", $slug_list);
-        }
-
-        $manufacturer = Config::get('session.domain_name');
-        return view('front.schematics', compact("result", "slug_list", "manufacturer"));
-    }
-
     public function commonpart(Request $request, $category=null, $series=null, $model=null, $prod=null)
     {
         Session::put('rootRoute', 'Common');
@@ -453,6 +395,137 @@ class FrontendController extends Controller
 
         }
         return view('front.commonparts', compact("result", "slug_list"));
+    }
+
+    public function schematics(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)
+    {   
+        Session::put('rootRoute', 'Schematics');
+        
+        $slug_list = array() ;
+        $result = array() ;
+
+        if(isset($category) && $category != NULL) { 
+            $category = $this->replaceDataToPath($category) ;
+            $slug_list["category"] = $category ;
+        }
+
+        if(isset($series) && $series != NULL) {
+            $series = $this->replaceDataToPath($series) ;
+            $slug_list["series"] = $series ;
+        }
+
+        if(isset($model) && $model != NULL) {
+            $model = $this->replaceDataToPath($model) ;
+            $slug_list["model"] = $model ;
+        }
+
+        if(isset($section) && $section != NULL) {
+            $section = $this->replaceDataToPath($section) ;
+            $slug_list["section"] = $section ;
+        }
+
+        if(isset($group) && $group != NULL) {
+            $group = $this->replaceDataToPath($group) ;
+            $slug_list["group"] = $group ;
+        }   
+       
+        if(count($slug_list) == 0) {
+            $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get() ;
+        }
+        else{
+            if(count($slug_list) == 1) {
+                $category_info = DB::connection('product')->table("categories_home")->select("id")->where("name", $category)->get() ;
+                $category_id = $category_info[0]->id ;
+                $result = DB::connection('product')->table("categories_home")->select("*")->where("parent", $category_id)->where("status", "1")->orderBy("name", "asc")->get() ;
+            } else if(count($slug_list) == 2) {
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("model as name")->distinct()->orderBy('model', 'asc')->get();
+            } else if(count($slug_list) == 3) {
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
+            } else if(count($slug_list) == 4) {
+                $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+            } else if(count($slug_list) == 5) {
+                $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("*")->where("model", $model)->where("group_name", $group)->get()->toArray() ;
+                $result = $group_info ;
+            }
+
+            Session::put("slug_list", $slug_list);
+        }
+
+        $manufacturer = Config::get('session.domain_name');
+        return view('front.schematics', compact("result", "slug_list", "manufacturer"));
+    }
+
+    public function partsByFilter(Request $request, $filter=null, $category=null) {
+        Session::put('rootRoute', 'Filter');
+        
+        $slug_list = array() ;
+        $results = array() ;
+
+        $slug_list["filter"] = $filter;
+
+        if(isset($category) && $category != NULL) { 
+            $category = $this->replaceDataToPath($category);
+            $slug_list["category"] = $category;
+        }
+
+        if(count($slug_list) == 1) {
+            $results = DB::connection('product')->table("categories_home")->select("*")->where("parent", "0")->where("status", "1")->orderBy("name", "asc")->get();
+        }
+        else{
+            $category = $this->replacPathToData($category);
+            
+            $category_record = DB::connection('product')->table('categories_home')->select('id')->where("name", $category)->get();
+            $category_id = -1;
+            if($category_record) {
+                $category_id = $category_record[0]->id;
+            }
+
+            $series = DB::connection('product')
+                ->table("categories_home")
+                ->select("name")
+                ->where("parent", $category_id)
+                ->where("status", "1")
+                ->orderBy("name", "asc")
+                ->get();
+
+            $results = [];
+
+            foreach ($series as $table) {
+                $models = DB::connection('product');
+                $models = $models->table(strtolower($table->name));
+                $models = $models->select('model');
+                if($filter == 'Air') {
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,air%');
+                    $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%air,filter%');
+                }
+                else if($filter == 'Oil') {
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil%');
+                    $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,filter%');
+                }
+                else if($filter == 'Fuel') {
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,fuel%');
+                    $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%fuel,filter%');
+                }
+                else if($filter == 'Oil-Pressure') {
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
+                    $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                }
+                else {
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,hydraulic%');
+                    $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%hydraulic,filter%');
+                }
+                $models = $models->distinct();
+                $models = $models->get();
+
+                foreach ($models as $model) {
+                    $results[] = ['series' => $table, 'model' => $model];
+                }
+            }
+
+            Session::put("slug_list", $slug_list) ;
+        }
+        
+        return view('front.partsbyfilter', compact("results", "slug_list"));
     }
 
     public function findpart(Request $request, $category, $series, $model)

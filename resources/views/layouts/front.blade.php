@@ -16,8 +16,6 @@
             $page_title = "Mahindra";
         }
 
-        
-
         if(isset($slug_list) && count($slug_list) > 0) {
             if(array_key_exists('prod_name', $slug_list)) {
                 unset($slug_list['prod_name']);
@@ -28,10 +26,21 @@
 
             $page_title .= ' ';
             if(count($slug_list)==1) {
-                $page_title .= $slug_list["category"] ?? '';
+                if(isset($slug_list["filter"])) {
+                    $page_title .= $slug_list["filter"] ?? '';
+                }
+                else {
+                    $page_title .= $slug_list["category"] ?? '';
+                }
             }
             else if(count($slug_list)==2) {
-                $page_title .= $slug_list["series"] ?? '';
+                if(isset($slug_list["filter"])) {
+                    $page_title .= $slug_list["category"] ?? '';
+                    $page_title .= " " . $slug_list["filter"] ?? '';
+                }
+                else {
+                    $page_title .= $slug_list["series"] ?? '';
+                }
             }
             else if(count($slug_list)==3) {
                 $page_title .= $slug_list["model"] ?? '';
@@ -53,6 +62,9 @@
             }
             else if($rootRoute == 'Common') {
                 $page_title .= " Common Parts";
+            }
+            else if($rootRoute == 'Filter') {
+                $page_title .= " Filter";
             }
             else{
                 $page_title .= " Schematics";

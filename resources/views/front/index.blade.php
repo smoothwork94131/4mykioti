@@ -37,38 +37,77 @@
                     @else
                     
                     @endif
-                    
                 </div>
                 <div class="col-6 remove-padding pr-1">
-                    <a href="{{route('front.partsbymodel', [])}}"><div class="s-0-block s-block d-flex m-blue">
-                        <div>
-                            FIND PARTS
-                        </div>
-                    </div></a>
-                </div>
-                <div class="col-6 remove-padding" >
-                    <a href="https://3rdfunction.com/collections">
-                        <div class="s-0-block s-block d-flex m-red">
+                    <a href="{{route('front.partsbymodel', [])}}">
+                        <div class="s-0-block s-block d-flex m-blue">
                             <div>
-                                3RD FUNCTION VALVES
+                                FIND PARTS
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-6 remove-padding  pr-1">
-                    <a href="{{route('front.schematics')}}"><div class="s-0-block s-block d-flex m-green">
-                        <div>
-                             FIND SCHEMATICS
+                    <a href="{{route('front.schematics')}}">
+                        <div class="s-0-block s-block d-flex m-green">
+                            <div>
+                                FIND SCHEMATICS
+                            </div>
                         </div>
-                    </div></a>
+                    </a>
                 </div>
                 <div class="col-6 remove-padding">
-                <a href="{{route('front.commonparts')}}">
-                    <div class="s-0-block s-block d-flex m-brown">
-                        <div>
-                             COMMON PARTS
+                    <a href="{{route('front.commonparts')}}">
+                        <div class="s-0-block s-block d-flex m-brown">
+                            <div>
+                                COMMON PARTS
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                </div>
+                <div class="col-6 remove-padding" >
+                    <a href="{{route('front.partsbyfilter', ['filter'=>'Air'])}}">
+                        <div class="s-0-block s-block d-flex m-red">
+                            <div>
+                                Air Filters
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 remove-padding" >
+                    <a href="{{route('front.partsbyfilter', ['filter'=>'Oil'])}}">
+                        <div class="s-0-block s-block d-flex m-purple">
+                            <div>
+                                Oil Filters
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 remove-padding" >
+                    <a href="{{route('front.partsbyfilter', ['filter'=>'Fuel'])}}">
+                        <div class="s-0-block s-block d-flex m-pink">
+                            <div>
+                                Fuel Filters
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 remove-padding" >
+                    <a href="{{route('front.partsbyfilter', ['filter' => 'Oil-Pressure'])}}">
+                        <div class="s-0-block s-block d-flex m-gray">
+                            <div>
+                                Oil Pressure Filters
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 remove-padding" >
+                    <a href="{{route('front.partsbyfilter', ['filter' => 'Hydraulic'])}}">
+                        <div class="s-0-block s-block d-flex m-yellow">
+                            <div>
+                                Hydraulic Filters
+                            </div>
+                        </div>
                     </a>
                 </div>
             </div>

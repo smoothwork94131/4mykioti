@@ -1387,6 +1387,18 @@ a.sell-btn {
     background-color: #88756d;
 }
 
+.m-gray {
+    background-color: #656565;
+}
+
+.m-pink {
+    background-color: #FFC0CB;
+}
+
+.m-purple {
+    background-color: #800080;
+}
+
 .s-blue {
     background-color: #e2f2f3!important;
 }
