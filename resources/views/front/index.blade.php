@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-6 remove-padding">
                     <a href="{{route('front.commonparts')}}">
-                        <div class="s-0-block s-block d-flex m-brown">
+                        <div class="s-0-block s-block d-flex m-yellow">
                             <div>
                                 COMMON PARTS
                             </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-6 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Oil'])}}">
-                        <div class="s-0-block s-block d-flex m-purple">
+                        <div class="s-0-block s-block d-flex m-brown">
                             <div>
                                 OIL FILTERS
                             </div>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-6 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Fuel'])}}">
-                        <div class="s-0-block s-block d-flex m-pink">
+                        <div class="s-0-block s-block d-flex m-purple">
                             <div>
                                 FUEL FILTERS
                             </div>
@@ -85,9 +85,9 @@
                 </div>
                 <div class="col-6 remove-padding">
                     <a href="{{route('front.partsbyfilter', ['filter' => 'Hydraulic'])}}">
-                        <div class="s-0-block s-block d-flex m-yellow">
+                        <div class="s-0-block s-block d-flex m-pink">
                             <div>
-                                HTDRAULIC FILTERS
+                                HYDRAULIC FILTERS
                             </div>
                         </div>
                     </a>

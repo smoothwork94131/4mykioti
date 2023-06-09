@@ -76,7 +76,7 @@
                 $page_title .= " Common Parts";
             }
             else if($rootRoute == 'Filter') {
-                $page_title .= " Filter";
+                $page_title .= " Filters";
             }
             else{
                 $page_title .= " Schematics";
@@ -704,12 +704,12 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="content">
-                            <p style="color: {{ $gs->footer_text_color }}">{!! $gs->copyright !!}</p>
+                            <span style="color: {{ $gs->footer_text_color }}">{!! $gs->copyright !!}</span>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="content">
-                            <p style="color: {{ $gs->footer_text_color }}">{!! $gs->copyright !!}</p>
+                            <span style="color: {{ $gs->footer_text_color }}">{!! $gs->copyright !!}</span>
                         </div>
                     </div>
                 </div>

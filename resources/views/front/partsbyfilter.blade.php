@@ -186,7 +186,7 @@
                             @endphp
                             <a href="{{$route.'/'.$path}}">
                                 <div class="m-block" >
-                                    {{$item->name}} Filter
+                                    {{$item->name}} {{ $filter }} Filters
                                 </div>
                             </a>
                         </div> 
