@@ -1001,11 +1001,18 @@ span.price-curr {
 }
 
 .page-center {
-    display: flex;
-    justify-content: end;
+    text-align: center;
 }
 
-.page-center ul.pagination li {
+.page-right {
+    text-align: right;
+}
+
+.page-left {
+    text-align: left;
+}
+
+ul.pagination li {
     width: 35px;
     height: 35px;
     background: #ff55001a;
@@ -1020,23 +1027,19 @@ span.price-curr {
     cursor: pointer;
 }
 
-.page-center ul.pagination li a:hover {
+ul.pagination li a:hover {
     color: #000 !important;
 }
 
-.page-center ul.pagination {
+ul.pagination {
     display: inline-block;
     margin: 0 auto;
 }
 
-.page-center ul.pagination li.active {
+ul.pagination li.active {
     background: #2d3274;
     color: #fff;
     cursor: no-drop;
-}
-
-.page-center {
-    text-align: center;
 }
 
 .action-area {

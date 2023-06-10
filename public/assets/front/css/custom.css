@@ -7,7 +7,24 @@
 
 /*PAGINATION DESIGN*/
 
-.page-center ul.pagination li {
+.page-center {
+    text-align: center;
+}
+
+.page-right {
+    text-align: right;
+}
+
+.page-left {
+    text-align: left;
+}
+
+ul.pagination {
+    display: inline-block;
+    margin: 20px auto;
+}
+
+ul.pagination li {
     width: 35px;
     height: 35px;
     background: #ff55001a;
@@ -22,25 +39,15 @@
     cursor: pointer;
 }
 
-.page-center ul.pagination li a:hover {
+ul.pagination li a:hover {
     color: #000 !important;
 }
 
-.page-center ul.pagination {
-    display: inline-block;
-    margin: 0 auto;
-}
-
-.page-center ul.pagination li.active {
+ul.pagination li.active {
     background: #ff5500;
     color: #fff;
     cursor: no-drop;
 }
-
-.page-center {
-    text-align: center;
-}
-
 
 /*PAGINATION DESIGN ENDS*/
 
@@ -1370,6 +1377,10 @@ a.sell-btn {
     border-radius: 5px;
     border: 1px black solid;
     cursor: pointer;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .m-block:hover {
@@ -1502,6 +1513,7 @@ Begin Header Custom Style
     font-size: 16px;
     vertical-align: middle;
     background: #F05223;
+    color: #fff;
     border-radius: 3px;
     -webkit-transition: 0.2s all ease-in-out;
     -o-transition: 0.2s all ease-in-out;

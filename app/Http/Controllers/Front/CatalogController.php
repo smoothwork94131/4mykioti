@@ -52,253 +52,6 @@ class CatalogController extends Controller
         return $data ;
     }
 
-    public function category(Request $request, $category = null, $series = null, $model = null, $section = null, $group = null)
-    {   
-        $category = $this->replaceDataToPath($category) ;
-        $series = $this->replaceDataToPath($series) ;
-        $model = $this->replaceDataToPath($model) ;
-        $section = $this->replaceDataToPath($section) ;
-        $group = $this->replaceDataToPath($group) ;
-
-        if($group) {
-            $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
-            $group_id = $group_info[0]->group_Id ;
-        }
-        else {
-            $group_id = NULL;
-        }
-                
-
-        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group ) ;
-        
-        if($section == "common") {
-            $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model) ;
-        }
-
-        $minprice = $request->min;
-        $maxprice = $request->max;
-        $search = $request->search;
-        $db = strtolower($series);
-
-        $prods = DB::connection('product')
-        ->table($db)
-        ->select('*')
-        ->when($minprice, function ($query, $minprice) {
-            return $query->where('price', '>=', $minprice);
-        })
-        ->when($maxprice, function ($query, $maxprice) {
-            return $query->where('price', '<=', $maxprice);
-        });
-    
-        if ($search) {
-            $search1 = ' ' . $search;
-            $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
-        }
-
-        $prods = $prods->where('price', '!=', 0);
-        $prods = $prods->where('name', '!=', "");
-        $prods = $prods->where('sku', '!=', "");
-        $prods = $prods->where('status', 1);
-
-        if ($section) {
-            if ($section == 'common') {
-                $prods = $prods->where('common_part', 1)->where('model', $model);
-            } else {
-                $prods = $prods->where('group_id', $group_id)->where('model', $model);
-            }
-        }
-        
-        $prods = $prods->distinct();
-        $prods = $prods->orderBy('refno', 'asc');
-        $prods = $prods->get();
-
-        $refno_flag = 0;
-        $thumbnail_flag = 0;
-        foreach($prods as $prod) {
-            if($prod->refno != 0) {
-                $refno_flag = true;
-            }
-
-            if($prod->thumbnail != "") {
-                $thumbnail_flag = true;
-            }
-        }
-        
-        $group = DB::connection('product')->table($db.'_categories')->where('group_Id', $group_id)->first();
-
-        if($group) {
-            $slug_list['group'] = $group->group_name ;
-        }
-
-        if($group && !file_exists(public_path('assets/images/group/'.$group->image)) && !file_exists(public_path('assets/images/group/'.$group->group_Id . '.png'))) {
-            $gs = Generalsetting::findOrFail(1);
-            if ($gs->is_smtp == 1) {
-            
-                $data = [
-                    'to' => 'usamtg@hotmail.com',
-                    'subject' => "No group image!!",
-                    'body' => "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.",
-                ];
-                $mailer = new GeniusMailer();
-                $mailer->sendCustomMail($data);
-            } else {
-                $to = 'usamtg@hotmail.com';
-                $subject = "No group image!!!!";
-                $msg = "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.";
-                $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-                mail($to, $subject, $msg, $headers);
-            }
-        }
-
-        $data['db'] = $db;
-        $data['prods'] = $prods;
-        $data['group'] = $group;
-        
-        $data['model'] = $model ;
-        $data['slug_list'] = $slug_list ;
-
-        $data['refno_flag'] = $refno_flag;
-        $data['thumbnail_flag'] = $thumbnail_flag;
-        
-        $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
-        $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
-
-        $data['colorsetting_style1'] = $colorsetting_style1;
-        $data['colorsetting_style2'] = $colorsetting_style2;
-        
-        $data['db'] = $db;
-        $data['manufactuer'] = Config::get('session.domain_name');
-
-        return view('front.category', $data);
-    }
-
-    public function collection(Request $request, $category = null, $series = null, $model = null, $section = null, $group = null)
-    {   
-        $category = $this->replaceDataToPath($category) ;
-        $series = $this->replaceDataToPath($series) ;
-        $model = $this->replaceDataToPath($model) ;
-        $section = $this->replaceDataToPath($section) ;
-        $group = $this->replaceDataToPath($group) ;
-        
-        if($group) {
-            
-            $group_info = DB::connection('product')->table(strtolower($series)."_categories")->select("group_Id")->where("model", $model)->where("group_name", $group)->get() ;
-            $group_id = $group_info[0]->group_Id ;
-        }
-        else {
-            $group_id = NULL;
-        }
-
-        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model,  "section"=>$section, "group"=>$group ) ;
-        
-        if($section == "common") {
-            $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model) ;
-        }
-
-        $minprice = $request->min;
-        $maxprice = $request->max;
-        $search = $request->search;
-        $db = strtolower($series);
-
-        $prods = DB::connection('product')
-        ->table($db)
-        ->select('*')
-        ->when($minprice, function ($query, $minprice) {
-            return $query->where('price', '>=', $minprice);
-        })
-        ->when($maxprice, function ($query, $maxprice) {
-            return $query->where('price', '<=', $maxprice);
-        });
-    
-        if ($search) {
-            $search1 = ' ' . $search;
-            $prods = $prods->where('name', 'like', '%' . $search . '%')->orWhere('name', 'like', $search1 . '%');
-        }
-
-        $prods = $prods->where('price', '!=', 0);
-        $prods = $prods->where('name', '!=', "");
-        $prods = $prods->where('sku', '!=', "");
-        $prods = $prods->where('status', 1);
-
-        if ($section) {
-            if ($section == 'common') {
-                $prods = $prods->where('common_part', 1)->where('model', $model);
-            } else {
-                $prods = $prods->where('group_id', $group_id)->where('model', $model);
-            }
-        }
-
-        $prods = $prods->distinct();
-        $prods = $prods->orderBy('refno', 'asc');
-        $prods = $prods->get();
-
-        $refno_flag = 0;
-        $thumbnail_flag = 0;
-        foreach($prods as $prod) {
-            if($prod->refno != 0) {
-                $refno_flag = true;
-            }
-
-            if($prod->thumbnail != "") {
-                $thumbnail_flag = true;
-            }
-        }
-        
-        $group = DB::connection('product')->table($db.'_categories')->where('group_Id', $group_id)->first();
-
-        if($group) {
-            $slug_list['group'] = $group->group_name ;
-        }
-
-        if($group && !file_exists(public_path('assets/images/group/'.$group->image)) && !file_exists(public_path('assets/images/group/'.$group->group_Id . '.png'))) {
-            $gs = Generalsetting::findOrFail(1);
-            if ($gs->is_smtp == 1) {
-            
-                $data = [
-                    'to' => 'usamtg@hotmail.com',
-                    'subject' => "No group image!!",
-                    'body' => "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.",
-                ];
-                $mailer = new GeniusMailer();
-                $mailer->sendCustomMail($data);
-            } else {
-                $to = 'usamtg@hotmail.com';
-                $subject = "No group image!!!!";
-                $msg = "Hello Admin!<br> There is no group image for: " . $group->group_name . " and " . $group->group_Id . ". <br> Please login to check. <br>Thank you.";
-                $headers = "From: " . $gs->from_name . "<" . $gs->from_email . ">";
-                mail($to, $subject, $msg, $headers);
-            }
-        }
-
-        $data['db'] = $db;
-        $data['prods'] = $prods;
-        $data['group'] = $group;
-        
-        $data['model'] = $model ;
-        $data['slug_list'] = $slug_list ;
-
-        $data['refno_flag'] = $refno_flag;
-        $data['thumbnail_flag'] = $thumbnail_flag;
-
-        $colorsetting_style1 = ColorSetting::where('type', 2)->where('style_id', 1)->first();
-        $colorsetting_style2 = ColorSetting::where('type', 2)->where('style_id', 2)->first();
-
-        $data['colorsetting_style1'] = $colorsetting_style1;
-        $data['colorsetting_style2'] = $colorsetting_style2;
-        
-        $data['db'] = $db;
-        $data['manufactuer'] = Config::get('session.domain_name');
-
-        if ($request->ajax()) {
-
-            $data['ajax_check'] = 1;
-            
-            return view('includes.product.filtered-products', $data);
-        }
-
-        return view('front.category', $data);
-    }
-
     // -------------------------------- PRODUCT DETAILS SECTION ----------------------------------------
 
     public function report(Request $request)
@@ -329,21 +82,15 @@ class CatalogController extends Controller
     }
 
     public function homeproduct(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
-        $category = $this->replaceDataToPath($category) ;
-        $series = $this->replaceDataToPath($series) ;
-        $model = $this->replaceDataToPath($model) ;
-        $section = $this->replaceDataToPath($section) ;
-        $group = $this->replaceDataToPath($group) ;
-        $prod_name = $this->replaceDataToPath($prod_name) ;
+        $category = $this->replaceDataToPath($category);
+        $series = $this->replaceDataToPath($series);
+        $model = $this->replaceDataToPath($model);
+        $section = $this->replaceDataToPath($section);
+        $group = $this->replaceDataToPath($group);
+        $prod_name = $this->replaceDataToPath($prod_name);
 
         $db = strtolower($series);
-        $group_record = DB::connection('product')
-            ->table($db.'_categories')
-            ->where('group_name', $group)
-            ->orWhere('group_Id', $group)
-            ->first();
-        
-        $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}' ;" ;
+        $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}';" ;
         $productt =DB::connection('product')->select($sql);
         if($productt && count($productt) > 0) {
             $productt = $productt[0] ;
@@ -363,15 +110,15 @@ class CatalogController extends Controller
 
         $sql = "select * from `categories_home` where `parent` != 0 and `status` = 1 and `name` != '{$series}'" ;
         $tbl_info =DB::connection('product')->select($sql);
-
-        $sql = "" ;
-        $flag = false ;
         $arr_tbl = array();
         
         foreach($tbl_info as $item) {
             $arr_tbl[] = strtolower($item->name) ;
         }
 
+        $sql = "" ;
+        $flag = false ;
+                
         $fits = array();
         if($productt) {
             for($k = 0 ; $k < count($arr_tbl) ; $k++) {
@@ -397,10 +144,14 @@ class CatalogController extends Controller
             }
         }
 
-        $page = "partsbymodel" ;
+        $group_record = DB::connection('product')
+            ->table($db.'_categories')
+            ->orWhere('group_Id', $productt->group_id)
+            ->first();
 
-        $slug_list = array("category"=>$category,"series"=>$series,"model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
-        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "page", "slug_list", "also_fits"));
+        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
+
+        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits"));
     }
 
     public function product(Request $request, $slug)

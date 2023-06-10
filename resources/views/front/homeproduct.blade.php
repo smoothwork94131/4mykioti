@@ -1,5 +1,27 @@
 @extends('layouts.front')
+
 @section('content')
+    @php
+    // if(Session::has('rootRoute')) {
+    //     if(Session::get('rootRoute') == "Find") {
+    //         $page = "partsbymodel";
+    //     }
+    //     else if(Session::get('rootRoute') == "Common") {
+    //         $page = "commonparts";
+    //     }
+    //     else if(Session::get('rootRoute') == "Filter") {
+    //         $page = "partsbyfilter";
+    //     }
+    //     else {
+    //         $page = "partsbymodel";
+    //     }
+    // }
+    // else {
+    //     $page = "partsbymodel";
+    // }
+    $page = "partsbymodel";
+    @endphp
+
     <div class="breadcrumb-area">
         <div class="container">
             <div class="row">
@@ -21,7 +43,6 @@
                                     $path = str_replace('/', ':::', $path);
                                 }
                                 $route = $route . '/' . $path;
-                                
                             @endphp
                             <li>
                                 @if (count($slug_list) == $index)
@@ -136,12 +157,10 @@
                                             <input type="hidden" id="stock" value="">
                                         @endif
 
-
                                         <input type="hidden" id="product_id" value="{{ $productt->id }}">
                                         <input type="hidden" id="db" value="{{ $db }}">
                                         <input type="hidden" id="curr_pos" value="{{ $gs->currency_format }}">
                                         <input type="hidden" id="curr_sign" value="{{ $curr->sign }}">
-
 
                                         <div class="info-meta-3">
                                             <ul class="meta-list">

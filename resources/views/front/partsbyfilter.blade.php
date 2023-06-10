@@ -52,7 +52,7 @@
 
 @section('content')
     <!-- Breadcrumb Area Start -->
-    <div class="breadcrumb-area">
+    <section class="breadcrumb-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!-- Breadcrumb Area End -->
     <!-- faq Area Start -->
     <section class="faq-section">
@@ -117,19 +117,24 @@
                                 <tbody>
                                 
                                 @foreach($results as $key=>$prod)
-                                @php 
+                                @php
+                                    $path_list = $slug_list;
+                                    $path_list['section'] = $prod->section_name;
+                                    $path_list['group'] = $prod->group_id;
+                                    unset($path_list['filter']);
+
                                     $path = $prod->name ;
                                     if(strstr($path, "/")) {
                                         $path = str_replace("/", ":::", $path) ;
                                     }
-                                    $slug_list['prod'] = $path ;
+                                    $path_list['prod_name'] = $path ;
                                 @endphp
                                     <tr>
                                         <td class='td-img' style="text-align:center;">
                                             <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                         </td>
                                         <td style="text-align:center;">
-                                            <a href="{{route('front.commonparts', $slug_list)}}">{{ $prod->name }}</a>
+                                            <a href="{{route('front.homeproduct', $path_list)}}">{{ $prod->name }}</a>
                                         </td>
                                         <td style="text-align:center;">
                                             {{ $prod->model }}

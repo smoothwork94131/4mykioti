@@ -283,7 +283,7 @@
             <div class="map_hour hidden-xs" style='text-align: left; '>
                 <a href="https://www.tractorbrothers.com/locations">Maps &amp; Hours</a>
             </div>
-            <div style='display: flex; justify-content: flex-end; '>
+            <div style='display: flex; justify-content: flex-end;'>
                 <div class="cart">
                     <a onclick='showMobileSearchField(this)'>
                         <span><i class="fa fa-search"></i></span>

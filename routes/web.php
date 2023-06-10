@@ -1086,13 +1086,10 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     Route::get('/', 'Front\FrontendController@index')->name('front.index');
     Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
     Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
-    Route::get('/commonparts/{category?}/{series?}/{model?}/{prod?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
-    Route::get('/partsbyfilter/{filter?}/{category?}/{series?}/{model?}', 'Front\FrontendController@partsByFilter')->name('front.partsbyfilter');
+    Route::get('/commonparts/{category?}/{series?}/{model?}', 'Front\FrontendController@commonpart')->name('front.commonparts');
     Route::get('/common/parts/{category}/{series}/{model}', 'Front\FrontendController@findpart');
     Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
-
-    Route::get('/category/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\CatalogController@category')->name('front.category');
-    Route::get('/collection/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\CatalogController@collection')->name('front.collection');
+    Route::get('/partsbyfilter/{filter?}/{category?}/{series?}/{model?}', 'Front\FrontendController@partsByFilter')->name('front.partsbyfilter');
     
     Route::get('/collections/{query?}', 'Front\CatalogController@old_parts')->name('front.old_parts');
     Route::get('/collections/{model?}/products/{prod_name?}', 'Front\CatalogController@old_collection')->name('front.old_collection');
