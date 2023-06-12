@@ -30,15 +30,11 @@
                     <div>
                         Over 730,000 Mahindra Parts <br>and growing...
                     </div>
-                    @elseif($domain_name == 'kioti')
+                    @else
                     <div>
                         {{-- Over 500,000 Kioti Parts <br>and growing... --}}
-                        <p>
                         AT TRACTOR BROTHERS WE PRIDE OURSELVES ON BEING YOUR ONE STOP SHOP FOR ALL KIOTI PARTS AND ACCESSORIES INCLUDING OUR TOP SELLING THIRD FUNCTION KITS THAT ALWAYS INCLUDE FREE SHIPPING.
-                        </p>
                     </div>
-                    @else
-                    
                     @endif
                 </div>
                 <div class="col-md-4 col-sm-12 remove-padding pr-1">
@@ -172,7 +168,7 @@
     </section>
 
     @foreach($products as $product)
-    <section class="trending slider-buttom-category grid-display">
+    <section class="trending grid-display">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 remove-padding">
