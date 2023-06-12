@@ -33,7 +33,7 @@
                     @else
                     <div>
                         {{-- Over 500,000 Kioti Parts <br>and growing... --}}
-                       <p> AT TRACTOR BROTHERS WE PRIDE OURSELVES ON BEING YOUR ONE STOP SHOP FOR ALL KIOTI PARTS AND ACCESSORIES INCLUDING OUR TOP SELLING THIRD FUNCTION KITS THAT ALWAYS INCLUDE FREE SHIPPING.</p>
+                       <p> At Tractor Brothers, we pride ourselves on being the best one stop shop for all your Kioti parts and accessories, including our top selling 3rd Function Valve Kits that always include free shipping.</p>
                        <p>
                         Find the genuine Kioti tractor parts you need fast, and for the best prices anywhere. Tractor Brothers has 3 state-of-the-art locations to serve you and all of your tractor supply needs. Orders placed before 2pm are usually shipped same day.
                         </p>
