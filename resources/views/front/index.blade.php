@@ -32,80 +32,111 @@
                     </div>
                     @elseif($domain_name == 'kioti')
                     <div>
-                        Over 500,000 Kioti Parts <br>and growing...
+                        {{-- Over 500,000 Kioti Parts <br>and growing... --}}
+                        <p>
+                        AT TRACTOR BROTHERS WE PRIDE OURSELVES ON BEING YOUR ONE STOP SHOP FOR ALL KIOTI PARTS AND ACCESSORIES INCLUDING OUR TOP SELLING THIRD FUNCTION KITS THAT ALWAYS INCLUDE FREE SHIPPING.
+                        </p>
+                        <p>
+                        Find the genuine Kioti tractor parts you need fast, and for the best prices anywhere. Tractor Brothers has 3 state-of-the-art locations to serve you and all of your tractor supply needs. Orders placed before 2pm are usually shipped same day.
+                        </p>
+                        <p>
+                        Tractor Brothers was originally Mahindra of Greensburg, selling Mahindra tractors and implements.  Over the years, as we expanded our business with additional equipment lines and additional locations to better serve our customers, we decided to rebrand as Tractor Brothers.  We specialize in high quality products, parts, and accessories for the landscape professional, farmer, and discerning homeowner.  We carry the latest products from leading brands, including Mahindra, KIOTI, Husqvarna, Woods, Husqvarna, Stihl, and Titan.
+                        </p>
+                        <p>
+                        Setting New Standards in Customer Service<br>
+                        At Tractor Brothers, we have built our business on customer satisfaction by offering quality products backed by rock-solid service, setting us apart from competitors. Our service technicians can handle everything from minor repairs to major overhauls. Our objective is to get your equipment up and running quickly! <a href="https://www.tractorbrothers.com/servicereq">Schedule a service appointment today.</a>
+                        </p>
                     </div>
                     @else
                     
                     @endif
                 </div>
-                <div class="col-6 remove-padding pr-1">
+                <div class="col-4 remove-padding pr-1">
                     <a href="{{route('front.partsbymodel', [])}}">
-                        <div class="s-0-block s-block d-flex m-blue">
+                        <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 FIND PARTS
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 remove-padding">
+                <div class="col-4 remove-padding pr-1">
                     <a href="{{route('front.commonparts')}}">
-                        <div class="s-0-block s-block d-flex m-yellow">
+                        <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 COMMON PARTS
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 remove-padding pr-1">
+                <div class="col-4 remove-padding">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Oil'])}}">
-                        <div class="s-0-block s-block d-flex m-brown">
+                        <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 OIL FILTERS
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 remove-padding">
+                <div class="col-4 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Air'])}}">
-                        <div class="s-0-block s-block d-flex m-red">
+                        <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 AIR FILTERS
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 remove-padding pr-1">
+                <div class="col-4 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Fuel'])}}">
-                        <div class="s-0-block s-block d-flex m-purple">
+                        <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 FUEL FILTERS
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 remove-padding">
+                <div class="col-4 remove-padding">
                     <a href="{{route('front.partsbyfilter', ['filter' => 'Hydraulic'])}}">
-                        <div class="s-0-block s-block d-flex m-pink">
+                        <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 HYDRAULIC FILTERS
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 remove-padding pr-1">
+                <div class="col-4 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter' => 'Oil-Pressure'])}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 OIL PRESSURE FILTERS
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-6 remove-padding">
+                <div class="col-4 remove-padding pr-1">
                     <a href="{{route('front.schematics')}}">
-                        <div class="s-0-block s-block d-flex m-green">
+                        <div class="s-0-block s-block d-flex m-gray">
                             <div>
+                                <span><i class="fa fa-search"></i></span>
                                 FIND SCHEMATICS
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 remove-padding">
+                    <a href="https://3rdfunction.com/collections">
+                        <div class="s-0-block s-block d-flex m-gray">
+                            <div>
+                                <span><i class="fa fa-search"></i></span>
+                                3RD FUNCTION VALVES
                             </div>
                         </div>
                     </a>

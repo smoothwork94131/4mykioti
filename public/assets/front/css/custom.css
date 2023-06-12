@@ -1297,15 +1297,30 @@ a.sell-btn {
 }
 
 .s-top-block {
-    height: 200px;
+    /* height: 200px;
     width: 100%;
-    color: white;
-    background-color: #EBA63F;
+    color: #656565;
+    background-color: #FFF;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 32px;
+    font-weight: 700;
+    border: 2px solid #656565;
+    border-top: none;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; */
+    
+    width: 100%;
+    padding: 20px 0;
+    color: #656565;
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
     font-weight: 700;
 }
 
@@ -1318,15 +1333,17 @@ a.sell-btn {
 .s-block {
     height: 100px;
     width: 100%;
-    margin-top: 0.25rem;
-    color: white;
-    background-color: #6E6E6E;
+    margin-top: 10px;
+    color: #656565;
+    background-color: #FFF;
     display: flex;
     text-align: center;
     align-items: center;
     flex-flow: column;
     font-weight: bold;
     justify-content: center;
+    border-radius: 5px;
+    border: 2px solid;
 }
 
 .s-block p,
@@ -1389,31 +1406,43 @@ a.sell-btn {
 }
 
 .m-blue {
-    background-color: #4ea1a6;
+    /* background-color: #4ea1a6; */
+    border-color: #4ea1a6;
 }
 
 .m-red {
-    background-color: #cd523c;
+    /* background-color: #cd523c; */
+    border-color: #cd523c;
 }
 
 .m-green {
-    background-color: #a1c0a4;
+    /* background-color: #a1c0a4; */
+    border-color: #a1c0a4;
 }
 
 .m-brown {
-    background-color: #88756d;
+    /* background-color: #a1c0a4; */
+    border-color: #a1c0a4;
 }
 
 .m-gray {
-    background-color: #656565;
+    /* background-color: #656565; */
+    border-color: #656565;
 }
 
 .m-pink {
-    background-color: #FFC0CB;
+    /* background-color: #FFC0CB; */
+    border-color: #FFC0CB;
 }
 
 .m-purple {
-    background-color: #800080;
+    /* background-color: #800080; */
+    border-color: #800080;
+}
+
+.m-yellow {
+    /* background-color: #f1540a; */
+    border-color: #f1540a;
 }
 
 .s-blue {
