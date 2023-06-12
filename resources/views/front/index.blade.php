@@ -33,7 +33,10 @@
                     @else
                     <div>
                         {{-- Over 500,000 Kioti Parts <br>and growing... --}}
-                        AT TRACTOR BROTHERS WE PRIDE OURSELVES ON BEING YOUR ONE STOP SHOP FOR ALL KIOTI PARTS AND ACCESSORIES INCLUDING OUR TOP SELLING THIRD FUNCTION KITS THAT ALWAYS INCLUDE FREE SHIPPING.
+                       <p> AT TRACTOR BROTHERS WE PRIDE OURSELVES ON BEING YOUR ONE STOP SHOP FOR ALL KIOTI PARTS AND ACCESSORIES INCLUDING OUR TOP SELLING THIRD FUNCTION KITS THAT ALWAYS INCLUDE FREE SHIPPING.</p>
+                       <p>
+                        Find the genuine Kioti tractor parts you need fast, and for the best prices anywhere. Tractor Brothers has 3 state-of-the-art locations to serve you and all of your tractor supply needs. Orders placed before 2pm are usually shipped same day.
+                        </p>
                     </div>
                     @endif
                 </div>
@@ -222,12 +225,9 @@
                 <div class="col-12 remove-padding s-top-block">
                     <div>
                         <p>
-                            Find the genuine Kioti tractor parts you need fast, and for the best prices anywhere. Tractor Brothers has 3 state-of-the-art locations to serve you and all of your tractor supply needs. Orders placed before 2pm are usually shipped same day.
-                            </p>
-                            <p>
-                            Tractor Brothers was originally Mahindra of Greensburg, selling Mahindra tractors and implements.  Over the years, as we expanded our business with additional equipment lines and additional locations to better serve our customers, we decided to rebrand as Tractor Brothers.  We specialize in high quality products, parts, and accessories for the landscape professional, farmer, and discerning homeowner.  We carry the latest products from leading brands, including Mahindra, KIOTI, Husqvarna, Woods, Husqvarna, Stihl, and Titan.
-                            </p>
-                            <p>
+                        Tractor Brothers was originally Mahindra of Greensburg, selling Mahindra tractors and implements.  Over the years, as we expanded our business with additional equipment lines and additional locations to better serve our customers, we decided to rebrand as Tractor Brothers.  We specialize in high quality products, parts, and accessories for the landscape professional, farmer, and discerning homeowner.  We carry the latest products from leading brands, including Mahindra, KIOTI, Husqvarna, Woods, Husqvarna, Stihl, and Titan.
+                        </p>
+                        <p>
                             Setting New Standards in Customer Service<br>
                             At Tractor Brothers, we have built our business on customer satisfaction by offering quality products backed by rock-solid service, setting us apart from competitors. Our service technicians can handle everything from minor repairs to major overhauls. Our objective is to get your equipment up and running quickly! <a href="https://www.tractorbrothers.com/servicereq">Schedule a service appointment today.</a>
                         </p>
