@@ -36,22 +36,12 @@
                         <p>
                         AT TRACTOR BROTHERS WE PRIDE OURSELVES ON BEING YOUR ONE STOP SHOP FOR ALL KIOTI PARTS AND ACCESSORIES INCLUDING OUR TOP SELLING THIRD FUNCTION KITS THAT ALWAYS INCLUDE FREE SHIPPING.
                         </p>
-                        <p>
-                        Find the genuine Kioti tractor parts you need fast, and for the best prices anywhere. Tractor Brothers has 3 state-of-the-art locations to serve you and all of your tractor supply needs. Orders placed before 2pm are usually shipped same day.
-                        </p>
-                        <p>
-                        Tractor Brothers was originally Mahindra of Greensburg, selling Mahindra tractors and implements.  Over the years, as we expanded our business with additional equipment lines and additional locations to better serve our customers, we decided to rebrand as Tractor Brothers.  We specialize in high quality products, parts, and accessories for the landscape professional, farmer, and discerning homeowner.  We carry the latest products from leading brands, including Mahindra, KIOTI, Husqvarna, Woods, Husqvarna, Stihl, and Titan.
-                        </p>
-                        <p>
-                        Setting New Standards in Customer Service<br>
-                        At Tractor Brothers, we have built our business on customer satisfaction by offering quality products backed by rock-solid service, setting us apart from competitors. Our service technicians can handle everything from minor repairs to major overhauls. Our objective is to get your equipment up and running quickly! <a href="https://www.tractorbrothers.com/servicereq">Schedule a service appointment today.</a>
-                        </p>
                     </div>
                     @else
                     
                     @endif
                 </div>
-                <div class="col-4 remove-padding pr-1">
+                <div class="col-md-4 col-sm-12 remove-padding pr-1">
                     <a href="{{route('front.partsbymodel', [])}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -61,7 +51,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding pr-1">
+                <div class="col-md-4 col-sm-12 remove-padding pr-1">
                     <a href="{{route('front.commonparts')}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -71,7 +61,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding">
+                <div class="col-md-4 col-sm-12 remove-padding">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Oil'])}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -81,7 +71,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding pr-1">
+                <div class="col-md-4 col-sm-12 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Air'])}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -91,7 +81,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding pr-1">
+                <div class="col-md-4 col-sm-12 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter'=>'Fuel'])}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -101,7 +91,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding">
+                <div class="col-md-4 col-sm-12 remove-padding">
                     <a href="{{route('front.partsbyfilter', ['filter' => 'Hydraulic'])}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -111,7 +101,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding pr-1">
+                <div class="col-md-4 col-sm-12 remove-padding pr-1">
                     <a href="{{route('front.partsbyfilter', ['filter' => 'Oil-Pressure'])}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -121,7 +111,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding pr-1">
+                <div class="col-md-4 col-sm-12 remove-padding pr-1">
                     <a href="{{route('front.schematics')}}">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -131,7 +121,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 remove-padding">
+                <div class="col-md-4 col-sm-12 remove-padding">
                     <a href="https://3rdfunction.com/collections">
                         <div class="s-0-block s-block d-flex m-gray">
                             <div>
@@ -142,25 +132,41 @@
                     </a>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-12 remove-padding">
+                <div class="col-md-12 remove-padding">
                     <div class='promotions'>
-                        <div class='section-name'>
+                        <div class='promotion-title'>
                             Promotions
                         </div>
-                        @if($domain_name == 'mahindra')
-                        <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
-                        <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
-                        @elseif($domain_name == 'kioti')
-                        <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
-                        <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
-                        @else
-
-                        @endif
-                        <a href="https://www.tractorbrothers.com/new-models/woods-265"><img src="{{asset('assets/images/promotions/5f721233-577e-4e0b-9983-c1b8ad89e8d7.jpg')}}"/></a>
-                        <a href="https://www.tractorbrothers.com/new-models/husqvarna-157"><img src="{{asset('assets/images/promotions/8c1b7eaa-f63c-4f1e-9a98-046264d4418e.jpg')}}" /></a>
+                        <div class="promotion-content row">
+                            @if($domain_name == 'mahindra')
+                            <div class="col-md-6 col-sm-12">
+                                <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
+                            </div>
+                            @else
+                            <div class="col-md-6 col-sm-12">
+                                <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>    
+                            </div>
+                            @endif
+                        </div>
+                        <div class="promotion-content row">
+                            <div class="col-md-6 col-sm-12">
+                                <a href="https://www.tractorbrothers.com/new-models/woods-265"><img src="{{asset('assets/images/promotions/5f721233-577e-4e0b-9983-c1b8ad89e8d7.jpg')}}"/></a>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <a href="https://www.tractorbrothers.com/new-models/husqvarna-157"><img src="{{asset('assets/images/promotions/8c1b7eaa-f63c-4f1e-9a98-046264d4418e.jpg')}}" /></a>
+                            </div>    
+                        </div>
                     </div>
-                </div>    
+                </div>
+                
             </div>
         </div>
     </section>
@@ -213,6 +219,27 @@
         </section>
         <!-- Banner Area One Start -->
     @endif
+
+    <section class="hero-area" style="background-color: white">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12 remove-padding s-top-block">
+                    <div>
+                        <p>
+                            Find the genuine Kioti tractor parts you need fast, and for the best prices anywhere. Tractor Brothers has 3 state-of-the-art locations to serve you and all of your tractor supply needs. Orders placed before 2pm are usually shipped same day.
+                            </p>
+                            <p>
+                            Tractor Brothers was originally Mahindra of Greensburg, selling Mahindra tractors and implements.  Over the years, as we expanded our business with additional equipment lines and additional locations to better serve our customers, we decided to rebrand as Tractor Brothers.  We specialize in high quality products, parts, and accessories for the landscape professional, farmer, and discerning homeowner.  We carry the latest products from leading brands, including Mahindra, KIOTI, Husqvarna, Woods, Husqvarna, Stihl, and Titan.
+                            </p>
+                            <p>
+                            Setting New Standards in Customer Service<br>
+                            At Tractor Brothers, we have built our business on customer satisfaction by offering quality products backed by rock-solid service, setting us apart from competitors. Our service technicians can handle everything from minor repairs to major overhauls. Our objective is to get your equipment up and running quickly! <a href="https://www.tractorbrothers.com/servicereq">Schedule a service appointment today.</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 @endsection
 

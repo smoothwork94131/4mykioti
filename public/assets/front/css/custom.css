@@ -1314,7 +1314,7 @@ a.sell-btn {
     border-top-right-radius: 0; */
     
     width: 100%;
-    padding: 20px 0;
+    padding: 10px 10px;
     color: #656565;
     background-color: #FFF;
     display: flex;
@@ -2019,13 +2019,23 @@ Begin Footer Custom Style
 }
 .promotions img{
     width: 100%;
-    margin-top: 30px;
     cursor: pointer;
     box-shadow: inset 0 -3em 3em rgb(165 165 165 / 10%), 0 0 0 2px rgb(255 255 255), 0.3em 0.3em 1em rgb(0 0 0 / 30%);
 }
-.promotions .section-name {
+.promotions .promotion-title {
     font-size:calc(25px + (16 - 12) * ((100vw - 768px) / (1920 - 768))) ;
     font-weight: bold;
+}
+
+.promotions .promotion-content {
+    margin-bottom: 10px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.promotions .promotion-content div {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .desktop-search-field {
