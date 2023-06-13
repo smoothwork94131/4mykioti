@@ -499,7 +499,7 @@
     <section class="trending">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 remove-padding">
+                <div class="col-lg-12">
                     <span class="section-top">
                         <div style="display: flex; align-item: center;">
                             <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 

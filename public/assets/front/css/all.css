@@ -50181,30 +50181,3 @@ a.prod-item:hover .info {
     color: #84a45a!important;
     font-weight: 700;
 }
-
-@media (min-width: 991px) {
-    .d-mobile {
-        display: none!important;
-    }
-    .d-desktop {
-        display: flex!important;
-    }
-    th.d-desktop {
-        display: table-cell!important;
-    }
-    td.d-desktop {
-        display: table-cell!important;
-    }
-}
-
-@media (max-width: 991px) {
-    .d-mobile {
-        display: block!important;
-    }
-    .d-desktop {
-        display: none!important;
-    }
-    .cartpage .left-area .cart-table .table {
-        width: 100%!important
-    }
-}

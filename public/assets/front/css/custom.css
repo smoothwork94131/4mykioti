@@ -654,7 +654,6 @@ span.discount {
     }
 }
 
-
 /* Package Details Area Start */
 
 .pack-details {
@@ -2313,4 +2312,41 @@ End Footer Custom Style
     font-weight: bolder;
     color: #F05223;
     margin-bottom: 10px;
+}
+
+@media (min-width: 991px) {
+    .d-mobile {
+        display: none!important;
+    }
+    .d-desktop {
+        display: flex!important;
+    }
+    th.d-desktop {
+        display: table-cell!important;
+    }
+    td.d-desktop {
+        display: table-cell!important;
+    }
+}
+
+@media (max-width: 991px) {
+    .d-mobile {
+        display: block!important;
+    }
+
+    .d-desktop {
+        display: none!important;
+    }
+
+    .cartpage .left-area .cart-table .table {
+        width: 100%!important
+    }
+
+    .trending-item-slider > a.prod-item {
+        width: 100%;
+    }
+    
+    .product-link-block{
+        display: none;;
+    }
 }
