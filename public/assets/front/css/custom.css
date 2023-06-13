@@ -1,5 +1,5 @@
 .hero-area {
-    padding: 30px 0;
+    padding: 30px 0 0 0;
 }
 
 .page-title {
@@ -1071,48 +1071,28 @@ a.sell-btn {
     }
 }
 
-.hero-area .categori .section-top {
-    margin-bottom: 20px;
-}
-
-.hero-area .categori .section-top {
-    margin-bottom: 12px;
-    padding-bottom: 0px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.10);
-    display: block;
-    width: 100%;
-    position: relative;
+.hero-area .section-top {
+    width: 300px;
+    border-bottom: 3px solid #ff5500;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
-.hero-area .categori .section-top .section-title::after {
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 3px;
-    background: #0f78f2;
-    left: 0;
-    bottom: -2px;
-}
-
-.hero-area .categori .section-top .section-title {
-    font-size: 18px;
-    line-height: 38px;
+.hero-area .section-top .section-title {
+    font-size: 36px;
     font-weight: 600;
     color: #143250;
-    display: inline-block;
-    position: relative;
-    margin-bottom: 0px;
-    margin-left: 3px;
+    margin-top: 0;
+    margin-left: 10px;
 }
 
-.hero-area .categori .item-list {
+.hero-area .item-list {
     display: block;
     width: 100%;
 }
 
-.hero-area .categori .item-list li .single-box {
+.hero-area .item-list li .single-box {
     position: relative;
     margin-bottom: 20px;
     display: -webkit-box;
@@ -1120,14 +1100,14 @@ a.sell-btn {
     display: flex;
 }
 
-.hero-area .categori .item-list li .single-box .left-area {
+.hero-area .item-list li .single-box .left-area {
     width: 90px;
     height: 90px;
     margin-right: 15px;
     overflow: hidden;
 }
 
-.hero-area .categori .item-list li .single-box .left-area img {
+.hero-area .item-list li .single-box .left-area img {
     width: 100%;
     -webkit-transition: 0.3s ease-in;
     -moz-transition: 0.3s ease-in;
@@ -1135,38 +1115,38 @@ a.sell-btn {
     transition: 0.3s ease-in;
 }
 
-.hero-area .categori .item-list li .single-box:hover .left-area img {
+.hero-area .item-list li .single-box:hover .left-area img {
     transform: scale(1.15);
 }
 
-.hero-area .categori .item-list li .single-box .right-area {
+.hero-area .item-list li .single-box .right-area {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
 }
 
-.hero-area .categori .item-list li .single-box .right-area .stars {
+.hero-area .item-list li .single-box .right-area .stars {
     display: block;
     text-align: left;
     line-height: 12px;
 }
 
-.hero-area .categori .item-list li .single-box .right-area .stars ul {
+.hero-area .item-list li .single-box .right-area .stars ul {
     display: inline-block;
     line-height: 12px;
 }
 
-.hero-area .categori .item-list li .single-box .right-area .stars ul li {
+.hero-area .item-list li .single-box .right-area .stars ul li {
     line-height: 12px;
     display: inline-block;
 }
 
-.hero-area .categori .item-list li .single-box .right-area .stars ul li i {
+.hero-area .item-list li .single-box .right-area .stars ul li i {
     font-size: 12px;
     color: #ff5500;
 }
 
-.hero-area .categori .item-list li .single-box .right-area .price {
+.hero-area .item-list li .single-box .right-area .price {
     font-size: 16px;
     line-height: 26px;
     color: #143250;
@@ -1174,12 +1154,12 @@ a.sell-btn {
     margin: 3px 0px 3px;
 }
 
-.hero-area .categori .item-list li .single-box .right-area .price del {
+.hero-area .item-list li .single-box .right-area .price del {
     font-size: 12px;
     opacity: .8;
 }
 
-.hero-area .categori .item-list li .single-box .right-area .text {
+.hero-area .item-list li .single-box .right-area .text {
     font-size: 14px;
     line-height: 17px;
     font-weight: 600;
@@ -1318,7 +1298,7 @@ a.sell-btn {
     border-top-right-radius: 0; */
     
     width: 100%;
-    padding: 10px 10px;
+    padding: 0 10px;
     color: #656565;
     background-color: #FFF;
     display: flex;
@@ -2020,9 +2000,10 @@ Begin Footer Custom Style
     padding: 0px;
 }
 
-.promotions {
+/* .promotions {
     margin: 30px 0;
-}
+} */
+
 .promotions img{
     width: 100%;
     cursor: pointer;

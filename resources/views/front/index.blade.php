@@ -23,7 +23,7 @@
     @endif
 
     <section class="hero-area" style="background-color: white">
-        <div class="container custom-container">
+        <div class="container">
             <div class="row">
                 <div class="col-12 remove-padding s-top-block">
                     @if($domain_name == 'mahindra')
@@ -34,7 +34,7 @@
                     <div>
                         {{-- Over 500,000 Kioti Parts <br>and growing... --}}
                         <p> 
-                            <img src="{{asset('assets/images/introduction1.png')}}" style="float: left; margin-right: 20px; width: 50%;"/>
+                            <img src="{{asset('assets/images/introduction2.png')}}" style="float: left; margin-right: 20px; width: 50%;"/>
                             At Tractor Brothers, we pride ourselves on being the best one stop shop for all your Kioti parts and accessories, including our top selling 3rd Function Valve Kits that always include free shipping.
                         </p>
                         <p>
@@ -43,6 +43,12 @@
                     </div>
                     @endif
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="hero-area" style="background-color: white">
+        <div class="container">
+            <div class="row">
                 <div class="col-md-4 col-sm-12 remove-padding pr-1">
                     <a href="{{route('front.partsbymodel', [])}}">
                         <div class="s-0-block s-block d-flex m-gray">
@@ -134,7 +140,11 @@
                     </a>
                 </div>
             </div>
+        </div>
+    </section>
 
+    <section class="hero-area" style="background-color: white">
+        <div class="container">
             <div class="row">
                 <div class="col-md-12 remove-padding">
                     <div class='promotions'>
@@ -173,32 +183,36 @@
         </div>
     </section>
 
+    
     @foreach($products as $product)
-    <section class="trending grid-display">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 remove-padding">
-                    <div class="section-top">
-                        <h2 class="section-title">
+        @if(isset($product['products']) && count($product['products']) > 0)
+        <section class="hero-area" style="background-color: white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 remove-padding">
+                        <div class="section-top">
                             <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                            <span class="main">{{ $product["category_name"] }}</span> 
-                            <span class="title-underline"></span>
-                        </h2>
+                            <h2 class="section-title">
+                                {{ $product["category_name"] }}
+                                {{-- <span class="title-underline"></span> --}}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 remove-padding">
+                        <div class="trending-item-slider">
+                            @foreach($product['products'] as $prod)
+                            @include('includes.product.slider-product', ['prod' => $prod])
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 remove-padding">
-                    <div class="trending-item-slider">
-                        @foreach($product['products'] as $prod)
-                        @include('includes.product.slider-product', ['prod' => $prod])
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+        @endif
     @endforeach
+    
     
     @if($ps->small_banner == 1)
         <!-- Banner Area One Start -->
@@ -222,13 +236,13 @@
         <!-- Banner Area One Start -->
     @endif
 
-    <section class="hero-area" style="background-color: white">
+    <section class="hero-area" style="background-color: white; padding-bottom: 30px;">
         <div class="container custom-container">
             <div class="row">
                 <div class="col-12 remove-padding s-top-block">
                     <div>
                         <p>
-                        <img src="{{asset('assets/images/introduction2.png')}}" style="float: right; margin-left: 20px; width: 50%;"/>
+                        <img src="{{asset('assets/images/introduction1.png')}}" style="float: right; margin-left: 20px; width: 50%;"/>
                         Tractor Brothers was originally Mahindra of Greensburg, selling Mahindra tractors and implements.  Over the years, as we expanded our business with additional equipment lines and additional locations to better serve our customers, we decided to rebrand as Tractor Brothers.  We specialize in high quality products, parts, and accessories for the landscape professional, farmer, and discerning homeowner.  We carry the latest products from leading brands, including Mahindra, KIOTI, Husqvarna, Woods, Husqvarna, Stihl, and Titan.
                         </p>
                         <p>
