@@ -1077,10 +1077,10 @@ a.sell-btn {
 }
 
 .section-top .section-title {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 600;
     color: #143250;
-    margin-top: 0;
+    margin-top: 7px;
     margin-left: 10px;
 }
 
@@ -2343,10 +2343,10 @@ End Footer Custom Style
     }
 
     .trending-item-slider > a.prod-item {
-        width: 100%;
+        width: 95%;
     }
     
     .product-link-block{
-        display: none;;
+        display: none;
     }
 }

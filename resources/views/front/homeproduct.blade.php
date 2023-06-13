@@ -71,7 +71,7 @@
         <div class="container">
             @if ($productt)
             <div class="row">
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-2 col-sm-12 product-link-block">
                     <div>
                         <a href="{{route('front.partsbymodel', [])}}">
                             <div class="s-0-block s-block d-flex m-gray" style="height: 50px;">
@@ -504,7 +504,7 @@
                         <div style="display: flex; align-item: center;">
                             <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
                             <span class="section-title">
-                                Popular Products
+                                More {{ $slug_list['model'] }} Products
                                 {{-- <span class="title-underline"></span> --}}
                             </span>
                         </div>

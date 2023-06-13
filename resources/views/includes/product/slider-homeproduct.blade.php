@@ -9,7 +9,7 @@
 
         <p class="prod-details"
             style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color ? $colorsetting_style2->sub_detail_color : '#333333' }}">
-            <small>Parents:
+            <small>Model:
                 <?php echo $prod->model; ?>
             </small>
         </p>
@@ -53,10 +53,10 @@
 
     <div class="info">
         <h5 class="name">
-            $ <del><small>{{ $prod->price }}</small></del>
+            $<small>{{ $prod->price }}</small>
             {{ $prod->name }}
             <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color ? $colorsetting_style2->sub_detail_color : '#333333' }}">
-                <small>Parents:
+                <small>Model:
                     <?php echo $prod->model; ?>
                 </small>
             </p>
