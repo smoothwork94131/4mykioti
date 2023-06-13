@@ -22,7 +22,7 @@
     </div>
     @endif
 
-    <section class="hero-area" style="background-color: white">
+    <section class="hero-area">
         <div class="container">
             <div class="row">
                 <div class="col-12 remove-padding s-top-block">
@@ -46,7 +46,7 @@
             </div>
         </div>
     </section>
-    <section class="hero-area" style="background-color: white">
+    <section class="hero-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-12 remove-padding pr-1">
@@ -143,60 +143,62 @@
         </div>
     </section>
 
-    <section class="hero-area" style="background-color: white">
-        <div class="container">
+    <section class="hero-area">
+        <div class="container promotions">
             <div class="row">
-                <div class="col-md-12 remove-padding">
-                    <div class='promotions'>
-                        <div class='promotion-title'>
-                            Promotions
+                <div class="col-lg-12 remove-padding">
+                    <span class="section-top">
+                        <div style="display: flex; align-item: center;">
+                            <span class="section-title">
+                                Promotion    
+                            </span>
                         </div>
-                        <div class="promotion-content row">
-                            @if($domain_name == 'mahindra')
-                            <div class="col-md-6 col-sm-12">
-                                <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
-                            </div>
-                            @else
-                            <div class="col-md-6 col-sm-12">
-                                <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>    
-                            </div>
-                            @endif
-                        </div>
-                        <div class="promotion-content row">
-                            <div class="col-md-6 col-sm-12">
-                                <a href="https://www.tractorbrothers.com/new-models/woods-265"><img src="{{asset('assets/images/promotions/5f721233-577e-4e0b-9983-c1b8ad89e8d7.jpg')}}"/></a>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <a href="https://www.tractorbrothers.com/new-models/husqvarna-157"><img src="{{asset('assets/images/promotions/8c1b7eaa-f63c-4f1e-9a98-046264d4418e.jpg')}}" /></a>
-                            </div>    
-                        </div>
-                    </div>
+                    </span>
                 </div>
-                
+            </div>
+            <div class="promotion-content row">
+                @if($domain_name == 'mahindra')
+                <div class="col-md-6 col-sm-12">
+                    <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
+                </div>
+                @else
+                <div class="col-md-6 col-sm-12">
+                    <a href="https://www.tractorbrothers.com/new-models/kioti-263"><img src="{{asset('assets/images/promotions/8f7fba18-131a-4367-907f-c8c404488e79.jpg')}}" /></a>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <a href="https://www.tractorbrothers.com/new-models/mahindra-264"><img src="{{asset('assets/images/promotions/fb199527-5e08-422f-b7a9-1502503048c6.jpg')}}" /></a>    
+                </div>
+                @endif
+            </div>
+            <div class="promotion-content row">
+                <div class="col-md-6 col-sm-12">
+                    <a href="https://www.tractorbrothers.com/new-models/woods-265"><img src="{{asset('assets/images/promotions/5f721233-577e-4e0b-9983-c1b8ad89e8d7.jpg')}}"/></a>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <a href="https://www.tractorbrothers.com/new-models/husqvarna-157"><img src="{{asset('assets/images/promotions/8c1b7eaa-f63c-4f1e-9a98-046264d4418e.jpg')}}" /></a>
+                </div>    
             </div>
         </div>
     </section>
-
     
     @foreach($products as $product)
         @if(isset($product['products']) && count($product['products']) > 0)
-        <section class="hero-area" style="background-color: white">
+        <section class="trending">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 remove-padding">
-                        <div class="section-top">
-                            <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
-                            <h2 class="section-title">
-                                {{ $product["category_name"] }}
-                                {{-- <span class="title-underline"></span> --}}
-                            </h2>
-                        </div>
+                        <span class="section-top">
+                            <div style="display: flex; align-item: center;">
+                                <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
+                                <span class="section-title">
+                                    {{ $product["category_name"] }}
+                                    {{-- <span class="title-underline"></span> --}}
+                                </span>
+                            </div>
+                        </span>
                     </div>
                 </div>
                 <div class="row">
@@ -236,7 +238,7 @@
         <!-- Banner Area One Start -->
     @endif
 
-    <section class="hero-area" style="background-color: white; padding-bottom: 30px;">
+    <section class="hero-area" style="padding-bottom: 30px;">
         <div class="container custom-container">
             <div class="row">
                 <div class="col-12 remove-padding s-top-block">

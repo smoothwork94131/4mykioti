@@ -38349,16 +38349,12 @@ select:focus {
 
 .section-top {
     margin-bottom: 12px;
-    padding-bottom: 0px;
-    display: block;
-    width: 100%;
-    position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
 }
 
 .section-top .section-title {
-    font-size: 18px;
+    font-size: 36px;
     line-height: 38px;
     font-weight: 600;
     color: #000;
@@ -38645,7 +38641,7 @@ Breadcrumb Area Start
 
 .breadcrumb-area {
     padding: 22px 0px;
-    background: #f5f5f5;
+    background: #fffffa;
 }
 
 .breadcrumb-area .pages li {
@@ -39725,6 +39721,7 @@ nav button {
 
 .trending {
     padding: 36px 0px;
+    background: #fffffa;
 }
 
 .trending .ui-widget.ui-widget-content {
@@ -40839,6 +40836,7 @@ nav button {
 
 .product-details-page {
     padding: 70px 0px 40px;
+    background: #fffffa;
 }
 
 .product-details-page li.slick-slide {
@@ -42416,7 +42414,7 @@ nav button {
 
 .sub-categori {
     padding: 10px 0px 70px;
-    background-color: white;
+    background-color: #fffffa;
 }
 
 .sub-categori .left-area .filter-result-area {
@@ -44852,6 +44850,7 @@ Faq Page Start
 
 .faq-section {
     padding: 3px 0px 70px;
+    background: #fffffa;
 }
 
 .ui-accordion .ui-accordion-header {

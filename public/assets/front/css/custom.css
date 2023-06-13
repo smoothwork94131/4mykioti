@@ -1,5 +1,6 @@
 .hero-area {
     padding: 30px 0 0 0;
+    background: #FFFFFa
 }
 
 .page-title {
@@ -1071,16 +1072,13 @@ a.sell-btn {
     }
 }
 
-.hero-area .section-top {
-    width: 300px;
+.section-top {
+    display: inline-block;
     border-bottom: 3px solid #ff5500;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 
-.hero-area .section-top .section-title {
-    font-size: 36px;
+.section-top .section-title {
+    font-size: 32px;
     font-weight: 600;
     color: #143250;
     margin-top: 0;
@@ -2015,9 +2013,7 @@ Begin Footer Custom Style
 }
 
 .promotions .promotion-content {
-    margin-bottom: 10px;
-    margin-left: -5px;
-    margin-right: -5px;
+    margin-top: 10px;
 }
 
 .promotions .promotion-content div {
@@ -2263,7 +2259,7 @@ End Footer Custom Style
 }
 
 .right-area {
-    padding-left: 50px;;
+    padding-left: 0px;;
 }
 
 .map_other_info {

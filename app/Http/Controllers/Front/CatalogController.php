@@ -144,6 +144,17 @@ class CatalogController extends Controller
             }
         }
 
+        $other_parts = DB::connection('product');
+        $other_parts = $other_parts->table($db);
+        $other_parts = $other_parts->where('model', $model);
+        $other_parts = $other_parts->where('thumbnail', "!=", "");
+        if(isset($productt)) {
+            $other_parts = $other_parts->where('id', '!=', $productt->id);
+        }
+        $other_parts = $other_parts->orderBy('id', 'desc');
+        $other_parts = $other_parts->take(9);
+        $other_parts = $other_parts->get();
+
         $group_record = DB::connection('product')
             ->table($db.'_categories')
             ->orWhere('group_Id', $productt->group_id)
@@ -151,7 +162,7 @@ class CatalogController extends Controller
 
         $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
 
-        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits"));
+        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits", "other_parts"));
     }
 
     public function product(Request $request, $slug)
