@@ -50116,7 +50116,6 @@ a.prod-item:hover .prod-init {
 
 .prod-item .prod-effect .extra-list {
     opacity: 0;
-    background-color: rgb(255, 255, 255, 0.8);
     transition: all 0.3s linear;
     z-index: 99;
 }

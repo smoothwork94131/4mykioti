@@ -114,20 +114,17 @@
         <div class="stars">
             <div class="ratings">
                 <div class="empty-stars">
-
                 </div>
                 <div class="full-stars" style="width:{{ App\Models\Rating::ratings($prod->id) }}%"></div>
             </div>
         </div>
         <h5 class="name">
-            {{ $prod->setCurrency() }} <del><small>{{ $prod->showPreviousPrice() }}</small></del>
+            {{ $prod->setCurrency() }} <del>{{ $prod->showPreviousPrice() }}</del>
             {{ $prod->showName() }}
             @if ($prod->showParent() && $prod->showParent() != '<br>')
                 <p class="prod-details"
                     style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color ? $colorsetting_style2->sub_detail_color : '#333333' }}">
-                    <small>Parents:
-                        <?php echo $prod->showParent(); ?>
-                    </small>
+                    Parents: <?php echo $prod->showParent(); ?>
                 </p>
             @endif
         </h5>

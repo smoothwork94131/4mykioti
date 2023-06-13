@@ -53,12 +53,10 @@
 
     <div class="info">
         <h5 class="name">
-            $<small>{{ $prod->price }}</small>
+            ${{ $prod->price }}
             {{ $prod->name }}
             <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color ? $colorsetting_style2->sub_detail_color : '#333333' }}">
-                <small>Model:
-                    <?php echo $prod->model; ?>
-                </small>
+                Model: <?php echo $prod->model; ?>
             </p>
         </h5>
 
