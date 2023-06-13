@@ -53,13 +53,13 @@
                 <div class="row">
                     <div class="col-lg-5 col-md-12">
                         <div class="xzoom-container">
-                            <img class="xzoom5" id="xzoom-magnific" style="width: 100%;" 
+                            <img class="xzoom5" id="xzoom-magnific" style="width: 100%; max-height: 450px; object-fit: contain;" 
                                 src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}" 
                                 xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}" />
                             <div class="xzoom-thumbs">
                                 <div class="all-slider">
                                     <a href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/products/' . $gs->prod_image)) }}">
-                                        <img class="xzoom-gallery5" width="80" src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}" title="The description goes here">
+                                        <img class="xzoom-gallery5" style="width: 100px; max-height: 100px; object-fit: contain;" src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}" title="The description goes here">
                                     </a>
                                 </div>
                             </div>

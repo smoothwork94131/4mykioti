@@ -85,14 +85,14 @@
                                             $instead_image = asset('assets/images/noimage.png');
                                         }
                                     @endphp
-                                    <img class="xzoom5" id="xzoom-magnific" style="width: 100%;"
+                                    <img class="xzoom5" id="xzoom-magnific" style="width: 100%; max-height: 450px; object-fit: contain;"
                                         src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}"
                                         xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}" />
                                     <div class="xzoom-thumbs">
                                         <div class="all-slider">
                                             <a
                                                 href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}">
-                                                <img class="xzoom-gallery5" width="80"
+                                                <img class="xzoom-gallery5" style="width: 100px; max-height: 100px; object-fit: contain;"
                                                     src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : $instead_image) }}"
                                                     title="The description goes here">
                                             </a>
