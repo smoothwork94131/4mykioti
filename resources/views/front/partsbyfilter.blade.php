@@ -119,7 +119,7 @@
                                 @foreach($results as $key=>$prod)
                                 @php
                                     $path_list = $slug_list;
-                                    $path_list['section'] = $prod->section;
+                                    $path_list['section'] = $prod->section_name;
                                     $path_list['group'] = $prod->group_id;
                                     unset($path_list['filter']);
 
