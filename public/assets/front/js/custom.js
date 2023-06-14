@@ -1591,7 +1591,7 @@ function totalSearch(event, type) {
           for (var k = 0; k < data.length; k++) {
             var item = data[k];
             var section = replaceDataToPath(item.section);
-            var group_name = replaceDataToPath(item.group_name);
+            var group_id = replaceDataToPath(item.group_id);
             var name = replaceDataToPath(item.name);
 
             html +=

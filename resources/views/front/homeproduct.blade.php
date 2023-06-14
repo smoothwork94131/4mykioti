@@ -515,7 +515,20 @@
                 <div class="col-lg-12 remove-padding">
                     <div class="trending-item-slider">
                         @foreach($other_parts as $prod)
-                        @include('includes.product.slider-homeproduct', ['prod' => $prod, 'db' => $db])
+                        @include('includes.product.slider-homeproduct', 
+                            [
+                                'prod' => $prod, 
+                                'db' => $db, 
+                                'slug_list' => [
+                                    'category' => $slug_list['category'],
+                                    'series' => $slug_list['series'],
+                                    'model' => $prod->model,
+                                    'section' => $prod->section_name,
+                                    'group' => $prod->group_id,
+                                    'prod_name' => $prod->name
+                                ]
+                            ]
+                        )
                         @endforeach
                     </div>
                 </div>

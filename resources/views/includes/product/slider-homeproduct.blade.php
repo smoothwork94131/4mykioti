@@ -1,4 +1,4 @@
-<a href="{{ route('front.product', $prod->slug) }}" class="prod-item item">
+<a href="{{ route('front.homeproduct', $slug_list) }}" class="prod-item item">
     <div class="prod-init">
         <div class="prod-top">
             <h2 class="prod-name"

@@ -91,7 +91,7 @@ class CatalogController extends Controller
         $prod_name = $this->replaceDataToPath($prod_name);
 
         $db = strtolower($series);
-        $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}';" ;
+        $sql = "select * from `{$db}` where `model`='{$model}' and `group_id`='{$group}' and `name` = '{$prod_name}';" ;
         $productt =DB::connection('product')->select($sql);
         if($productt && count($productt) > 0) {
             $productt = $productt[0] ;
@@ -149,13 +149,16 @@ class CatalogController extends Controller
         }
 
         $other_parts = DB::connection('product');
-        $other_parts = $other_parts->table($db);
-        $other_parts = $other_parts->where('model', $model);
-        $other_parts = $other_parts->where('thumbnail', "!=", "");
+        $other_parts = $other_parts->table($db.' as product_tbl');
+        $other_parts = $other_parts->join($db.'_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id');
+        $other_parts = $other_parts->select('product_tbl.*', 'category_tbl.section_name');
+        $other_parts = $other_parts->where('product_tbl.model', $model);
+        $other_parts = $other_parts->where('product_tbl.thumbnail', "!=", "");
         if(isset($productt)) {
-            $other_parts = $other_parts->where('id', '!=', $productt->id);
+            $other_parts = $other_parts->where('product_tbl.id', '!=', $productt->id);
         }
-        $other_parts = $other_parts->orderBy('id', 'desc');
+        $other_parts = $other_parts->orderBy('product_tbl.id', 'desc');
+        $other_parts = $other_parts->distinct();
         $other_parts = $other_parts->take(9);
         $other_parts = $other_parts->get();
 
