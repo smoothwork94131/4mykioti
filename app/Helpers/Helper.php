@@ -31,8 +31,15 @@ class Helper {
 
         // Filter and extract only the desired words
         $desiredWords = array_filter($new_word, function ($word) {
-            return in_array(strtolower($word), ['oil', 'filter']);
+            return in_array(strtolower($word), ['filter', 'oil', 'fuel', 'hydraulic', 'pressure', '']);
         });
+
+        if(isset($desiredWords) && count($desiredWords) > 0) {
+            if(strtolower($desiredWords[0]) == 'filter') {
+                unset($desiredWords[0]);
+                array_push($desiredWords, 'FILTER');
+            }
+        }
 
         // Join the desired words back into a string
         $updatedName = implode(' ', $desiredWords);
