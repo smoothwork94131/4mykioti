@@ -651,6 +651,7 @@ class FrontendController extends Controller
             ->join($db . '_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id')
             ->where('product_tbl.model', $model)
             ->where('product_tbl.common_part', 1)
+            ->distinct()
             ->get();
 
         return view('load.suggest', compact('prods', 'category', 'series', 'model'));
