@@ -39,10 +39,13 @@ class Helper {
             });
 
             if(isset($desiredWords) && count($desiredWords) > 0) {
-                if(strtolower($desiredWords[0]) == 'filter') {
-                    unset($desiredWords[0]);
-                    array_push($desiredWords, 'FILTER');
+                // dd($desiredWords);
+                foreach($desiredWords as $key=>$item) {
+                    if(strtolower($item) == "filter") {
+                        unset($desiredWords[$key]);
+                    }
                 }
+                array_push($desiredWords, 'FILTER');
             }
 
             // Join the desired words back into a string
