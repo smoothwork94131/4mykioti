@@ -271,7 +271,7 @@ class FrontendController extends Controller
                 $result = $result->where('product_tbl.name', 'like', '%' . $search . '%')->orWhere('product_tbl.name', 'like', $search1 . '%');
             }
 
-            $result = $result->where('product_tbl.price', '!=', 0);
+            // $result = $result->where('product_tbl.price', '!=', 0);
             $result = $result->where('product_tbl.name', '!=', "");
             $result = $result->where('product_tbl.sku', '!=', "");
             $result = $result->where('product_tbl.status', 1);
@@ -401,7 +401,7 @@ class FrontendController extends Controller
                 $result = $result->where('product_tbl.name', 'like', '%' . $search . '%')->orWhere('product_tbl.name', 'like', $search1 . '%');
             }
 
-            $result = $result->where('product_tbl.price', '!=', 0);
+            // $result = $result->where('product_tbl.price', '!=', 0);
             $result = $result->where('product_tbl.name', '!=', "");
             $result = $result->where('product_tbl.sku', '!=', "");
             $result = $result->where('product_tbl.status', 1);
