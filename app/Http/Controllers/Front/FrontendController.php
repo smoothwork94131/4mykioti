@@ -518,8 +518,11 @@ class FrontendController extends Controller
                         $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%fuel,filter%');
                     }
                     else if($filter == 'Oil-Pressure') {
-                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
-                        $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                        // $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
+                        // $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter%');
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil%');
+                        $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%pressure%');
                     }
                     else {
                         $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,hydraulic%');
@@ -562,8 +565,11 @@ class FrontendController extends Controller
                     $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%fuel,filter%');
                 }
                 else if($filter == 'Oil-Pressure') {
-                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
-                    $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                    // $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
+                    // $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter%');
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil%');
+                    $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%pressure%');
                 }
                 else {
                     $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,hydraulic%');
@@ -595,8 +601,11 @@ class FrontendController extends Controller
                 $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%fuel,filter%');
             }
             else if($filter == 'Oil-Pressure') {
-                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
-                $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                // $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,oil,pressure%');
+                // $models = $models->orWhere(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil,pressure,filter%');
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter%');
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil%');
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%pressure%');
             }
             else {
                 $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter,hydraulic%');
@@ -625,8 +634,11 @@ class FrontendController extends Controller
                 $models = $models->orWhere(DB::raw('REPLACE(product_tbl.name, " ", "")'), 'like', '%fuel,filter%');
             }
             else if($filter == 'Oil-Pressure') {
-                $models = $models->where(DB::raw('REPLACE(product_tbl.name, " ", "")'), 'like', '%filter,oil,pressure%');
-                $models = $models->orWhere(DB::raw('REPLACE(product_tbl.name, " ", "")'), 'like', '%oil,pressure,filter%');
+                // $models = $models->where(DB::raw('REPLACE(product_tbl.name, " ", "")'), 'like', '%filter,oil,pressure%');
+                // $models = $models->orWhere(DB::raw('REPLACE(product_tbl.name, " ", "")'), 'like', '%oil,pressure,filter%');
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%filter%');
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%oil%');
+                $models = $models->where(DB::raw('REPLACE(name, " ", "")'), 'like', '%pressure%');
             }
             else {
                 $models = $models->where(DB::raw('REPLACE(product_tbl.name, " ", "")'), 'like', '%filter,hydraulic%');
@@ -637,7 +649,6 @@ class FrontendController extends Controller
         }
         
         Session::put("slug_list", $slug_list) ;
-
         return view('front.partsbyfilter', compact("results", "slug_list", "filter", "category", "series", "model"));
     }
 
