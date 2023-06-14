@@ -26,6 +26,7 @@ use Session;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use App\Classes\GeniusMailer;
+use Helper;
 
 class CatalogController extends Controller
 {
@@ -94,6 +95,9 @@ class CatalogController extends Controller
         $productt =DB::connection('product')->select($sql);
         if($productt && count($productt) > 0) {
             $productt = $productt[0] ;
+            if (strpos($productt->name, ',') !== false) {
+                $productt->name = Helper::reversePartsName($productt->name);
+            }
         }
         else {
             $productt = null;

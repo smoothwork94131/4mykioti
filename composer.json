@@ -48,7 +48,10 @@
         "psr-4": {
             "App\\": "app/",
             "Markury\\": "vendor/markury/src/Adapter"
-        }
+        },
+        "files": [
+            "app/Helpers/Helper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
