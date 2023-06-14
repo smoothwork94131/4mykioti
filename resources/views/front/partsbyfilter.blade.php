@@ -134,7 +134,15 @@
                                             <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                                         </td>
                                         <td style="text-align:center;">
-                                            <a href="{{route('front.homeproduct', $path_list)}}">{{ $prod->name }}</a>
+                                            <a href="{{route('front.homeproduct', $path_list)}}">
+                                                @php
+                                                    $prod_name = $prod->name;
+                                                    if (strpos($prod_name, ',') !== false) {
+                                                        $prod_name = Helper::reversePartsName($prod_name);
+                                                    }
+                                                @endphp
+                                                {{ $prod_name }}
+                                            </a>
                                         </td>
                                         <td style="text-align:center;">
                                             {{ $prod->model }}

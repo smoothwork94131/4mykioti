@@ -43004,6 +43004,7 @@ nav button {
 
 .cartpage {
     padding: 0px 0px 54px;
+    background-color: #fffffa;
 }
 
 .cartpage .left-area .table thead {
@@ -46069,6 +46070,8 @@ li#example_previous {
 
 .checkout {
     overflow: hidden;
+    padding: 70px 0px 70px;
+    background-color: #fffffa;
 }
 
 .checkout-area .checkout-process {
@@ -46492,10 +46495,6 @@ input[type=checkbox]:checked:disabled+label:before {
     transform: scale(1);
     background-color: #9e9e9e;
     border-color: #9e9e9e;
-}
-
-.checkout {
-    padding: 70px 0px 70px;
 }
 
 .radio-design {

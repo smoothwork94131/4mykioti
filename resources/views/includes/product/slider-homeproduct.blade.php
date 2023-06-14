@@ -3,6 +3,11 @@
         <div class="prod-top">
             <h2 class="prod-name"
                 style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color ? $colorsetting_style2->title_color : '#333333' }}">
+                @php
+                    if (strpos($prod->name, ',') !== false) {
+                        $prod->name = Helper::reversePartsName($prod->name);
+                    }
+                @endphp
                 {{ $prod->name }}
             </h2>
         </div>

@@ -44,7 +44,15 @@
                                 <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                             </td>
                             <td>
-                                <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->model.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">{{ $prod->name }}</a>
+                                <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->model.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">
+                                    @php
+                                        $prod_name = $prod->name;
+                                        if (strpos($prod_name, ',') !== false) {
+                                            $prod_name = Helper::reversePartsName($prod_name);
+                                        }
+                                    @endphp
+                                    {{ $prod_name }}
+                                </a>
                             </td>
                             <td>
                                 {{ $prod->model }}

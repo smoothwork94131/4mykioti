@@ -266,11 +266,18 @@
                                                         <div class="product-content">
                                                             <p class="name">
                                                                 @if($product["db"] == "products")
-                                                                <a href="{{ route('front.product', $product['item']->slug) }}"
-                                                                    target="_blank">{{ $product['item']->name }}</a>
+                                                                <a href="{{ route('front.product', $product['item']->slug) }}" target="_blank">
+                                                                    {{ $product['item']->name }}
+                                                                </a>
                                                                 @else
                                                                 <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_id, 'prod_name' => $product['item']->name]) }}">
-                                                                    {{ $product['item']->name }}
+                                                                    @php
+                                                                        $prod_name = mb_strlen($product['item']->name, 'utf-8') > 45 ? mb_substr($product['item']->name, 0, 45, 'utf-8') . '...' : $product['item']->name;
+                                                                        if (strpos($prod_name, ',') !== false) {
+                                                                            $prod_name = Helper::reversePartsName($prod_name);
+                                                                        }
+                                                                    @endphp
+                                                                    {{ $prod_name }}
                                                                 </a>
                                                                 @endif
                                                             </p>

@@ -164,8 +164,12 @@ class CatalogController extends Controller
             ->orWhere('group_Id', $productt->group_id)
             ->first();
 
-        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$this->replacPathToData($prod_name));
+        $prod_name = $this->replacPathToData($prod_name);
+        if (strpos($prod_name, ',') !== false) {
+            $prod_name = Helper::reversePartsName($prod_name);
+        }
 
+        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$prod_name);
         return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits", "other_parts"));
     }
 

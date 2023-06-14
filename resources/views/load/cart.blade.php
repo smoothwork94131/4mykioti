@@ -21,7 +21,13 @@
                             </div>
                             <div class="content">
                                 <h6 class="product-title">
-                                    {{ mb_strlen($product['item']->name, 'utf-8') > 45 ? mb_substr($product['item']->name, 0, 45, 'utf-8') . '...' : $product['item']->name }}
+                                    @php
+                                        $prod_name = mb_strlen($product['item']->name, 'utf-8') > 45 ? mb_substr($product['item']->name, 0, 45, 'utf-8') . '...' : $product['item']->name;
+                                        if (strpos($prod_name, ',') !== false) {
+                                            $prod_name = Helper::reversePartsName($prod_name);
+                                        }
+                                    @endphp
+                                    {{ $prod_name }}
                                 </h6>
 
                                 <span class="cart-product-info">

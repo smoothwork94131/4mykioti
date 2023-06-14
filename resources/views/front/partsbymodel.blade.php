@@ -165,7 +165,15 @@
                                     </td>
                                     @endif
                                     <td style="text-align:center;">
-                                        <a href="{{route('front.homeproduct', $path_list)}}">{{ $item->name }}</a>
+                                        <a href="{{route('front.homeproduct', $path_list)}}">
+                                            @php
+                                                $prod_name = $item->name;
+                                                if (strpos($prod_name, ',') !== false) {
+                                                    $prod_name = Helper::reversePartsName($prod_name);
+                                                }
+                                            @endphp
+                                            {{ $prod_name }}
+                                        </a>
                                     </td>
                                     <td style="text-align:center;">
                                         ${{ $item->price }}
