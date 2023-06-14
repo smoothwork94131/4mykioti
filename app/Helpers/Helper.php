@@ -31,7 +31,7 @@ class Helper {
 
         // Filter and extract only the desired words
         $desiredWords = array_filter($new_word, function ($word) {
-            return in_array(strtolower($word), ['filter', 'oil', 'fuel', 'hydraulic', 'pressure']);
+            return in_array(strtolower($word), ['filter', 'oil', 'fuel', 'air', 'hydraulic', 'pressure']);
         });
 
         if(isset($desiredWords) && count($desiredWords) > 0) {
