@@ -716,12 +716,7 @@
         <div class="copy-bg">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="content">
-                            <span style="color: {{ $gs->footer_text_color }}">{!! $gs->copyright !!}</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="content">
                             <span style="color: {{ $gs->footer_text_color }}">{!! $gs->copyright !!}</span>
                         </div>
