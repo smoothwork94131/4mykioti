@@ -244,10 +244,10 @@ class FrontendController extends Controller
         } else if(count($slug_list) == 4) {
             $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
         } else if(count($slug_list) == 5) {
-            $category = $this->replacPathToData($category) ;
-            $series = $this->replacPathToData($series) ;
-            $model = $this->replacPathToData($model) ;
-            $section = $this->replacPathToData($section) ;
+            $category = $this->replacPathToData($category);
+            $series = $this->replacPathToData($series);
+            $model = $this->replacPathToData($model);
+            $section = $this->replacPathToData($section);
             $group = $this->replacPathToData($group);
 
             $minprice = $request->min;
@@ -293,6 +293,7 @@ class FrontendController extends Controller
             }
             
             $group_record = DB::connection('product')->table($db.'_categories')->where('group_name', $group)->first();
+            // dd($result);
             if($group_record && !file_exists(public_path('assets/images/group/'.$group_record->image)) && !file_exists(public_path('assets/images/group/'.$group_record->group_Id . '.png'))) {
                 $gs = Generalsetting::findOrFail(1);
                 if ($gs->is_smtp == 1) {
