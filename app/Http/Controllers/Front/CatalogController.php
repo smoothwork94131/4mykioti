@@ -102,12 +102,19 @@ class CatalogController extends Controller
         if(isset($cat)) {
             $group_id = $cat->group_Id;
             $sql = "select * from `{$db}` where `model`='{$model}' and `group_id`='{$group_id}' and `name` = '{$prod_name}';";
+            if (strpos($prod_name, "'") !== false) {
+                $sql = 'select * from `'. $db .'` where `model`="'. $model .'" and `group_id`="' . $group_id . '" and `name` = "'. $prod_name .'";';
+            }
         }
         else {
             $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}';" ;
+            if (strpos($prod_name, "'") !== false) {
+                $sql = 'select * from `'. $db .'` where `model`="'. $model .'" and `name` = "'. $prod_name .'";';
+            }
         }
 
-        $productt =DB::connection('product')->select($sql);
+        $productt = DB::connection('product')->select($sql);
+        
         if($productt && count($productt) > 0) {
             $productt = $productt[0] ;
             if (strpos($productt->name, ',') !== false) {
