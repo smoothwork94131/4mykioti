@@ -91,7 +91,7 @@
         @php
             $og_currency = "USD";
             $og_type = "product";
-            $og_availability = "instock";
+            $og_availability = "in_stock";
         @endphp
         <meta property="product:price:amount" content="{{ $productt->price?? 0 }}" />
         <meta property="product:price:currency" content="{{ $og_currency }}" />
