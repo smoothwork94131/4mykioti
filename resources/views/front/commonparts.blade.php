@@ -129,7 +129,7 @@
                             @php 
                                 $path_list = $slug_list;
                                 $path_list['section'] = $item->section_name;
-                                $path_list['group'] = $item->group_id;
+                                $path_list['group'] = $item->group_name;
                                 
                                 $path = $item->name;
                                 if(strstr($path, "/")) {

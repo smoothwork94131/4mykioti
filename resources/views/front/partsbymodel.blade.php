@@ -339,7 +339,7 @@
                     @foreach($result as $item)
                         <div class="col-md-3 col-sm-6">
                             @php 
-                                $path = $item->id??$item->name;
+                                $path = $item->name;
                                 if(strstr($path, "/")) {
                                     $path = str_replace("/", ":::", $path) ;
                                 }

@@ -91,7 +91,22 @@ class CatalogController extends Controller
         $prod_name = $this->replaceDataToPath($prod_name);
 
         $db = strtolower($series);
-        $sql = "select * from `{$db}` where `model`='{$model}' and `group_id`='{$group}' and `name` = '{$prod_name}';" ;
+        $cat = DB::connection('product')
+            ->table($db . "_categories")
+            ->select('*')
+            ->where('model', $model)
+            ->where('group_name', $group)
+            ->first();
+
+        $sql = "";
+        if(isset($cat)) {
+            $group_id = $cat->group_Id;
+            $sql = "select * from `{$db}` where `model`='{$model}' and `group_id`='{$group_id}' and `name` = '{$prod_name}';";
+        }
+        else {
+            $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}';" ;
+        }
+
         $productt =DB::connection('product')->select($sql);
         if($productt && count($productt) > 0) {
             $productt = $productt[0] ;

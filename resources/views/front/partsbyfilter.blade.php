@@ -120,7 +120,7 @@
                                 @php
                                     $path_list = $slug_list;
                                     $path_list['section'] = $prod->section_name;
-                                    $path_list['group'] = $prod->group_id;
+                                    $path_list['group'] = $prod->group_name;
                                     unset($path_list['filter']);
 
                                     $path = $prod->name ;

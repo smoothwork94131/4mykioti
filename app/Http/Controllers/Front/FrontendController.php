@@ -242,7 +242,7 @@ class FrontendController extends Controller
         } else if(count($slug_list) == 3) {
             $result = DB::connection('product')->table(strtolower($series)."_categories")->select("section_name as name")->distinct()->where('model', $model)->orderBy('section_name', 'asc')->get();
         } else if(count($slug_list) == 4) {
-            $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name", "group_Id as id")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
+            $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
         } else if(count($slug_list) == 5) {
             $category = $this->replacPathToData($category) ;
             $series = $this->replacPathToData($series) ;
@@ -275,7 +275,7 @@ class FrontendController extends Controller
             $result = $result->where('product_tbl.name', '!=', "");
             $result = $result->where('product_tbl.sku', '!=', "");
             $result = $result->where('product_tbl.status', 1);
-            $result = $result->where('product_tbl.group_id', $group);
+            $result = $result->where('category_tbl.group_name', $group);
             $result = $result->where('product_tbl.model', $model);
             $result = $result->distinct();
             $result = $result->orderBy('product_tbl.refno', 'asc');
@@ -292,7 +292,7 @@ class FrontendController extends Controller
                 }
             }
             
-            $group_record = DB::connection('product')->table($db.'_categories')->where('group_Id', $group)->first();
+            $group_record = DB::connection('product')->table($db.'_categories')->where('group_name', $group)->first();
             if($group_record && !file_exists(public_path('assets/images/group/'.$group_record->image)) && !file_exists(public_path('assets/images/group/'.$group_record->group_Id . '.png'))) {
                 $gs = Generalsetting::findOrFail(1);
                 if ($gs->is_smtp == 1) {
@@ -388,7 +388,7 @@ class FrontendController extends Controller
             $result = DB::connection('product')
                 ->table($db.' as product_tbl')
                 ->join($db . '_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id')
-                ->select('product_tbl.*', 'category_tbl.section_name')
+                ->select('product_tbl.*', 'category_tbl.section_name', 'category_tbl.group_name')
                 ->when($minprice, function ($query, $minprice) {
                     return $query->where('product_tbl.price', '>=', $minprice);
                 })
@@ -619,7 +619,7 @@ class FrontendController extends Controller
             $models = DB::connection('product');
             $models = $models->table($table_name . ' as product_tbl');
             $models = $models->join($table_name . '_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id');
-            $models = $models->select('product_tbl.*', 'category_tbl.section_name');
+            $models = $models->select('product_tbl.*', 'category_tbl.section_name', 'category_tbl.group_name');
             $models = $models->where('product_tbl.model', $model);
             if($filter == 'Air') {
                 $models = $models->where(DB::raw('REPLACE(product_tbl.name, " ", "")'), 'like', '%filter,air%');
@@ -895,7 +895,6 @@ class FrontendController extends Controller
         }
 
         return response()->json(array("categories"=>$categories));
-
     }
 
     public function maintenance()

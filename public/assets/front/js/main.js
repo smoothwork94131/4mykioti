@@ -214,12 +214,7 @@ $(function($) {
 
                                 for (var x in data.categories) {
                                     var group_name = replaceDataToPath(data.categories[x].group_name) ;
-                                    if(domain == 'mahindra') {
-                                        element += `<li><a href="${mainurl}/collection/${category}/${series}/${model}/${section}/${group_name}">> ${data.categories[x].group_name}</a></li>`;
-                                    }
-                                    else {
-                                        element += `<li><a href="${mainurl}/category/${category}/${series}/${model}/${section}/${group_name}">> ${data.categories[x].group_name}</a></li>`;
-                                    }
+                                    element += `<li><a href="${mainurl}/partsbymodel/${category}/${series}/${model}/${section}/${group_name}">> ${data.categories[x].group_name}</a></li>`;
                                 }
                                 cat_elem = cat_elem.children('.category-groups');
                                 cat_elem.html(element);
