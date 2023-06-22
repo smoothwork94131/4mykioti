@@ -27,7 +27,7 @@
     <!-- Breadcrumb Area End -->
     <!-- faq Area Start -->
   
-    <section class="faq-section">
+    <section class="hero-area">
         <div class="container">
             <div class="row m-block-content">
                 @if(count($result) == 0) 
@@ -36,7 +36,7 @@
                     @foreach($result as $item)
                     <div class="col col-md-3 col-sm-4 part-block-container">
                         @php
-                            $model = str_replace(" ", "-", $item->subcategory_id);
+                            $model = str_replace(" ", "-", $item->model);
                             $prod_name = str_replace(" ", "-", $item->name);
 
                             if($model != "additonal-products") {
@@ -62,7 +62,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-center">
-                        {{ $result->links('front.pagination.oldparts', ['paginator' => $result, 'maxLinks' => 10]) }}
+                        {{ $result->links('front.pagination.search', ['paginator' => $result, 'maxLinks' => 10]) }}
                     </div>
                 </div>
             </div>

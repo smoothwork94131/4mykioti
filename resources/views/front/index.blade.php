@@ -28,7 +28,14 @@
                 <div class="col-12 remove-padding s-top-block">
                     @if($domain_name == 'mahindra')
                     <div>
-                        Over 730,000 Mahindra Parts <br>and growing...
+                        {{-- Over 730,000 Mahindra Parts <br>and growing... --}}
+                        <p> 
+                            <img src="{{asset('assets/images/introduction2.png')}}" style="float: left; margin-right: 20px; width: 50%;"/>
+                            At Tractor Brothers, we pride ourselves on being the best one stop shop for all your Mahindra parts and accessories, including our top selling 3rd Function Valve Kits that always include free shipping.
+                        </p>
+                        <p>
+                        Find the genuine Mahindra tractor parts you need fast, and for the best prices anywhere. Tractor Brothers has 3 state-of-the-art locations to serve you and all of your tractor supply needs. Orders placed before 2pm are usually shipped same day.
+                        </p>
                     </div>
                     @else
                     <div>

@@ -1,10 +1,6 @@
 <div class="row wish-list-area">
-
     @foreach($wishlists as $wishlist)
-
         @if(!empty($sort))
-
-
             <div class="col-lg-6">
                 <div class="single-wish">
                     <span class="remove wishlist-remove"
@@ -35,9 +31,7 @@
                     </div>
                 </div>
             </div>
-
         @else
-
             <div class="col-lg-6">
                 <div class="single-wish">
                     <span class="remove wishlist-remove"
@@ -68,25 +62,21 @@
                     </div>
                 </div>
             </div>
-
         @endif
     @endforeach
 
 </div>
 
 @if(isset($sort))
-
     <div class="page-center category">
         {!! $wishlists->appends(['sort' => $sort])->links() !!}
     </div>
-
 @else
-
     <div class="page-center category">
         {!! $wishlists->links() !!}
     </div>
-
 @endif
+
 <script type="text/javascript">
     $("#sortby").on('change', function () {
         var sort = $("#sortby").val();

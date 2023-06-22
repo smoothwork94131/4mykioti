@@ -222,10 +222,10 @@ class CatalogController extends Controller
         return view('front.product', compact('productt', 'curr', 'vendors', 'colorsetting_style1', 'db', 'colorsetting_style2', "page", "slug_list"));
     }
 
-    public function old_parts(Request $request, $query = null)
+    public function old_collection(Request $request, $model = null)
     {   
         $result = array();  
-        $model = $this->replaceDataToPath($query) ;
+        $model = $this->replaceDataToPath($model) ;
 
         if(strstr($model, "5-finish")) {
             $sql = "select `sku` from `implements` where `featured` = 1 group by sku" ;
@@ -318,10 +318,10 @@ class CatalogController extends Controller
         
         // dd($result);
         $slug_list = array("model"=>$model);
-        return view('front.oldparts', compact('result', "slug_list"));
+        return view('front.old_collection', compact('result', "slug_list"));
     }
 
-    public function old_collection(Request $request, $model = null, $prod_name = null)
+    public function old_part(Request $request, $model = null, $prod_name = null)
     {   
         $productt = false;  
         
@@ -339,8 +339,9 @@ class CatalogController extends Controller
             unset($prod_name_arr[0]);
             $prod_name = implode(' ', $prod_name_arr);
 
-            $sql = "select * from `products_additional` where `sku`='{$sku}' and `name`='{$prod_name}'";
+            $sql = "select * from `products_additional` where LOWER(`sku`)='{$sku}' or UPPER(`sku`)='{$sku}'";
             $productt =DB::connection('product')->select($sql);
+
             if($productt && count($productt) > 0) {
                 $productt = $productt[0] ;
             }
@@ -395,9 +396,9 @@ class CatalogController extends Controller
         }
 
         $page = "partsbymodel" ;
-
         $slug_list = array("model"=>$model, "prod_name"=>$this->replacPathToData($prod_name));
-        return view('front.oldproduct', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+
+        return view('front.old_part', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
     // Capcha Code Image

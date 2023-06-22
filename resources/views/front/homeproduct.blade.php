@@ -37,7 +37,6 @@
                         @endphp
                         @foreach ($slug_list as $key => $item)
                             @php
-                                
                                 $path = $item;
                                 if (strstr($path, '/')) {
                                     $path = str_replace('/', ':::', $path);
@@ -233,7 +232,8 @@
                             @endif
                             <div class="product-price">
                                 <p class="title">{{ $langg->lang87 }} :</p>
-                                <p class="price"><span id="sizeprice">${{ $productt->price }}</span>
+                                <p class="price">
+                                    <span id="sizeprice">${{ $productt->price }}</span>
                                 </p>
                             </div>
 

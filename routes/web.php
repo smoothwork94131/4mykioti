@@ -1091,8 +1091,8 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     Route::get('/cat/groups', 'Front\FrontendController@groups')->name('front.groups');
     Route::get('/partsbyfilter/{filter?}/{category?}/{series?}/{model?}', 'Front\FrontendController@partsByFilter')->name('front.partsbyfilter');
     
-    Route::get('/collections/{query?}', 'Front\CatalogController@old_parts')->name('front.old_parts');
-    Route::get('/collections/{model?}/products/{prod_name?}', 'Front\CatalogController@old_collection')->name('front.old_collection');
+    Route::get('/collections/{model?}', 'Front\CatalogController@old_collection')->name('front.old_collection');
+    Route::get('/collections/{model?}/products/{prod_name?}', 'Front\CatalogController@old_part')->name('front.old_part');
     /*Category list page */
 
     // PRODCT SECTION ENDS
