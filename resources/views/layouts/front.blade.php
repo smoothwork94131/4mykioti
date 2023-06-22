@@ -91,22 +91,24 @@
         @php
             $og_currency = "USD";
             $og_type = "product";
-            $og_availability = "instock";
+            $og_availability = "in_stock";
         @endphp
         <meta property="product:price:amount" content="{{ $productt->price?? 0 }}" />
         <meta property="product:price:currency" content="{{ $og_currency }}" />
         <meta property="og:url" content="{{ url()->current() }}" />
         <meta property="og:site_name" content="{{ "4my" .$domain_name }}" />
-        <meta property="keywords" content="{{ $productt->name }}, {{ $productt->sku }}" />
+        <meta property="keywords" content="{{ $productt->model }}, {{ $productt->name }}, {{ $productt->sku }}" />
         <meta property="description" content="{{ $productt->description?? '' }}" />
         <meta property="og:title" content="{{ $productt->name?? '' }}" />
+        <meta property="og:price" content="{{ $productt->price?? '' }}" />
+        <meta property="og:weight" content="{{ $productt->weight_in_grams?? '' }}" /> 
         <meta property="og:image" content="{{ asset('assets/images/thumbnails/' . $productt->thumbnail) }}" />
         <meta property="og:type" content="{{ $og_type}}" />
         <meta property="og:availability" content="{{ $og_availability}}" />
         <meta property="og:description" content="{{ $productt->description?? '' }}, {{ $og_currency }}, {{ $og_type}}, {{ $og_availability }}" />
         @php
             if(isset($slug_list)) {
-                $page_title = $page_title ." - ". $productt->name;
+                $page_title = $page_title ." - ". $productt->model . " - " . $productt->name;
             }
         @endphp
     @else
