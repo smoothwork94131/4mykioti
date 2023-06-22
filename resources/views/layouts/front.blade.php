@@ -108,7 +108,12 @@
         <meta property="og:description" content="{{ $productt->description?? '' }}, {{ $og_currency }}, {{ $og_type}}, {{ $og_availability }}" />
         @php
             if(isset($slug_list)) {
-                $page_title = $page_title ." - ". $productt->model??'' . " - " . $productt->name??'';
+                if(isset($productt->model)) {
+                    $page_title = $page_title ." - ". $productt->model??'' . " - " . $productt->name??'';
+                }
+                else {
+                    $page_title = $page_title ." - ". $productt->name??'';
+                }
             }
         @endphp
     @else
