@@ -309,14 +309,13 @@ class CatalogController extends Controller
                 if($flag) {
                     $sql.=" union all " ;
                 } 
-                $sql .= "select distinct '$model_record->table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$model_record->table_name}` where `subcategory_id` = '{$model_record->model_name}'" ;
+                $sql .= "select distinct '$model_record->table_name' as `table`, `sku`, `model`, `group_id`, `name`, `photo`, `stock`, `price`, `id`, `description`, `policy`, `description`, `thumbnail` from `{$model_record->table_name}` where `model` = '{$model_record->model_name}'" ;
                 $flag = true ;
             }
 
             $result =collect(DB::connection('product')->select($sql))->paginate(20);
         }
         
-        // dd($result);
         $slug_list = array("model"=>$model);
         return view('front.old_collection', compact('result', "slug_list"));
     }
@@ -360,7 +359,7 @@ class CatalogController extends Controller
                 $prod_name_arr = explode('-', $prod_name);
                 $sku = $prod_name_arr[0];
 
-                $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`, `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+                $sql2 = "select distinct '$table_name' as `table`, `sku`, `model`, `group_id`, `name`, `photo`, `thumbnail`, `stock`,`price`, `id`,`description`, `policy`,`thumbnail` from `{$table_name}` where `model` = '{$model}' and `sku`='{$sku}'";
 
                 $productt =DB::connection('product')->select($sql2);
                 if($productt && count($productt) > 0) {
@@ -370,7 +369,7 @@ class CatalogController extends Controller
                     $cnt = count($prod_name_arr);
                     $sku = $prod_name_arr[$cnt-1];
 
-                    $sql2 = "select distinct '$table_name' as `table`, `sku`, `subcategory_id`, `category_id`, `name`, `photo`, `thumbnail`,  `stock`, `product_condition`, `youtube`, `type`, `region`, `platform`, `size`, `size_qty`, `size_price`, `price`, `id`, `product_type`, `ship`, `description`, `policy`, `meta_description`, `thumbnail` from `{$table_name}` where `subcategory_id` = '{$model}' and `sku`='{$sku}'";
+                    $sql2 = "select distinct '$table_name' as `table`, `sku`, `model`, `group_id`, `name`, `photo`, `thumbnail`,  `stock`, `price`, `id`,`description`, `policy`, `thumbnail` from `{$table_name}` where `model` = '{$model}' and `sku`='{$sku}'";
 
                     $productt =DB::connection('product')->select($sql2);
                     if($productt && count($productt) > 0) {
@@ -395,9 +394,38 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
 
-        $page = "partsbymodel" ;
+        $page = "old_product";
         $slug_list = array("model"=>$model, "prod_name"=>$this->replacPathToData($prod_name));
+        return view('front.old_part', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
+    }
 
+    public function old_product(Request $request, $query=null) 
+    {
+        $prod_name_arr = explode('-', $query);
+        $sku = $prod_name_arr[0];
+        unset($prod_name_arr[0]);
+
+        $productt = DB::connection('product')
+            ->table('products_old')    
+            ->select('*')
+            ->where('sku', $sku)
+            ->first();
+
+        $prod_name = "";
+        if(isset($productt)) {
+            $prod_name = $productt->name;
+        }
+
+        $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
+        $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
+
+        if (Session::has('currency')) {
+            $curr = Currency::find(Session::get('currency'));
+        } else {
+            $curr = Currency::where('is_default', '=', 1)->first();
+        }
+        $page = "";
+        $slug_list = array("prod_name"=>$this->replacPathToData($prod_name));
         return view('front.old_part', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 

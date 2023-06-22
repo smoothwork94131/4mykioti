@@ -27,7 +27,7 @@
     <!-- Breadcrumb Area End -->
     <!-- faq Area Start -->
   
-    <section class="hero-area">
+    <section class="sub-categori">
         <div class="container">
             <div class="row m-block-content">
                 @if(count($result) == 0) 
@@ -42,11 +42,11 @@
                             if($model != "additonal-products") {
                                 $model = "mahindra-" . $model;
                             }
-                            $route = route("front.old_collection", ["model" => $model, "prod_name" => $item->sku. "-" .$prod_name]) ;
+                            $route = route("front.old_part", ["model" => $model, "prod_name" => $item->sku. "-" .$prod_name]) ;
                         @endphp
                         <a href="{{$route}}">
-                            <div class="m-block" style="padding: 0px;">
-                                <img style="width: 300px; height: 300px;" src="{{ $item->thumbnail ? asset('assets/images/thumbnails/'.$item->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                            <div class="m-block" style="padding: 0px; height: auto;">
+                                <img style="width: 300px;" src="{{ $item->thumbnail ? asset('assets/images/thumbnails/'.$item->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                             </div>
                             <div class="parts-title">
                                 {{$item->name}}

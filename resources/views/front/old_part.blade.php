@@ -9,19 +9,17 @@
                         @php
                             $index = 1;
                             $route = '';
-                            if ($page != 'product') {
-                                $route = route('front.' . $page);
+                            if ($page != '') {
+                                $route = route('front.old_collection');
                             }
                         @endphp
                         @foreach ($slug_list as $key => $item)
                             @php
-                                
                                 $path = $item;
                                 if (strstr($path, '/')) {
                                     $path = str_replace('/', ':::', $path);
                                 }
                                 $route = $route . '/' . $path;
-                                
                             @endphp
                             <li>
                                 @if (count($slug_list) == $index)
@@ -29,7 +27,7 @@
                                         {{ $item }}
                                     </a>
                                 @else
-                                    <a>
+                                    <a href="{{$route}}">
                                         {{ $item }}
                                     </a>
                                 @endif
@@ -49,26 +47,25 @@
         <div class="container">
             <div class="row">
                 @if ($productt)
-                    <div class="col-lg-9">
+                    <div class="col-lg-12">
                         <div class="row">
-                            <div class="col-lg-5 col-md-12">
+                            <div class="col-lg-6 col-sm-12">
                                 <div class="xzoom-container">
-                                    <img class="xzoom5" id="xzoom-magnific"
-                                        src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}"
-                                        xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}" />
+                                    <img class="xzoom5" id="xzoom-magnific"  style="width: 100%; max-height: 450px; object-fit: contain;"
+                                        src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : asset('assets/images/noimage.png')) }}"
+                                        xoriginal="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : asset('assets/images/noimage.png')) }}" />
                                     <div class="xzoom-thumbs">
                                         <div class="all-slider">
-                                            <a
-                                                href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}">
-                                                <img class="xzoom-gallery5" width="80"
-                                                    src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products/' . $productt->photo) : asset('assets/images/noimage.png')) }}"
+                                            <a href="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : asset('assets/images/noimage.png')) }}">
+                                                <img class="xzoom-gallery5" style="width: 100px; max-height: 100px; object-fit: contain;"
+                                                    src="{{ filter_var($productt->photo, FILTER_VALIDATE_URL) ? $productt->photo : ($productt->photo ? asset('assets/images/products_home/' . $productt->photo) : asset('assets/images/noimage.png')) }}"
                                                     title="The description goes here">
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-7">
+                            <div class="col-lg-6 col-sm-12">
                                 <div class="right-area">
                                     <div class="product-info">
                                         <h4 class="product-name">{{ $productt->name }}</h4>
@@ -99,22 +96,18 @@
                                             </ul>
                                         </div>
 
+                                        @if(isset($productt->model))
                                         <div>
                                             <small>Model #:
                                                 <?php echo $productt->model; ?>
                                             </small>
                                         </div>
+                                        @endif
                                         <div>
                                             <small>Part #:
                                                 <?php echo $productt->sku; ?>
                                             </small>
                                         </div>
-
-                                        @if ($productt->photo == null)
-                                            <div class="product-part" style="font-size: 18px;">
-                                                Ref Num: <?php echo $productt->refno; ?>
-                                            </div>
-                                        @endif
 
                                         <div class="product-price">
                                             <p class="title">{{ $langg->lang87 }} :</p>
@@ -182,7 +175,7 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-lg-9">No product</div>
+                    <div class="col-lg-12">No product</div>
                 @endif
             </div>
         </div>
