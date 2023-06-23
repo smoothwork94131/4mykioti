@@ -120,6 +120,8 @@
                         @else
                             @if(file_exists(public_path('assets/images/group/'.$group_record->group_Id.'.png')))
                             <img src="{{asset('assets/images/group/'.$group_record->group_Id.'.png')}}">
+                            @elseif(file_exists(public_path('assets/images/group/'.$group_record->group_Id.'.jpeg')))
+                                <img src="{{asset('assets/images/group/'.$group_record->group_Id.'.jpeg')}}">
                             @else
                             <img src="{{asset('assets/images/noimage.png')}}" style="min-width: 100px;">
                             @endif
