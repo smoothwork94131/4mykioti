@@ -37,7 +37,6 @@
                         @endphp
                         @foreach ($slug_list as $key => $item)
                             @php
-                                
                                 $path = $item;
                                 if (strstr($path, '/')) {
                                     $path = str_replace('/', ':::', $path);
@@ -169,9 +168,14 @@
                             $instead_image = '';
                             if ($group_record->image && file_exists(public_path('assets/images/group/' . $group_record->image))) {
                                 $instead_image = asset('assets/images/group/' . $group_record->image);
-                            } elseif ($group_record->group_Id && file_exists(public_path('assets/images/group/' . $group_record->group_Id . '.png'))) {
+                            } 
+                            else if ($group_record->group_Id && file_exists(public_path('assets/images/group/' . $group_record->group_Id . '.png'))) {
                                 $instead_image = asset('assets/images/group/' . $group_record->group_Id . '.png');
-                            } else {
+                            } 
+                            else if ($group_record->group_Id && file_exists(public_path('assets/images/group/' . $group_record->group_Id . '.jpeg'))) {
+                                $instead_image = asset('assets/images/group/' . $group_record->group_Id . '.jpeg');
+                            } 
+                            else {
                                 $instead_image = asset('assets/images/noimage.png');
                             }
                         @endphp
@@ -233,7 +237,8 @@
                             @endif
                             <div class="product-price">
                                 <p class="title">{{ $langg->lang87 }} :</p>
-                                <p class="price"><span id="sizeprice">${{ $productt->price }}</span>
+                                <p class="price">
+                                    <span id="sizeprice">${{ $productt->price }}</span>
                                 </p>
                             </div>
 

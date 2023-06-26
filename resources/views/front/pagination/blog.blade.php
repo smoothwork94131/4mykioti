@@ -1,5 +1,4 @@
 <div class="row">
-
     @foreach($blogs as $blogg)
         <div class="col-md-6 col-lg-4">
             <div class="blog-box">
@@ -28,11 +27,8 @@
                 </div>
             </div>
         </div>
-
-
     @endforeach
-
-</div>
+</div
 
 <div class="page-center">
     {!! $blogs->links() !!}
