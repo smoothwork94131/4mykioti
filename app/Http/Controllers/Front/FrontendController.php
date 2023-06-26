@@ -280,7 +280,7 @@ class FrontendController extends Controller
             $result = $result->distinct();
             $result = $result->orderBy('product_tbl.refno', 'asc');
             $result = $result->get();
-            $result = $result->paginate(20);
+            // $result = $result->paginate(20);
 
             foreach($result as $item) {
                 if($item->refno != 0) {

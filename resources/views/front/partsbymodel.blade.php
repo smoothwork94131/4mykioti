@@ -218,87 +218,89 @@
                     <div style='margin-bottom: 15px; text-align: center;'>
                         <button type="button" class="btn btn-primary" style="background: #F05223; border: 1px solid #F05223" data-toggle="modal" data-target="#prod_img_modal">View Schematic Diagram</button>
                     </div>
-                    <p style="text-align: center; margin-bottom: 0px; font-size: 12px;">
-                        Parts not listed are not available at this time
-                    </p>
-                    <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="font-size: 12px;">
-                        <thead>
-                            <tr>
-                                @if($refno_flag)
-                                <th style="text-align:center;">NO</th>
-                                @endif
-                                @if($thumbnail_flag)
-                                <th style="text-align:center;"></th>
-                                @endif
-                                <th style="text-align:center;">Name</th>
-                                <th style="text-align:center;">Price</th>
-                                <th style="text-align:center;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($result as $key=>$item)
-                            @php
-                                $path = $item->name;
-                                if(strstr($path, "/")) {
-                                    $path = str_replace("/", ":::", $path) ;
-                                }
-                                $slug_list['prod_name'] = $path;
-                            @endphp
-                            <tr>
-                                @if($refno_flag)
-                                <td style="text-align:center;">
-                                    {{ $item->refno }}
-                                </td>
-                                @endif
-                                @if($thumbnail_flag)
-                                <td style="text-align:center;">
-                                    <img style="width:30px; height: 30px;" src="{{ $item->thumbnail ? asset('assets/images/thumbnails_home/'.$item->thumbnail):asset('assets/images/noimage.png') }}" alt="">
-                                </td>
-                                @endif
-                                <td style="text-align:center;">
-                                    <a href="{{route('front.homeproduct', $slug_list)}}">{{ $item->name }}</a>
-                                </td>
-                                <td style="text-align:center;">
-                                    ${{ $item->price }}
-                                </td>
-                                <td style="text-align:center;">
-                                    <div class="dropdown">
-                                        <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-primary">
-                                            @if(Auth::guard('web')->check())
-                                            <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add', ['series' => strtolower($slug_list["series"]), 'prod_id' => $item->id]) }}">
-                                                <i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish
-                                            </span>
-                                            @else
-                                            <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg">
-                                                <i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish
-                                            </span>
-                                            @endif
-                                            <span class="dropdown-item quick-view" data-href="{{ route('product.iquick',['db' => strtolower($slug_list["series"]), 'id' => $item->id]) }}" data-toggle="modal" data-target="#quickview">
-                                                <i class="icofont-eye"></i>&nbsp;&nbsp;Quick View
-                                            </span>
-                                            <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => strtolower($slug_list["series"]), 'id' => $item->id]) }}">
-                                                <i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}
-                                            </span>
-                                            <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',['db' => strtolower($slug_list["series"]), 'id' => $item->id]) }}">
-                                                <i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}
-                                            </span>
+                    <div class="parts-table">
+                        <p style="text-align: center; margin-bottom: 0px; font-size: 12px;">
+                            Parts not listed are not available at this time
+                        </p>
+                        <table id="product_table" class="table product_table" cellspacing="0" width="100%" style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    @if($refno_flag)
+                                    <th style="text-align:center;">NO</th>
+                                    @endif
+                                    @if($thumbnail_flag)
+                                    <th style="text-align:center;"></th>
+                                    @endif
+                                    <th style="text-align:center;">Name</th>
+                                    <th style="text-align:center;">Price</th>
+                                    <th style="text-align:center;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($result as $key=>$item)
+                                @php
+                                    $path = $item->name;
+                                    if(strstr($path, "/")) {
+                                        $path = str_replace("/", ":::", $path) ;
+                                    }
+                                    $slug_list['prod_name'] = $path;
+                                @endphp
+                                <tr>
+                                    @if($refno_flag)
+                                    <td style="text-align:center;">
+                                        {{ $item->refno }}
+                                    </td>
+                                    @endif
+                                    @if($thumbnail_flag)
+                                    <td style="text-align:center;">
+                                        <img style="width:30px; height: 30px;" src="{{ $item->thumbnail ? asset('assets/images/thumbnails_home/'.$item->thumbnail):asset('assets/images/noimage.png') }}" alt="">
+                                    </td>
+                                    @endif
+                                    <td style="text-align:center;">
+                                        <a href="{{route('front.homeproduct', $slug_list)}}">{{ $item->name }}</a>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        ${{ $item->price }}
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <div class="dropdown">
+                                            <a class="btn-floating btn-lg black dropdown-toggle"type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-primary">
+                                                @if(Auth::guard('web')->check())
+                                                <span class="dropdown-item add-to-wish" data-href="{{ route('user-wishlist-add', ['series' => strtolower($slug_list["series"]), 'prod_id' => $item->id]) }}">
+                                                    <i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish
+                                                </span>
+                                                @else
+                                                <span class="dropdown-item" data-toggle="modal" id="wish-btn" data-target="#comment-log-reg">
+                                                    <i class="icofont-heart-alt"></i>&nbsp;&nbsp;Add to Wish
+                                                </span>
+                                                @endif
+                                                <span class="dropdown-item quick-view" data-href="{{ route('product.iquick',['db' => strtolower($slug_list["series"]), 'id' => $item->id]) }}" data-toggle="modal" data-target="#quickview">
+                                                    <i class="icofont-eye"></i>&nbsp;&nbsp;Quick View
+                                                </span>
+                                                <span class="dropdown-item add-to-cart add-to-cart-btn" data-href="{{ route('product.cart.add',['db' => strtolower($slug_list["series"]), 'id' => $item->id]) }}">
+                                                    <i class="icofont-cart"></i>&nbsp;&nbsp;{{ $langg->lang56 }}
+                                                </span>
+                                                <span class="dropdown-item add-to-cart-quick" style="width: 100%;" data-href="{{ route('product.cart.quickadd',['db' => strtolower($slug_list["series"]), 'id' => $item->id]) }}">
+                                                    <i class="icofont-dollar"></i>&nbsp;&nbsp;{{ $langg->lang251 }}
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div class="col-md-12">
+                {{-- <div class="col-md-12">
                     <div class="page-right">
                         {{ $result->links('front.pagination.search', ['paginator' => $result, 'maxLinks' => 10]) }}
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="row ceo-container">
                 <div class="col-md-12">
@@ -320,10 +322,16 @@
                             style='right: 15px;top: 15px; background: transparent;z-index:100;'>&times;</button>
                     </div>
                     <div class="modal-body">
-                        @if(file_exists(public_path('assets/images/group/'.$group_record->image)))
-                        <img src="{{asset('assets/images/group/'.$group_record->image)}}" style='width: 100%;'>
+                        @if($group_record->image && file_exists(public_path('assets/images/group/'.$group_record->image)))
+                            <img style='width: 100%;' src="{{asset('assets/images/group/'.$group_record->image)}}">
                         @else
-                        <img src="{{asset('assets/images/group/'.$group_record->group_Id.'.png')}}" style='width: 100%;'>
+                            @if(file_exists(public_path('assets/images/group/'.$group_record->group_Id.'.png')))
+                            <img style='width: 100%;' src="{{asset('assets/images/group/'.$group_record->group_Id.'.png')}}">
+                            @elseif(file_exists(public_path('assets/images/group/'.$group_record->group_Id.'.jpeg')))
+                            <img style='width: 100%;' src="{{asset('assets/images/group/'.$group_record->group_Id.'.jpeg')}}">
+                            @else
+                            <img style='width: 100%;' src="{{asset('assets/images/noimage.png')}}">
+                            @endif
                         @endif
                     </div>
                 </div>

@@ -1351,7 +1351,10 @@ a.sell-btn {
 
 .group-schematics img {
     min-width: 800px;
+    height: 800px;
+    object-fit: contain;
 }
+
 .fix-height-85-50 {
     width: 50%;
 }
