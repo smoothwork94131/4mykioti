@@ -96,27 +96,18 @@ class CatalogController extends Controller
             ->select('*')
             ->where('model', $model)
             ->where('group_name', $group)
-            ->first();
+            ->get();
 
-        $sql = "";
-        if(isset($cat)) {
-            $group_id = $cat->group_Id;
-            $sql = "select * from `{$db}` where `model`='{$model}' and `group_id`='{$group_id}' and `name` = '{$prod_name}';";
-            if (strpos($prod_name, "'") !== false) {
-                $sql = 'select * from `'. $db .'` where `model`="'. $model .'" and `group_id`="' . $group_id . '" and `name` = "'. $prod_name .'";';
-            }
-        }
-        else {
-            $sql = "select * from `{$db}` where `model`='{$model}' and `name` = '{$prod_name}';" ;
-            if (strpos($prod_name, "'") !== false) {
-                $sql = 'select * from `'. $db .'` where `model`="'. $model .'" and `name` = "'. $prod_name .'";';
-            }
-        }
+        $productt = DB::connection('product');
+        $productt = $productt->table($db.' as product_tbl');
+        $productt = $productt->join($db . '_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id');
+        $productt = $productt->select('product_tbl.*', 'category_tbl.section_name');
+        $productt = $productt->where('category_tbl.group_name', $group);
+        $productt = $productt->where('product_tbl.model', $model);
+        $productt = $productt->where('product_tbl.name', $prod_name);
+        $productt = $productt->first();
 
-        $productt = DB::connection('product')->select($sql);
-        
-        if($productt && count($productt) > 0) {
-            $productt = $productt[0] ;
+        if($productt) {
             if (strpos($productt->name, ',') !== false) {
                 $productt->name = Helper::reversePartsName($productt->name);
             }
