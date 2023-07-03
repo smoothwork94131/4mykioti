@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 use Auth;
 use Session;
 use App\Models\Generalsetting;
@@ -16,14 +17,26 @@ class QuantityController extends Controller
     public function updateQuantityBySku(Request $request)
     {
         $params = $request->orders;
+
+        // Delete Old Log files
+        $logPath = storage_path('logs/api');
+        $files = File::files($logPath);
+
+        foreach ($files as $file) {
+            if (time() - File::lastModified($file) > (7 * 24 * 60 * 60)) {
+                File::delete($file);
+                Log::info("Deleted log file: " . $file);
+            }
+        }
+
         try {
             foreach ($params as $item) {
                 $manufacturer = $item["name"];
                 $parts = $item["parts"];
 
                 $connection = null;
-                if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
-                    if ($manufacturer == 'kioti') {
+                if(stripos($manufacturer, 'kioti') !== false || stripos($manufacturer, 'mahindra') !== false) {
+                    if (stripos($manufacturer, 'kioti') !== false) {
                         $connection = DB::connection('product');
                     } else {
                         $connection = DB::connection('other');
@@ -34,7 +47,7 @@ class QuantityController extends Controller
                         ->where('parent', '!=', 0)
                         ->where('status', 1)
                         ->get();
-    
+
                     foreach ($series as $serie) {
                         $table = strtolower($serie->name);
     

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 use App\Models\Generalsetting;
 use App\Classes\GeniusMailer;
 
@@ -15,14 +16,26 @@ class PriceController extends Controller
 {
     public function updatePriceBySku(Request $request) {
         $params = $request->orders;
+
+        // Delete Old Log files
+        $logPath = storage_path('logs/api');
+        $files = File::files($logPath);
+
+        foreach ($files as $file) {
+            if (time() - File::lastModified($file) > (7 * 24 * 60 * 60)) {
+                File::delete($file);
+                Log::info("Deleted log file: " . $file);
+            }
+        }
+
         try {
             foreach($params as $item) {
                 $manufacturer = $item["name"];
                 $parts = $item["parts"];
 
                 $connection = null;
-                if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
-                    if($manufacturer == 'kioti') {
+                if(stripos($manufacturer, 'kioti') !== false || stripos($manufacturer, 'mahindra') !== false) {
+                    if (stripos($manufacturer, 'kioti') !== false) {
                         $connection = DB::connection('product');
                     }
                     else {

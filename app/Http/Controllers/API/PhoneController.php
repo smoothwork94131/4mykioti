@@ -9,6 +9,7 @@ use Auth;
 use Session;
 use Image;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 use App\Models\Generalsetting;
 use App\Models\Inventory;
 use App\Classes\GeniusMailer;
@@ -96,8 +97,19 @@ class PhoneController extends Controller
     }
     
     public function updateQuantityBySku(Request $request) {
-        try {
 
+        // Delete Old Log files
+        $logPath = storage_path('logs/api');
+        $files = File::files($logPath);
+
+        foreach ($files as $file) {
+            if (time() - File::lastModified($file) > (7 * 24 * 60 * 60)) {
+                File::delete($file);
+                Log::info("Deleted log file: " . $file);
+            }
+        }
+
+        try {
             $manufacturer = $request->manufacturer;
             $sku = $request->sku;
             $quantity = $request->quantity;
@@ -129,8 +141,8 @@ class PhoneController extends Controller
             $result = Inventory::where('part_number', $sku)->update(['bin' => $bin]);
             if($result) {
                 $connection = null;
-                if($manufacturer == 'kioti' || $manufacturer == 'mahindra') {
-                    if($manufacturer == 'kioti') {
+                if(stripos($manufacturer, 'kioti') !== false || stripos($manufacturer, 'mahindra') !== false) {
+                    if (stripos($manufacturer, 'kioti') !== false) {
                         $connection = DB::connection('product');
                     }
                     else {
