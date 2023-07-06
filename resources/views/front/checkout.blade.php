@@ -69,7 +69,6 @@
 
                 <div class="col-lg-8">
                     <form id="" action="" method="POST" class="checkoutform">
-
                         @include('includes.form-success')
                         @include('includes.form-error')
 
@@ -99,22 +98,21 @@
                                                     </div>
                                                 </div>
                                                 @if (!Auth::check())
-                                                    <div class="row">
-                                                        <div class="col-lg-12 mt-3">
-                                                            <input class="styled-checkbox" id="open-pass" type="checkbox"
-                                                                value="1" name="pass_check">
-                                                            <label for="open-pass">{{ $langg->lang749 }}</label>
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3">
+                                                        <input class="styled-checkbox" id="open-pass" type="checkbox" value="1" name="pass_check">
+                                                        <label for="open-pass">{{ $langg->lang749 }}</label>
                                                     </div>
-                                                    <div class="row set-account-pass d-none">
-                                                        <div class="col-lg-6">
-                                                            <input type="password" name="personal_pass" id="personal-pass"
-                                                                class="form-control" placeholder="{{ $langg->lang750 }}">
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <input type="password" name="personal_confirm" id="personal-pass-confirm" class="form-control" placeholder="{{ $langg->lang751 }}">
-                                                        </div>
+                                                </div>
+                                                <div class="row set-account-pass d-none">
+                                                    <div class="col-lg-6">
+                                                        <input type="password" name="personal_pass" id="personal-pass"
+                                                            class="form-control" placeholder="{{ $langg->lang750 }}">
                                                     </div>
+                                                    <div class="col-lg-6">
+                                                        <input type="password" name="personal_confirm" id="personal-pass-confirm" class="form-control" placeholder="{{ $langg->lang751 }}">
+                                                    </div>
+                                                </div>
                                                 @endif
                                             </div>
                                             <div class="billing-address">
@@ -126,8 +124,7 @@
                                                     <div class="col-lg-6 d-none" id="shipshow">
                                                         <select class="form-control nice" name="pickup_location">
                                                             @foreach ($pickups as $pickup)
-                                                                <option value="{{ $pickup->location }}">
-                                                                    {{ $pickup->location }}</option>
+                                                                <option value="{{ $pickup->location }}">{{ $pickup->location }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -176,10 +173,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row {{ $digital == 1 || !Auth::guard('web')->user() || !Auth::guard('web')->user()->is_verified ? 'd-none' : '' }}">
+                                            <div class="row {{ !Auth::guard('web')->user() || !Auth::guard('web')->user()->is_verified ? 'd-none' : '' }}">
                                                 <div class="col-lg-12 mt-3">
-                                                    <input class="styled-checkbox" id="ship-diff-address" type="checkbox"
-                                                        value="value1">
+                                                    <input class="styled-checkbox" id="ship-diff-address" type="checkbox" value="value1">
                                                     <label for="ship-diff-address">{{ $langg->lang160 }}</label>
                                                 </div>
                                             </div>
@@ -201,7 +197,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-
                                                     <div class="col-lg-6">
                                                         <input class="form-control ship_input" name="shipping_address"
                                                             id="shipping_address" placeholder="Shipping Address">
@@ -244,11 +239,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-step2" role="tabpanel"
-                                    aria-labelledby="pills-step2-tab">
+                                <div class="tab-pane fade" id="pills-step2" role="tabpanel" aria-labelledby="pills-step2-tab">
                                     <div class="content-box">
                                         <div class="content">
-
                                             <div class="order-area">
                                                 @foreach ($products as $product)
                                                     <div class="order-item">
@@ -270,7 +263,7 @@
                                                                     {{ $product['item']->name }}
                                                                 </a>
                                                                 @else
-                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_id, 'prod_name' => $product['item']->name]) }}">
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_name, 'prod_name' => $product['item']->name]) }}">
                                                                     @php
                                                                         $prod_name = mb_strlen($product['item']->name, 'utf-8') > 45 ? mb_substr($product['item']->name, 0, 45, 'utf-8') . '...' : $product['item']->name;
                                                                         if (strpos($prod_name, ',') !== false) {
@@ -351,7 +344,7 @@
                                                                 <a href="{{ route('front.product', $product['item']->slug) }}"
                                                                     target="_blank">{{ $product['item']->name }}</a>
                                                                 @else
-                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_id, 'prod_name' => $product['item']->name]) }}">
+                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_name, 'prod_name' => $product['item']->name]) }}">
                                                                     {{ $product['item']->name }}
                                                                 </a>
                                                                 @endif
@@ -397,15 +390,11 @@
                                                 @endforeach
                                             </div>
 
-
                                             <div class="row">
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="bottom-area">
-                                                        <a href="javascript:;" id="step1-btn"
-                                                            class="mybtn1 mr-3">{{ $langg->lang757 }}</a>
-
-                                                        <a href="javascript:;" id="step3-btn"
-                                                            class="mybtn1">{{ $langg->lang753 }}</a>
+                                                        <a href="javascript:;" id="step1-btn" class="mybtn1 mr-3">{{ $langg->lang757 }}</a>
+                                                        <a href="javascript:;" id="step3-btn" class="mybtn1">{{ $langg->lang753 }}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -416,8 +405,7 @@
                                     aria-labelledby="pills-step3-tab">
                                     <div class="content-box">
                                         <div class="content">
-
-                                            <div class="billing-info-area {{ $digital == 1 ? 'd-none' : '' }}">
+                                            <div class="billing-info-area">
                                                 <h4 class="title">
                                                     {{ $langg->lang758 }}
                                                 </h4>
@@ -437,10 +425,6 @@
                                                 </ul>
                                             </div>
                                             <div class="payment-information">
-                                                <h4 class="title">
-                                                    {{ $langg->lang759 }}
-                                                </h4>
-
                                                 <a class="nav-link payment" data-val="" data-show="no"
                                                     data-form="{{ route('front.checkout.shopify') }}"
                                                     data-href="{{ route('front.checkout.shopify') }}"
@@ -450,319 +434,13 @@
 
                                                 <a class="nav-link payment" id="addtotemp"
                                                     data-form="{{ route('front.checkout.addtemp') }}"></a>
-
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="nav flex-column" role="tablist"
-                                                            aria-orientation="vertical">
-                                                            @if ($gs->paypal_check == 2)
-                                                                <a class="nav-link payment" data-val="" data-show="no"
-                                                                    data-form="{{ route('paypal.submit') }}"
-                                                                    data-href="{{ route('front.load.payment', ['slug1' => 'paypal', 'slug2' => 0]) }}"
-                                                                    id="v-pills-tab1-tab" data-toggle="pill"
-                                                                    href="#v-pills-tab1" role="tab"
-                                                                    aria-controls="v-pills-tab1" aria-selected="true">
-                                                                    <div class="icon">
-                                                                        <span class="radio"></span>
-                                                                    </div>
-                                                                    <p>
-                                                                        {{ $langg->lang760 }}
-
-                                                                        @if ($gs->paypal_text != null)
-                                                                            <small>
-                                                                                {{ $gs->paypal_text }}
-                                                                            </small>
-                                                                        @endif
-
-                                                                    </p>
-                                                                </a>
-                                                            @endif
-                                                            @if ($gs->stripe_check == 2)
-                                                                <a class="nav-link payment" data-val=""
-                                                                    data-show="yes"
-                                                                    data-form="{{ route('stripe.submit') }}"
-                                                                    data-href="{{ route('front.load.payment', ['slug1' => 'stripe', 'slug2' => 0]) }}"
-                                                                    id="v-pills-tab2-tab" data-toggle="pill"
-                                                                    href="#v-pills-tab2" role="tab"
-                                                                    aria-controls="v-pills-tab2" aria-selected="false">
-                                                                    <div class="icon">
-                                                                        <span class="radio"></span>
-                                                                    </div>
-                                                                    <p>
-                                                                        {{ $langg->lang761 }}
-
-                                                                        @if ($gs->stripe_text != null)
-                                                                            <small>
-                                                                                {{ $gs->stripe_text }}
-                                                                            </small>
-                                                                        @endif
-
-                                                                    </p>
-                                                                </a>
-                                                            @endif
-                                                            @if ($gs->cod_check == 2 && Auth::check())
-                                                                @php
-                                                                    $cod = true;
-                                                                @endphp
-                                                                @if ($cod)
-                                                                    <a class="nav-link payment" data-val=""
-                                                                        data-show="no"
-                                                                        data-form="{{ route('cash.submit') }}"
-                                                                        data-href="{{ route('front.load.payment', ['slug1' => 'cod', 'slug2' => 0]) }}"
-                                                                        id="v-pills-tab3-tab" data-toggle="pill"
-                                                                        href="#v-pills-tab3" role="tab"
-                                                                        aria-controls="v-pills-tab3"
-                                                                        aria-selected="false">
-                                                                        <div class="icon">
-                                                                            <span class="radio"></span>
-                                                                        </div>
-                                                                        <p>
-                                                                            {{ $langg->lang762 }}
-
-                                                                            @if ($gs->cod_text != null)
-                                                                                <small>
-                                                                                    {{ $gs->cod_text }}
-                                                                                </small>
-                                                                            @endif
-
-                                                                        </p>
-                                                                    </a>
-                                                                @endif
-                                                            @endif
-                                                            @if ($gs->is_instamojo == 2)
-                                                                <a class="nav-link payment" data-val="" data-show="no"
-                                                                    data-form="{{ route('instamojo.submit') }}"
-                                                                    data-href="{{ route('front.load.payment', ['slug1' => 'instamojo', 'slug2' => 0]) }}"
-                                                                    id="v-pills-tab4-tab" data-toggle="pill"
-                                                                    href="#v-pills-tab4" role="tab"
-                                                                    aria-controls="v-pills-tab4" aria-selected="false">
-                                                                    <div class="icon">
-                                                                        <span class="radio"></span>
-                                                                    </div>
-                                                                    <p>
-                                                                        {{ $langg->lang763 }}
-
-                                                                        @if ($gs->instamojo_text != null)
-                                                                            <small>
-                                                                                {{ $gs->instamojo_text }}
-                                                                            </small>
-                                                                        @endif
-
-                                                                    </p>
-                                                                </a>
-                                                            @endif
-                                                            @if ($gs->is_paytm == 2)
-                                                                <a class="nav-link payment" data-val="" data-show="no"
-                                                                    data-form="{{ route('paytm.submit') }}"
-                                                                    data-href="{{ route('front.load.payment', ['slug1' => 'paytm', 'slug2' => 0]) }}"
-                                                                    id="v-pills-tab5-tab" data-toggle="pill"
-                                                                    href="#v-pills-tab5" role="tab"
-                                                                    aria-controls="v-pills-tab5" aria-selected="false">
-                                                                    <div class="icon">
-                                                                        <span class="radio"></span>
-                                                                    </div>
-                                                                    <p>
-                                                                        {{ $langg->paytm }}
-
-                                                                        @if ($gs->paytm_text != null)
-                                                                            <small>
-                                                                                {{ $gs->paytm_text }}
-                                                                            </small>
-                                                                        @endif
-
-                                                                    </p>
-                                                                </a>
-                                                            @endif
-                                                            @if ($gs->is_razorpay == 2)
-                                                                <a class="nav-link payment" data-val="" data-show="no"
-                                                                    data-form="{{ route('razorpay.submit') }}"
-                                                                    data-href="{{ route('front.load.payment', ['slug1' => 'razorpay', 'slug2' => 0]) }}"
-                                                                    id="v-pills-tab6-tab" data-toggle="pill"
-                                                                    href="#v-pills-tab6" role="tab"
-                                                                    aria-controls="v-pills-tab6" aria-selected="false">
-                                                                    <div class="icon">
-                                                                        <span class="radio"></span>
-                                                                    </div>
-                                                                    <p>
-
-                                                                        {{ $langg->razorpay }}
-
-                                                                        @if ($gs->razorpay_text != null)
-                                                                            <small>
-                                                                                {{ $gs->razorpay_text }}
-                                                                            </small>
-                                                                        @endif
-
-                                                                    </p>
-                                                                </a>
-                                                            @endif
-                                                            @if ($gs->is_paystack == 2)
-                                                                <a class="nav-link payment" data-val="paystack"
-                                                                    data-show="no"
-                                                                    data-form="{{ route('paystack.submit') }}"
-                                                                    data-href="{{ route('front.load.payment', ['slug1' => 'paystack', 'slug2' => 0]) }}"
-                                                                    id="v-pills-tab7-tab" data-toggle="pill"
-                                                                    href="#v-pills-tab7" role="tab"
-                                                                    aria-controls="v-pills-tab7" aria-selected="false">
-                                                                    <div class="icon">
-                                                                        <span class="radio"></span>
-                                                                    </div>
-                                                                    <p>
-                                                                        {{ $langg->lang764 }}
-
-                                                                        @if ($gs->paystack_text != null)
-                                                                            <small>
-                                                                                {{ $gs->paystack_text }}
-                                                                            </small>
-                                                                        @endif
-                                                                    </p>
-                                                                </a>
-                                                            @endif
-
-
-                                                            @if ($gs->is_molly == 2)
-                                                                <a class="nav-link payment" data-val="" data-show="no"
-                                                                    data-form="{{ route('molly.submit') }}"
-                                                                    data-href="{{ route('front.load.payment', ['slug1' => 'molly', 'slug2' => 0]) }}"
-                                                                    id="v-pills-tab8-tab" data-toggle="pill"
-                                                                    href="#v-pills-tab8" role="tab"
-                                                                    aria-controls="v-pills-tab8" aria-selected="false">
-                                                                    <div class="icon">
-                                                                        <span class="radio"></span>
-                                                                    </div>
-                                                                    <p>
-                                                                        {{ $langg->lang802 }}
-
-                                                                        @if ($gs->molly_text != null)
-                                                                            <small>
-                                                                                {{ $gs->molly_text }}
-                                                                            </small>
-                                                                        @endif
-                                                                    </p>
-                                                                </a>
-                                                            @endif
-
-
-                                                            @if ($digital == 2)
-                                                                @foreach ($gateways as $gt)
-                                                                    <a class="nav-link payment" data-val=""
-                                                                        data-show="yes"
-                                                                        data-form="{{ route('gateway.submit') }}"
-                                                                        data-href="{{ route('front.load.payment', ['slug1' => 'other', 'slug2' => $gt->id]) }}"
-                                                                        id="v-pills-tab{{ $gt->id }}-tab"
-                                                                        data-toggle="pill"
-                                                                        href="#v-pills-tab{{ $gt->id }}"
-                                                                        role="tab"
-                                                                        aria-controls="v-pills-tab{{ $gt->id }}"
-                                                                        aria-selected="false">
-                                                                        <div class="icon">
-                                                                            <span class="radio"></span>
-                                                                        </div>
-                                                                        <p>
-                                                                            {{ $gt->title }}
-
-                                                                            @if ($gt->subtitle != null)
-                                                                                <small>
-                                                                                    {{ $gt->subtitle }}
-                                                                                </small>
-                                                                            @endif
-
-                                                                        </p>
-                                                                    </a>
-                                                                @endforeach
-                                                            @endif
-
-                                                        </div>
-                                                    </div>
-                                                    <!-- --------------------  -->
-                                                    <div class="col-lg-12">
-                                                        <div class="pay-area d-none">
-                                                            <div class="tab-content" id="v-pills-tabContent">
-                                                                @if ($gs->paypal_check == 2)
-                                                                    <div class="tab-pane fade" id="v-pills-tab1"
-                                                                        role="tabpanel"
-                                                                        aria-labelledby="v-pills-tab1-tab">
-                                                                    </div>
-                                                                @endif
-
-                                                                @if ($gs->stripe_check == 2)
-                                                                    <div class="tab-pane fade" id="v-pills-tab2"
-                                                                        role="tabpanel"
-                                                                        aria-labelledby="v-pills-tab2-tab">
-                                                                    </div>
-                                                                @endif
-
-                                                                @if ($gs->cod_check == 2)
-                                                                    @if ($digital == 0)
-                                                                        <div class="tab-pane fade" id="v-pills-tab3"
-                                                                            role="tabpanel"
-                                                                            aria-labelledby="v-pills-tab3-tab">
-                                                                        </div>
-                                                                    @endif
-                                                                @endif
-
-                                                                @if ($gs->is_instamojo == 2)
-                                                                    <div class="tab-pane fade" id="v-pills-tab4"
-                                                                        role="tabpanel"
-                                                                        aria-labelledby="v-pills-tab4-tab">
-                                                                    </div>
-                                                                @endif
-
-                                                                @if ($gs->is_paytm == 2)
-                                                                    <div class="tab-pane fade" id="v-pills-tab5"
-                                                                        role="tabpanel"
-                                                                        aria-labelledby="v-pills-tab5-tab">
-                                                                    </div>
-                                                                @endif
-
-                                                                @if ($gs->is_razorpay == 2)
-                                                                    <div class="tab-pane fade" id="v-pills-tab6"
-                                                                        role="tabpanel"
-                                                                        aria-labelledby="v-pills-tab6-tab">
-                                                                    </div>
-                                                                @endif
-
-                                                                @if ($gs->is_paystack == 2)
-                                                                    <div class="tab-pane fade" id="v-pills-tab7"
-                                                                        role="tabpanel"
-                                                                        aria-labelledby="v-pills-tab7-tab">
-                                                                    </div>
-                                                                @endif
-
-                                                                @if ($gs->is_molly == 2)
-                                                                    <div class="tab-pane fade" id="v-pills-tab8"
-                                                                        role="tabpanel"
-                                                                        aria-labelledby="v-pills-tab8-tab">
-                                                                    </div>
-                                                                @endif
-
-                                                                @if ($digital == 2)
-                                                                    @foreach ($gateways as $gt)
-                                                                        <div class="tab-pane fade"
-                                                                            id="v-pills-tab{{ $gt->id }}"
-                                                                            role="tabpanel"
-                                                                            aria-labelledby="v-pills-tab{{ $gt->id }}-tab">
-
-                                                                        </div>
-                                                                    @endforeach
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- --------    -->
-                                                </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="bottom-area">
-
-                                                        <a href="javascript:;" id="step2-btn"
-                                                            class="mybtn1 mr-3 mt-1">{{ $langg->lang757 }}</a>
-
                                                         @if ($productsNw)
-                                                            <a href="{{ route('front.cart.clear') }}"
-                                                                class="mybtn1 mr-3 mt-1">Clear Cart</a>
+                                                            <a href="{{ route('front.cart.clear') }}" class="mybtn1 mr-3 mt-1">Clear Cart</a>
                                                         @endif
 
                                                         @if ($products)
@@ -772,8 +450,7 @@
                                                         @endif
 
                                                         @if ($productsNw)
-                                                            <a href="javascript:;" id="addtemp-btn" style="width: 200px"
-                                                                class="mybtn1 mr-3 mt-1">NOTIFY ME WHEN READY</a>
+                                                            <a href="javascript:;" id="addtemp-btn" style="width: 200px" class="mybtn1 mr-3 mt-1">NOTIFY ME WHEN READY</a>
                                                         @endif
                                                     </div>
 
@@ -787,13 +464,8 @@
 
                         <input type="hidden" id="shipping-cost" name="shipping_cost" value="0">
                         <input type="hidden" id="packing-cost" name="packing_cost" value="0">
-                        <input type="hidden" name="dp" value="{{ $digital }}">
                         <input type="hidden" name="tax" value="{{ $gs->tax }}">
                         <input type="hidden" name="totalQty" value="{{ $totalQty }}">
-
-                        <input type="hidden" name="vendor_shipping_id" value="{{ $vendor_shipping_id }}">
-                        <input type="hidden" name="vendor_packing_id" value="{{ $vendor_packing_id }}">
-
 
                         @if (Session::has('coupon_total'))
                             <input type="hidden" name="total" id="grandtotal" value="{{ $totalPrice }}">
@@ -808,7 +480,6 @@
                                 value="{{ round($totalPrice * $curr->value, 2) }}">
                             <input type="hidden" id="tgrandtotal" value="{{ round($totalPrice * $curr->value, 2) }}">
                         @endif
-
 
                         <input type="hidden" name="coupon_code" id="coupon_code"
                             value="{{ Session::has('coupon_code') ? Session::get('coupon_code') : '' }}">
@@ -907,97 +578,32 @@
                                     </form>
                                 </div>
 
-                                @if ($digital == 0)
-                                    @php
-                                        $shipping_price = 9.99;
-                                        $count = 0;
-                                        foreach ($products as $product) {
-                                            if (($product['item']->best ?? 0) == 1) {
-                                                $count += $product['qty'];
-                                            }
+                                @php
+                                    $shipping_price = 9.99;
+                                    $count = 0;
+                                    foreach ($products as $product) {
+                                        if (($product['item']->best ?? 0) == 1) {
+                                            $count += $product['qty'];
                                         }
-                                        $shipping_price = $shipping_price * (intdiv($count - 1, 3) + 1);
-                                    @endphp
+                                    }
+                                    $shipping_price = $shipping_price * (intdiv($count - 1, 3) + 1);
+                                @endphp
 
-                                    {{-- --------------- --}}
-
-                                    {{-- Shipping Method Area Start --}}
-                                    {{-- <div class="packeging-area">
-                                        <h4 class="title">{{ $langg->lang765 }}</h4>
-                                        <div class="radio-design">
-                                            <input type="radio" class="shipping" id="free-shepping" name="shipping"
-                                                value="{{ $shipping_price }}" checked>
-                                            <span class="checkmark"></span>
-                                            <label for="free-shepping">
-                                                Shipping ${{ $shipping_price }}
-                                                <small>up to 3 items for 9.99</small>
-                                            </label>
-                                        </div>
-
-                                        @foreach ($shipping_data as $data)
-                                            <div class="radio-design">
-                                                <input type="radio" class="shipping"
-                                                    id="free-shepping{{ $data->id }}" name="shipping"
-                                                    value="{{ round($data->price * $curr->value, 2) }}"
-                                                    {{ $loop->first ? 'checked' : '' }}>
-                                                <span class="checkmark"></span>
-                                                <label for="free-shepping{{ $data->id }}">
-                                                    {{ $data->title }}
-                                                    @if ($data->price != 0)
-                                                        + {{ $curr->sign }}{{ round($data->price * $curr->value, 2) }}
-                                                    @endif
-                                                    <small>{{ $data->subtitle }}</small>
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div> --}}
-                                    {{-- Shipping Method Area End --}}
-
-                                    {{-- Packeging Area Start --}}
-                                    {{-- <div class="packeging-area">
-                                        <h4 class="title">{{ $langg->lang766 }}</h4>
-                                        @foreach ($package_data as $data)
-                                            <div class="radio-design">
-                                                <input type="radio" class="packing"
-                                                    id="free-package{{ $data->id }}" name="packeging"
-                                                    value="{{ round($data->price * $curr->value, 2) }}"
-                                                    {{ $loop->first ? 'checked' : '' }}>
-                                                <span class="checkmark"></span>
-                                                <label for="free-package{{ $data->id }}">
-                                                    {{ $data->title }}
-                                                    @if ($data->price != 0)
-                                                        + {{ $curr->sign }}{{ round($data->price * $curr->value, 2) }}
-                                                    @endif
-                                                    <small>{{ $data->subtitle }}</small>
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div> --}}
-                                    {{-- ----------- --}}
-
-                                    {{-- Packeging Area End --}}
-
-                                    {{-- Final Price Area Start --}}
-                                    <div class="final-price">
-                                        <span>{{ $langg->lang767 }} :</span>
-                                        @if (Session::has('coupon_total'))
-                                            @if ($gs->currency_format == 0)
-                                                <span id="final-cost">{{ $curr->sign }}{{ $totalPrice }}</span>
-                                            @else
-                                                <span id="final-cost">{{ $totalPrice }}{{ $curr->sign }}</span>
-                                            @endif
-                                        @elseif(Session::has('coupon_total1'))
-                                            <span id="final-cost"> {{ Session::get('coupon_total1') }}</span>
+                                <div class="final-price">
+                                    <span>{{ $langg->lang767 }} :</span>
+                                    @if (Session::has('coupon_total'))
+                                        @if ($gs->currency_format == 0)
+                                            <span id="final-cost">{{ $curr->sign }}{{ $totalPrice }}</span>
                                         @else
-                                            <span
-                                                id="final-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
+                                            <span id="final-cost">{{ $totalPrice }}{{ $curr->sign }}</span>
                                         @endif
-                                    </div>
-                                    {{-- Final Price Area End --}}
-                                @endif
-                                {{-- <a href="{{ route('front.checkout') }}" class="order-btn mt-4">
-                                    {{ $langg->lang135 }}
-                                </a> --}}
+                                    @elseif(Session::has('coupon_total1'))
+                                        <span id="final-cost"> {{ Session::get('coupon_total1') }}</span>
+                                    @else
+                                        <span
+                                            id="final-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1009,7 +615,7 @@
 @endsection
 
 @section('scripts')
-    <script src="https://js.paystack.co/v1/inline.js"></script>
+    {{-- <script src="https://js.paystack.co/v1/inline.js"></script> --}}
 
     <script type="text/javascript">
         $('a.payment:first').addClass('active');
@@ -1019,7 +625,6 @@
             $('.checkoutform').prop('action', $('#addtotemp').data('form'));
             var frm = document.getElementById("checkoutform");
             frm.submit();
-
         });
 
         var show = $('a.payment:first').data('show');
@@ -1036,10 +641,6 @@
         var coup = 0;
         var pos = {{ $gs->currency_format }};
 
-        @if (isset($checked))
-            $('#comment-log-reg1').modal('show');
-        @endif
-
         var mship = $('.shipping').length > 0 ? $('.shipping').first().val() : 0;
         var mpack = $('.packing').length > 0 ? $('.packing').first().val() : 0;
         mship = parseFloat(mship);
@@ -1047,6 +648,7 @@
 
         $('#shipping-cost').val(mship);
         $('#packing-cost').val(mpack);
+
         var ftotal = parseFloat($('#grandtotal').val()) + mship + mpack;
         ftotal = parseFloat(ftotal);
         if (ftotal % 1 != 0) {
@@ -1060,62 +662,44 @@
 
         $('#grandtotal').val(ftotal);
 
-        $('#shipop').on('change', function() {
+        // $('.shipping').on('click', function() {
+        //     mship = $(this).val();
 
-            var val = $(this).val();
-            if (val == 'pickup') {
-                $('#shipshow').removeClass('d-none');
-                $("#ship-diff-address").parent().addClass('d-none');
-                $('.ship-diff-addres-area').addClass('d-none');
-                $('.ship-diff-addres-area input, .ship-diff-addres-area select').prop('required', false);
-            } else {
-                $('#shipshow').addClass('d-none');
-                $("#ship-diff-address").parent().removeClass('d-none');
-                $('.ship-diff-addres-area').removeClass('d-none');
-                $('.ship-diff-addres-area input, .ship-diff-addres-area select').prop('required', true);
-            }
+        //     $('#shipping-cost').val(mship);
+        //     var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
+        //     ttotal = parseFloat(ttotal);
+        //     if (ttotal % 1 != 0) {
+        //         ttotal = ttotal.toFixed(2);
+        //     }
+        //     if (pos == 0) {
+        //         $('#final-cost').html('{{ $curr->sign }}' + ttotal);
+        //     } else {
+        //         $('#final-cost').html(ttotal + '{{ $curr->sign }}');
+        //     }
 
-        });
+        //     $('#grandtotal').val(ttotal);
 
+        // })
 
-        $('.shipping').on('click', function() {
-            mship = $(this).val();
+        // $('.packing').on('click', function() {
+        //     mpack = $(this).val();
+        //     $('#packing-cost').val(mpack);
+        //     var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
+        //     ttotal = parseFloat(ttotal);
+        //     if (ttotal % 1 != 0) {
+        //         ttotal = ttotal.toFixed(2);
+        //     }
 
-            $('#shipping-cost').val(mship);
-            var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
-            ttotal = parseFloat(ttotal);
-            if (ttotal % 1 != 0) {
-                ttotal = ttotal.toFixed(2);
-            }
-            if (pos == 0) {
-                $('#final-cost').html('{{ $curr->sign }}' + ttotal);
-            } else {
-                $('#final-cost').html(ttotal + '{{ $curr->sign }}');
-            }
-
-            $('#grandtotal').val(ttotal);
-
-        })
-
-        $('.packing').on('click', function() {
-            mpack = $(this).val();
-            $('#packing-cost').val(mpack);
-            var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
-            ttotal = parseFloat(ttotal);
-            if (ttotal % 1 != 0) {
-                ttotal = ttotal.toFixed(2);
-            }
-
-            if (pos == 0) {
-                $('#final-cost').html('{{ $curr->sign }}' + ttotal);
-            } else {
-                $('#final-cost').html(ttotal + '{{ $curr->sign }}');
-            }
+        //     if (pos == 0) {
+        //         $('#final-cost').html('{{ $curr->sign }}' + ttotal);
+        //     } else {
+        //         $('#final-cost').html(ttotal + '{{ $curr->sign }}');
+        //     }
 
 
-            $('#grandtotal').val(ttotal);
+        //     $('#grandtotal').val(ttotal);
 
-        })
+        // })
 
         $("#check-coupon-form").on('submit', function() {
             var val = $("#code").val();
@@ -1195,12 +779,9 @@
 
             }
         });
-
         // Password Checking Ends
 
-
         // Shipping Address Checking
-
         $("#ship-diff-address").on("change", function() {
             if (this.checked) {
                 $('.ship-diff-addres-area').removeClass('d-none');
@@ -1212,15 +793,11 @@
             }
 
         });
-
-
         // Shipping Address Checking Ends
     </script>
 
-
     <script type="text/javascript">
         var ck = 0;
-
         $('.checkoutform').on('submit', function(e) {
             if (ck == 0) {
                 e.preventDefault();
@@ -1239,13 +816,10 @@
             $('#pills-step3-tab').removeClass('active');
             $('#pills-step2-tab').addClass('disabled');
             $('#pills-step3-tab').addClass('disabled');
-
             $('#pills-step1-tab').click();
-
         });
 
         // Step 2 btn DONE
-
         $('#step2-btn').on('click', function() {
             $('#pills-step3-tab').removeClass('active');
             $('#pills-step1-tab').removeClass('active');
@@ -1253,15 +827,10 @@
             $('#pills-step3-tab').addClass('disabled');
             $('#pills-step2-tab').click();
             $('#pills-step1-tab').addClass('active');
-
         });
 
         $('#step3-btn').on('click', function() {
-            if ($('a.payment:first').data('val') == 'paystack') {
-                $('.checkoutform').prop('id', 'step1-form');
-            } else {
-                $('.checkoutform').prop('id', 'checkoutform');
-            }
+            $('.checkoutform').prop('id', 'checkoutform');
             $('#pills-step3-tab').removeClass('disabled');
             $('#pills-step3-tab').click();
 
@@ -1288,11 +857,7 @@
         })
 
         $('.payment').on('click', function() {
-            if ($(this).data('val') == 'paystack') {
-                $('.checkoutform').prop('id', 'step1-form');
-            } else {
-                $('.checkoutform').prop('id', '');
-            }
+            $('.checkoutform').prop('id', '');
             $('.checkoutform').prop('action', $(this).data('form'));
             $('.pay-area #v-pills-tabContent .tab-pane.fade').not($(this).attr('href')).html('');
             var show = $(this).data('show');
@@ -1303,36 +868,6 @@
             }
             $($(this).attr('href')).load($(this).data('href'));
         })
-
-
-        $(document).on('submit', '#step1-form', function() {
-            $('#preloader').hide();
-            var val = $('#sub').val();
-            var total = $('#grandtotal').val();
-            total = Math.round(total);
-            if (val == 0) {
-                var handler = PaystackPop.setup({
-                    key: '{{ $gs->paystack_key }}',
-                    email: $('input[name=email]').val(),
-                    amount: total * 100,
-                    currency: "{{ $curr->name }}",
-                    ref: '' + Math.floor((Math.random() * 1000000000) + 1),
-                    callback: function(response) {
-                        $('#ref_id').val(response.reference);
-                        $('#sub').val('1');
-                        $('#final-btn').click();
-                    },
-                    onClose: function() {
-                        window.location.reload();
-                    }
-                });
-                handler.openIframe();
-                return false;
-            } else {
-                $('#preloader').show();
-                return true;
-            }
-        });
     </script>
     <script src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
 
@@ -1401,7 +936,6 @@
 
             $("#shipping_lat").val(latlng.lat);
             $("#shipping_lng").val(latlng.lng);
-
         }
     </script>
 @endsection

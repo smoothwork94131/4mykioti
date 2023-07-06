@@ -10,7 +10,7 @@
         <ul class="dropdown-cart-products">
             @foreach (Session::get('cart')->items as $product)
                 <li class="product cremove{{ ($product['db'] ?? 'products') . $product['item']->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">
-                    <a href="{{ $product['db'] == 'products' ? route('front.product', $product['item']->slug) : route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_id, 'prod_name' => $product['item']->name]) }}">
+                    <a href="{{ $product['db'] == 'products' ? route('front.product', $product['item']->slug) : route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_name, 'prod_name' => $product['item']->name]) }}">
                         <div class="product-details">
                             <div class='img'>
                                 @if($product['db'] == 'products')

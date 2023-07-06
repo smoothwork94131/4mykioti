@@ -395,13 +395,14 @@ class SearchController extends Controller{
         $result = array();
         
         if($sql != "") {
-            $categories =DB::connection('product')->select($sql) ;
+            $categories = DB::connection('product')->select($sql);
+            $categories = collect($categories)->take(10);
             if(count($search_word_array) > 1) {
                 $categories_match = DB::connection('product')->select($sql_match);
+                $categories_match = collect($categories_match)->take(10);
             }
 
             if($categories_match) {
-                
                 foreach($categories as $key => $item) {
                     $flag = false;
                     foreach($categories_match as $sub_item) {
@@ -426,18 +427,19 @@ class SearchController extends Controller{
             $data = array();
             foreach($result as $key => $item) {
                 $table_name = strtolower($item->table);
-                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'" ;
-                $ret = DB::connection('product')->select($sql) ;
+                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'";
+                $ret = DB::connection('product')->select($sql);
                 if($ret) {
-                    $item->group_name = $ret[0]->group_name ;
-                    $item->section = $ret[0]->section_name ;
-                    $data[$key] = $item ;
+                    $item->group_name = $ret[0]->group_name;
+                    $item->section = $ret[0]->section_name;
+                    $data[$key] = $item;
                 }
             }
-            $result = $data ;
+           $result = $data;
+           $result = collect($result)->take(10);
         }
 
-        echo json_encode($result) ;
+        echo json_encode($result);
     }
 }
 

@@ -793,7 +793,6 @@ Route::prefix('admin')->group(function () {
 
 
         //------------ ADMIN PANEL LANGUAGE SETTINGS SECTION ------------
-
         Route::get('/adminlanguages/datatables', 'Admin\AdminLanguageController@datatables')->name('admin-tlang-datatables'); //JSON REQUEST
         Route::get('/adminlanguages', 'Admin\AdminLanguageController@index')->name('admin-tlang-index');
         Route::get('/adminlanguages/create', 'Admin\AdminLanguageController@create')->name('admin-tlang-create');
@@ -806,11 +805,9 @@ Route::prefix('admin')->group(function () {
         //------------ ADMIN PANEL LANGUAGE SETTINGS SECTION ENDS ------------
 
         //------------ ADMIN LANGUAGE SETTINGS SECTION ENDS ------------
-
     });
 
     //------------ ADMIN SEOTOOL SETTINGS SECTION ------------
-
     Route::group(['middleware' => 'permissions:seo_tools'], function () {
 
         Route::get('/seotools/analytics', 'Admin\SeoToolController@analytics')->name('admin-seotool-analytics');
@@ -820,13 +817,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/popular/{id}', 'Admin\SeoToolController@popular')->name('admin-prod-popular');
 
     });
-
     //------------ ADMIN SEOTOOL SETTINGS SECTION ------------
 
     //------------ ADMIN STAFF SECTION ------------
-
     Route::group(['middleware' => 'permissions:manage_staffs'], function () {
-
         Route::get('/staff/datatables', 'Admin\StaffController@datatables')->name('admin-staff-datatables');
         Route::get('/staff', 'Admin\StaffController@index')->name('admin-staff-index');
         Route::get('/staff/create', 'Admin\StaffController@create')->name('admin-staff-create');
@@ -836,11 +830,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/staff/show/{id}', 'Admin\StaffController@show')->name('admin-staff-show');
         Route::get('/staff/delete/{id}', 'Admin\StaffController@destroy')->name('admin-staff-delete');
     });
-
     //------------ ADMIN STAFF SECTION ENDS------------
 
     //------------ ADMIN SUBSCRIBERS SECTION ------------
-
     Route::group(['middleware' => 'permissions:subscribers'], function () {
 
         Route::get('/subscribers/datatables', 'Admin\SubscriberController@datatables')->name('admin-subs-datatables'); //JSON REQUEST
@@ -848,7 +840,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/subscribers/download', 'Admin\SubscriberController@download')->name('admin-subs-download');
 
     });
-
     //------------ ADMIN SUBSCRIBERS ENDS ------------
 
     // ------------ GLOBAL ----------------------
@@ -865,11 +856,9 @@ Route::prefix('admin')->group(function () {
     // FEATURE SECTION ENDS
 
     // GALLERY SECTION ------------
-
     Route::get('/gallery/show', 'Admin\GalleryController@show')->name('admin-gallery-show');
     Route::post('/gallery/store', 'Admin\GalleryController@store')->name('admin-gallery-store');
     Route::get('/gallery/delete', 'Admin\GalleryController@destroy')->name('admin-gallery-delete');
-
     // GALLERY SECTION ENDS------------
 
     Route::post('/page-settings/update/all', 'Admin\PageSettingController@update')->name('admin-ps-update');
@@ -878,7 +867,6 @@ Route::prefix('admin')->group(function () {
     // ------------ GLOBAL ENDS ----------------------
 
     Route::group(['middleware' => 'permissions:super'], function () {
-
         Route::get('/cache/clear', function () {
             Artisan::call('cache:clear');
             Artisan::call('config:clear');
@@ -894,7 +882,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/clear/backup', 'Admin\DashboardController@clear_bkup')->name('admin-clear-backup');
 
         // ------------ ROLE SECTION ----------------------
-
         Route::get('/role/datatables', 'Admin\RoleController@datatables')->name('admin-role-datatables');
         Route::get('/role', 'Admin\RoleController@index')->name('admin-role-index');
         Route::get('/role/create', 'Admin\RoleController@create')->name('admin-role-create');
@@ -902,18 +889,12 @@ Route::prefix('admin')->group(function () {
         Route::get('/role/edit/{id}', 'Admin\RoleController@edit')->name('admin-role-edit');
         Route::post('/role/edit/{id}', 'Admin\RoleController@update')->name('admin-role-update');
         Route::get('/role/delete/{id}', 'Admin\RoleController@destroy')->name('admin-role-delete');
-
         // ------------ ROLE SECTION ENDS ----------------------
-
     });
-
-
 });
-
 // ************************************ ADMIN SECTION ENDS**********************************************
 
 // ************************************ USER SECTION **********************************************
-
 Route::prefix('user')->group(function () {
 
     // User Dashboard
@@ -961,7 +942,6 @@ Route::prefix('user')->group(function () {
     // User Review Ends
 
     // User Orders
-    
     Route::get('/orders', 'User\OrderController@orders')->name('user-orders');
     Route::get('/order/tracking', 'User\OrderController@ordertrack')->name('user-order-track');
     Route::get('/order/trackings/{id}', 'User\OrderController@trackload')->name('user-order-track-search');
@@ -969,46 +949,16 @@ Route::prefix('user')->group(function () {
     Route::get('/download/order/{slug}/{id}', 'User\OrderController@orderdownload')->name('user-order-download');
     Route::get('print/order/print/{id}', 'User\OrderController@orderprint')->name('user-order-print');
     Route::get('/json/trans', 'User\OrderController@trans');
-
     // User Orders Ends
 
 
     // User Subscription
-
     Route::get('/package', 'User\UserController@package')->name('user-package');
     Route::get('/subscription/{id}', 'User\UserController@vendorrequest')->name('user-vendor-request');
     Route::post('/vendor-request', 'User\UserController@vendorrequestsub')->name('user-vendor-request-submit');
-
-    Route::post('/paypal/submit', 'User\PaypalController@store')->name('user.paypal.submit');
-    Route::get('/paypal/cancle', 'User\PaypalController@paycancle')->name('user.payment.cancle');
-    Route::get('/paypal/return', 'User\PaypalController@payreturn')->name('user.payment.return');
-    Route::post('/paypal/notify', 'User\PaypalController@notify')->name('user.payment.notify');
-    Route::post('/stripe/submit', 'User\StripeController@store')->name('user.stripe.submit');
-
-    Route::get('/instamojo/notify', 'User\InstamojoController@notify')->name('user.instamojo.notify');
-    Route::post('/instamojo/submit', 'User\InstamojoController@store')->name('user.instamojo.submit');
-
-
-    Route::get('/molly/notify', 'User\MollyController@notify')->name('user.molly.notify');
-    Route::post('/molly/submit', 'User\MollyController@store')->name('user.molly.submit');
-
-    Route::get('/paystack/check', 'User\PaystackController@check')->name('user.paystack.check');
-    Route::post('/paystack/submit', 'User\PaystackController@store')->name('user.paystack.submit');
-
-    //PayTM Routes
-    Route::post('/paytm/submit', 'User\PaytmController@store')->name('user.paytm.submit');;
-    Route::post('/paytm/notify', 'User\PaytmController@notify')->name('user.paytm.notify');
-
-
-    //PayTM Routes
-    Route::post('/razorpay/submit', 'User\RazorpayController@store')->name('user.razorpay.submit');;
-    Route::post('/razorpay/notify', 'User\RazorpayController@notify')->name('user.razorpay.notify');
-
-
     // User Subscription Ends
 
     // User Vendor Send Message
-
     Route::post('/user/contact', 'User\MessageController@usercontact');
     Route::get('/messages', 'User\MessageController@messages')->name('user-messages');
     Route::get('/message/{id}', 'User\MessageController@message')->name('user-message');
@@ -1022,7 +972,6 @@ Route::prefix('user')->group(function () {
 
     // Tickets
     Route::get('admin/tickets', 'User\MessageController@adminmessages')->name('user-message-index');
-    
     Route::get('admin/message/{id}', 'User\MessageController@adminmessage')->name('user-message-show');
     Route::post('admin/message/post', 'User\MessageController@adminpostmessage')->name('user-message-store');
     Route::get('admin/message/{id}/delete', 'User\MessageController@adminmessagedelete')->name('user-message-delete1');
@@ -1041,26 +990,15 @@ Route::prefix('user')->group(function () {
     Route::get('/affilate/withdraw/create', 'User\WithdrawController@create')->name('user-wwt-create');
     Route::post('/affilate/withdraw/create', 'User\WithdrawController@store')->name('user-wwt-store');
 
-    // User Favorite Seller
-
-    Route::get('/favorite/seller', 'User\UserController@favorites')->name('user-favorites');
-    Route::get('/favorite/{id1}/{id2}', 'User\UserController@favorite')->name('user-favorite');
-    Route::get('/favorite/seller/{id}/delete', 'User\UserController@favdelete')->name('user-favorite-delete');
-
-    // User Favorite Seller Ends
-
     // User Logout
     Route::get('/logout', 'User\LoginController@logout')->name('user-logout');
     // User Logout Ends
-
 });
 
 // ************************************ USER SECTION ENDS**********************************************
 
+// ************************************ FRONT SECTION **********************************************
 Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
-
-    // ************************************ FRONT SECTION **********************************************
-
     // BLOG SECTION
     Route::get('/blog', 'Front\FrontendController@blog')->name('front.blog');
     Route::get('/blog/{id}', 'Front\FrontendController@blogshow')->name('front.blogshow');
@@ -1082,7 +1020,6 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     // CONTACT SECTION  ENDS
 
     // CATEGORY SECTION
-
     Route::get('/', 'Front\FrontendController@index')->name('front.index');
     Route::get('/partsbymodel/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@partsByModel')->name('front.partsbymodel');
     Route::get('/schematics/{category?}/{series?}/{model?}/{section?}/{group?}', 'Front\FrontendController@schematics')->name('front.schematics');
@@ -1097,8 +1034,6 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     Route::get('/collections/{model?}/products/{prod_name?}', 'Front\CatalogController@old_part')->name('front.old_part');
     // END  
 
-    /*Category list page */
-
     // PRODCT SECTION ENDS
     Route::get('/product/quick/view/{id}/', 'Front\CatalogController@quick')->name('product.quick');
     Route::get('/product/quick/view/{db}/{id}/', 'Front\CatalogController@iquick')->name('product.iquick');
@@ -1108,10 +1043,6 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     // CATEGORY SELECT DETAIL PAGE
     Route::get('/product/{slug}', 'Front\CatalogController@product')->name('front.product');
     Route::get('/product/{category?}/{series?}/{model?}/{section?}/{group?}/{prod_name?}', 'Front\CatalogController@homeproduct')->name('front.homeproduct');
-
-    // REPORT SECTION   
-    Route::post('/product/report', 'Front\CatalogController@report')->name('product.report');
-    // REPORT SECTION ENDS
 
     // CART SECTION
     Route::get('/carts/view', 'Front\CartController@cartview');
@@ -1131,41 +1062,12 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
 
     // CHECKOUT SECTION
     Route::get('/checkout/', 'Front\CheckoutController@checkout')->name('front.checkout');
-    Route::get('/checkouttemp/{id}', 'Front\CheckoutController@checkouttemp')->name('front.checkout.temp');
-    Route::get('/checkout/payment/{slug1}/{slug2}', 'Front\CheckoutController@loadpayment')->name('front.load.payment');
     Route::post('/checkout/shopify', 'Front\CheckoutController@shopifycheckout')->name('front.checkout.shopify');
     Route::post('/checkout/addtemp', 'Front\CheckoutController@addToTemp')->name('front.checkout.addtemp');
-    Route::get('/order/track/{id}', 'Front\FrontendController@trackload')->name('front.track.search');
     Route::get('/checkout/payment/return', 'Front\PaymentController@payreturn')->name('payment.return');
     Route::get('/checkout/payment/cancle', 'Front\PaymentController@paycancle')->name('payment.cancle');
     Route::post('/checkout/payment/notify', 'Front\PaymentController@notify')->name('payment.notify');
-    Route::get('/checkout/instamojo/notify', 'Front\InstamojoController@notify')->name('instamojo.notify');
-
-    Route::post('/paystack/submit', 'Front\PaystackController@store')->name('paystack.submit');
-    Route::post('/instamojo/submit', 'Front\InstamojoController@store')->name('instamojo.submit');
-    Route::post('/paypal-submit', 'Front\PaymentController@store')->name('paypal.submit');
-    Route::post('/stripe-submit', 'Front\StripeController@store')->name('stripe.submit');
-
-    // Molly Routes
-    Route::post('/molly/submit', 'Front\MollyController@store')->name('molly.submit');
-    Route::get('/molly/notify', 'Front\MollyController@notify')->name('molly.notify');
-    // Molly Routes Ends
-
-    //PayTM Routes
-    Route::post('/paytm-submit', 'Front\PaytmController@store')->name('paytm.submit');;
-    Route::post('/paytm-callback', 'Front\PaytmController@paytmCallback')->name('paytm.notify');
-
-    //RazorPay Routes
-    Route::post('/razorpay-submit', 'Front\RazorpayController@store')->name('razorpay.submit');;
-    Route::post('/razorpay-callback', 'Front\RazorpayController@razorCallback')->name('razorpay.notify');
-
-    Route::post('/cashondelivery', 'Front\CheckoutController@cashondelivery')->name('cash.submit');
-    Route::post('/gateway', 'Front\CheckoutController@gateway')->name('gateway.submit');
     // CHECKOUT SECTION ENDS
-
-    // SUBSCRIBE SECTION
-    Route::post('/subscriber/store', 'Front\FrontendController@subscribe')->name('front.subscribe');
-    // SUBSCRIBE SECTION ENDS
 
     // LOGIN WITH FACEBOOK OR GOOGLE SECTION
     Route::get('auth/{provider}', 'User\SocialRegisterController@redirectToProvider')->name('social-provider');
@@ -1190,6 +1092,10 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     //Search Route 
 
     // ************************************ FRONT SECTION ENDS**********************************************
+});
+
+Route::prefix('hook')->group(function () {
+    Route::post('/complete-checkout', 'Front\PaymentController@complete_checkout')->name('front.complete_checkout');
 });
 
 Route::get('/give_cookie/{cookie}', 'Front\FrontendController@cookie')->name('front.cookie');

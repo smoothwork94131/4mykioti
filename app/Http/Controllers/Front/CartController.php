@@ -87,7 +87,7 @@ class CartController extends Controller
             $prod = DB::connection('product')->table($db)
                 ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
                 ->where($db.'.id', '=', $id)
-                ->select($db.'.*', $db.'_categories.section_name as section')
+                ->select($db.'.*', $db.'_categories.section_name as section', $db.'_categories.group_name')
                 ->first();
 
             if($prod) {
@@ -216,7 +216,7 @@ class CartController extends Controller
             ->table($db)
             ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
             ->where($db.'.id', '=', $id)
-            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->select($db.'.*', $db.'_categories.section_name as section', $db.'_categories.group_name')
             ->first();
 
             if($prod) {
@@ -395,7 +395,7 @@ class CartController extends Controller
             ->table($db)
             ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
             ->where($db.'.id', '=', $id)
-            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->select($db.'.*', $db.'_categories.section_name as section', $db.'_categories.group_name')
             ->first();
 
             if($prod) {
@@ -538,7 +538,7 @@ class CartController extends Controller
             ->table($db)
             ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
             ->where($db.'.id', '=', $id)
-            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->select($db.'.*', $db.'_categories.section_name as section', $db.'_categories.group_name')
             ->first();
 
             if($prod) {
@@ -683,7 +683,7 @@ class CartController extends Controller
             ->table($db)
             ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
             ->where($db.'.id', '=', $id)
-            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->select($db.'.*', $db.'_categories.section_name as section', $db.'_categories.group_name')
             ->first();
 
             if($prod) {
@@ -819,7 +819,7 @@ class CartController extends Controller
             ->table($db)
             ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
             ->where($db.'.id', '=', $id)
-            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->select($db.'.*', $db.'_categories.section_name as section', $db.'_categories.group_name')
             ->first();
 
             if($prod) {
@@ -924,7 +924,7 @@ class CartController extends Controller
             ->table($db)
             ->leftjoin($db.'_categories', $db.'.group_id', '=', $db.'_categories.group_Id')
             ->where($db.'.id', '=', $id)
-            ->select($db.'.*', $db.'_categories.section_name as section')
+            ->select($db.'.*', $db.'_categories.section_name as section', $db.'_categories.group_name')
             ->first();
 
             if($prod) {

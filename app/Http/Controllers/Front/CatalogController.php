@@ -53,35 +53,6 @@ class CatalogController extends Controller
         return $data ;
     }
 
-    // -------------------------------- PRODUCT DETAILS SECTION ----------------------------------------
-
-    public function report(Request $request)
-    {
-        //--- Validation Section
-        $rules = [
-            'note' => 'max:400',
-        ];
-        $customs = [
-            'note.max' => 'Note Must Be Less Than 400 Characters.',
-        ];
-        $validator = Validator::make(  $request->all(), $rules, $customs);
-        if ($validator->fails()) {
-            return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
-        }
-        //--- Validation Section Ends
-
-        //--- Logic Section
-        $data = new Report;
-        $input = $request->all();
-        $data->fill($input)->save();
-        //--- Logic Section Ends
-
-        //--- Redirect Section
-        $msg = 'New Data Added Successfully.';
-        return response()->json($msg);
-        //--- Redirect Section Ends
-    }
-
     public function homeproduct(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
         $category = $this->replaceDataToPath($category);
         $series = $this->replaceDataToPath($series);

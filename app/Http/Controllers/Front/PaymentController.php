@@ -51,7 +51,6 @@ class PaymentController extends Controller
             }
         }
 
-
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         if (Session::has('currency')) {
@@ -249,7 +248,6 @@ class PaymentController extends Controller
 
     }
 
-
     public function paycancle()
     {
         $this->code_image();
@@ -318,7 +316,7 @@ class PaymentController extends Controller
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
 
-// Set TCP timeout to 30 seconds
+        // Set TCP timeout to 30 seconds
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close', 'User-Agent: company-name'));
         $res = curl_exec($ch);
@@ -389,5 +387,4 @@ class PaymentController extends Controller
         session(['captcha_string' => $word]);
         imagepng($image, $actual_path . "public/assets/images/capcha_code.png");
     }
-
 }

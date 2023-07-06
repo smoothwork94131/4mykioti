@@ -852,20 +852,6 @@ class FrontendController extends Controller
         return "done";
     }
 
-// -------------------------------- SUBSCRIBE SECTION ----------------------------------------
-
-    public function subscribe(Request $request)
-    {
-        $subs = Subscriber::where('email', '=', $request->email)->first();
-        if (isset($subs)) {
-            return response()->json(array('errors' => [0 => 'This Email Has Already Been Taken.']));
-        }
-        $subscribe = new Subscriber;
-        $subscribe->fill($request->all());
-        $subscribe->save();
-        return response()->json('You Have Subscribed Successfully.');
-    }
-
     public function groups(Request $request)
     {
         $series = $this->replaceDataToPath($request->series) ;
@@ -944,16 +930,7 @@ class FrontendController extends Controller
             }
         }
     }
-
     // Vendor Subscription Check Ends
-
-    public function trackload($id)
-    {
-        $order = Order::where('order_number', '=', $id)->first();
-        $datas = array('Pending', 'Processing', 'On Delivery', 'Completed');
-        return view('load.track-load', compact('order', 'datas'));
-
-    }
 
     // Capcha Code Image
     private function code_image()
