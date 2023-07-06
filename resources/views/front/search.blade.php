@@ -44,7 +44,7 @@
                                 <img src="{{ $prod->thumbnail ? asset('assets/images/thumbnails_home/'.$prod->thumbnail):asset('assets/images/noimage.png') }}" alt="">
                             </td>
                             <td>
-                                <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->model.'/'.$prod->section.'/'.$prod->group_id.'/'.$prod->name}}">
+                                <a href="{{'/product/'.$tbl_name.'/'.$prod->table.'/'.$prod->model.'/'.$prod->section.'/'.$prod->group_name.'/'.$prod->name}}">
                                     @php
                                         $prod_name = $prod->name;
                                         if (strpos($prod_name, ',') !== false) {
