@@ -396,10 +396,10 @@ class SearchController extends Controller{
         
         if($sql != "") {
             $categories = DB::connection('product')->select($sql);
-            $categories = collect($categories)->take(10);
+            $categories = collect($categories)->take(10)->toArray();
             if(count($search_word_array) > 1) {
                 $categories_match = DB::connection('product')->select($sql_match);
-                $categories_match = collect($categories_match)->take(10);
+                $categories_match = collect($categories_match)->take(10)->toArray();
             }
 
             if($categories_match) {
@@ -436,7 +436,7 @@ class SearchController extends Controller{
                 }
             }
            $result = $data;
-           $result = collect($result)->take(10);
+           $result = collect($result)->take(10)->toArray();
         }
 
         echo json_encode($result);
