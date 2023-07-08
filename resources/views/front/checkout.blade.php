@@ -76,7 +76,8 @@
 
                         <div class="checkout-area">
                             <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-step1" role="tabpanel" aria-labelledby="pills-step1-tab">
+                                <div class="tab-pane fade show active" id="pills-step1" role="tabpanel"
+                                    aria-labelledby="pills-step1-tab">
                                     <div class="content-box">
                                         <div class="content">
                                             <div class="personal-info">
@@ -98,21 +99,24 @@
                                                     </div>
                                                 </div>
                                                 @if (!Auth::check())
-                                                <div class="row">
-                                                    <div class="col-lg-12 mt-3">
-                                                        <input class="styled-checkbox" id="open-pass" type="checkbox" value="1" name="pass_check">
-                                                        <label for="open-pass">{{ $langg->lang749 }}</label>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 mt-3">
+                                                            <input class="styled-checkbox" id="open-pass" type="checkbox"
+                                                                value="1" name="pass_check">
+                                                            <label for="open-pass">{{ $langg->lang749 }}</label>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row set-account-pass d-none">
-                                                    <div class="col-lg-6">
-                                                        <input type="password" name="personal_pass" id="personal-pass"
-                                                            class="form-control" placeholder="{{ $langg->lang750 }}">
+                                                    <div class="row set-account-pass d-none">
+                                                        <div class="col-lg-6">
+                                                            <input type="password" name="personal_pass" id="personal-pass"
+                                                                class="form-control" placeholder="{{ $langg->lang750 }}">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <input type="password" name="personal_confirm"
+                                                                id="personal-pass-confirm" class="form-control"
+                                                                placeholder="{{ $langg->lang751 }}">
+                                                        </div>
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="password" name="personal_confirm" id="personal-pass-confirm" class="form-control" placeholder="{{ $langg->lang751 }}">
-                                                    </div>
-                                                </div>
                                                 @endif
                                             </div>
                                             <div class="billing-address">
@@ -124,7 +128,8 @@
                                                     <div class="col-lg-6 d-none" id="shipshow">
                                                         <select class="form-control nice" name="pickup_location">
                                                             @foreach ($pickups as $pickup)
-                                                                <option value="{{ $pickup->location }}">{{ $pickup->location }}</option>
+                                                                <option value="{{ $pickup->location }}">
+                                                                    {{ $pickup->location }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -173,9 +178,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row {{ !Auth::guard('web')->user() || !Auth::guard('web')->user()->is_verified ? 'd-none' : '' }}">
+                                            <div
+                                                class="row {{ !Auth::guard('web')->user() || !Auth::guard('web')->user()->is_verified ? 'd-none' : '' }}">
                                                 <div class="col-lg-12 mt-3">
-                                                    <input class="styled-checkbox" id="ship-diff-address" type="checkbox" value="value1">
+                                                    <input class="styled-checkbox" id="ship-diff-address" type="checkbox"
+                                                        value="value1">
                                                     <label for="ship-diff-address">{{ $langg->lang160 }}</label>
                                                 </div>
                                             </div>
@@ -239,7 +246,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-step2" role="tabpanel" aria-labelledby="pills-step2-tab">
+                                <div class="tab-pane fade" id="pills-step2" role="tabpanel"
+                                    aria-labelledby="pills-step2-tab">
                                     <div class="content-box">
                                         <div class="content">
                                             <div class="order-area">
@@ -247,31 +255,33 @@
                                                     <div class="order-item">
                                                         <div class="product-img">
                                                             <div class="d-flex">
-                                                                @if($product["db"] == "products")
+                                                                @if ($product['db'] == 'products')
                                                                     <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
-                                                                    height="80" width="80" class="p-1">
+                                                                        height="80" width="80" class="p-1">
                                                                 @else
                                                                     <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
-                                                                    height="80" width="80" class="p-1">
+                                                                        height="80" width="80" class="p-1">
                                                                 @endif
                                                             </div>
                                                         </div>
                                                         <div class="product-content">
                                                             <p class="name">
-                                                                @if($product["db"] == "products")
-                                                                <a href="{{ route('front.product', $product['item']->slug) }}" target="_blank">
-                                                                    {{ $product['item']->name }}
-                                                                </a>
+                                                                @if ($product['db'] == 'products')
+                                                                    <a href="{{ route('front.product', $product['item']->slug) }}"
+                                                                        target="_blank">
+                                                                        {{ $product['item']->name }}
+                                                                    </a>
                                                                 @else
-                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_name, 'prod_name' => $product['item']->name]) }}">
-                                                                    @php
-                                                                        $prod_name = mb_strlen($product['item']->name, 'utf-8') > 45 ? mb_substr($product['item']->name, 0, 45, 'utf-8') . '...' : $product['item']->name;
-                                                                        if (strpos($prod_name, ',') !== false) {
-                                                                            $prod_name = Helper::reversePartsName($prod_name);
-                                                                        }
-                                                                    @endphp
-                                                                    {{ $prod_name }}
-                                                                </a>
+                                                                    <a
+                                                                        href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_name, 'prod_name' => $product['item']->name]) }}">
+                                                                        @php
+                                                                            $prod_name = mb_strlen($product['item']->name, 'utf-8') > 45 ? mb_substr($product['item']->name, 0, 45, 'utf-8') . '...' : $product['item']->name;
+                                                                            if (strpos($prod_name, ',') !== false) {
+                                                                                $prod_name = Helper::reversePartsName($prod_name);
+                                                                            }
+                                                                        @endphp
+                                                                        {{ $prod_name }}
+                                                                    </a>
                                                                 @endif
                                                             </p>
                                                             <div class="unit-price">
@@ -314,80 +324,6 @@
                                                         </div>
                                                     </div>
                                                 @endforeach
-
-                                                @if ($productsNw)
-                                                    <div class="alert alert-danger">
-                                                        The products you selected listed below will need to be pulled before
-                                                        we can provide shipping costs. We apologize for any inconvenience
-                                                        and will notify you via email when you can continue with checkout.
-                                                        If you need immediate service or for additional information,
-                                                        <a href="tel:724-691-0200">call 724-691-0200</a>
-                                                    </div>
-                                                @endif
-
-                                                @foreach ($productsNw as $product)
-                                                    <div class="order-item">
-                                                        <div class="product-img">
-                                                            <div class="d-flex">
-                                                                @if($product["db"] == "products")
-                                                                    <img src=" {{ asset('assets/images/products/' . $product['item']->photo) }}"
-                                                                    height="80" width="80" class="p-1">
-                                                                @else
-                                                                    <img src=" {{ asset('assets/images/products_home/' . $product['item']->photo) }}"
-                                                                    height="80" width="80" class="p-1">
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-content">
-                                                            <p class="name">
-                                                                @if($product["db"] == "products")
-                                                                <a href="{{ route('front.product', $product['item']->slug) }}"
-                                                                    target="_blank">{{ $product['item']->name }}</a>
-                                                                @else
-                                                                <a href="{{ route('front.homeproduct', ['category' => $product['item']->category, 'series' => $product['db'], 'model' => $product['item']->model, 'section' => $product['item']->section, 'group' => $product['item']->group_name, 'prod_name' => $product['item']->name]) }}">
-                                                                    {{ $product['item']->name }}
-                                                                </a>
-                                                                @endif
-                                                            </p>
-                                                            <div class="unit-price">
-                                                                <h5 class="label">{{ $langg->lang754 }} : </h5>
-                                                                <p>{{ App\Models\Product::convertPrice($product['item']->price) }}
-                                                                </p>
-                                                            </div>
-                                                            @if (!empty($product['size']))
-                                                                <div class="unit-price">
-                                                                    <h5 class="label">{{ $langg->lang312 }} : </h5>
-                                                                    <p>{{ str_replace('-', ' ', $product['size']) }}</p>
-                                                                </div>
-                                                            @endif
-                                                            @if (!empty($product['color']))
-                                                                <div class="unit-price">
-                                                                    <h5 class="label">{{ $langg->lang313 }} : </h5>
-                                                                    <span id="color-bar"
-                                                                        style="border: 10px solid {{ $product['color'] == '' ? 'white' : '#' . $product['color'] }};"></span>
-                                                                </div>
-                                                            @endif
-                                                            @if (!empty($product['keys']))
-                                                                @foreach (array_combine(explode(',', $product['keys']), explode(',', $product['values'])) as $key => $value)
-                                                                    <div class="quantity">
-                                                                        <h5 class="label">
-                                                                            {{ ucwords(str_replace('_', ' ', $key)) }}
-                                                                            : </h5>
-                                                                        <span class="qttotal">{{ $value }} </span>
-                                                                    </div>
-                                                                @endforeach
-                                                            @endif
-                                                            <div class="quantity">
-                                                                <h5 class="label">{{ $langg->lang755 }} : </h5>
-                                                                <span class="qttotal">{{ $product['qty'] }} </span>
-                                                            </div>
-                                                            <div class="total-price">
-                                                                <h5 class="label">{{ $langg->lang756 }} : </h5>
-                                                                <p>{{ App\Models\Product::convertPrice($product['price']) }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
                                             </div>
 
                                             <div class="row">
@@ -426,34 +362,21 @@
                                             </div>
                                             <div class="payment-information">
                                                 <a class="nav-link payment" data-val="" data-show="no"
-                                                    data-form="{{ route('front.checkout.shopify') }}"
-                                                    data-href="{{ route('front.checkout.shopify') }}"
+                                                    data-form="{{ route('front.checkout.store') }}"
+                                                    data-href="{{ route('front.checkout.store') }}"
                                                     id="v-pills-tab3-tab" data-toggle="pill" href="#v-pills-tab3"
                                                     role="tab" aria-controls="v-pills-tab3"
                                                     aria-selected="false"></a>
-
-                                                <a class="nav-link payment" id="addtotemp"
-                                                    data-form="{{ route('front.checkout.addtemp') }}"></a>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="bottom-area">
-                                                        @if ($productsNw)
-                                                            <a href="{{ route('front.cart.clear') }}" class="mybtn1 mr-3 mt-1">Clear Cart</a>
-                                                        @endif
-
-                                                        @if ($products)
-                                                            <button type="submit" id="final-btn" class="mybtn1 mt-1">
-                                                                Checkout
-                                                            </button>
-                                                        @endif
-
-                                                        @if ($productsNw)
-                                                            <a href="javascript:;" id="addtemp-btn" style="width: 200px" class="mybtn1 mr-3 mt-1">NOTIFY ME WHEN READY</a>
-                                                        @endif
+                                                        <a href="{{ route('front.cart.clear') }}" class="mybtn1 mr-3 mt-1">Clear Cart</a>
+                                                        <button type="submit" id="final-btn" class="mybtn1 mt-1">
+                                                            Checkout
+                                                        </button>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -503,7 +426,8 @@
                                             {{ $langg->lang128 }}
                                         </p>
                                         <P>
-                                            <b class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
+                                            <b
+                                                class="cart-total">{{ Session::has('cart') ? App\Models\Product::convertPrice(Session::get('cart')->totalPrice) : '0.00' }}</b>
                                         </P>
                                     </li>
                                     @if ($gs->tax != 0)
@@ -600,8 +524,7 @@
                                     @elseif(Session::has('coupon_total1'))
                                         <span id="final-cost"> {{ Session::get('coupon_total1') }}</span>
                                     @else
-                                        <span
-                                            id="final-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
+                                        <span id="final-cost">{{ App\Models\Product::convertPrice($totalPrice) }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -621,12 +544,7 @@
         $('a.payment:first').addClass('active');
         $('.checkoutform').prop('action', $('a.payment:first').data('form'));
         $($('a.payment:first').attr('href')).load($('a.payment:first').data('href'));
-        $('#addtemp-btn').click(() => {
-            $('.checkoutform').prop('action', $('#addtotemp').data('form'));
-            var frm = document.getElementById("checkoutform");
-            frm.submit();
-        });
-
+        
         var show = $('a.payment:first').data('show');
         if (show != 'no') {
             $('.pay-area').removeClass('d-none');
@@ -869,7 +787,9 @@
             $($(this).attr('href')).load($(this).data('href'));
         })
     </script>
-    <script src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
+    <script
+        src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initAutocomplete&libraries=places&v=weekly"
+        defer></script>
 
     <script type="text/javascript">
         let placeSearch;

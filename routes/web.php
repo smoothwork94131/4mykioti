@@ -1061,12 +1061,9 @@ Route::group(['middleware' => ['maintenance', 'checkAuthCookie']], function () {
     // CART SECTION ENDS
 
     // CHECKOUT SECTION
-    Route::get('/checkout/', 'Front\CheckoutController@checkout')->name('front.checkout');
-    Route::post('/checkout/shopify', 'Front\CheckoutController@shopifycheckout')->name('front.checkout.shopify');
-    Route::post('/checkout/addtemp', 'Front\CheckoutController@addToTemp')->name('front.checkout.addtemp');
-    Route::get('/checkout/payment/return', 'Front\PaymentController@payreturn')->name('payment.return');
-    Route::get('/checkout/payment/cancle', 'Front\PaymentController@paycancle')->name('payment.cancle');
-    Route::post('/checkout/payment/notify', 'Front\PaymentController@notify')->name('payment.notify');
+    Route::get('/checkout/', 'Front\CheckoutController@index')->name('front.checkout');
+    Route::post('/checkout/store', 'Front\CheckoutController@store')->name('front.checkout.store');
+    Route::post('/checkout/completed', 'Front\CheckoutController@completed')->name('front.checkout.completed');
     // CHECKOUT SECTION ENDS
 
     // LOGIN WITH FACEBOOK OR GOOGLE SECTION

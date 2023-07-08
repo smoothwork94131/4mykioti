@@ -28,8 +28,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 });
 
 // This api is for sale in store.
-
 Route::group(['middleware' => 'check.api.ip'], function() {
-    Route::post('/update_quantity', 'API\QuantityController@updateQuantityBySku')->withoutMiddleware("throttle:api");
-    Route::post('/update_price', 'API\PriceController@updatePriceBySku')->withoutMiddleware("throttle:api");
+    Route::post('/update_quantity', 'API\StoreController@updateQuantityBySku')->withoutMiddleware("throttle:api");
+    Route::post('/update_price', 'API\StoreController@updatePriceBySku')->withoutMiddleware("throttle:api");
 });

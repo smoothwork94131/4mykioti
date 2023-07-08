@@ -67,6 +67,14 @@ return [
             'permission' => '0777'
         ],
 
+        'api_shopify' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/api/shopify.log'),
+            'level' => 'debug',
+            'days' => 14,
+            'permission' => '0777'
+        ],
+
         // ...
     ],
 
