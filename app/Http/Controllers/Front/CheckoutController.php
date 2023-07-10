@@ -31,6 +31,31 @@ use PHPShopify\ShopifySDK;
 
 class CheckoutController extends Controller
 {
+    protected $shop_url = "";
+    
+    protected $storefrontAccessToken = "";
+    
+    protected $storeAccessToken = "";
+
+    protected $shopify_api_version = "";
+
+    protected $shopifyConfig = array();
+
+    public function __construct()
+    {
+        $this->shop_url = env('SHOPIFY_SHOP_URL', '');
+        $this->storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
+        $this->storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
+        $this->shopify_api_version = env('SHOPIFY_API_VERSION', '2023-01');
+
+        $this->shopifyConfig = array(
+            'ShopUrl' => $this->shop_url,
+            'AccessToken' => $this->storeAccessToken,
+            'FrontAccessToken' => $this->storefrontAccessToken,
+            'ApiVersion' => $this->shopify_api_version
+        );
+    }
+    
     public function index()
     {
         $this->code_image();
@@ -69,21 +94,9 @@ class CheckoutController extends Controller
         }
         return view('front.checkout', ['products' => $products, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'shipping_cost' => 0, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data]);
     }
-
+    
     private function createProductOnShopify($prod) {
-        $shop_url = env('SHOPIFY_SHOP_URL', '');
-        $storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
-        $storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
-        $shopify_api_version = env('SHOPIFY_API_VERSION', '2023-01');
-        
-        $adminConfig = array(
-            'ShopUrl' => $shop_url,
-            'AccessToken' => $storeAccessToken,
-            'FrontAccessToken' => $storefrontAccessToken,
-            'ApiVersion' => $shopify_api_version
-        );
-        
-        $adminshopify = ShopifySDK::config($adminConfig);
+        $adminshopify = ShopifySDK::config($this->shopifyConfig);
         
         $input = '{
             title: "'.$prod['item']->name.'", 
@@ -92,7 +105,7 @@ class CheckoutController extends Controller
             variants: [
                 {
                     sku: "'.$prod['item']->sku.'",
-                    weight: '.$prod['item']->file??$prod['item']->weight_in_grams.'
+                    weight: '.$prod['item']->file??$prod['item']->weight_in_grams.',
                     price: '.$prod['item']->price.'
                 }
             ]
@@ -103,10 +116,24 @@ class CheckoutController extends Controller
             productCreate(input: {$input}) {
                 product {
                     id
+                    variants(first: 5) {
+                        edges {
+                            node {
+                                id
+                            }
+                        }
+                    }
                 }
             }
         }
         QUERY,);
+
+        if($checkoutsh["data"]["productCreate"]["product"]) {
+            return $checkoutsh;
+        }
+        else {
+            return false;
+        }
     }
 
     public function store(Request $request) {
@@ -152,19 +179,7 @@ class CheckoutController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         
-        $shop_url = env('SHOPIFY_SHOP_URL', '');
-        $storefrontAccessToken = env('SHOPIFY_FRONTSTORE_ACCESS_TOKEN', '');
-        $storeAccessToken = env('SHOPIFY_ACCESS_TOKEN', '');
-        $shopify_api_version = env('SHOPIFY_API_VERSION', '2023-01');
-        
-        $config = array(
-            'ShopUrl' => $shop_url,
-            'AccessToken' => $storeAccessToken,
-            'FrontAccessToken' => $storefrontAccessToken,
-            'ApiVersion' => $shopify_api_version
-        );
-
-        $shopify = ShopifySDK::config($config);
+        $shopify = ShopifySDK::config($this->shopifyConfig);
         
         $input = '{
             allowPartialAddresses: true,
@@ -202,6 +217,7 @@ class CheckoutController extends Controller
                     products(first: 1, query:"(title:'.$prod['item']->name.') AND (variants.sku:'.$prod['item']->sku.')",) {
                         edges {
                             node {
+                                id
                                 variants(first: 5) {
                                     edges {
                                         node {
@@ -213,69 +229,91 @@ class CheckoutController extends Controller
                         }
                     }
                 }';
-                
+
                 $productFromShopify = $shopify->GraphQL->post($query);
 
-                if ($productFromShopify['data']['products']['edges']) {
-                    $update_input = '{
-                        id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
-                        price: '. $prod['item']->price .'
-                    }';
-    
-                    $update_query = <<<QUERY
-                    mutation {
-                        productVariantUpdate( input: {$update_input}) {
-                            productVariant {
-                                id
-                                title
-                                inventoryPolicy
-                                inventoryQuantity
-                                price
-                                compareAtPrice
-                            }
-                            userErrors {
-                                field
-                                message
-                            }
-                        }
-                    }
-                    QUERY;
-    
-                    $graphql_url = "https://" . $shop_url . "/admin/api/". $shopify_api_version ."/graphql.json";
-                    
-                    $post_data = array();
-                    $post_data['query'] = $update_query;
-                    $curl_init = curl_init();
-                    curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
-                    curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
-                        'Content-Type: application/json', 
-                        'Accept: application/json', 
-                        'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
-                        'X-Shopify-Access-Token: '. $storeAccessToken
-                    ));
-                    curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
-                    curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
-                    curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
-                    $response = curl_exec ($curl_init);
-                    $product_info = json_decode($response, true);
-                    $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
-                    curl_close ($curl_init);
-    
-                    if($i == $count) {
-                        $input .= "{
-                            quantity: {$prod['qty']},
-                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                        }";
+                $update_input = '{
+                    id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
+                    price: '. $prod['item']->price .',
+                    inventoryQuantities: [{
+                        availableQuantity : ' . ($prod['item']->qty + 1) . ',
+                    }]
+                }';
+                
+                if (!$productFromShopify['data']['products']['edges']) {
+                    $createdProduct = $this->createProductOnShopify($prod);
+                    if($createdProduct) {
+                        $update_input = '{
+                            id: "'. $createdProduct['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
+                            price: '. $prod['item']->price .',
+                            inventoryQuantities: [{
+                                availableQuantity : ' . ($prod['item']->qty + 1) . ',
+                            }]
+                        }';
                     }
                     else {
-                        $input .= "{
-                            quantity: {$prod['qty']},
-                            variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
-                        },";
+                        Session::forget('cart');
+                        Session::forget('already');
+                        Session::forget('coupon');
+                        Session::forget('coupon_total');
+                        Session::forget('coupon_total1');
+                        Session::forget('coupon_percentage');
+                        return redirect()->route('front.index')->with('error', "There are just like product you ordered on store! Please try again later");
                     }
-                } else {
-                    $this->createProductOnShopify($prod);
+                }
+
+                $update_query = <<<QUERY
+                mutation {
+                    productVariantUpdate( input: {$update_input}) {
+                        productVariant {
+                            id
+                            title
+                            inventoryPolicy
+                            inventoryQuantity
+                            price
+                            compareAtPrice
+                        }
+                        userErrors {
+                            field
+                            message
+                        }
+                    }
+                }
+                QUERY;
+
+                $graphql_url = "https://" . $shop_url . "/admin/api/". $shopify_api_version ."/graphql.json";
+                
+                $post_data = array();
+                $post_data['query'] = $update_query;
+                $curl_init = curl_init();
+                curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
+                curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json', 
+                    'Accept: application/json', 
+                    'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
+                    'X-Shopify-Access-Token: '. $storeAccessToken
+                ));
+                curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
+                curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
+                $response = curl_exec ($curl_init);
+                dd($response);
+                $product_info = json_decode($response, true);
+                $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
+                curl_close ($curl_init);
+
+                if($i == $count) {
+                    $input .= "{
+                        quantity: {$prod['qty']},
+                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                    }";
+                }
+                else {
+                    $input .= "{
+                        quantity: {$prod['qty']},
+                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                    },";
                 }
 
                 if(!empty($prod['item']->weight_in_grams)) {
@@ -378,7 +416,7 @@ class CheckoutController extends Controller
             Session::forget('coupon_total');
             Session::forget('coupon_total1');
             Session::forget('coupon_percentage');
-            return redirect()->route('front.index')->with('success', "Something went wrong. Try again later!");
+            return redirect()->route('front.index')->with('error', "Something went wrong. Try again later!");
         }
     }
 
