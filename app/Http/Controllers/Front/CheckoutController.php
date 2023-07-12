@@ -41,6 +41,8 @@ class CheckoutController extends Controller
 
     protected $shopifyConfig = array();
 
+    protected $curl_init = false;
+
     public function __construct()
     {
         $this->shop_url = env('SHOPIFY_SHOP_URL', '');
@@ -94,6 +96,26 @@ class CheckoutController extends Controller
         }
         return view('front.checkout', ['products' => $products, 'totalPrice' => $total, 'pickups' => $pickups, 'totalQty' => $cart->totalQty, 'shipping_cost' => 0, 'curr' => $curr, 'shipping_data' => $shipping_data, 'package_data' => $package_data]);
     }
+
+    public function requestShopify($url, $data, $type) {
+        $curl_init = curl_init();
+        curl_setopt($curl_init, CURLOPT_URL, $url);
+        curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json', 
+            'Accept: application/json', 
+            'X-Shopify-Access-Token: '. $this->storeAccessToken
+        ));
+        curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, $type);
+        curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec ($curl_init);
+        $response = json_decode($response, true);
+        $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
+        curl_close ($curl_init);
+
+        return $response;
+    }
     
     private function createProductOnShopify($prod) {
         $adminshopify = ShopifySDK::config($this->shopifyConfig);
@@ -111,7 +133,7 @@ class CheckoutController extends Controller
             ]
         }';
 
-        $checkoutsh = $adminshopify->GraphQL->post(<<<QUERY
+        $query = <<<QUERY
         mutation {
             productCreate(input: {$input}) {
                 product {
@@ -126,7 +148,9 @@ class CheckoutController extends Controller
                 }
             }
         }
-        QUERY,);
+        QUERY;
+
+        $checkoutsh = $adminshopify->GraphQL->post($query);
 
         if($checkoutsh["data"]["productCreate"]["product"]) {
             return $checkoutsh;
@@ -212,7 +236,7 @@ class CheckoutController extends Controller
             $needToTemp = false;
             foreach ($cart->items as $key => $prod) {
                 $i++;
-                
+
                 $query = '{
                     products(first: 1, query:"(title:'.$prod['item']->name.') AND (variants.sku:'.$prod['item']->sku.')",) {
                         edges {
@@ -231,25 +255,13 @@ class CheckoutController extends Controller
                 }';
 
                 $productFromShopify = $shopify->GraphQL->post($query);
+                $productvariant_id = $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'];
 
-                $update_input = '{
-                    id: "'. $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
-                    price: '. $prod['item']->price .',
-                    inventoryQuantities: [{
-                        availableQuantity : ' . ($prod['item']->qty + 1) . ',
-                    }]
-                }';
-                
+                // Begin Update the Price
                 if (!$productFromShopify['data']['products']['edges']) {
                     $createdProduct = $this->createProductOnShopify($prod);
                     if($createdProduct) {
-                        $update_input = '{
-                            id: "'. $createdProduct['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'] .'",
-                            price: '. $prod['item']->price .',
-                            inventoryQuantities: [{
-                                availableQuantity : ' . ($prod['item']->qty + 1) . ',
-                            }]
-                        }';
+                        $productvariant_id = $createdProduct['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id'];
                     }
                     else {
                         Session::forget('cart');
@@ -261,6 +273,11 @@ class CheckoutController extends Controller
                         return redirect()->route('front.index')->with('error', "There are just like product you ordered on store! Please try again later");
                     }
                 }
+
+                $update_input = '{
+                    id: "'. $productvariant_id .'",
+                    price: '. $prod['item']->price .'
+                }';
 
                 $update_query = <<<QUERY
                 mutation {
@@ -281,38 +298,65 @@ class CheckoutController extends Controller
                 }
                 QUERY;
 
-                $graphql_url = "https://" . $shop_url . "/admin/api/". $shopify_api_version ."/graphql.json";
+                $update_url = "https://" . $this->shop_url . "/admin/api/". $this->shopify_api_version ."/graphql.json";
+                $update_param = array();
+                $update_param['query'] = $update_query;
+                $product_info = $this->requestShopify($update_url, $update_param, "POST");
+
+                // Begin Getting Location Infor By Variant ID
+                $locationQuery = '{
+                    productVariant(id: "'. $productvariant_id .'") {
+                      inventoryItem {
+                        id
+                        inventoryLevels(first: 5) {
+                          edges {
+                            node {
+                              location {
+                                id
+                                name
+                              }
+                              available
+                            }
+                          }
+                        }
+                      }
+                    }
+                }';
+                $location_url = "https://" . $this->shop_url . "/admin/api/". $this->shopify_api_version ."/graphql.json";
+                $location_param = array();
+                $location_param['query'] = $locationQuery;
+                $location_info = $this->requestShopify($location_url, $location_param, "POST");
+                $location_id = $location_info['data']['productVariant']['inventoryItem']['inventoryLevels']['edges'][0]['node']['location']['id'];
+                // End Getting Location Infor By Variant ID
                 
-                $post_data = array();
-                $post_data['query'] = $update_query;
-                $curl_init = curl_init();
-                curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
-                curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json', 
-                    'Accept: application/json', 
-                    'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
-                    'X-Shopify-Access-Token: '. $storeAccessToken
-                ));
-                curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
-                curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
-                $response = curl_exec ($curl_init);
-                dd($response);
-                $product_info = json_decode($response, true);
-                $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
-                curl_close ($curl_init);
+                // Begin Gettiing Inventory Item ID By variant ID
+                $variant_url = "https://" . $this->shop_url . "/admin/api/". $this->shopify_api_version ."/". str_replace("gid://shopify/ProductVariant/", "", $productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']) .".json";
+                $variant_param = array();
+                $variant_info = $this->requestShopify($variant_url, $variant_param, "GET");
+                $inventory_item_id = $variant_info["variant"]["inventory_item_id"];
+                // End Getting Inventory Item Id By variant IT
+
+                // Begin Adjust Inventory Level
+
+                $adjust_url = "https://" . $this->shop_url . "/admin/api/". $this->shopify_api_version ."/inventory_levels/adjust.json";
+                $adjust_param = array(
+                    "location_id" => $location_id,
+                    "inventory_item_id" => $inventory_item_id,
+                    "available_adjustment" => 10
+                );
+                $adjust_info = $this->requestShopify($variant_url, $variant_param, "GET");
+                // End Adjust Inventory Level
 
                 if($i == $count) {
                     $input .= "{
                         quantity: {$prod['qty']},
-                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        variantId: \"{$productvariant_id}\"
                     }";
                 }
                 else {
                     $input .= "{
                         quantity: {$prod['qty']},
-                        variantId: \"{$productFromShopify['data']['products']['edges'][0]['node']['variants']['edges'][0]['node']['id']}\"
+                        variantId: \"{$productvariant_id}\"
                     },";
                 }
 
@@ -354,7 +398,7 @@ class CheckoutController extends Controller
                 }
             }
 
-            $query = <<<QUERY
+            $checkoutQuery = <<<QUERY
             mutation {
                 checkoutCreate(input: {$input}) {
                     checkout {
@@ -369,26 +413,11 @@ class CheckoutController extends Controller
             }
             QUERY;
 
-            $graphql_url = "https://" . $shop_url . "/api/". $shopify_api_version ."/graphql.json";
-            $post_data = array();
-            $post_data['query'] = $query;
-            $curl_init = curl_init();
-            curl_setopt($curl_init, CURLOPT_URL, $graphql_url);
-            curl_setopt($curl_init, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json', 
-                'Accept: application/json', 
-                'X-Shopify-Storefront-Access-Token: '. $storefrontAccessToken, 
-                'X-Shopify-Access-Token: '. $storeAccessToken
-            ));
-            curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl_init, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($curl_init, CURLOPT_POSTFIELDS, json_encode($post_data));
-            curl_setopt($curl_init, CURLOPT_SSL_VERIFYPEER, false);
-            $response = curl_exec ($curl_init);
-            $checkoutsh = json_decode($response, true);
-            $curl_info = curl_getinfo($curl_init, CURLINFO_HTTP_CODE);
-            curl_close ($curl_init);
-
+            $checkout_url = "https://" . $this->shop_url . "/api/". $this->shopify_api_version ."/graphql.json";
+            $checkout_param = array();
+            $checkout_param['query'] = $checkoutQuery;
+            $checkoutsh = $this->requestShopify($checkout_url, $checkout_param, "POST");;
+            
             // $checkoutsh = $shopify->GraphQL->post();
 
             if ($checkoutsh['data']['checkoutCreate']['checkout']['webUrl']) {
