@@ -529,7 +529,7 @@
                                     'series' => $slug_list['series'],
                                     'model' => $prod->model,
                                     'section' => $prod->section_name,
-                                    'group' => $prod->group_id,
+                                    'group' => $prod->group_name,
                                     'prod_name' => $prod->name
                                 ]
                             ]

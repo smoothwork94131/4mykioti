@@ -135,7 +135,7 @@ class CatalogController extends Controller
         $other_parts = DB::connection('product');
         $other_parts = $other_parts->table($db.' as product_tbl');
         $other_parts = $other_parts->join($db.'_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id');
-        $other_parts = $other_parts->select('product_tbl.*', 'category_tbl.section_name');
+        $other_parts = $other_parts->select('product_tbl.*', 'category_tbl.section_name', 'category_tbl.group_name');
         $other_parts = $other_parts->where('product_tbl.model', $model);
         $other_parts = $other_parts->where('product_tbl.thumbnail', "!=", "");
         if(isset($productt)) {
