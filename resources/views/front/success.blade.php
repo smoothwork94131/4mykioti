@@ -268,11 +268,8 @@
                                                                             </td>
                                                                             <td>{{ $order->currency_sign }}{{ round($product['price'] * $order->currency_value, 2) }}
                                                                             </td>
-
                                                                         </tr>
                                                                     @endforeach
-
-
                                                                 </tbody>
                                                             </table>
 

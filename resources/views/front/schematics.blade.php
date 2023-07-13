@@ -60,7 +60,8 @@
                 <h3 class="page-title">No data</h3>
             @else               
                 @if(count($slug_list) == 5)
-                    <h3 class="page-title">{{ strtoupper($domain_name) . " " .$result[0]->group_name . " SCHEMATICS"}}</h3>
+                    <h3 class="page-title" style="margin-bottom: 10px;">{{ strtoupper($domain_name) . " " . $result[0]->model . " " . $result[0]->group_name . " SCHEMATICS"}}</h3>
+                    <div class="page-sub-title"><a href="{{ route('front.partsbymodel', $slug_list) }}">Looking for parts on this page? Click, View Parts</a></div>
                     <div class="row m-block-content">
                         <div class="group-schematics">
                             @if($result[0]->image && file_exists(public_path('assets/images/group/'.$result[0]->image)))

@@ -10,6 +10,13 @@
     margin-bottom: 30px;
 }
 
+.page-sub-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
 /*PAGINATION DESIGN*/
 
 .page-center {
@@ -2308,13 +2315,6 @@ End Footer Custom Style
     height: 50px;
     width: 50px;
     line-height: 50px;
-}
-
-.map-page-title {
-    font-size: 36px;
-    font-weight: bolder;
-    color: #F05223;
-    margin-bottom: 10px;
 }
 
 @media (min-width: 991px) {

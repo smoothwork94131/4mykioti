@@ -110,7 +110,7 @@
     <section class="faq-section">
         <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
             <h3 class="page-title">
-                {{ $group_record->group_name ?? $group_record->group_name }} PART
+                {{ $group_record->model ?? $group_record->model }} {{ $group_record->group_name ?? $group_record->group_name }} PART
             </h3>
             <div class="row parts-container">
                 <div class="col-md-12 group-table d-desktop">
