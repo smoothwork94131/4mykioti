@@ -341,18 +341,34 @@
                         <div class="top-menu-area">
                             <ul class="tab-menu">
                                 <li><a href="#tabs-1">{{ $langg->lang92 }}</a></li>
-                                <li><a href="#tabs-2">{{ $langg->lang93 }}</a></li>
-                                <li><a href="#tabs-3">{{ $langg->lang94 }}({{ '0' }})</a></li>
+                                @php
+                                    $policy_index  = 2;
+                                @endphp
+                                @foreach($product_policies as $policy)
+                                <li><a href="#tabs-{{$policy_index}}">{{ strtoupper($policy->name) }}</a></li>
+                                @php
+                                    $policy_index++;
+                                @endphp
+                                @endforeach
+                                <li><a href="#tabs-{{$policy_index}}">{{ $langg->lang94 }}({{ '0' }})</a></li>
                             </ul>
                         </div>
                         <div class="tab-content-wrapper">
                             <div id="tabs-1" class="tab-content-area">
                                 <p>{!! $productt->description !!}</p>
                             </div>
-                            <div id="tabs-2" class="tab-content-area">
-                                <p>{!! $productt->policy !!}</p>
+                            @php
+                                $policy_index  = 2;
+                            @endphp
+                            @foreach($product_policies as $policy)
+                            <div id="tabs-{{$policy_index}}" class="tab-content-area">
+                                <p>{!! $policy->description !!}</p>
                             </div>
-                            <div id="tabs-3" class="tab-content-area">
+                            @php
+                                $policy_index++;
+                            @endphp
+                            @endforeach
+                            <div id="tabs-{{$policy_index}}" class="tab-content-area">
                                 <div class="heading-area">
                                     <h4 class="title">
                                         {{ $langg->lang96 }}

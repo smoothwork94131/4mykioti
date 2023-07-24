@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\Currency;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductPolicy;
 use App\Models\AdvertisingProduct;
 use App\Models\ProductClick;
 use App\Models\ColorSetting;
@@ -156,8 +157,10 @@ class CatalogController extends Controller
             $prod_name = Helper::reversePartsName($prod_name);
         }
 
+        $product_policies = ProductPolicy::orderby('id', 'desc')->get();
+
         $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$prod_name);
-        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits", "other_parts"));
+        return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits", "other_parts", "product_policies"));
     }
 
     public function product(Request $request, $slug)

@@ -1,8 +1,7 @@
 <a href="{{ route('front.homeproduct', $slug_list) }}" class="prod-item item">
     <div class="prod-init">
         <div class="prod-top">
-            <h2 class="prod-name"
-                style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color ? $colorsetting_style2->title_color : '#333333' }}">
+            <h2 class="prod-name" style="color: {{ $colorsetting_style2 && $colorsetting_style2->title_color ? $colorsetting_style2->title_color : '#333333' }}">
                 @php
                     if (strpos($prod->name, ',') !== false) {
                         $prod->name = Helper::reversePartsName($prod->name);
@@ -12,10 +11,17 @@
             </h2>
         </div>
 
-        <p class="prod-details"
-            style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color ? $colorsetting_style2->sub_detail_color : '#333333' }}">
-            <small>Model:
-                <?php echo $prod->model; ?>
+        <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color ? $colorsetting_style2->sub_detail_color : '#333333' }}">
+            <small>
+                Model: <?php echo $prod->model; ?>
+            </small>
+            <br>
+            <small>
+                Part Number: <?php echo $prod->sku; ?>
+            </small>
+            <br>
+            <small>
+                Description: <?php echo mb_strlen(strip_tags($prod->description), 'utf-8') > 100 ? mb_substr(strip_tags($prod->description), 0, 100, 'utf-8') . '...' : strip_tags($prod->description); ?>
             </small>
         </p>
 

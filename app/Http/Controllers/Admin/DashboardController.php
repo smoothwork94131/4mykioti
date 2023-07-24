@@ -70,18 +70,18 @@ class DashboardController extends Controller
             'ApiVersion' => $shopify_api_version
         );
 
-        $shopify = ShopifySDK::config($config);
-        $all_orders = $shopify->Order->get(array('status' => 'any'));
-        $pending_orders = $shopify->Order->get(array('financial_status' => 'pending'));
-        $processing_orders = $shopify->Order->get(array('status' => 'cancelled'));
-        $completed_orders = $shopify->Order->get(array('status' => 'closed'));
-        $in_30_orders = $shopify->Order->get(array(
-            'status' => 'closed',
-            'created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')
-        ));
+        // $shopify = ShopifySDK::config($config);
+        // $all_orders = $shopify->Order->get(array('status' => 'any'));
+        // $pending_orders = $shopify->Order->get(array('financial_status' => 'pending'));
+        // $processing_orders = $shopify->Order->get(array('status' => 'cancelled'));
+        // $completed_orders = $shopify->Order->get(array('status' => 'closed'));
+        // $in_30_orders = $shopify->Order->get(array(
+        //     'status' => 'closed',
+        //     'created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')
+        // ));
 
-        $all_customers = $shopify->Customer->get();
-        $in_30_customers = $shopify->Customer->get(array('created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')));
+        // $all_customers = $shopify->Customer->get();
+        // $in_30_customers = $shopify->Customer->get(array('created_at_min' => Carbon::now()->subDays(30)->format('Y-m-d\TH:i:sP')));
 
         $series = DB::connection('product')->table('categories_home')->where('parent', '<>', 0)->where('status', 1)->get();
         $total_products = 0;

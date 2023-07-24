@@ -95,11 +95,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/products/datatables', 'Admin\ProductController@datatables')->name('admin-prod-datatables'); //JSON REQUEST
         Route::get('/products', 'Admin\ProductController@index')->name('admin-prod-index');
-
         Route::post('/products/upload/update/{id}', 'Admin\ProductController@uploadUpdate')->name('admin-prod-upload-update');
-
-        Route::get('/products/catalogs/datatables', 'Admin\ProductController@catalogdatatables')->name('admin-prod-catalog-datatables'); //JSON REQUEST
-        Route::get('/products/catalogs/', 'Admin\ProductController@catalogs')->name('admin-prod-catalog-index');
 
         // CREATE SECTION
         Route::get('/products/create', 'Admin\ProductController@create')->name('admin-prod-create');
@@ -121,13 +117,31 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/delete/{id}', 'Admin\ProductController@destroy')->name('admin-prod-delete');
         // DELETE SECTION ENDS
 
+        // PRODUCT CATALOG
+        Route::get('/products/catalogs/', 'Admin\ProductController@catalogs')->name('admin-prod-catalog-index');
+        Route::get('/products/catalogs/datatables', 'Admin\ProductController@catalogdatatables')->name('admin-prod-catalog-datatables'); //JSON REQUEST
         Route::get('/products/catalog/{id1}/{id2}', 'Admin\ProductController@catalog')->name('admin-prod-catalog');
-
+        // PRODUCT CATALOG END
         
-        
+        // PRODUCT POLICY
+        Route::get('/products/policy', 'Admin\ProductController@policy')->name('admin-prod-policy');
+        Route::get('/products/policy/datatables', 'Admin\ProductController@policydatatables')->name('admin-prod-policy-datatables'); //JSON REQUEST
+        Route::get('/products/policy/create', 'Admin\ProductController@policycreate')->name('admin-prod-policy-create');
+        Route::post('/products/policy/store', 'Admin\ProductController@policystore')->name('admin-prod-policy-store');
+        Route::get('/products/policy/edit/{id}', 'Admin\ProductController@policyedit')->name('admin-prod-policy-edit');
+        Route::post('/products/policy/update/{id}', 'Admin\ProductController@policyupdate')->name('admin-prod-policy-update');
+        Route::get('/products/policy/delete/{id}', 'Admin\ProductController@policydestroy')->name('admin-prod-policy-delete');
+        // PRODUCT POLICY END
         
         //------------ ADMIN PRODUCT SECTION ENDS------------
     });
+
+    //------------ ADMIN CSV IMPORT SECTION ------------
+    Route::group(['middleware' => 'permissions:bulk_product_upload'], function () {
+        Route::get('/products/import', 'Admin\ProductController@import')->name('admin-prod-import');
+        Route::post('/products/import-submit', 'Admin\ProductController@importSubmit')->name('admin-prod-importsubmit');
+    });
+    //------------ ADMIN CSV IMPORT SECTION ENDS ------------
 
     //------------ ADMIN AINVENTORY SECTION ------------
 
@@ -334,15 +348,6 @@ Route::prefix('admin')->group(function () {
     });
 
     //------------ ADMIN CATEGORY SECTION ENDS------------
-
-
-    //------------ ADMIN CSV IMPORT SECTION ------------
-    Route::group(['middleware' => 'permissions:bulk_product_upload'], function () {
-        Route::get('/products/import', 'Admin\ProductController@import')->name('admin-prod-import');
-        Route::post('/products/import-submit', 'Admin\ProductController@importSubmit')->name('admin-prod-importsubmit');
-    });
-
-    //------------ ADMIN CSV IMPORT SECTION ENDS ------------
 
     //------------ ADMIN PRODUCT DISCUSSION SECTION ------------
 

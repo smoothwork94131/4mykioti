@@ -44,6 +44,9 @@
         <li>
             <a href="{{ route('admin-prod-import') }}"><span>{{ __('Bulk Product Upload') }}</span></a>
         </li>
+        <li>
+            <a href="{{ route('admin-prod-policy') }}"><span>{{ __('Product Policy') }}</span></a>
+        </li>
     </ul>
 </li>
 
