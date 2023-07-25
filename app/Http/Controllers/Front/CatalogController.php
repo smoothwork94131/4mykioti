@@ -157,7 +157,7 @@ class CatalogController extends Controller
             $prod_name = Helper::reversePartsName($prod_name);
         }
 
-        $product_policies = ProductPolicy::orderby('id', 'desc')->get();
+        $product_policies = ProductPolicy::orderby('id', 'asc')->get();
 
         $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$prod_name);
         return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits", "other_parts", "product_policies"));
