@@ -13,16 +13,13 @@
 
         <p class="prod-details" style="color: {{ $colorsetting_style2 && $colorsetting_style2->sub_detail_color ? $colorsetting_style2->sub_detail_color : '#333333' }}">
             <small>
-                Model: <?php echo $prod->model; ?>
+                <b>Model:</b> <?php echo $prod->model; ?>
             </small>
             <br>
             <small>
-                Part Number: <?php echo $prod->sku; ?>
+                <b>Part Number:</b> <?php echo $prod->sku; ?>
             </small>
             <br>
-            <small>
-                Description: <?php echo mb_strlen(strip_tags($prod->description), 'utf-8') > 100 ? mb_substr(strip_tags($prod->description), 0, 100, 'utf-8') . '...' : strip_tags($prod->description); ?>
-            </small>
         </p>
 
         <p class="prod-price" style="color: {{ $colorsetting_style2 && $colorsetting_style2->price_color ? $colorsetting_style2->price_color : '#333333' }}">
