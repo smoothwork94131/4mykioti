@@ -12,31 +12,6 @@ class SearchController extends Controller{
         $search_word = $keyword ;
         $tbl_name = $key ;
 
-        $small_words_array = array('a', 'the', 'an', 'kioti', 'need', 'i', 'want', 'get', 'as', 'for');
-
-        $search_word_array = preg_split("/[\s,]+/", $search_word);
-
-        $unset_keys_array = [];
-        foreach($search_word_array as $key => $sh_wd) {
-            $flag = 0;
-            foreach($small_words_array as $word) {
-                if($sh_wd == $word) {
-                    $flag=1;
-                    break;
-                }   
-            }
-
-            if($flag == 1) {
-                $unset_keys_array[] = $key;
-            }
-        }
-
-        foreach($unset_keys_array as $item) {
-            unset($search_word_array[$item]);
-        }
-
-        $search_word_array = array_values($search_word_array);
-
         $category = DB::connection('product')
         ->table('categories_home')
         ->where('name', $tbl_name)
@@ -50,206 +25,235 @@ class SearchController extends Controller{
         ->where('status', 1)
         ->get();
 
-        $model_array = array();
-
+        $match = null;
         foreach($series as $ser) {
-            $model = DB::connection('product')
-            ->table(strtolower($ser->name).'_categories')
-            ->select('model as model_name')
-            ->orderBy('model', 'asc')
-            ->get()
-            ->groupBy('model_name');
-
-            $model_temp = [];
-            foreach($model as $key => $item) {
-                $model_temp[] = $key;
+            $table = $ser->name;
+            $temp = DB::connection('product')
+                ->table($table . ' as product_tbl')
+                ->join($table . '_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id')
+                ->where(DB::raw('LOWER(product_tbl.sku)'), 'like', '%'.strtolower($search_word).'%')
+                ->orWhere(DB::raw('LOWER(product_tbl.name)'), 'like', '%'.strtolower($search_word).'%')
+                ->orWhere(DB::raw('LOWER(product_tbl.model)'), 'like', '%'.strtolower($search_word).'%')
+                ->orWhere(DB::raw('LOWER(product_tbl.group_id)'), 'like', '%'.strtolower($search_word).'%')
+                ->select(['product_tbl.*', 'category_tbl.group_name', 'category_tbl.section', 'category_tbl.image', DB::raw("'{$table}' as `table`")]);
+            
+            if($match != null) {
+                $union = $match->union($temp);
+                $match = $union;
             }
-
-            $model_array[$ser->name] = $model_temp;
+            else {
+                $match = $temp;
+            }
         }
 
-        $search_model = array();
-        foreach($model_array as $key=>$item) {
-            $temp = [];
-            foreach($item as $sub_item) {
+        $match = $match->get();
+        if($match && count($match) > 0) {
+            $products = $match->paginate(20);
+        }
+        else {
+            $small_words_array = array('a', 'the', 'an', 'need', 'i', 'want', 'get', 'as', 'for');
+
+            $search_word_array = preg_split("/[\s,]+/", $search_word);
+
+            $unset_keys_array = [];
+            foreach($search_word_array as $key => $sh_wd) {
                 $flag = 0;
-                
-                foreach($search_word_array as $sh_key => $sh_word) {
-                    if(strtolower($sh_word) === strtolower($sub_item)) {
-                        $flag = 1;
-                        $temp[] = $sub_item;
+                foreach($small_words_array as $word) {
+                    if($sh_wd == $word) {
+                        $flag=1;
                         break;
                     }   
                 }
-                
-                if($flag  == 1) {
-                    unset($search_word_array[$sh_key]);
-                    $search_word_array = array_values($search_word_array);
+
+                if($flag == 1) {
+                    $unset_keys_array[] = $key;
                 }
             }
 
-            if(count($temp) != 0) {
-                $search_model[$key] = $temp;
+            foreach($unset_keys_array as $item) {
+                unset($search_word_array[$item]);
             }
-        }
 
-        if(count($search_model) == 0) {
+            $search_word_array = array_values($search_word_array);
+
+            $model_array = array();
+
+            foreach($series as $ser) {
+                $model = DB::connection('product')
+                ->table(strtolower($ser->name).'_categories')
+                ->select('model as model_name')
+                ->orderBy('model', 'asc')
+                ->get()
+                ->groupBy('model_name');
+
+                $model_temp = [];
+                foreach($model as $key => $item) {
+                    $model_temp[] = $key;
+                }
+
+                $model_array[$ser->name] = $model_temp;
+            }
+
+            $search_model = array();
             foreach($model_array as $key=>$item) {
                 $temp = [];
                 foreach($item as $sub_item) {
-                    $temp[] = $sub_item;
+                    $flag = 0;
+                    
+                    foreach($search_word_array as $sh_key => $sh_word) {
+                        if(strtolower($sh_word) === strtolower($sub_item)) {
+                            $flag = 1;
+                            $temp[] = $sub_item;
+                            break;
+                        }   
+                    }
+                    
+                    if($flag  == 1) {
+                        unset($search_word_array[$sh_key]);
+                        $search_word_array = array_values($search_word_array);
+                    }
                 }
 
                 if(count($temp) != 0) {
                     $search_model[$key] = $temp;
-                }   
-            }
-        }
-
-        $like_clause = "";
-        $like_match_clause = "";
-
-        if(count($search_word_array) != 0) {
-            $start_clause = " and ( ";
-            $flag = 0;
-            $search_sum = "";
-            foreach($search_word_array as $like_item) {
-                if($flag == 1) {
-                    $like_clause .= ' or ';
-                    $search_sum .= ' ';
-                }
-                $like_clause .= "`sku` like '%{$like_item}%' or `name` like '%{$like_item}%'" ;
-                $search_sum .= $like_item;
-                $flag = 1;
-            }
-
-            $like_clause = $start_clause . $like_clause;
-            $like_clause .= ')';
-
-            $replacements = [
-                "oil filter" => "filter, oil",
-                "gas filter" => "filter, gas"
-            ];
-            
-            foreach ($replacements as $needle => $replacement) {
-                if (strpos($search_sum, $needle) !== false) {
-                    $search_sum = str_replace($needle, $replacement, $search_sum);
                 }
             }
 
-            $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
-        }
+            if(count($search_model) == 0) {
+                foreach($model_array as $key=>$item) {
+                    $temp = [];
+                    foreach($item as $sub_item) {
+                        $temp[] = $sub_item;
+                    }
 
-        $sql = "" ;
-        $sql_match = "" ; 
-        $flag = false ;
-
-        foreach($search_model as $search_key => $search_item) {
-            if($flag) {
-                $sql.=" union all " ;
-                $sql_match.=" union all " ;
+                    if(count($temp) != 0) {
+                        $search_model[$key] = $temp;
+                    }   
+                }
             }
-            
-            $sub_flag = false;
-            $sub_sql = "( ";
-            $sub_sql_match = "";
 
-            foreach($search_item as $sub_key => $sub_item) {
-                if($sub_flag) {
-                    $sub_sql.=" or ";
+            $like_clause = "";
+            $like_match_clause = "";
+
+            if(count($search_word_array) != 0) {
+                $start_clause = " and ( ";
+                $flag = 0;
+                $search_sum = "";
+                foreach($search_word_array as $like_item) {
+                    if($flag == 1) {
+                        $like_clause .= ' or ';
+                        $search_sum .= ' ';
+                    }
+                    $like_clause .= "`sku` like '%{$like_item}%' or `name` like '%{$like_item}%'" ;
+                    $search_sum .= $like_item;
+                    $flag = 1;
                 }
 
-                $sub_sql .= "`model`=UPPER('{$sub_item}') ";
-                $sub_flag = true;
+                $like_clause = $start_clause . $like_clause;
+                $like_clause .= ')';
+
+                $replacements = [
+                    "oil filter" => "filter, oil",
+                    "gas filter" => "filter, gas"
+                ];
+                
+                foreach ($replacements as $needle => $replacement) {
+                    if (strpos($search_sum, $needle) !== false) {
+                        $search_sum = str_replace($needle, $replacement, $search_sum);
+                    }
+                }
+
+                $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
             }
 
-            $sub_sql_match = $sub_sql . ')' . $like_match_clause;
-            $sub_sql .= ')' . $like_clause;
+            $sql = "" ;
+            $sql_match = "" ; 
+            $flag = false ;
 
-            $table_name = strtolower($search_key);
-            
-            $sql .= "select `model`, `group_id`, `name`, `photo`, `price`, `thumbnail`, `sku`, `id`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql} " ;
-            $sql_match .= "select `model`, `group_id`, `name`, `photo`, `price`, `thumbnail`, `sku`, `id`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+            foreach($search_model as $search_key => $search_item) {
+                if($flag) {
+                    $sql.=" union all " ;
+                    $sql_match.=" union all " ;
+                }
+                
+                $sub_flag = false;
+                $sub_sql = "( ";
+                $sub_sql_match = "";
 
-            $flag = true ;
-        }
+                foreach($search_item as $sub_key => $sub_item) {
+                    if($sub_flag) {
+                        $sub_sql.=" or ";
+                    }
 
-        $categories = array();
-        $categories_match = false;
-        $result = array();
-        if($sql != "") {
-            $categories =DB::connection('product')->select($sql) ;
-            if(count($search_word_array) > 1) {
-                $categories_match = DB::connection('product')->select($sql_match);
+                    $sub_sql .= "`model`=UPPER('{$sub_item}') ";
+                    $sub_flag = true;
+                }
+
+                $sub_sql_match = $sub_sql . ')' . $like_match_clause;
+                $sub_sql .= ')' . $like_clause;
+
+                $table_name = strtolower($search_key);
+                
+                $sql .= "select `model`, `group_id`, `name`, `photo`, `price`, `thumbnail`, `sku`, `id`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql} " ;
+                $sql_match .= "select `model`, `group_id`, `name`, `photo`, `price`, `thumbnail`, `sku`, `id`, '{$search_key}' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+
+                $flag = true ;
             }
 
-            if($categories_match) {
-                foreach($categories as $key => $item) {
-                    $flag = false;
-                    foreach($categories_match as $sub_item) {
-                        if($item->id == $sub_item->id) {
-                            $flag = true;
-                            break;
+            $categories = array();
+            $categories_match = false;
+            $result = array();
+            if($sql != "") {
+                $categories =DB::connection('product')->select($sql) ;
+                if(count($search_word_array) > 1) {
+                    $categories_match = DB::connection('product')->select($sql_match);
+                }
+
+                if($categories_match) {
+                    foreach($categories as $key => $item) {
+                        $flag = false;
+                        foreach($categories_match as $sub_item) {
+                            if($item->id == $sub_item->id) {
+                                $flag = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if($flag == true) {
-                        unset($categories[$key]);
-                        $categories = array_values($categories);
-                    }
-                }              
+                        if($flag == true) {
+                            unset($categories[$key]);
+                            $categories = array_values($categories);
+                        }
+                    }              
 
-                $result = array_merge($categories_match, $categories);
-            }
-            else {
-                $result = $categories;
-            }
-
-            $data = array();
-            foreach($result as $key => $item) {
-                $table_name = strtolower($item->table);
-                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'" ;
-                $ret = DB::connection('product')->select($sql) ;
-                if($ret) {
-                    $item->group_name = $ret[0]->group_name ;
-                    $item->section = $ret[0]->section_name ;
-                    $data[$key] = $item ;
+                    $result = array_merge($categories_match, $categories);
                 }
+                else {
+                    $result = $categories;
+                }
+
+                $data = array();
+                foreach($result as $key => $item) {
+                    $table_name = strtolower($item->table);
+                    $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'" ;
+                    $ret = DB::connection('product')->select($sql);
+                    if($ret) {
+                        $item->group_name = $ret[0]->group_name;
+                        $item->section = $ret[0]->section_name;
+                        $data[$key] = $item ;
+                    }
+                }
+                $result = $data ;
             }
-            $result = $data ;
+
+            $products = collect($result)->paginate(20);
         }
 
-        $products = collect($result)->paginate(20);
         return view('front.search', compact('products', 'tbl_name'));
     }
     
     public function search(Request $request) {
         $search_word = $_REQUEST['search_word'] ;
         $tbl_name = $_REQUEST['key'] ;
-        
-        $small_words_array = array('a', 'the', 'an', 'kioti', 'need', 'i', 'want', 'get', 'as', 'for');
-        $search_word_array = preg_split("/[\s,]+/", $search_word);
-
-        $unset_keys_array = [];
-        foreach($search_word_array as $key => $sh_wd) {
-            $flag = 0;
-            foreach($small_words_array as $word) {
-                if($sh_wd == $word) {
-                    $flag=1;
-                    break;
-                }   
-            }
-
-            if($flag == 1) {
-                $unset_keys_array[] = $key;
-            }
-        }
-
-        foreach($unset_keys_array as $item) {
-            unset($search_word_array[$item]);
-        }
-
-        $search_word_array = array_values($search_word_array);
 
         $category = DB::connection('product')
         ->table('categories_home')
@@ -264,182 +268,233 @@ class SearchController extends Controller{
         ->where('status', 1)
         ->get();
 
-        $model_array = array();
-
+        $match = null;
         foreach($series as $ser) {
-            $model = DB::connection('product')
-            ->table(strtolower($ser->name).'_categories')
-            ->select('model as model_name')
-            ->orderBy('model', 'asc')
-            ->get()
-            ->groupBy('model_name');
-
-            $model_temp = [];
-            foreach($model as $key => $item) {
-                $model_temp[] = $key;
+            $table = $ser->name;
+            $temp = DB::connection('product')
+            ->table($table . ' as product_tbl')
+            ->join($table . '_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id')
+            ->where(DB::raw('LOWER(product_tbl.sku)'), 'like', '%'.strtolower($search_word).'%')
+            ->orWhere(DB::raw('LOWER(product_tbl.name)'), 'like', '%'.strtolower($search_word).'%')
+            ->orWhere(DB::raw('LOWER(product_tbl.model)'), 'like', '%'.strtolower($search_word).'%')
+            ->orWhere(DB::raw('LOWER(product_tbl.group_id)'), 'like', '%'.strtolower($search_word).'%')
+            ->select(['product_tbl.*', 'category_tbl.group_name', 'category_tbl.section', 'category_tbl.image', DB::raw("'{$table}' as `table`")]);
+            
+            if($match != null) {
+                $union = $match->union($temp);
+                $match = $union;
             }
-
-            $model_array[$ser->name] = $model_temp;
+            else {
+                $match = $temp;
+            }
         }
 
-        $search_model = array();
-        foreach($model_array as $key=>$item) {
-            $temp = [];
-            foreach($item as $sub_item) {
+        $match = $match->get()->take(10)->toArray();
+        if($match && count($match) > 0) {
+            echo json_encode($match);
+        }
+        else {
+            $small_words_array = array('a', 'the', 'an', 'need', 'i', 'want', 'get', 'as', 'for');
+            $search_word_array = preg_split("/[\s,]+/", $search_word);
+
+            $unset_keys_array = [];
+            foreach($search_word_array as $key => $sh_wd) {
                 $flag = 0;
-                
-                foreach($search_word_array as $sh_key => $sh_word) {
-                    if(strtolower($sh_word) === strtolower($sub_item)) {
-                        $flag = 1;
-                        $temp[] = $sub_item;
+                foreach($small_words_array as $word) {
+                    if($sh_wd == $word) {
+                        $flag=1;
                         break;
                     }   
                 }
-                
-                if($flag  == 1) {
-                    unset($search_word_array[$sh_key]);
-                    $search_word_array = array_values($search_word_array);
+
+                if($flag == 1) {
+                    $unset_keys_array[] = $key;
                 }
             }
 
-            if(count($temp) != 0) {
-                $search_model[$key] = $temp;
+            foreach($unset_keys_array as $item) {
+                unset($search_word_array[$item]);
             }
-        }
 
-        if(count($search_model) == 0) {
+            $search_word_array = array_values($search_word_array);
+
+            $model_array = array();
+
+            foreach($series as $ser) {
+                $model = DB::connection('product')
+                ->table(strtolower($ser->name).'_categories')
+                ->select('model as model_name')
+                ->orderBy('model', 'asc')
+                ->get()
+                ->groupBy('model_name');
+
+                $model_temp = [];
+                foreach($model as $key => $item) {
+                    $model_temp[] = $key;
+                }
+
+                $model_array[$ser->name] = $model_temp;
+            }
+
+            $search_model = array();
             foreach($model_array as $key=>$item) {
                 $temp = [];
                 foreach($item as $sub_item) {
-                    $temp[] = $sub_item;
+                    $flag = 0;
+                    
+                    foreach($search_word_array as $sh_key => $sh_word) {
+                        if(strtolower($sh_word) === strtolower($sub_item)) {
+                            $flag = 1;
+                            $temp[] = $sub_item;
+                            break;
+                        }   
+                    }
+                    
+                    if($flag  == 1) {
+                        unset($search_word_array[$sh_key]);
+                        $search_word_array = array_values($search_word_array);
+                    }
                 }
 
                 if(count($temp) != 0) {
                     $search_model[$key] = $temp;
-                }   
-            }
-        }
-
-        $like_clause = "";
-        $like_match_clause = "";
-
-        if(count($search_word_array) != 0) {
-            $start_clause = " and ( ";
-            $flag = 0;
-            $search_sum = "";
-            foreach($search_word_array as $like_item) {
-                if($flag == 1) {
-                    $like_clause .= ' or ';
-                    $search_sum .= ' ';
-                }
-                $like_clause .= "`sku` like '%{$like_item}%' or `name` like '%{$like_item}%'" ;
-                $search_sum .= $like_item;
-                $flag = 1;
-            }
-
-            $like_clause = $start_clause . $like_clause;
-            $like_clause .= ')';
-
-            $replacements = [
-                "oil filter" => "filter, oil",
-                "gas filter" => "filter, gas"
-            ];
-            
-            foreach ($replacements as $needle => $replacement) {
-                if (strpos($search_sum, $needle) !== false) {
-                    $search_sum = str_replace($needle, $replacement, $search_sum);
                 }
             }
 
-            $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
+            if(count($search_model) == 0) {
+                foreach($model_array as $key=>$item) {
+                    $temp = [];
+                    foreach($item as $sub_item) {
+                        $temp[] = $sub_item;
+                    }
 
-            // echo $like_match_clause; exit;
-        }
-
-        $sql = "" ;
-        $sql_match = "" ; 
-        $flag = false ;
-
-        foreach($search_model as $search_key => $search_item) {
-            if($flag) {
-                $sql.=" union all " ;
-                $sql_match .=" union all " ;
+                    if(count($temp) != 0) {
+                        $search_model[$key] = $temp;
+                    }   
+                }
             }
-            
-            $sub_flag = false;
-            $sub_sql = "( ";
-            $sub_sql_match = "";
 
-            foreach($search_item as $sub_key => $sub_item) {
-                if($sub_flag) {
-                    $sub_sql.=" or ";
+            $like_clause = "";
+            $like_match_clause = "";
+
+            if(count($search_word_array) != 0) {
+                $start_clause = " and ( ";
+                $flag = 0;
+                $search_sum = "";
+                foreach($search_word_array as $like_item) {
+                    if($flag == 1) {
+                        $like_clause .= ' or ';
+                        $search_sum .= ' ';
+                    }
+                    $like_clause .= "`sku` like '%{$like_item}%' or `name` like '%{$like_item}%'" ;
+                    $search_sum .= $like_item;
+                    $flag = 1;
                 }
 
-                $sub_sql .= "`model`=UPPER('{$sub_item}') ";
-                $sub_flag = true;
+                $like_clause = $start_clause . $like_clause;
+                $like_clause .= ')';
+
+                $replacements = [
+                    "oil filter" => "filter, oil",
+                    "gas filter" => "filter, gas"
+                ];
+                
+                foreach ($replacements as $needle => $replacement) {
+                    if (strpos($search_sum, $needle) !== false) {
+                        $search_sum = str_replace($needle, $replacement, $search_sum);
+                    }
+                }
+
+                $like_match_clause = $start_clause . "`sku` like '%{$search_sum}%' or `name` like '%{$search_sum}%' )";
+
+                // echo $like_match_clause; exit;
             }
 
-            $sub_sql_match = $sub_sql . ')' . $like_match_clause;
-            $sub_sql .= ')' . $like_clause;
+            $sql = "" ;
+            $sql_match = "" ; 
+            $flag = false ;
 
-            $table_name = strtolower($search_key);
+            foreach($search_model as $search_key => $search_item) {
+                if($flag) {
+                    $sql.=" union all " ;
+                    $sql_match .=" union all " ;
+                }
+                
+                $sub_flag = false;
+                $sub_sql = "( ";
+                $sub_sql_match = "";
+
+                foreach($search_item as $sub_key => $sub_item) {
+                    if($sub_flag) {
+                        $sub_sql.=" or ";
+                    }
+
+                    $sub_sql .= "`model`=UPPER('{$sub_item}') ";
+                    $sub_flag = true;
+                }
+
+                $sub_sql_match = $sub_sql . ')' . $like_match_clause;
+                $sub_sql .= ')' . $like_clause;
+
+                $table_name = strtolower($search_key);
+                
+                $sql .= "select `id`, `model`, `group_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
+                $sql_match .= "select `id`, `model`, `group_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+
+                $flag = true ;
+            }
+
+            $categories = array();
+            $categories_match = false;
+            $result = array();
             
-            $sql .= "select `id`, `model`, `group_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql} " ;
-            $sql_match .= "select `id`, `model`, `group_id`, `name`, `photo`, `price`, '$search_key' as `table` from `{$table_name}` where {$sub_sql_match} " ;
+            if($sql != "") {
+                $categories = DB::connection('product')->select($sql);
+                $categories = collect($categories)->take(10)->toArray();
+                if(count($search_word_array) > 1) {
+                    $categories_match = DB::connection('product')->select($sql_match);
+                    $categories_match = collect($categories_match)->take(10)->toArray();
+                }
 
-            $flag = true ;
-        }
+                if($categories_match) {
+                    foreach($categories as $key => $item) {
+                        $flag = false;
+                        foreach($categories_match as $sub_item) {
+                            if($item->id == $sub_item->id) {
+                                $flag = true;
+                                break;
+                            }
+                        }
 
-        $categories = array();
-        $categories_match = false;
-        $result = array();
-        
-        if($sql != "") {
-            $categories = DB::connection('product')->select($sql);
-            $categories = collect($categories)->take(10)->toArray();
-            if(count($search_word_array) > 1) {
-                $categories_match = DB::connection('product')->select($sql_match);
-                $categories_match = collect($categories_match)->take(10)->toArray();
-            }
-
-            if($categories_match) {
-                foreach($categories as $key => $item) {
-                    $flag = false;
-                    foreach($categories_match as $sub_item) {
-                        if($item->id == $sub_item->id) {
-                            $flag = true;
-                            break;
+                        if($flag == true) {
+                            unset($categories[$key]);
+                            $categories = array_values($categories);
                         }
                     }
 
-                    if($flag == true) {
-                        unset($categories[$key]);
-                        $categories = array_values($categories);
+                    $result = array_merge($categories_match, $categories);
+                }
+                else {
+                    $result = $categories;
+                }
+
+                $data = array();
+                foreach($result as $key => $item) {
+                    $table_name = strtolower($item->table);
+                    $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'";
+                    $ret = DB::connection('product')->select($sql);
+                    if($ret) {
+                        $item->group_name = $ret[0]->group_name;
+                        $item->section = $ret[0]->section_name;
+                        $data[$key] = $item;
                     }
                 }
-
-                $result = array_merge($categories_match, $categories);
-            }
-            else {
-                $result = $categories;
+                $result = $data;
+                $result = collect($result)->take(10)->toArray();
             }
 
-            $data = array();
-            foreach($result as $key => $item) {
-                $table_name = strtolower($item->table);
-                $sql = "select * from `{$table_name}_categories` where `group_Id`='{$item->group_id}' and `model`='{$item->model}'";
-                $ret = DB::connection('product')->select($sql);
-                if($ret) {
-                    $item->group_name = $ret[0]->group_name;
-                    $item->section = $ret[0]->section_name;
-                    $data[$key] = $item;
-                }
-            }
-           $result = $data;
-           $result = collect($result)->take(10)->toArray();
+            echo json_encode($result);
         }
-
-        echo json_encode($result);
     }
 }
 

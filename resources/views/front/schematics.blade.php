@@ -23,21 +23,18 @@
                         @endphp
                         @foreach($slug_list as $key =>$item)
                             @php
-                            
                                 $path = $item ;
-                                if(strstr($path, "/")) {
-                                    $path = str_replace("/", ":::", $path) ;
-                                }
-                                $route = $route."/".$path
+                                $path = Helper::convertPathToData($path);
+                                $route = $route."/".$item
                             @endphp
                             <li>
                                 @if(count($slug_list) == $index) 
                                     <a>
-                                        {{$item}}
+                                        {{$path}}
                                     </a>
                                 @else
                                     <a href = "{{$route}}">
-                                        {{$item}}
+                                        {{$path}}
                                     </a>
                                 @endif
                                 

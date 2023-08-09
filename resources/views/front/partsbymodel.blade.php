@@ -74,23 +74,17 @@
                         @foreach($slug_list as $key =>$item)
                             @php
                                 $path = $item ;
-                                if(strstr($path, "/")) {
-                                    $path = str_replace("/", ":::", $path) ;
-                                }
-
-                                if(strstr($path, "#")) {
-                                    $path = str_replace("/", "***", $path) ;
-                                }
-                                $route = $route."/".$path
+                                $path = Helper::convertPathToData($path);
+                                $route = $route."/".$item
                             @endphp
                             <li>
                                 @if(count($slug_list) == $index) 
                                     <a>
-                                        {{$item}}
+                                        {{$path}}
                                     </a>
                                 @else
                                     <a href = "{{$route}}">
-                                        {{$item}}
+                                        {{$path}}
                                     </a>
                                 @endif
                             </li>
@@ -344,7 +338,7 @@
             @if(count($result) == 0) 
                 <h3 class="page-title">No data</h3>
             @else
-                <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $slug_list["category"]?? '' }} {{ $slug_list["series"]?? '' }} {{ $slug_list["model"]?? '' }} {{ $slug_list["section"]?? '' }} {{ $slug_list["group"]?? '' }} Parts</h3>
+                <h3 class="page-title">{{ strtoupper($domain_name) }} {{ Helper::convertPathToData($slug_list["category"]?? '') }} {{ Helper::convertPathToData($slug_list["series"]?? '') }} {{ Helper::convertPathToData($slug_list["model"]?? '') }} {{ Helper::convertPathToData($slug_list["section"]?? '') }} {{ Helper::convertPathToData($slug_list["group"]??'') }} Parts</h3>
                 <div class="row m-block-content">
                     @foreach($result as $item)
                         <div class="col-md-3 col-sm-6">

@@ -52,5 +52,21 @@ class Helper {
             $updatedName = implode(' ', $desiredWords);
             return $updatedName;
         }
-    }    
+    }
+    
+    public static function convertPathToData($path) {
+        if(!isset($path) || $path == '') {
+            return '';
+        }
+
+        if(strstr($path, ":::")) {
+            $path = str_replace(":::", "/", $path) ;
+        }
+
+        if(strstr($path, "***")) {
+            $path = str_replace("***", "#", $path) ;
+        }
+
+        return $path;
+    }
 }

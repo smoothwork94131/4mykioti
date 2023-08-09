@@ -23,13 +23,7 @@
     <meta http-equiv="pragma" content="no-cache" />
 
     @php
-    $page_title = "";
-    if($domain_name == 'kioti') {
-        $page_title = "Kioti";
-    }
-    else {
-        $page_title = "Mahindra";
-    }
+    $page_title = strtoupper($domain_name);
     @endphp
 
     <!-- Title -->

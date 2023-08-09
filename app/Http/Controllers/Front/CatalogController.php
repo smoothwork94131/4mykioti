@@ -43,7 +43,7 @@ class CatalogController extends Controller
         return $path ;
     }
     
-    public function replacPathToData($data) {
+    public function replacePathToData($data) {
         if(strstr($data, "/")) {
             $data = str_replace("/", ":::", $data) ;
         }
@@ -55,12 +55,37 @@ class CatalogController extends Controller
     }
 
     public function homeproduct(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null, $prod_name=null) {
-        $category = $this->replaceDataToPath($category);
-        $series = $this->replaceDataToPath($series);
-        $model = $this->replaceDataToPath($model);
-        $section = $this->replaceDataToPath($section);
-        $group = $this->replaceDataToPath($group);
-        $prod_name = $this->replaceDataToPath($prod_name);
+        $slug_list = array();
+        
+        if(isset($category) && $category != NULL) {
+            $category = $this->replaceDataToPath($category);
+            $slug_list["category"] = $this->replacePathToData($category);
+        }
+
+        if(isset($series) && $series != NULL) {
+            $series = $this->replaceDataToPath($series);
+            $slug_list["series"] = $this->replacePathToData($series);
+        }
+
+        if(isset($model) && $model != NULL) {
+            $model = $this->replaceDataToPath($model);
+            $slug_list["model"] = $this->replacePathToData($model);
+        }
+
+        if(isset($section) && $section != NULL) {
+            $section = $this->replaceDataToPath($section);
+            $slug_list["section"] = $this->replacePathToData($section);
+        }
+
+        if(isset($group) && $group != NULL) {
+            $group = $this->replaceDataToPath($group);
+            $slug_list["group"] = $this->replacePathToData($group);
+        }
+        
+        if(isset($prod_name) && $prod_name != NULL) {
+            $prod_name = $this->replaceDataToPath($prod_name);
+            $slug_list["prod_name"] = $this->replacePathToData($prod_name);
+        }
 
         $db = strtolower($series);
         $cat = DB::connection('product')
@@ -152,14 +177,12 @@ class CatalogController extends Controller
             ->orWhere('group_Id', $productt->group_id)
             ->first();
 
-        $prod_name = $this->replacPathToData($prod_name);
         if (strpos($prod_name, ',') !== false) {
             $prod_name = Helper::reversePartsName($prod_name);
         }
 
         $product_policies = ProductPolicy::orderby('id', 'asc')->get();
 
-        $slug_list = array("category"=>$category, "series"=>$series, "model"=>$model, "section"=>$this->replacPathToData($section), "group"=>$group, "prod_name"=>$prod_name);
         return view('front.homeproduct', compact('productt', 'curr', 'group_record', 'colorsetting_style1', 'colorsetting_style2', "db", "slug_list", "also_fits", "other_parts", "product_policies"));
     }
 
@@ -190,7 +213,7 @@ class CatalogController extends Controller
     public function old_collection(Request $request, $model = null)
     {   
         $result = array();  
-        $model = $this->replaceDataToPath($model) ;
+        $model = $this->replaceDataToPath($model);
 
         if(strstr($model, "5-finish")) {
             $sql = "select `sku` from `implements` where `featured` = 1 group by sku" ;
@@ -281,13 +304,14 @@ class CatalogController extends Controller
             $result =collect(DB::connection('product')->select($sql))->paginate(20);
         }
         
-        $slug_list = array("model"=>$model);
+        $slug_list = array("model"=>$this->replacePathToData($model));
         return view('front.old_collection', compact('result', "slug_list"));
     }
 
     public function old_part(Request $request, $model = null, $prod_name = null)
     {   
         $productt = false;  
+        $model = $this->replaceDataToPath($model);
         
         if(strstr($model, "mahindra")) {
             $model = str_replace("mahindra-", "", $model) ;
@@ -360,7 +384,7 @@ class CatalogController extends Controller
         }
 
         $page = "old_product";
-        $slug_list = array("model"=>$model, "prod_name"=>$this->replacPathToData($prod_name));
+        $slug_list = array("model"=>$this->replacePathToData($model), "prod_name"=>$this->replacePathToData($prod_name));
         return view('front.old_part', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 
@@ -390,7 +414,7 @@ class CatalogController extends Controller
             $curr = Currency::where('is_default', '=', 1)->first();
         }
         $page = "";
-        $slug_list = array("prod_name"=>$this->replacPathToData($prod_name));
+        $slug_list = array("prod_name"=>$this->replacePathToData($prod_name));
         return view('front.old_part', compact('productt', 'curr', 'colorsetting_style1', 'colorsetting_style2', "page", "slug_list"));
     }
 

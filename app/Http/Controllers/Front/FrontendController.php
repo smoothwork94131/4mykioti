@@ -134,7 +134,7 @@ class FrontendController extends Controller
         return $path ;
     }
 
-    public function replacPathToData($data) {
+    public function replacePathToData($data) {
         if(strstr($data, "/")) {
             $data = str_replace("/", ":::", $data) ;
         }
@@ -205,29 +205,29 @@ class FrontendController extends Controller
         $refno_flag = 0;
         $thumbnail_flag = 0;
 
-        if(isset($category) && $category != NULL) { 
-            $category = $this->replaceDataToPath($category) ;
-            $slug_list["category"] = $category ;
+        if(isset($category) && $category != NULL) {
+            $category = $this->replaceDataToPath($category);
+            $slug_list["category"] = $this->replacePathToData($category);
         }
 
         if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
+            $series = $this->replaceDataToPath($series);
+            $slug_list["series"] = $this->replacePathToData($series);
         }
 
         if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;
+            $model = $this->replaceDataToPath($model);
+            $slug_list["model"] = $this->replacePathToData($model);
         }
 
         if(isset($section) && $section != NULL) {
-            $section = $this->replaceDataToPath($section) ;
-            $slug_list["section"] = $section ;
+            $section = $this->replaceDataToPath($section);
+            $slug_list["section"] = $this->replacePathToData($section);
         }
 
         if(isset($group) && $group != NULL) {
-            $slug_list["group"] = $group ;
-            $group = $this->replaceDataToPath($group) ;
+            $group = $this->replaceDataToPath($group);
+            $slug_list["group"] = $this->replacePathToData($group);
         }   
        
         if(count($slug_list) == 0) {
@@ -244,12 +244,6 @@ class FrontendController extends Controller
         } else if(count($slug_list) == 4) {
             $result = DB::connection('product')->table(strtolower($series)."_categories")->select("group_name as name")->where('model', $model)->where('section_name', $section)->orderBy('group_name', 'asc')->get();
         } else if(count($slug_list) == 5) {
-            $category = $this->replacPathToData($category);
-            $series = $this->replacPathToData($series);
-            $model = $this->replacPathToData($model);
-            $section = $this->replacPathToData($section);
-            $group = $this->replacPathToData($group);
-
             $minprice = $request->min;
             $maxprice = $request->max;
             $search = $request->search;
@@ -277,8 +271,9 @@ class FrontendController extends Controller
             $result = $result->where('product_tbl.status', 1);
             $result = $result->where('category_tbl.group_name', $group);
             $result = $result->where('product_tbl.model', $model);
-            $result = $result->distinct();
+            $result = $result->distinct(['product_tbl.sku']);
             $result = $result->orderBy('product_tbl.refno', 'asc');
+            $result = $result->orderBy('product_tbl.price', 'desc');
             $result = $result->get();
             // $result = $result->paginate(20);
 
@@ -326,18 +321,18 @@ class FrontendController extends Controller
         $result = array() ;
 
         if(isset($category) && $category != NULL) { 
-            $category = $this->replaceDataToPath($category) ;
-            $slug_list["category"] = $category ;
+            $category = $this->replaceDataToPath($category);
+            $slug_list["category"] = $this->replacePathToData($category);
         }
 
         if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
+            $series = $this->replaceDataToPath($series);
+            $slug_list["series"] = $this->replacePathToData($series);
         }
 
         if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;            
+            $model = $this->replaceDataToPath($model);
+            $slug_list["model"] = $this->replacePathToData($model);         
         }
 
         if(count($slug_list) == 0) {
@@ -377,10 +372,6 @@ class FrontendController extends Controller
             $table_name = strtolower($series);
             $result = DB::connection('product')->table($table_name)->select('model as name')->where("common_part", "1")->distinct()->orderBy('model', 'asc')->get();
         } else if(count($slug_list) == 3) {
-            $category = $this->replacPathToData($category);
-            $series = $this->replacPathToData($series);
-            $model = $this->replacPathToData($model);
-            
             $minprice = $request->min;
             $maxprice = $request->max;
             $search = $request->search;
@@ -425,28 +416,28 @@ class FrontendController extends Controller
         $result = array() ;
 
         if(isset($category) && $category != NULL) { 
-            $category = $this->replaceDataToPath($category) ;
-            $slug_list["category"] = $category ;
+            $category = $this->replaceDataToPath($category);
+            $slug_list["category"] = $this->replacePathToData($category);
         }
 
         if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
+            $series = $this->replaceDataToPath($series);
+            $slug_list["series"] = $this->replacePathToData($series);
         }
 
         if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;
+            $model = $this->replaceDataToPath($model);
+            $slug_list["model"] = $this->replacePathToData($model);
         }
 
         if(isset($section) && $section != NULL) {
-            $section = $this->replaceDataToPath($section) ;
-            $slug_list["section"] = $section ;
+            $section = $this->replaceDataToPath($section);
+            $slug_list["section"] = $this->replacePathToData($section);
         }
 
         if(isset($group) && $group != NULL) {
-            $group = $this->replaceDataToPath($group) ;
-            $slug_list["group"] = $group ;
+            $group = $this->replaceDataToPath($group);
+            $slug_list["group"] = $this->replacePathToData($group);
         }   
        
         if(count($slug_list) == 0) {
@@ -483,17 +474,17 @@ class FrontendController extends Controller
 
         if(isset($category) && $category != NULL) { 
             $category = $this->replaceDataToPath($category);
-            $slug_list["category"] = $category;
+            $slug_list["category"] = $this->replacePathToData($category);
         }
 
         if(isset($series) && $series != NULL) {
-            $series = $this->replaceDataToPath($series) ;
-            $slug_list["series"] = $series ;
+            $series = $this->replaceDataToPath($series);
+            $slug_list["series"] = $this->replacePathToData($series);
         }
 
         if(isset($model) && $model != NULL) {
-            $model = $this->replaceDataToPath($model) ;
-            $slug_list["model"] = $model ;
+            $model = $this->replaceDataToPath($model);
+            $slug_list["model"] = $this->replacePathToData($model);
         }
 
         if(count($slug_list) == 1) {
@@ -656,7 +647,7 @@ class FrontendController extends Controller
     public function findpart(Request $request, $category, $series, $model)
     {
         $db = strtolower($series);
-        $model = $this->replaceDataToPath($model) ;
+        $model = $this->replaceDataToPath($model);
         $prods = DB::connection('product')
             ->table($db . ' as product_tbl')
             ->select('product_tbl.*', 'category_tbl.section_name', 'category_tbl.group_name')

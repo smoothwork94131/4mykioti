@@ -13,8 +13,13 @@
                             </a>
                         </li>
                         @foreach($slug_list as $key =>$item)
+                            @php
+                                $path = $item;
+                                $path = Helper::convertPathToData($path);
+                                $route = $route . '/' . $item;
+                            @endphp
                             <li>
-                                <a>
+                                <a href="{{$route}}">
                                     {{$item}}
                                 </a>
                             </li>

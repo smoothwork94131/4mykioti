@@ -8,14 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
-        $page_title = "";
-        if($domain_name == 'kioti') {
-            $page_title = "Kioti";
-        }
-        else {
-            $page_title = "Mahindra";
-        }
-
+        $page_title = strtoupper($domain_name);
+        
         if(isset($slug_list) && count($slug_list) > 0) {
             if(array_key_exists('prod_name', $slug_list)) {
                 unset($slug_list['prod_name']);
@@ -27,43 +21,43 @@
             $page_title .= ' ';
             if(count($slug_list)==1) {
                 if(isset($slug_list["filter"])) {
-                    $page_title .= $slug_list["filter"] ?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["filter"] ?? '');
                 }
                 else {
-                    $page_title .= $slug_list["category"] ?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["category"]??  '');
                 }
             }
             else if(count($slug_list)==2) {
                 if(isset($slug_list["filter"])) {
-                    $page_title .= $slug_list["category"] ?? '';
-                    $page_title .= " " . $slug_list["filter"] ?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["category"] ?? '');
+                    $page_title .= " " .Helper::convertPathToData($slug_list["filter"] ?? '');
                 }
                 else {
-                    $page_title .= $slug_list["series"] ?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["series"] ?? '');
                 }
             }
             else if(count($slug_list)==3) {
                 if(isset($slug_list["filter"])) {
-                    $page_title .= $slug_list["series"] ?? '';
-                    $page_title .= " " . $slug_list["filter"] ?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["series"] ?? '');
+                    $page_title .= " " .Helper::convertPathToData($slug_list["filter"] ?? '');
                 }
                 else {
-                    $page_title .= $slug_list["model"] ?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["model"] ?? '');
                 }
             }
             else if(count($slug_list)==4) {
                 if(isset($slug_list["filter"])) {
-                    $page_title .= $slug_list["model"] ?? '';
-                    $page_title .= " " . $slug_list["filter"] ?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["model"] ?? '');
+                    $page_title .= " " . Helper::convertPathToData($slug_list["filter"] ?? '');
                 }
                 else {
-                    $page_title .= $slug_list["model"] ?? '';
-                    $page_title .= ' ' . $slug_list["section"]?? '';
+                    $page_title .= Helper::convertPathToData($slug_list["model"] ?? '');
+                    $page_title .= ' ' . Helper::convertPathToData($slug_list["section"]?? '');
                 }
             }
             else if(count($slug_list)==5) {
-                $page_title .= $slug_list["model"] ?? '';
-                $page_title .= ' ' . $slug_list["group"] ?? '';
+                $page_title .= Helper::convertPathToData($slug_list["model"] ?? '');
+                $page_title .= ' ' . Helper::convertPathToData($slug_list["group"] ?? '');
             }
         }
 
@@ -583,12 +577,7 @@
         <div class='content'>
             <div style="width: 10%;"></div>
             <div class="site-info">
-                @if ($domain_name == 'mahindra')
-                    <span class="site_url">4myMahindra.com</span>
-                @elseif($domain_name == 'kioti')
-                    <span class="site_url">4myKioti.com</span>
-                @endif
-
+                <span class="site_url">4my{{ $domain_name }}.com</span>
                 <span class="phone_num"><span id="phone_num_desc">FOR ASSISTANCE CALL:</span> <a
                         href="tel:+1(724) 691-0200">(724) 691-0200</a> </span>
             </div>

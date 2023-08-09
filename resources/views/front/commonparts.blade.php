@@ -75,19 +75,17 @@
                             @php
                             
                                 $path = $item ;
-                                if(strstr($path, "/")) {
-                                    $path = str_replace("/", ":::", $path) ;
-                                }
-                                $route = $route."/".$path
+                                $path = Helper::convertPathToData($path);
+                                $route = $route."/".$item
                             @endphp
                             <li>
                                 @if(count($slug_list) == $index) 
                                     <a>
-                                        {{$item}}
+                                        {{$path}}
                                     </a>
                                 @else
                                     <a href = "{{$route}}">
-                                        {{$item}}
+                                        {{$path}}
                                     </a>
                                 @endif
                             </li>
@@ -108,7 +106,7 @@
             @if(count($result) == 0)
                 <h3 class="page-title">No data</h3>
             @else
-                <h3 class="page-title">{{ strtoupper($domain_name) }} {{ $slug_list["category"]?? '' }} {{ $slug_list["series"]?? '' }} {{ $slug_list["model"]?? '' }} Common Parts</h3>
+                <h3 class="page-title">{{ strtoupper($domain_name) }} {{ Helper::convertPathToData($slug_list["category"]?? '') }} {{ Helper::convertPathToData($slug_list["series"]?? '') }} {{ Helper::convertPathToData($slug_list["model"]?? '') }} Common Parts</h3>
                 @if(count($slug_list) > 2)
                 <div class="row">
                     <div class="col-lg-12">
