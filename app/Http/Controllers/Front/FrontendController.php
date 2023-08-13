@@ -186,13 +186,47 @@ class FrontendController extends Controller
 
             $result[] = $product_item;
         }
-
         $products = $result;
-        
+
+        $series = DB::connection('product')
+        ->table('categories_home')
+        ->where('parent', '<>', '0')
+        ->where('status', 1)
+        ->get();
+
+        $rdfunction_parts = null;
+        foreach($series as $ser) {
+            $category_record = DB::connection('product')
+            ->table('categories_home')
+            ->where('parent', '0')
+            ->where('id', $ser->parent)
+            ->first();
+
+            $category = $category_record->name;
+
+            $table = $ser->name;
+            $temp = DB::connection('product')
+            ->table($table . ' as product_tbl')
+            ->join($table . '_categories as category_tbl', 'product_tbl.group_id', '=', 'category_tbl.group_Id')
+            ->where(DB::raw('LOWER(product_tbl.name)'), 'like', '%3rd%')
+            ->orWhere(DB::raw('LOWER(product_tbl.name)'), 'like', '%valve%')
+            ->select(['product_tbl.*', 'category_tbl.group_name', 'category_tbl.section', DB::raw("'{$table}' as `series`"), DB::raw("'{$category}' as `category`")]);
+            
+            if($rdfunction_parts != null) {
+                $union = $rdfunction_parts->union($temp);
+                $rdfunction_parts = $union;
+            }
+            else {
+                $rdfunction_parts = $temp;
+            }
+        }
+
+        $rdfunction_parts = $rdfunction_parts->get()->take(10)->toArray();
+
         $colorsetting_style1 = ColorSetting::where('type', 1)->where('style_id', 1)->first();
         $colorsetting_style2 = ColorSetting::where('type', 1)->where('style_id', 2)->first();
 
-        return view('front.index', compact('ps', 'sliders', 'products', 'top_small_banners', 'colorsetting_style1', 'colorsetting_style2'));
+        return view('front.index', compact('ps', 'sliders', 'products', 'rdfunction_parts', 'top_small_banners', 'colorsetting_style1', 'colorsetting_style2'));
     }
 
     public function partsByModel(Request $request, $category=null, $series=null, $model=null, $section=null, $group=null)

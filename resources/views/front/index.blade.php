@@ -221,7 +221,45 @@
         </section>
         @endif
     @endforeach
-    
+
+    <section class="trending">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <span class="section-top">
+                        <div style="display: flex; align-item: center;">
+                            <img src="{{asset('assets/images/logo60px.png')}}" width="50" height="50"> 
+                            <span class="section-title">
+                                3rdFunction Parts
+                            </span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 remove-padding">
+                    <div class="trending-item-slider">
+                        @foreach($rdfunction_parts as $prod)
+                        @include('includes.product.slider-homeproduct', 
+                            [
+                                'prod' => $prod, 
+                                'db' => $prod->series,
+                                'slug_list' => [
+                                    'category' => $prod->category,
+                                    'series' => $prod->series,
+                                    'model' => $prod->model,
+                                    'section' => $prod->section,
+                                    'group' => $prod->group_name,
+                                    'prod_name' => $prod->name
+                                ]
+                            ]
+                        )
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
     @if($ps->small_banner == 1)
         <!-- Banner Area One Start -->
